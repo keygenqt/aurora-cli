@@ -1,0 +1,12 @@
+# IDE
+.idea
+.vscode
+
+# Snap build
+*.snap
+
+# Python
+/*.egg-info/
+/venv/
+/dist/
+/build/
