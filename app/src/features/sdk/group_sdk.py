@@ -1,4 +1,7 @@
 import os
+import shlex
+import stat
+import subprocess
 
 import click
 
@@ -25,7 +28,7 @@ def available():
 
 @group_sdk.command()
 @click.option('-t', '--install-type', default='offline', type=click.Choice(['offline', 'online'], case_sensitive=False))
-def download(install_type):
+def install(install_type):
     """Download and run install Aurora SDK."""
 
     versions = get_map_versions(TypeSDK.SDK)
@@ -43,5 +46,9 @@ def download(install_type):
 
     files = multi_download(files_url)
 
-    click.echo('\nFiles:\n{}'
-               .format(get_string_from_list_numbered(files)))
+    if files:
+        os.chmod(files[0], os.stat(files[0]).st_mode | stat.S_IEXEC)
+        cmds = shlex.split(files[0])
+        subprocess.Popen(cmds, start_new_session=True)
+    else:
+        click.echo('Something went wrong.', err=True)
