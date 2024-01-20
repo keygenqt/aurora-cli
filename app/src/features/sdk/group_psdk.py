@@ -1,5 +1,6 @@
 import click
 
+from app.src.features.sdk.impl.download import multi_download
 from app.src.features.sdk.impl.urls import get_map_versions, TypeSDK, get_urls_on_html
 from app.src.features.sdk.impl.utils import get_string_from_list, get_string_from_list_numbered, prompt_index
 
@@ -37,5 +38,7 @@ def download():
     files = [item for item in links if 'md5sum' not in item]
     files_url = ['{}{}'.format(url, item) for item in files]
 
-    click.echo('\nDownload Aurora Platform SDK links:\n{}'
-               .format(get_string_from_list(files_url)))
+    files = multi_download(files_url)
+
+    click.echo('\nFiles:\n{}'
+               .format(get_string_from_list_numbered(files)))
