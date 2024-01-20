@@ -22,6 +22,7 @@ from app.src.base.conf import Conf
 from app.src.features.device.group_device import group_device
 from app.src.features.embedder.group_embedder import group_embedder
 from app.src.features.flutter.group_flutter import group_flutter
+from app.src.features.sdk.group_psdk import group_psdk
 from app.src.features.sdk.group_sdk import group_sdk
 
 
@@ -34,6 +35,7 @@ def main(ctx, conf):
 
 
 main.add_command(group_sdk)
+main.add_command(group_psdk)
 main.add_command(group_flutter)
 main.add_command(group_embedder)
 main.add_command(group_device)

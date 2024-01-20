@@ -1,85 +1,42 @@
-import re
 import click
-import requests
+
+from app.src.features.sdk.impl.urls import get_map_versions, TypeSDK, get_urls_on_html
+from app.src.features.sdk.impl.utils import get_string_from_list, get_string_from_list_numbered, prompt_index
 
 
 @click.group(name='sdk')
 def group_sdk():
-    """Working with the Aurora SDKs."""
+    """Working with the Aurora SDK."""
     pass
 
 
-def _get_sdk_urls(url, is_url_path=True):
-    response = requests.get(url)
-    if response.status_code != 200:
-        return []
-    return list(reversed(
-        [item for item in re.findall(r'href=[\'"]?([^\'" >]+)', response.text) if
-         (not is_url_path or '-' not in item) and '..' not in item]))
+@group_sdk.command()
+def available():
+    """Get available version Aurora SDK."""
 
+    versions = get_map_versions(TypeSDK.SDK)
 
-def _get_versions(sdk_type):
-    root = 'https://sdk-repo.omprussia.ru/sdk/installers/'
-    sdk = ('PlatformSDK/', 'AppSDK/')[sdk_type == 'sdk']
-
-    urls = _get_sdk_urls(root)
-    versions = {}
-
-    for url in urls:
-        level2 = _get_sdk_urls(f"{root}{url}{sdk}")
-        if level2:
-            for item in level2:
-                versions[item] = f"{root}{url}{sdk}"
-
-    return versions
+    click.echo('Available Aurora SDK versions:\n{}'
+               .format(get_string_from_list(versions.keys())))
 
 
 @group_sdk.command()
-@click.option('--sdk-type', default='psdk', type=click.Choice(['sdk', 'psdk'], case_sensitive=False))
-def available(sdk_type):
-    """Get available version Aurora SDK or Platform SDK."""
-    name = ('Platform SDK', 'Aurora SDK')[sdk_type == 'sdk']
-    versions = _get_versions(sdk_type).keys()
-    result = '\n'.join([str(item).replace('/', '') for item in versions])
-    click.echo('Available {} versions:\n{}'.format(name, result))
+@click.option('-t', '--install-type', default='offline', type=click.Choice(['offline', 'online'], case_sensitive=False))
+def download(install_type):
+    """Download and run install Aurora SDK."""
 
+    versions = get_map_versions(TypeSDK.SDK)
 
-@group_sdk.command()
-@click.option('--sdk-type', default='psdk', type=click.Choice(['sdk', 'psdk'], case_sensitive=False))
-def download(sdk_type):
-    """Install Aurora SDK or Platform SDK."""
-    name = ('Platform SDK', 'Aurora SDK')[sdk_type == 'sdk']
-    versions = _get_versions(sdk_type)
+    click.echo('Select index Aurora SDK versions:\n{}\n'
+               .format(get_string_from_list_numbered(versions.keys())))
 
-    result = '\n'.join(
-        ['{}: {}'.format(index + 1, str(item).replace('/', '')) for index, item in enumerate(versions.keys())])
-    click.echo('Select index {} versions:\n{}'.format(name, result))
-
-    index = -1
-    while index < 0:
-        index = click.prompt('Select version for download', type=int)
-        if index > len(versions) or index <= 0:
-            click.echo(f"Error: '{index}' is not a valid index.", err=True)
-            index = -1
-
+    index = prompt_index(versions.keys())
     key = list(versions.keys())[index - 1]
     url = '{}{}'.format(versions[key], key)
-    urls = _get_sdk_urls(url, False)
 
-    if sdk_type == 'sdk':
-        files = [item for item in urls if 'run' in item and 'offline' in item]
-    else:
-        files = [item for item in urls if 'md5sum' not in item]
-
+    links = get_urls_on_html(url)
+    files = [item for item in links if 'run' in item and install_type in item]
     files_url = ['{}{}'.format(url, item) for item in files]
 
-    click.echo('\n'.join(files_url))
-
-    # r = requests.get(url, stream=True)
-    # path = '/some/path/for/file.txt'
-    # with open(path, 'wb') as f:
-    #     total_length = int(r.headers.get('content-length'))
-    #     for chunk in progress.bar(r.iter_content(chunk_size=1024), expected_size=(total_length/1024) + 1):
-    #         if chunk:
-    #             f.write(chunk)
-    #             f.flush()
+    click.echo('\nDownload Aurora SDK links:\n{}'
+               .format(get_string_from_list(files_url)))
