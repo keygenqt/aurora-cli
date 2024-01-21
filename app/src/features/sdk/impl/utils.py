@@ -1,4 +1,5 @@
 import click
+from alive_progress import alive_bar
 
 
 # Get output string from array with indexes
@@ -23,3 +24,27 @@ def prompt_index(items: []):
             click.echo(f"Error: '{index}' is not a valid index.", err=True)
             index = -1
     return index
+
+
+# Bar for subprocess by symbol
+def bar_subprocess_symbol(size, process):
+    counter = 0
+    with alive_bar(size) as bar:
+        for _ in iter(lambda: process.stdout.read(1), b""):
+            counter += 1
+            if counter < size:
+                bar()
+        bar(size - counter)
+
+
+# Bar for subprocess by lines
+def bar_subprocess_lines(size, process):
+    counter = 0
+    with alive_bar(size) as bar:
+        for out in iter(lambda: process.stdout.readline(), ""):
+            if not out:
+                break
+            counter += 1
+            if counter < size:
+                bar()
+        bar(size - counter)

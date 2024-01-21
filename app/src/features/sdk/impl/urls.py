@@ -22,7 +22,7 @@ def get_urls_on_html(url, is_folder=False):
     if is_folder:
         return [link for link in links if '/' in link]
     else:
-        return [link for link in links if '/' not in link]
+        return [link for link in links if '/' not in link and '-pu' not in link]
 
 
 # Find versions sdk from links

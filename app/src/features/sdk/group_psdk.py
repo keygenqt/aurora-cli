@@ -7,7 +7,8 @@ import click
 
 from app.src.features.sdk.impl.download import multi_download
 from app.src.features.sdk.impl.urls import get_map_versions, TypeSDK, get_urls_on_html
-from app.src.features.sdk.impl.utils import get_string_from_list, get_string_from_list_numbered, prompt_index
+from app.src.features.sdk.impl.utils import get_string_from_list, get_string_from_list_numbered, prompt_index, \
+    bar_subprocess_lines, bar_subprocess_symbol
 
 
 @click.group(name='psdk')
@@ -58,37 +59,53 @@ def install():
         return
 
     version = os.path.basename(archive_chroot[0]).split('-')[1]
-    psdk_path = str(Path.home() / 'Aurora_Platform_SDK_{}'.format(version))
-    chroot_path = '{}/sdks/aurora_psdk'.format(psdk_path)
-    chroot = '{}/sdk-chroot'.format(chroot_path)
 
-    if os.path.isdir(psdk_path):
-        click.echo('\nError: Folder already exists: {}'.format(psdk_path), err=True)
+    path_psdk = str(Path.home() / 'Aurora_Platform_SDK_{}'.format(version))
+    path_chroot = '{}/sdks/aurora_psdk'.format(path_psdk)
+
+    chroot = '{}/sdk-chroot'.format(path_chroot)
+
+    if os.path.isdir(path_psdk):
+        click.echo('\nError: Folder already exists: {}'.format(path_psdk), err=True)
         return
 
-    pathlib.Path(psdk_path).mkdir()
-    pathlib.Path(chroot_path).mkdir(parents=True, exist_ok=True)
+    pathlib.Path(path_psdk).mkdir()
+    pathlib.Path(path_chroot).mkdir(parents=True, exist_ok=True)
 
-    pathlib.Path('{}/toolings'.format(psdk_path)).mkdir()
-    pathlib.Path('{}/tarballs'.format(psdk_path)).mkdir()
-    pathlib.Path('{}/targets'.format(psdk_path)).mkdir()
+    pathlib.Path('{}/toolings'.format(path_psdk)).mkdir()
+    pathlib.Path('{}/tarballs'.format(path_psdk)).mkdir()
+    pathlib.Path('{}/targets'.format(path_psdk)).mkdir()
 
-    click.echo('\nInstall chroot.')
+    # Query sudo
+    click.echo('')
     subprocess.call([
+        'sudo',
+        'echo',
+        'Install chroot'
+    ])
+
+    # Install chroot with progress
+    with subprocess.Popen([
         'sudo',
         'tar',
         '--numeric-owner',
         '-p',
         '-xjf',
         archive_chroot[0],
-        '--checkpoint=.1000',
+        '--blocking-factor=20',
+        '--record-size=512',
+        '--checkpoint=.10',
         '-C',
-        chroot_path
-    ])
+        path_chroot
+    ], stdout=subprocess.PIPE) as process:
+        # Ref size - 273205534 (bytes) == 175726 (checkpoint)
+        archive_size = os.stat(archive_chroot[0]).st_size
+        bar_subprocess_symbol(int(175726 * archive_size / 273205534), process)
 
-    click.echo('\nInstall tooling.')
-
-    subprocess.call([
+    # Install tooling with progress
+    click.echo('Install tooling')
+    with subprocess.Popen([
+        'sudo',
         chroot,
         'sdk-assistant',
         'tooling',
@@ -96,12 +113,16 @@ def install():
         '-y',
         'AuroraOS-{}-base'.format(version),
         archive_tooling[0]
-    ])
+    ], stdout=subprocess.PIPE, stderr=subprocess.PIPE) as process:
+        # Ref size - 10 output lines
+        bar_subprocess_lines(10, process)
 
+    # Install targets with progress
     for target in archive_target:
         arch = target.split('-')[-1].split('.')[0]
-        click.echo('\nInstall target "{}".'.format(arch))
-        subprocess.call([
+        click.echo('Install target "{}"'.format(arch))
+        with subprocess.Popen([
+            'sudo',
             chroot,
             'sdk-assistant',
             'target',
@@ -109,4 +130,48 @@ def install():
             '-y',
             'AuroraOS-{}-base-{}'.format(version, arch),
             archive_tooling[0]
-        ])
+        ], stdout=subprocess.PIPE, stderr=subprocess.PIPE) as process:
+            # Ref size - 25 output lines
+            bar_subprocess_lines(25, process)
+
+    click.echo("""
+{successfully}
+    
+You should update your ~/.bashrc to include export:
+
+    {psdk_dir}
+
+Add alias for convenience:
+
+    {psdk_alias}
+
+After that run the command:
+
+    {source}
+
+You can check the installation with the command:
+
+    {list}
+    
+Good luck!""".format(
+        successfully=click.style(
+            'Install Aurora Platform "{}" SDK successfully!'.format(version),
+            fg='green'
+        ),
+        psdk_dir=click.style(
+            'export PSDK_DIR=$HOME/Aurora_Platform_SDK_{}/sdks/aurora_psdk'.format(version),
+            fg='blue'
+        ),
+        psdk_alias=click.style(
+            'alias aurora_psdk=$HOME/Aurora_Platform_SDK_{}/sdks/aurora_psdk/sdk-chroot'.format(version),
+            fg='blue'
+        ),
+        source=click.style(
+            'source $HOME/.bashrc',
+            fg='blue'
+        ),
+        list=click.style(
+            'aurora_psdk sdk-assistant list',
+            fg='blue'
+        ),
+    ))
