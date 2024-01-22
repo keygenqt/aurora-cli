@@ -19,7 +19,8 @@ Defaults!{path_chroot}/sdk-chroot env_keep += "SSH_AGENT_PID SSH_AUTH_SOCK"
 def get_list_psdk_installed():
     results = {}
     folders = [folder for folder in os.listdir(Path.home()) if
-               os.path.isdir(Path.home() / folder) and 'Platform' in folder]
+               os.path.isdir(Path.home() / folder) and 'Platform' in folder and os.path.isfile(
+                   Path.home() / folder / 'sdks' / 'aurora_psdk' / 'sdk-chroot')]
     for folder in folders:
         results[folder] = str(Path.home() / folder / 'sdks' / 'aurora_psdk' / 'sdk-chroot')
     return results
@@ -32,4 +33,4 @@ def check_sudoers_chroot(psdk_key):
             if psdk_key in f.read():
                 return
 
-    subprocess.call(['sudo', 'echo'])
+    subprocess.call(['sudo', 'echo', '-n'])

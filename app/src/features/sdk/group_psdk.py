@@ -282,8 +282,9 @@ def sign(ctx, package_path, key_path, cert_path):
         click.echo('Aurora Platform SDK not found.')
         return
 
-    click.echo('Found the installed Aurora Platform SDK:\n{}'
-               .format(get_string_from_list_numbered(psdks.keys())))
+    if len(psdks.keys()) != 1:
+        click.echo('Found the installed Aurora Platform SDK:\n{}'
+                   .format(get_string_from_list_numbered(psdks.keys())))
 
     index = prompt_index(psdks.keys())
 
