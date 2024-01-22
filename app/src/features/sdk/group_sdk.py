@@ -33,7 +33,7 @@ def install(install_type):
 
     versions = get_map_versions(TypeSDK.SDK)
 
-    click.echo('Select index Aurora SDK versions:\n{}\n'
+    click.echo('Select index Aurora SDK versions:\n{}'
                .format(get_string_from_list_numbered(versions.keys())))
 
     index = prompt_index(versions.keys())
@@ -51,4 +51,4 @@ def install(install_type):
         cmds = shlex.split(files[0])
         subprocess.Popen(cmds, start_new_session=True)
     else:
-        click.echo('Something went wrong.', err=True)
+        click.echo(click.style('Error: Something went wrong.', fg='red'), err=True)

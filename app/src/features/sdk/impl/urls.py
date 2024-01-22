@@ -1,6 +1,7 @@
 import re
 from enum import Enum
 
+import click
 import requests
 
 # Repository link to SDK
@@ -27,6 +28,7 @@ def get_urls_on_html(url, is_folder=False):
 
 # Find versions sdk from links
 def get_map_versions(sdk_type: TypeSDK):
+    click.echo('Searching for versions on the server...')
     versions = {}
     urls = get_urls_on_html(REPO, True)
 

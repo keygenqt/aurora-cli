@@ -1,3 +1,4 @@
+import getpass
 import os
 import pathlib
 import subprocess
@@ -6,9 +7,11 @@ from pathlib import Path
 import click
 
 from app.src.features.sdk.impl.download import multi_download
+from app.src.features.sdk.impl.psdk import get_list_psdk_installed, MER_SDK_CHROOT, SDK_CHROOT, SDK_CHROOT_DATA, \
+    MER_SDK_CHROOT_DATA, check_sudoers_chroot
 from app.src.features.sdk.impl.urls import get_map_versions, TypeSDK, get_urls_on_html
 from app.src.features.sdk.impl.utils import get_string_from_list, get_string_from_list_numbered, prompt_index, \
-    bar_subprocess_lines, bar_subprocess_symbol
+    bar_subprocess_lines, bar_subprocess_symbol, move_root_file, update_file_lines
 
 
 @click.group(name='psdk')
@@ -33,7 +36,7 @@ def install():
 
     versions = get_map_versions(TypeSDK.PSDK)
 
-    click.echo('Select index Aurora Platform SDK versions:\n{}\n'
+    click.echo('Select index Aurora Platform SDK versions:\n{}'
                .format(get_string_from_list_numbered(versions.keys())))
 
     index = prompt_index(versions.keys())
@@ -51,24 +54,26 @@ def install():
     archive_target = [item for item in files if 'Target' in item]
 
     if not archive_chroot:
-        click.echo('Chroot tar.bz2 not found.', err=True)
+        click.echo(click.style('Error: Chroot tar.bz2 not found.', fg='red'), err=True)
         return
 
     if not archive_tooling:
-        click.echo('Tooling tar.bz2 not found.', err=True)
+        click.echo(click.style('Error: Tooling tar.bz2 not found.', fg='red'), err=True)
         return
 
     version = os.path.basename(archive_chroot[0]).split('-')[1]
 
     path_psdk = str(Path.home() / 'Aurora_Platform_SDK_{}'.format(version))
     path_chroot = '{}/sdks/aurora_psdk'.format(path_psdk)
-
     chroot = '{}/sdk-chroot'.format(path_chroot)
 
     if os.path.isdir(path_psdk):
-        click.echo('\nError: Folder already exists: {}'.format(path_psdk), err=True)
+        click.echo(click.style('\nError: Folder already exists: {}'.format(path_psdk), fg='red'), err=True)
         return
 
+    subprocess.call(['sudo', 'echo'])
+
+    # Create folders
     pathlib.Path(path_psdk).mkdir()
     pathlib.Path(path_chroot).mkdir(parents=True, exist_ok=True)
 
@@ -76,15 +81,8 @@ def install():
     pathlib.Path('{}/tarballs'.format(path_psdk)).mkdir()
     pathlib.Path('{}/targets'.format(path_psdk)).mkdir()
 
-    # Query sudo
-    click.echo('')
-    subprocess.call([
-        'sudo',
-        'echo',
-        'Install chroot'
-    ])
-
     # Install chroot with progress
+    click.echo('Install chroot')
     with subprocess.Popen([
         'sudo',
         'tar',
@@ -105,7 +103,6 @@ def install():
     # Install tooling with progress
     click.echo('Install tooling')
     with subprocess.Popen([
-        'sudo',
         chroot,
         'sdk-assistant',
         'tooling',
@@ -122,14 +119,13 @@ def install():
         arch = target.split('-')[-1].split('.')[0]
         click.echo('Install target "{}"'.format(arch))
         with subprocess.Popen([
-            'sudo',
             chroot,
             'sdk-assistant',
             'target',
             'create',
             '-y',
             'AuroraOS-{}-base-{}'.format(version, arch),
-            archive_tooling[0]
+            target
         ], stdout=subprocess.PIPE, stderr=subprocess.PIPE) as process:
             # Ref size - 25 output lines
             bar_subprocess_lines(25, process)
@@ -152,7 +148,9 @@ After that run the command:
 You can check the installation with the command:
 
     {list}
-    
+
+The files have been downloaded to the ~/Downloads folder, if you no longer need them, delete them.
+
 Good luck!""".format(
         successfully=click.style(
             'Install Aurora Platform "{}" SDK successfully!'.format(version),
@@ -175,3 +173,155 @@ Good luck!""".format(
             fg='blue'
         ),
     ))
+
+
+@group_psdk.command()
+def installed():
+    """Get installed list Aurora Platform SDK."""
+
+    psdks = get_list_psdk_installed()
+
+    if not psdks:
+        click.echo('Aurora Platform SDK not found.')
+        return
+
+    click.echo('Found the installed Aurora Platform SDK:\n{}'
+               .format(get_string_from_list(psdks.keys())))
+
+
+@group_psdk.command()
+def sudoers():
+    """Add sudoers permissions Aurora Platform SDK."""
+
+    psdks = get_list_psdk_installed()
+
+    if not psdks:
+        click.echo('Aurora Platform SDK not found.')
+        return
+
+    click.echo('Found the installed Aurora Platform SDK:\n{}'
+               .format(get_string_from_list_numbered(psdks.keys())))
+
+    index = prompt_index(psdks.keys())
+
+    key = list(psdks.keys())[index - 1]
+
+    # Update /etc/sudoers.d/mer-sdk-chroot
+    insert = MER_SDK_CHROOT_DATA.format(username=getpass.getuser(), path_chroot=psdks[key])
+    path = update_file_lines(MER_SDK_CHROOT, key, insert=insert)
+    move_root_file(path, MER_SDK_CHROOT)
+
+    # Update /etc/sudoers.d/sdk-chroot
+    insert = SDK_CHROOT_DATA.format(username=getpass.getuser(), path_chroot=psdks[key])
+    path = update_file_lines(SDK_CHROOT, key, insert=insert)
+    move_root_file(path, SDK_CHROOT)
+
+
+@group_psdk.command()
+def remove():
+    """Remove installed Aurora Platform SDK."""
+
+    psdks = get_list_psdk_installed()
+
+    if not psdks:
+        click.echo('Aurora Platform SDK not found.')
+        return
+
+    click.echo('Found the installed Aurora Platform SDK:\n{}'
+               .format(get_string_from_list_numbered(psdks.keys())))
+
+    index = prompt_index(psdks.keys())
+
+    key = list(psdks.keys())[index - 1]
+    path = Path.home() / key
+
+    if not click.confirm('\nDo you want to continue?\nThe path folder will be deleted: {}'.format(path)):
+        return
+
+    # Remove folder psdk
+    subprocess.call([
+        'sudo',
+        'rm',
+        '-rf',
+        path
+    ])
+
+    # Clear .bashrc
+    with open(Path.home() / '.bashrc', 'r') as f:
+        lines = f.readlines()
+    with open(Path.home() / '.bashrc', 'w') as f:
+        for line in lines:
+            if key not in line:
+                f.write(line)
+
+    # Clear /etc/sudoers.d/mer-sdk-chroot
+    path = update_file_lines(MER_SDK_CHROOT, key)
+    move_root_file(path, MER_SDK_CHROOT)
+
+    # Clear /etc/sudoers.d/sdk-chroot
+    path = update_file_lines(SDK_CHROOT, key)
+    move_root_file(path, SDK_CHROOT)
+
+    click.echo('\n{}\n\nGood luck!'.format(click.style(
+        'Remove Aurora Platform SDK successfully!',
+        fg='green'
+    )))
+
+
+@group_psdk.command()
+@click.pass_context
+@click.option('-p', '--package-path', multiple=True, type=click.STRING, required=True)
+@click.option('-k', '--key-path', type=click.STRING)
+@click.option('-c', '--cert-path', type=click.STRING)
+def sign(ctx, package_path, key_path, cert_path):
+    """Sign (with re-sign) package."""
+
+    psdks = get_list_psdk_installed()
+
+    if not psdks:
+        click.echo('Aurora Platform SDK not found.')
+        return
+
+    click.echo('Found the installed Aurora Platform SDK:\n{}'
+               .format(get_string_from_list_numbered(psdks.keys())))
+
+    index = prompt_index(psdks.keys())
+
+    key = list(psdks.keys())[index - 1]
+    chroot = psdks[key]
+
+    # @todo add config
+    if not key_path:
+        key_path = '/home/keygenqt/sign/public/regular_key.pem'
+
+    if not cert_path:
+        cert_path = '/home/keygenqt/sign/public/regular_cert.pem'
+
+    check_sudoers_chroot(key)
+
+    for package in package_path:
+        if package.startswith('./'):
+            package = '{}{}'.format(os.getcwd(), package[1:])
+        if os.path.isfile(package):
+            # Remove if exist sign
+            subprocess.Popen([
+                chroot,
+                'rpmsign-external',
+                'delete',
+                package
+            ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            # Add sign
+            output, err = subprocess.Popen([
+                chroot,
+                'rpmsign-external',
+                'sign',
+                '--key',
+                key_path,
+                '--cert',
+                cert_path,
+                package
+            ], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+            if 'Signed' in str(err):
+                click.echo('{} {}'.format(click.style('Signed successfully:', fg='green'), package))
+            else:
+                click.echo('{} {}'.format(click.style('Could not sign:', fg='red'), package), err=True)

@@ -1,3 +1,7 @@
+import os
+import subprocess
+import tempfile
+
 import click
 from alive_progress import alive_bar
 
@@ -17,11 +21,14 @@ def get_string_from_list(items: []):
 
 # Prompt index by array
 def prompt_index(items: []):
+    if len(items) == 1:
+        return 1
+
     index = -1
     while index < 0:
-        index = click.prompt('Select index', type=int)
+        index = click.prompt('\nSelect index', type=int)
         if index > len(items) or index <= 0:
-            click.echo(f"Error: '{index}' is not a valid index.", err=True)
+            click.echo(click.style(f"Error: '{index}' is not a valid index.", fg='red'), err=True)
             index = -1
     return index
 
@@ -48,3 +55,28 @@ def bar_subprocess_lines(size, process):
             if counter < size:
                 bar()
         bar(size - counter)
+
+
+# Move file with root permissions
+def move_root_file(file_from, file_to):
+    subprocess.call(['sudo', 'chmod', '644', file_from])
+    subprocess.call(['sudo', 'chown', 'root:root', file_from])
+    subprocess.call(['sudo', 'rm', '-rf', file_to])
+    subprocess.call(['sudo', 'mv', file_from, file_to])
+
+
+# Remove line from file by search contains string
+def update_file_lines(file_path, search, insert=None):
+    lines = []
+    if os.path.isfile(file_path):
+        with open(file_path, 'r') as f:
+            lines = f.readlines()
+    with tempfile.NamedTemporaryFile('w', delete=False) as f:
+        # Clear record if exist
+        for line in lines:
+            if search not in line:
+                f.write(line)
+        # Insert data
+        if insert:
+            f.write(insert)
+        return f.name
