@@ -34,49 +34,61 @@ def available():
 def install():
     """Download and run install Aurora Platform SDK."""
 
+    # Load versions
     versions = get_map_versions(TypeSDK.PSDK)
 
     click.echo('Select index Aurora Platform SDK versions:\n{}'
                .format(get_string_from_list_numbered(versions.keys())))
 
+    # Query index
     index = prompt_index(versions.keys())
     key = list(versions.keys())[index - 1]
-    url = '{}{}'.format(versions[key], key)
 
+    # Variables
+    url = '{}{}'.format(versions[key], key)
     links = get_urls_on_html(url)
     files = [item for item in links if 'md5sum' not in item]
     files_url = ['{}{}'.format(url, item) for item in files]
 
+    # Download files
     files = multi_download(files_url)
 
+    # Find archive
     archive_chroot = [item for item in files if 'Chroot' in item and 'tar.bz2' in item]
     archive_tooling = [item for item in files if 'Tooling' in item]
     archive_target = [item for item in files if 'Target' in item]
 
+    # Check exist chroot
     if not archive_chroot:
         click.echo(click.style('Error: Chroot tar.bz2 not found.', fg='red'), err=True)
         return
 
+    # Check exist tooling
     if not archive_tooling:
         click.echo(click.style('Error: Tooling tar.bz2 not found.', fg='red'), err=True)
         return
 
+    # Get version psdk
     version = os.path.basename(archive_chroot[0]).split('-')[1]
 
+    # Get path for install
     path_psdk = str(Path.home() / 'Aurora_Platform_SDK_{}'.format(version))
     path_chroot = '{}/sdks/aurora_psdk'.format(path_psdk)
+
+    # Chroot path
     chroot = '{}/sdk-chroot'.format(path_chroot)
 
+    # Check psdk already folder exist
     if os.path.isdir(path_psdk):
         click.echo(click.style('\nError: Folder already exists: {}'.format(path_psdk), fg='red'), err=True)
         return
 
+    # Get root permissions
     subprocess.call(['sudo', 'echo'])
 
     # Create folders
     pathlib.Path(path_psdk).mkdir()
     pathlib.Path(path_chroot).mkdir(parents=True, exist_ok=True)
-
     pathlib.Path('{}/toolings'.format(path_psdk)).mkdir()
     pathlib.Path('{}/tarballs'.format(path_psdk)).mkdir()
     pathlib.Path('{}/targets'.format(path_psdk)).mkdir()
@@ -199,11 +211,12 @@ def sudoers():
         click.echo('Aurora Platform SDK not found.')
         return
 
-    click.echo('Found the installed Aurora Platform SDK:\n{}'
-               .format(get_string_from_list_numbered(psdks.keys())))
+    if len(psdks.keys()) != 1:
+        click.echo('Found the installed Aurora Platform SDK:\n{}'
+                   .format(get_string_from_list_numbered(psdks.keys())))
 
+    # Query index
     index = prompt_index(psdks.keys())
-
     key = list(psdks.keys())[index - 1]
 
     # Update /etc/sudoers.d/mer-sdk-chroot
@@ -227,12 +240,15 @@ def remove():
         click.echo('Aurora Platform SDK not found.')
         return
 
-    click.echo('Found the installed Aurora Platform SDK:\n{}'
-               .format(get_string_from_list_numbered(psdks.keys())))
+    if len(psdks.keys()) != 1:
+        click.echo('Found the installed Aurora Platform SDK:\n{}'
+                   .format(get_string_from_list_numbered(psdks.keys())))
 
+    # Query index
     index = prompt_index(psdks.keys())
-
     key = list(psdks.keys())[index - 1]
+
+    # Path psdk folder
     path = Path.home() / key
 
     if not click.confirm('\nDo you want to continue?\nThe path folder will be deleted: {}'.format(path)):
@@ -274,7 +290,7 @@ def remove():
 @click.option('-k', '--key-path', type=click.STRING)
 @click.option('-c', '--cert-path', type=click.STRING)
 def sign(ctx, package_path, key_path, cert_path):
-    """Sign (with re-sign) package."""
+    """Sign (with re-sign) RPM package."""
 
     psdks = get_list_psdk_installed()
 
@@ -286,24 +302,36 @@ def sign(ctx, package_path, key_path, cert_path):
         click.echo('Found the installed Aurora Platform SDK:\n{}'
                    .format(get_string_from_list_numbered(psdks.keys())))
 
+    # Query index
     index = prompt_index(psdks.keys())
-
     key = list(psdks.keys())[index - 1]
+
+    # Chroot
     chroot = psdks[key]
 
-    # @todo add config
-    if not key_path:
-        key_path = '/home/keygenqt/sign/public/regular_key.pem'
+    # Get keys from configuration
+    if not key_path or not cert_path:
+        keys = ctx.obj.get_keys()
+        if len(keys.keys()) != 1:
+            click.echo('Signature keys found:\n{}'
+                       .format(get_string_from_list_numbered(keys.keys())))
+        index = prompt_index(keys.keys())
+        key = list(keys.keys())[index - 1]
+        if not key_path:
+            key_path = keys[key]['key']
+        if not cert_path:
+            cert_path = keys[key]['cert']
 
-    if not cert_path:
-        cert_path = '/home/keygenqt/sign/public/regular_cert.pem'
-
+    # Check and query root permission
     check_sudoers_chroot(key)
 
     for package in package_path:
+        # Change relative path
         if package.startswith('./'):
             package = '{}{}'.format(os.getcwd(), package[1:])
-        if os.path.isfile(package):
+        # Check exist and rpm extension
+        if os.path.isfile(package) and package.lower().endswith('.rpm'):
+
             # Remove if exist sign
             subprocess.Popen([
                 chroot,
@@ -311,6 +339,7 @@ def sign(ctx, package_path, key_path, cert_path):
                 'delete',
                 package
             ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
             # Add sign
             output, err = subprocess.Popen([
                 chroot,

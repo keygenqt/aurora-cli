@@ -1,5 +1,6 @@
-import os
 import click
+
+from app.src.features.sdk.impl.utils import get_string_from_list
 
 
 @click.group(name='device')
@@ -9,10 +10,10 @@ def group_device():
 
 
 @group_device.command()
-@click.option('--index', default=None, type=click.INT, help='Select index')
 @click.pass_context
-def basename(ctx, index):
-    """Show basename path."""
-    click.echo(index)
-    click.echo(os.path.basename(ctx.obj.path))
+def available(ctx):
+    """Get available devices from configuration."""
 
+    devices = ctx.obj.get_devices()
+    click.echo('Available devices:\n{}'
+               .format(get_string_from_list(devices.keys())))

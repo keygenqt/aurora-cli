@@ -3,6 +3,21 @@
 An application that simplifies the life of an application developer for the Aurora OS.
 The application is under development.
 
+## Features
+
+* sdk
+  - available - Get available version Aurora SDK.
+  - install - Download and run install Aurora SDK.
+* psdk
+  - available - Get available version Aurora Platform SDK.
+  - install - Download and run install Aurora Platform SDK.
+  - installed - Get installed list Aurora Platform SDK.
+  - sudoers - Add sudoers permissions Aurora Platform SDK.
+  - remove - Remove installed Aurora Platform SDK.
+  - sign - Sign (with re-sign) RPM package.
+* psdk
+  - available - Get available devices from configuration.
+
 ## Usage
 
 ```
