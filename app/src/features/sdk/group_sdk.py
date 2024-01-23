@@ -7,7 +7,7 @@ import click
 
 from app.src.features.sdk.impl.download import multi_download
 from app.src.features.sdk.impl.urls import get_map_versions, TypeSDK, get_urls_on_html
-from app.src.features.sdk.impl.utils import get_string_from_list, get_string_from_list_numbered, prompt_index
+from app.src.base.utils import get_string_from_list, get_string_from_list_numbered, prompt_index
 
 
 @click.group(name='sdk')

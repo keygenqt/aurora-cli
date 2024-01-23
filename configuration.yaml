@@ -11,9 +11,9 @@ keys:
     cert: /home/user/sign/public/regular_cert.pem
 
 ## Devices list
-## ip   - device IP WI-FI or cable connection
-## pass - Password in device for devel-su
-## port - SSH port which is used to connect to the device
+## ip   - Device IP WI-FI or cable connection
+## pass - SSH password
+## port - SSH port
 devices:
   - ip: 192.168.2.15
     pass: '00000'

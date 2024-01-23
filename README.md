@@ -17,6 +17,7 @@ The application is under development.
   - sign - Sign (with re-sign) RPM package.
 * device
   - available - Get available devices from configuration.
+  - command - Execute the command on the device.
 
 ## Usage
 
