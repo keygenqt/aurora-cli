@@ -15,7 +15,7 @@ The application is under development.
   - sudoers - Add sudoers permissions Aurora Platform SDK.
   - remove - Remove installed Aurora Platform SDK.
   - sign - Sign (with re-sign) RPM package.
-* psdk
+* device
   - available - Get available devices from configuration.
 
 ## Usage
