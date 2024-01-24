@@ -5,13 +5,14 @@ import subprocess
 from pathlib import Path
 
 import click
+from cffi.backend_ctypes import unicode
 
+from app.src.base.utils import get_string_from_list, get_string_from_list_numbered, prompt_index, \
+    bar_subprocess_lines, bar_subprocess_symbol, move_root_file, update_file_lines, get_full_path
 from app.src.features.sdk.impl.download import multi_download
 from app.src.features.sdk.impl.psdk import get_list_psdk_installed, MER_SDK_CHROOT, SDK_CHROOT, SDK_CHROOT_DATA, \
-    MER_SDK_CHROOT_DATA, check_sudoers_chroot
+    MER_SDK_CHROOT_DATA, check_sudoers_chroot, get_list_targets
 from app.src.features.sdk.impl.urls import get_map_versions, TypeSDK, get_urls_on_html
-from app.src.base.utils import get_string_from_list, get_string_from_list_numbered, prompt_index, \
-    bar_subprocess_lines, bar_subprocess_symbol, move_root_file, update_file_lines
 
 
 @click.group(name='psdk')
@@ -202,35 +203,6 @@ def installed():
 
 
 @group_psdk.command()
-def sudoers():
-    """Add sudoers permissions Aurora Platform SDK."""
-
-    psdks = get_list_psdk_installed()
-
-    if not psdks:
-        click.echo('Aurora Platform SDK not found.')
-        return
-
-    if len(psdks.keys()) != 1:
-        click.echo('Found the installed Aurora Platform SDK:\n{}'
-                   .format(get_string_from_list_numbered(psdks.keys())))
-
-    # Query index
-    index = prompt_index(psdks.keys())
-    key = list(psdks.keys())[index - 1]
-
-    # Update /etc/sudoers.d/mer-sdk-chroot
-    insert = MER_SDK_CHROOT_DATA.format(username=getpass.getuser(), path_chroot=psdks[key])
-    path = update_file_lines(MER_SDK_CHROOT, key, insert=insert)
-    move_root_file(path, MER_SDK_CHROOT)
-
-    # Update /etc/sudoers.d/sdk-chroot
-    insert = SDK_CHROOT_DATA.format(username=getpass.getuser(), path_chroot=psdks[key])
-    path = update_file_lines(SDK_CHROOT, key, insert=insert)
-    move_root_file(path, SDK_CHROOT)
-
-
-@group_psdk.command()
 def remove():
     """Remove installed Aurora Platform SDK."""
 
@@ -285,12 +257,8 @@ def remove():
 
 
 @group_psdk.command()
-@click.pass_context
-@click.option('-p', '--package-path', multiple=True, type=click.STRING, required=True)
-@click.option('-k', '--key-path', type=click.STRING)
-@click.option('-c', '--cert-path', type=click.STRING)
-def sign(ctx, package_path, key_path, cert_path):
-    """Sign (with re-sign) RPM package."""
+def sudoers():
+    """Add sudoers permissions Aurora Platform SDK."""
 
     psdks = get_list_psdk_installed()
 
@@ -306,6 +274,41 @@ def sign(ctx, package_path, key_path, cert_path):
     index = prompt_index(psdks.keys())
     key = list(psdks.keys())[index - 1]
 
+    # Update /etc/sudoers.d/mer-sdk-chroot
+    insert = MER_SDK_CHROOT_DATA.format(username=getpass.getuser(), path_chroot=psdks[key])
+    path = update_file_lines(MER_SDK_CHROOT, key, insert=insert)
+    move_root_file(path, MER_SDK_CHROOT)
+
+    # Update /etc/sudoers.d/sdk-chroot
+    insert = SDK_CHROOT_DATA.format(username=getpass.getuser(), path_chroot=psdks[key])
+    path = update_file_lines(SDK_CHROOT, key, insert=insert)
+    move_root_file(path, SDK_CHROOT)
+
+
+@group_psdk.command()
+@click.pass_context
+@click.option('-p', '--package-path', multiple=True, type=click.STRING, required=True)
+@click.option('-i', '--index', type=click.INT)
+@click.option('-k', '--key-path', type=click.STRING)
+@click.option('-c', '--cert-path', type=click.STRING)
+@click.option('-v', '--verbose', is_flag=True)
+def sign(ctx, package_path, index, key_path, cert_path, verbose):
+    """Sign (with re-sign) RPM package."""
+
+    psdks = get_list_psdk_installed()
+
+    if not psdks:
+        click.echo('Aurora Platform SDK not found.')
+        return
+
+    if len(psdks.keys()) != 1:
+        click.echo('Found the installed Aurora Platform SDK:\n{}'
+                   .format(get_string_from_list_numbered(psdks.keys())))
+
+    # Query index
+    r_index = prompt_index(psdks.keys(), index)
+    key = list(psdks.keys())[r_index - 1]
+
     # Chroot
     chroot = psdks[key]
 
@@ -315,8 +318,8 @@ def sign(ctx, package_path, key_path, cert_path):
         if len(keys.keys()) != 1:
             click.echo('Signature keys found:\n{}'
                        .format(get_string_from_list_numbered(keys.keys())))
-        index = prompt_index(keys.keys())
-        key = list(keys.keys())[index - 1]
+        r_index = prompt_index(keys.keys(), index)
+        key = list(keys.keys())[r_index - 1]
         if not key_path:
             key_path = keys[key]['key']
         if not cert_path:
@@ -326,18 +329,17 @@ def sign(ctx, package_path, key_path, cert_path):
     check_sudoers_chroot(key)
 
     for package in package_path:
-        # Change relative path
-        if package.startswith('./'):
-            package = '{}{}'.format(os.getcwd(), package[1:])
+        # Get full path
+        package_path = get_full_path(package, 'rpm')
         # Check exist and rpm extension
-        if os.path.isfile(package) and package.lower().endswith('.rpm'):
+        if package_path:
 
             # Remove if exist sign
             subprocess.Popen([
                 chroot,
                 'rpmsign-external',
                 'delete',
-                package
+                package_path
             ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
             # Add sign
@@ -349,9 +351,97 @@ def sign(ctx, package_path, key_path, cert_path):
                 key_path,
                 '--cert',
                 cert_path,
-                package
+                package_path
             ], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
-            if 'Signed' in str(err):
-                click.echo('{} {}'.format(click.style('Signed successfully:', fg='green'), package))
+
+            if verbose:
+                if output:
+                    click.echo(output)
+                if err:
+                    click.echo(err)
             else:
-                click.echo('{} {}'.format(click.style('Could not sign:', fg='red'), package), err=True)
+                if 'Signed' in str(err):
+                    click.echo('{} {}'.format(click.style('Signed successfully:', fg='green'), package))
+                elif 'Could not open' in str(err):
+                    click.echo('{} {}'.format(
+                        click.style('Could not open certificate or private key.\nCheck the configuration file:',
+                                    fg='red'),
+                        ctx.obj.get_path()), err=True)
+                else:
+                    click.echo('{} {}'.format(click.style('Could not sign:', fg='red'), package), err=True)
+
+
+@group_psdk.command()
+@click.option('-p', '--package-path', multiple=True, type=click.STRING, required=True)
+@click.option('-v', '--verbose', is_flag=True)
+def validate(package_path, verbose):
+    """Validate RPM packages."""
+
+    psdks = get_list_psdk_installed()
+
+    if not psdks:
+        click.echo('Aurora Platform SDK not found.')
+        return
+
+    if len(psdks.keys()) != 1:
+        click.echo('Found the installed Aurora Platform SDK:\n{}'
+                   .format(get_string_from_list_numbered(psdks.keys())))
+
+    # Query index
+    r_index = prompt_index(psdks.keys())
+    key = list(psdks.keys())[r_index - 1]
+
+    # Chroot
+    chroot = psdks[key]
+
+    # Check and query root permission
+    check_sudoers_chroot(key)
+
+    # Get psdk targets
+    targets = get_list_targets(chroot)
+
+    if not targets:
+        click.echo('Targets in Aurora Platform SDK not found.')
+        return
+
+    if len(targets) != 1:
+        click.echo('Found targets Aurora Platform SDK:\n{}'
+                   .format(get_string_from_list_numbered(targets)))
+
+    # Query index
+    r_index = prompt_index(targets)
+    target = list(targets)[r_index - 1]
+
+    for package in package_path:
+        # Get full path
+        package_path = get_full_path(package, 'rpm')
+        # Has error
+        is_error = False
+        # Check exist and rpm extension
+        if package_path:
+            # Get file name
+            file_name = os.path.basename(package_path)
+            # Run validate
+            with subprocess.Popen([
+                chroot,
+                'sb2',
+                '-t',
+                target,
+                '-m',
+                'emulate',
+                'rpm-validator',
+                package_path
+            ], stdout=subprocess.PIPE, stderr=subprocess.PIPE) as process:
+                for line in iter(lambda: process.stderr.readline(), ""):
+                    if not line:
+                        break
+                    line = unicode(line.rstrip(), "utf-8")
+                    if verbose:
+                        click.echo(line)
+                    else:
+                        if 'ERROR' in line:
+                            is_error = True
+                            click.echo('{} {}'.format(
+                                click.style('ERROR:', fg='red'), line.replace('(ERROR)', '').strip()), err=True)
+                if not is_error and not verbose:
+                    click.echo('{} {}'.format(click.style('Validation completed successfully:', fg='green'), file_name))

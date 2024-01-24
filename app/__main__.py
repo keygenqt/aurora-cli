@@ -20,6 +20,8 @@ from app.src.base.helper import get_app_name, get_app_version
 from app.src.base.conf import Conf
 
 from app.src.features.device.group_device import group_device
+from app.src.features.emulator.group_emulator import group_emulator
+from app.src.features.flutter.group_flutter import group_flutter
 from app.src.features.sdk.group_psdk import group_psdk
 from app.src.features.sdk.group_sdk import group_sdk
 
@@ -35,6 +37,8 @@ def main(ctx, conf):
 main.add_command(group_sdk)
 main.add_command(group_psdk)
 main.add_command(group_device)
+main.add_command(group_flutter)
+main.add_command(group_emulator)
 
 if __name__ == '__main__':
     main()

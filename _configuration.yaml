@@ -1,0 +1,22 @@
+## Application configuration file Aurora CLI 2.0
+## Version: 0.0.1
+
+## Path to sign keys
+## name - The name you will see in the list
+## key  - Path to the key.pem file
+## cert - Path to the cert.pem file
+keys:
+  - name: Regular
+    key: /home/user/public/regular_key.pem
+    cert: /home/user/public/regular_cert.pem
+
+## Devices list
+## ip       - Device IP WI-FI or cable connection
+## pass     - SSH password
+## port     - SSH port
+## devel-su - Device root password
+devices:
+  - ip: 192.168.2.15
+    pass: '00000'
+    port: 22
+    devel-su: '00000'

@@ -20,17 +20,25 @@ def get_string_from_list(items: []):
 
 
 # Prompt index by array
-def prompt_index(items: []):
+def prompt_index(items: [], index=None):
     if len(items) == 1:
         return 1
+    result = -1
+    while result < 0:
+        if not index:
+            result = click.prompt('\nSelect index', type=int)
+        else:
+            result = index
 
-    index = -1
-    while index < 0:
-        index = click.prompt('\nSelect index', type=int)
-        if index > len(items) or index <= 0:
-            click.echo(click.style(f"Error: '{index}' is not a valid index.", fg='red'), err=True)
-            index = -1
-    return index
+        if result > len(items) or result <= 0:
+            click.echo(click.style(f"Error: '{result}' is not a valid index.", fg='red'), err=True)
+            result = -1
+            index = None
+
+    if index:
+        click.echo('\nSelect index: {}'.format(result))
+
+    return result
 
 
 # Bar for subprocess by symbol
@@ -80,3 +88,21 @@ def update_file_lines(file_path, search, insert=None):
         if insert:
             f.write(insert)
         return f.name
+
+
+# Get full path to file
+def get_full_path(path, extension=None):
+    # Relative path
+    if path.startswith('./'):
+        path = '{}{}'.format(os.getcwd(), path[1:])
+
+    # Check
+    if os.path.isfile(path):
+        if extension and not path.lower().endswith('.{}'.format(extension)):
+            click.echo('{} {}'.format(click.style('The file has an incorrect extension: ', fg='red'), path), err=True)
+        else:
+            return path
+    else:
+        click.echo('{} {}'.format(click.style('File not found:', fg='red'), path), err=True)
+
+    return None

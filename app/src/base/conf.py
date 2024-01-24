@@ -28,6 +28,10 @@ class Conf:
             click.echo('{} {}'.format(click.style('Configuration file not found:', fg='red'), self.conf_path))
             exit(1)
 
+    # Get config path
+    def get_path(self):
+        return self.conf_path
+
     # Get config keys
     def get_keys(self):
         keys = {}
@@ -53,9 +57,10 @@ class Conf:
         # Format keys
         for item in self.conf['devices']:
             # Check data
-            if not item['ip'] or not item['pass'] or not item['port']:
+            if not item['ip'] or not item['pass'] or not item['port'] or not item['devel-su']:
                 click.echo('{} {}'.format(
                     click.style('The configuration file is filled in incorrectly:', fg='red'), self.conf_path))
                 exit(1)
-            devices[str(item['ip'])] = {'pass': str(item['pass']), 'port': str(item['port'])}
+            devices[str(item['ip'])] = {
+                'pass': str(item['pass']), 'port': str(item['port']), 'devel-su': str(item['devel-su'])}
         return devices

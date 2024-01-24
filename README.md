@@ -6,18 +6,28 @@ The application is under development.
 ## Features
 
 * sdk
-  - available - Get available version Aurora SDK.
-  - install - Download and run install Aurora SDK.
+    - available - Get available version Aurora SDK.
+    - install - Download and run install Aurora SDK.
+    - installed - Get version installed Aurora SDK.
 * psdk
-  - available - Get available version Aurora Platform SDK.
-  - install - Download and run install Aurora Platform SDK.
-  - installed - Get installed list Aurora Platform SDK.
-  - sudoers - Add sudoers permissions Aurora Platform SDK.
-  - remove - Remove installed Aurora Platform SDK.
-  - sign - Sign (with re-sign) RPM package.
+    - available - Get available version Aurora Platform SDK.
+    - install - Download and run install Aurora Platform SDK.
+    - installed - Get installed list Aurora Platform SDK.
+    - remove - Remove installed Aurora Platform SDK.
+    - sudoers - Add sudoers permissions Aurora Platform SDK.
+    - sign - Sign (with re-sign) RPM package.
+    - validate - Validate RPM packages.
+* flutter
+    - available - Get available versions flutter.
 * device
-  - available - Get available devices from configuration.
-  - command - Execute the command on the device.
+    - available - Get available devices from configuration.
+    - command - Execute the command on the device.
+    - upload - Upload file to ~/Download directory device.
+    - install - Install RPM package on device.
+    - run - Run package on device in container.
+* emulator
+    - available - Get available emulator.
+    - run - Run emulator.
 
 ## Usage
 
