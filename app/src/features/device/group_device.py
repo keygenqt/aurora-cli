@@ -2,9 +2,9 @@ import os
 
 import click
 
+from app.src.base.ssh import ssh_client_exec_command
 from app.src.base.utils import get_string_from_list, get_full_path
-from app.src.features.device.impl.ssh import get_ssh_clients, ssh_client_exec_command, prompt_ssh_client_device, \
-    upload_file_sftp
+from app.src.features.device.impl.ssh import get_ssh_clients, prompt_ssh_client_device, upload_file_sftp
 
 
 @click.group(name='device')

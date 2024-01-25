@@ -1,5 +1,3 @@
-import os
-
 import click
 import paramiko
 
@@ -44,33 +42,6 @@ def get_ssh_client(ip, port, password):
     return None
 
 
-# Upload file
-def upload_file_sftp(ctx, device, upload_path, file_path):
-    devices = ctx.obj.get_devices()
-    ip = device
-    port = int(devices[device]['port'])
-    password = devices[device]['pass']
-    try:
-        # Connect
-        transport = paramiko.Transport((ip, port))
-        transport.connect(username='defaultuser', password=password)
-        client = paramiko.SFTPClient.from_transport(transport)
-        # Get file name
-        file_name = os.path.basename(file_path)
-        # Upload file
-        client.put(file_path, '{upload_path}/{file_name}'.format(
-            upload_path=upload_path,
-            file_name=file_name
-        ))
-        client.close()
-        transport.close()
-    except paramiko.ssh_exception.SSHException:
-        return False
-    except FileNotFoundError:
-        return False
-    return True
-
-
 # Get ssh client with query
 def prompt_ssh_client_device(ctx, index=None):
     devices = ctx.obj.get_devices()
@@ -101,38 +72,28 @@ def prompt_ssh_client_device(ctx, index=None):
     ]
 
 
-def ssh_client_exec_command(client, exec_command):
-    # Exec
-    ssh_stdin, ssh_stdout, ssh_stderr = client.exec_command(exec_command)
-
-    title = True
-    stdout = []
-    stderr = []
-
-    if ' | ' in exec_command:
-        exec_command = exec_command.split(' | ')[1]
-
-    # Output success
-    for line in iter(ssh_stdout.readline, ""):
-        if title:
-            stdout.append('{} "{}" {}'.format(click.style('Command', fg='green'),
-                                              exec_command,
-                                              click.style('completed successfully:', fg='green')))
-            title = False
-        if 'Password' not in line:
-            stdout.append(line.strip())
-
-    # Output errors
-    for line in iter(ssh_stderr.readline, ""):
-        if title:
-            stderr.append('{} "{}" {}'.format(click.style('Command', fg='red'),
-                                              exec_command,
-                                              click.style('was executed with an error:', fg='red')))
-            title = False
-        if 'Password' not in line:
-            stderr.append(line.strip())
-
-    return [
-        '\n'.join(stdout).strip(),
-        '\n'.join(stderr).strip(),
-    ]
+# Upload file
+def upload_file_sftp(ctx, device, upload_path, file_path):
+    devices = ctx.obj.get_devices()
+    ip = device
+    port = int(devices[device]['port'])
+    password = devices[device]['pass']
+    try:
+        # Connect
+        transport = paramiko.Transport((ip, port))
+        transport.connect(username='defaultuser', password=password)
+        client = paramiko.SFTPClient.from_transport(transport)
+        # Get file name
+        file_name = os.path.basename(file_path)
+        # Upload file
+        client.put(file_path, '{upload_path}/{file_name}'.format(
+            upload_path=upload_path,
+            file_name=file_name
+        ))
+        client.close()
+        transport.close()
+    except paramiko.ssh_exception.SSHException:
+        return False
+    except FileNotFoundError:
+        return False
+    return True

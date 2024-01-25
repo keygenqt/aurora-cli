@@ -6,14 +6,14 @@ from pathlib import Path
 from cffi.backend_ctypes import unicode
 
 MER_SDK_CHROOT = '/etc/sudoers.d/mer-sdk-chroot'
-MER_SDK_CHROOT_DATA = '''{username} ALL=(ALL) NOPASSWD: {path_chroot}/mer-sdk-chroot
-Defaults!{path_chroot}/mer-sdk-chroot env_keep += "SSH_AGENT_PID SSH_AUTH_SOCK"
+MER_SDK_CHROOT_DATA = '''{username} ALL=(ALL) NOPASSWD: {psdk_dir}
+Defaults!{psdk_dir} env_keep += "SSH_AGENT_PID SSH_AUTH_SOCK"
 '''
 
 # Sudoers chroot sdk-chroot
 SDK_CHROOT = '/etc/sudoers.d/sdk-chroot'
-SDK_CHROOT_DATA = '''{username} ALL=(ALL) NOPASSWD: {path_chroot}/sdk-chroot
-Defaults!{path_chroot}/sdk-chroot env_keep += "SSH_AGENT_PID SSH_AUTH_SOCK"
+SDK_CHROOT_DATA = '''{username} ALL=(ALL) NOPASSWD: {psdk_dir}/sdk-chroot
+Defaults!{psdk_dir}/sdk-chroot env_keep += "SSH_AGENT_PID SSH_AUTH_SOCK"
 '''
 
 

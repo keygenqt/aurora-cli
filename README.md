@@ -11,7 +11,7 @@ The application is under development.
     - installed - Get version installed Aurora SDK.
 * psdk
     - available - Get available version Aurora Platform SDK.
-    - install - Download and run install Aurora Platform SDK.
+    - install - Download and install Aurora Platform SDK.
     - installed - Get installed list Aurora Platform SDK.
     - remove - Remove installed Aurora Platform SDK.
     - sudoers - Add sudoers permissions Aurora Platform SDK.
@@ -19,6 +19,9 @@ The application is under development.
     - validate - Validate RPM packages.
 * flutter
     - available - Get available versions flutter.
+    - install - Install Flutter SDK for Aurora OS.
+    - installed - Get installed list Flutter SDK.
+    - remove - Remove Flutter SDK.
 * device
     - available - Get available devices from configuration.
     - command - Execute the command on the device.
@@ -27,8 +30,12 @@ The application is under development.
     - run - Run package on device in container.
 * emulator
     - available - Get available emulator.
-    - run - Run emulator.
-
+    - startup - Start emulator.
+    - command - Execute the command on the emulator.
+    - upload - Upload file to ~/Download directory emulator.
+    - install - Install RPM package on emulator.
+    - run - Run package on emulator in container.
+    - 
 ## Usage
 
 ```

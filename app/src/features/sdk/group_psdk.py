@@ -33,7 +33,7 @@ def available():
 
 @group_psdk.command()
 def install():
-    """Download and run install Aurora Platform SDK."""
+    """Download and install Aurora Platform SDK."""
 
     # Load versions
     versions = get_map_versions(TypeSDK.PSDK)
@@ -166,7 +166,7 @@ The files have been downloaded to the ~/Downloads folder, if you no longer need 
 
 Good luck!""".format(
         successfully=click.style(
-            'Install Aurora Platform "{}" SDK successfully!'.format(version),
+            'Install Aurora Platform SDK "{}" successfully!'.format(version),
             fg='green'
         ),
         psdk_dir=click.style(
@@ -250,10 +250,10 @@ def remove():
     path = update_file_lines(SDK_CHROOT, key)
     move_root_file(path, SDK_CHROOT)
 
-    click.echo('\n{}\n\nGood luck!'.format(click.style(
+    click.echo(click.style(
         'Remove Aurora Platform SDK successfully!',
         fg='green'
-    )))
+    ))
 
 
 @group_psdk.command()
@@ -273,14 +273,15 @@ def sudoers():
     # Query index
     index = prompt_index(psdks.keys())
     key = list(psdks.keys())[index - 1]
+    psdk_dir = os.path.dirname(psdks[key])
 
     # Update /etc/sudoers.d/mer-sdk-chroot
-    insert = MER_SDK_CHROOT_DATA.format(username=getpass.getuser(), path_chroot=psdks[key])
+    insert = MER_SDK_CHROOT_DATA.format(username=getpass.getuser(), psdk_dir=psdk_dir)
     path = update_file_lines(MER_SDK_CHROOT, key, insert=insert)
     move_root_file(path, MER_SDK_CHROOT)
 
     # Update /etc/sudoers.d/sdk-chroot
-    insert = SDK_CHROOT_DATA.format(username=getpass.getuser(), path_chroot=psdks[key])
+    insert = SDK_CHROOT_DATA.format(username=getpass.getuser(), psdk_dir=psdk_dir)
     path = update_file_lines(SDK_CHROOT, key, insert=insert)
     move_root_file(path, SDK_CHROOT)
 

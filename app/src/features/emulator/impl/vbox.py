@@ -1,4 +1,3 @@
-# Get vm emulator
 import subprocess
 
 from cffi.backend_ctypes import unicode

@@ -7,7 +7,7 @@ import click
 
 from app.src.base.utils import get_string_from_list, get_string_from_list_numbered, prompt_index
 from app.src.features.sdk.impl.download import multi_download
-from app.src.features.sdk.impl.sdk import get_sdk_installed
+from app.src.base.sdk import get_sdk_installed
 from app.src.features.sdk.impl.urls import get_map_versions, TypeSDK, get_urls_on_html
 
 
@@ -31,7 +31,7 @@ def available():
 def installed():
     """Get version installed Aurora SDK."""
 
-    version = get_sdk_installed()
+    version, _ = get_sdk_installed()
 
     if version:
         click.echo(version)

@@ -10,5 +10,8 @@ def get_sdk_installed():
                    Path.home() / folder / 'sdk-release')]
     if folders:
         with open(Path.home() / folders[0] / 'sdk-release') as f:
-            return 'Aurora SDK: {}'.format(f.readline().strip().split('=')[1].replace('-base', ''))
+            return [
+                'Aurora SDK: {}'.format(f.readline().strip().split('=')[1].replace('-base', '')),
+                str(Path.home() / folders[0])
+            ]
     return None
