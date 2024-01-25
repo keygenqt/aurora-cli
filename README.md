@@ -35,7 +35,7 @@ The application is under development.
     - upload - Upload file to ~/Download directory emulator.
     - install - Install RPM package on emulator.
     - run - Run package on emulator in container.
-    - 
+
 ## Usage
 
 ```
