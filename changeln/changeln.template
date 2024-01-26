@@ -1,0 +1,59 @@
+### Changeln template example
+### Template engine is Mako - https://www.makotemplates.org/
+### Base template format is Markdown - https://python-markdown.github.io/
+
+<%! from datetime import datetime %>
+
+${"##"} Updated: ${ln_date.strftime('%d/%m/%Y %H:%M:%S %p')}
+
+${"##"} Info
+
+- Last tag: ${ln_last}
+- Released: ${ln_released}
+
+% if ln_list_tags:
+${"##"} Versions
+% endif
+% for item in ln_list_tags:
+- Version: ${item.name} (${datetime.fromtimestamp(item.commit.committed_date).strftime('%d/%m/%Y')})
+% endfor
+
+% for item in ln_list_groups:
+
+    % if item['to'] == 'HEAD':
+        ${"###"} HEAD (${ln_date.strftime('%d/%m/%Y %H:%M:%S %p')})
+    % else:
+        ${"###"} Version: ${item['tag'].name} (${datetime.fromtimestamp(item['tag'].commit.committed_date).strftime('%d/%m/%Y')})
+    % endif
+
+    % if item['Feature'] or item['Change'] or item['Bug']:
+
+        ${'####'} Feature
+
+        % if not item['Feature']:
+            *None*
+        % endif
+        % for feature in item['Feature']:
+            * ${feature['optional'][2]} (${feature['commit'].author})
+        % endfor
+
+        ${'####'} Change
+
+        % if not item['Change']:
+            *None*
+        % endif
+        % for change in item['Change']:
+            * ${change['optional'][2]} (${change['commit'].author})
+        % endfor
+
+        ${'####'} Bug
+
+        % if not item['Bug']:
+            *None*
+        % endif
+        % for bug in item['Bug']:
+            * ${bug['optional'][2]} (${bug['commit'].author})
+        % endfor
+    % endif
+% endfor
+

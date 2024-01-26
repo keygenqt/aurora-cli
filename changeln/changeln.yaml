@@ -1,0 +1,17 @@
+### Changeln Configuration Settings
+
+# Template engine is Mako - https://www.makotemplates.org/
+# Base template format is Markdown - https://python-markdown.github.io/
+---
+
+### Tag find
+# tags: {regex}
+tags: '.*'
+
+### Group commits
+# {group name}: {regex}
+groups:
+  Bug: '(.?)\[(bug)\]\s+(.+)'
+  Change: '(.?)\[(change)\]\s+(.+)'
+  Feature: '(.?)\[(feature)\]\s+(.+)'
+

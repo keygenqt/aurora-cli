@@ -1,7 +1,8 @@
 # Aurora CLI 2.0
 
+[![PyPI version](https://badge.fury.io/py/aurora-cli.svg)](https://badge.fury.io/py/aurora-cli)
+
 An application that simplifies the life of an application developer for the Aurora OS.
-The application is under development.
 
 ## Features
 
@@ -30,7 +31,7 @@ The application is under development.
     - run - Run package on device in container.
 * emulator
     - available - Get available emulator.
-    - startup - Start emulator.
+    - start - Start emulator.
     - command - Execute the command on the emulator.
     - upload - Upload file to ~/Download directory emulator.
     - install - Install RPM package on emulator.
@@ -38,12 +39,56 @@ The application is under development.
 
 ## Usage
 
+### Install dependencies
+
+```shell
+# Update
+sudo apt update
+
+# Install dependencies
+sudo apt install python3-pip git git-lfs curl tar unzip bzip2
 ```
+
+### Method 1
+
+The standard way to distribute python packages.
+
+```shell
+python3 -m pip install aurora-cli
+```
+
+### Method 2
+
+This method is as simple as possible - the entire application is in a pyz file.
+
+```shell
+# Create folder
+mkdir ~/.local/opt
+
+# Download
+wget -x https://github.com/keygenqt/aurora-cli/raw/master/builds/aurora-cli-<version>.pyz \
+  -O ~/.local/opt/aurora-cli.pyz
+
+# Add alias to ~/.bashrc
+alias aurora-cli='python3 ~/.local/opt/aurora-cli.pyz'
+
+# Update environment
+source ~/.bashrc
+```
+
+### Method 3
+
+This method is suitable for development
+
+```shell
+# Create folder
+mkdir -p ~/.local/opt/aurora-cli
+
 # Clone project
-git clone https://github.com/keygenqt/aurora-cli.git
+git clone https://github.com/keygenqt/aurora-cli.git ~/.local/opt/aurora-cli
 
 # Open folder project
-cd aurora-cli
+cd ~/.local/opt/aurora-cli
 
 # Init environment
 virtualenv .venv
@@ -54,8 +99,14 @@ source .venv/bin/activate
 # Install requirements
 pip install -r requirements.txt
 
-# Run app
-python -m app
+# Deactivate environment
+deactivate
+
+# Add alias to ~/.bashrc
+alias aurora-cli='cd ~/.local/opt/aurora-cli && .venv/bin/python -m aurora_cli'
+
+# Update environment
+source ~/.bashrc
 ```
 
 ### License

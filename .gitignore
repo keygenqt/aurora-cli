@@ -2,13 +2,9 @@
 .idea
 .vscode
 
-# Snap build
-*.snap
-
 # Python
 /*.egg-info/
 /venv/
 /dist/
 /build/
-
-configuration.yaml
+.pypirc
