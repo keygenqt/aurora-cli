@@ -11,7 +11,7 @@ setuptools.setup(
     description='An application that simplifies the life of an application developer for the Aurora OS.',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url="https://github.com/keygenqt/skill-tkinter-snap",
+    url="https://github.com/keygenqt/aurora-cli",
     packages=setuptools.find_packages(exclude=['*tests.*', '*tests']),
     include_package_data=True,
     py_modules=['colors'],
