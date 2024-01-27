@@ -78,7 +78,7 @@ source ~/.bashrc
 
 ### Method 3
 
-This method is suitable for development
+This method is suitable for development.
 
 ```shell
 # Create folder
