@@ -22,7 +22,7 @@ import click
 # Get installed sdk
 def get_sdk_installed():
     folders = [folder for folder in os.listdir(Path.home()) if
-               os.path.isdir(Path.home() / folder) and 'Aurora1' in folder and os.path.isfile(
+               os.path.isdir(Path.home() / folder) and 'Aurora' in folder and os.path.isfile(
                    Path.home() / folder / 'sdk-release')]
     if folders:
         with open(Path.home() / folders[0] / 'sdk-release') as f:
