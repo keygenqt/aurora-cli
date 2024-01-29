@@ -1,19 +1,35 @@
 
 
 
-## Updated: 27/01/2024 11:54:51 AM
+## Updated: 29/01/2024 20:50:40 PM
 
 ## Info
 
-- Last tag: 2.0.11
-- Released: 1
+- Last tag: 2.0.12
+- Released: 2
 
 ## Versions
+- Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
 
 
-### HEAD (27/01/2024 11:54:51 AM)
+### HEAD (29/01/2024 20:50:40 PM)
 
+
+### Version: 2.0.12 (29/01/2024)
+
+
+#### Feature
+
+*None*
+
+#### Change
+
+*None*
+
+#### Bug
+
+* Fix find path sdk name. (Vitaliy Zarubin)
 
 ### Version: 2.0.11 (27/01/2024)
 
