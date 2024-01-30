@@ -644,3 +644,38 @@ def sdk_remove(package, verbose):
                     break
         if not is_error and not verbose:
             click.echo('{} {}'.format(click.style('Remove successfully:', fg='green'), package))
+
+
+@group_psdk.command()
+def list_targets():
+    """Get list targets."""
+
+    psdks = get_list_psdk_installed()
+
+    if not psdks:
+        click.echo('Aurora Platform SDK not found.')
+        return
+
+    if len(psdks.keys()) != 1:
+        click.echo('Found the installed Aurora Platform SDK:\n{}'
+                   .format(get_string_from_list_numbered(psdks.keys())))
+
+    # Query index
+    r_index = prompt_index(psdks.keys())
+    key = list(psdks.keys())[r_index - 1]
+
+    # Chroot
+    chroot = psdks[key]
+
+    # Check and query root permission
+    check_sudoers_chroot(key)
+
+    # Get psdk targets
+    targets = get_list_targets(chroot)
+
+    if not targets:
+        click.echo('Targets in Aurora Platform SDK not found.')
+        return
+
+    click.echo('Found targets Aurora Platform SDK:\n{}'
+               .format(get_string_from_list(targets)))
