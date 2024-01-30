@@ -486,3 +486,161 @@ def validate(path, verbose):
                                 click.style('ERROR:', fg='red'), line.replace('(ERROR)', '').strip()), err=True)
                 if not is_error and not verbose:
                     click.echo('{} {}'.format(click.style('Validation completed successfully:', fg='green'), file_name))
+
+
+@group_psdk.command()
+@click.option('-p', '--path', multiple=True, type=click.STRING, required=True)
+@click.option('-v', '--verbose', is_flag=True)
+def sdk_install(path, verbose):
+    """Install RPM packages to target."""
+
+    psdks = get_list_psdk_installed()
+
+    if not psdks:
+        click.echo('Aurora Platform SDK not found.')
+        return
+
+    if len(psdks.keys()) != 1:
+        click.echo('Found the installed Aurora Platform SDK:\n{}'
+                   .format(get_string_from_list_numbered(psdks.keys())))
+
+    # Query index
+    r_index = prompt_index(psdks.keys())
+    key = list(psdks.keys())[r_index - 1]
+
+    # Chroot
+    chroot = psdks[key]
+
+    # Check and query root permission
+    check_sudoers_chroot(key)
+
+    # Get psdk targets
+    targets = get_list_targets(chroot)
+
+    if not targets:
+        click.echo('Targets in Aurora Platform SDK not found.')
+        return
+
+    if len(targets) != 1:
+        click.echo('Found targets Aurora Platform SDK:\n{}'
+                   .format(get_string_from_list_numbered(targets)))
+
+    # Query index
+    r_index = prompt_index(targets)
+    target = list(targets)[r_index - 1]
+
+    for package in path:
+        # Get full path
+        package_path = get_full_path_file(package, 'rpm')
+        # Has error
+        is_error = False
+        # Check exist and rpm extension
+        if package_path:
+            # Get file name
+            file_name = os.path.basename(package_path)
+            # Run execute
+            with subprocess.Popen([
+                chroot,
+                'sb2',
+                '-t',
+                target,
+                '-m',
+                'sdk-install',
+                '-R',
+                'zypper',
+                '--no-gpg-checks',
+                'in',
+                '-y',
+                package_path
+            ], stdout=subprocess.PIPE, stderr=subprocess.PIPE) as process:
+                for line in iter(lambda: process.stdout.readline(), ""):
+                    if not line:
+                        break
+                    line = unicode(line.rstrip(), "utf-8")
+                    if verbose:
+                        click.echo(line)
+                    else:
+                        if 'already installed' in line:
+                            is_error = True
+                            click.echo(click.style('The package is already installed.', fg='blue'))
+                            break
+                        if '_tmpRPMcache_' in line:
+                            is_error = True
+                            click.echo('{} {}'.format(
+                                click.style('ERROR:', fg='red'), line.replace('(ERROR)', '').strip()), err=True)
+                            break
+                if not is_error and not verbose:
+                    click.echo('{} {}'.format(click.style('Installed successfully:', fg='green'), file_name))
+
+
+@group_psdk.command()
+@click.option('-p', '--package', type=click.STRING, required=True)
+@click.option('-v', '--verbose', is_flag=True)
+def sdk_remove(package, verbose):
+    """Remove package from target."""
+
+    psdks = get_list_psdk_installed()
+
+    if not psdks:
+        click.echo('Aurora Platform SDK not found.')
+        return
+
+    if len(psdks.keys()) != 1:
+        click.echo('Found the installed Aurora Platform SDK:\n{}'
+                   .format(get_string_from_list_numbered(psdks.keys())))
+
+    # Query index
+    r_index = prompt_index(psdks.keys())
+    key = list(psdks.keys())[r_index - 1]
+
+    # Chroot
+    chroot = psdks[key]
+
+    # Check and query root permission
+    check_sudoers_chroot(key)
+
+    # Get psdk targets
+    targets = get_list_targets(chroot)
+
+    if not targets:
+        click.echo('Targets in Aurora Platform SDK not found.')
+        return
+
+    if len(targets) != 1:
+        click.echo('Found targets Aurora Platform SDK:\n{}'
+                   .format(get_string_from_list_numbered(targets)))
+
+    # Query index
+    r_index = prompt_index(targets)
+    target = list(targets)[r_index - 1]
+
+    # Has error
+    is_error = False
+
+    # Run execute
+    with subprocess.Popen([
+        chroot,
+        'sb2',
+        '-t',
+        target,
+        '-m',
+        'sdk-install',
+        '-R',
+        'zypper',
+        'rm',
+        '-y',
+        package
+    ], stdout=subprocess.PIPE, stderr=subprocess.PIPE) as process:
+        for line in iter(lambda: process.stdout.readline(), ""):
+            if not line:
+                break
+            line = unicode(line.rstrip(), "utf-8")
+            if verbose:
+                click.echo(line)
+            else:
+                if 'Nothing to do' in line:
+                    is_error = True
+                    click.echo(click.style('The package not found.', fg='blue'))
+                    break
+        if not is_error and not verbose:
+            click.echo('{} {}'.format(click.style('Remove successfully:', fg='green'), package))
