@@ -55,8 +55,8 @@ def start():
 
 
 @group_emulator.command()
-@click.option('-e', '--exec_command', type=click.STRING, required=True)
-def command(exec_command):
+@click.option('-e', '--execute', type=click.STRING, required=True)
+def command(execute):
     """Execute the command on the emulator."""
 
     # Get emulator client
@@ -68,7 +68,7 @@ def command(exec_command):
         exit(1)
 
     # Run command
-    ssh_stdout, ssh_stderr = ssh_client_exec_command(client, exec_command)
+    ssh_stdout, ssh_stderr = ssh_client_exec_command(client, execute)
 
     # Show output
     if ssh_stdout:
@@ -78,8 +78,8 @@ def command(exec_command):
 
 
 @group_emulator.command()
-@click.option('-f', '--file_path', multiple=True, type=click.STRING, required=True)
-def upload(file_path):
+@click.option('-f', '--path', multiple=True, type=click.STRING, required=True)
+def upload(path):
     """Upload file to ~/Download directory emulator."""
 
     # Get emulator client
@@ -93,7 +93,7 @@ def upload(file_path):
     # Folder upload
     upload_path = '/home/defaultuser/Downloads'
 
-    for file in file_path:
+    for file in path:
         # Get full path
         package_path = get_full_path_file(file)
         # Get file name
@@ -107,9 +107,9 @@ def upload(file_path):
 
 
 @group_emulator.command()
-@click.option('-f', '--file-path', multiple=True, type=click.STRING, required=True)
+@click.option('-f', '--path', multiple=True, type=click.STRING, required=True)
 @click.option('-v', '--verbose', is_flag=True)
-def install(file_path, verbose):
+def install(path, verbose):
     """Install RPM package on emulator."""
 
     # Get emulator client
@@ -123,7 +123,7 @@ def install(file_path, verbose):
     # Folder upload
     upload_path = '/home/defaultuser/Downloads'
 
-    for package in file_path:
+    for package in path:
         # Get full path
         package_path = get_full_path_file(package, 'rpm')
         # Get file name

@@ -42,7 +42,7 @@ def available():
 
 
 @group_flutter.command()
-@click.option('-l', '--latest', is_flag=True, help="Latest tag")
+@click.option('-l', '--latest', is_flag=True, help="Select latest version")
 def install(latest):
     """Install Flutter SDK for Aurora OS."""
 

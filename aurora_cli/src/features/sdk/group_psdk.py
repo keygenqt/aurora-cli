@@ -47,18 +47,21 @@ def available():
 
 
 @group_psdk.command()
-def install():
+@click.option('-l', '--latest', is_flag=True, help="Select latest version")
+def install(latest):
     """Download and install Aurora Platform SDK."""
 
     # Load versions
     versions = get_map_versions(TypeSDK.PSDK)
 
-    click.echo('Select index Aurora Platform SDK versions:\n{}'
-               .format(get_string_from_list_numbered(versions.keys())))
-
-    # Query index
-    index = prompt_index(versions.keys())
-    key = list(versions.keys())[index - 1]
+    if not latest:
+        # Query index
+        click.echo('Select index Aurora Platform SDK versions:\n{}'
+                   .format(get_string_from_list_numbered(versions.keys())))
+        index = prompt_index(versions.keys())
+        key = list(versions.keys())[index - 1]
+    else:
+        key = list(versions.keys())[0]
 
     # Variables
     url = '{}{}'.format(versions[key], key)
@@ -303,12 +306,12 @@ def sudoers():
 
 @group_psdk.command()
 @click.pass_context
-@click.option('-p', '--package-path', multiple=True, type=click.STRING, required=True)
+@click.option('-p', '--path', multiple=True, type=click.STRING, required=True)
 @click.option('-i', '--index', type=click.INT)
 @click.option('-k', '--key-path', type=click.STRING)
 @click.option('-c', '--cert-path', type=click.STRING)
 @click.option('-v', '--verbose', is_flag=True)
-def sign(ctx, package_path, index, key_path, cert_path, verbose):
+def sign(ctx, path, index, key_path, cert_path, verbose):
     """Sign (with re-sign) RPM package."""
 
     psdks = get_list_psdk_installed()
@@ -348,7 +351,7 @@ def sign(ctx, package_path, index, key_path, cert_path, verbose):
     # Check and query root permission
     check_sudoers_chroot(key_psdk)
 
-    for package in package_path:
+    for package in path:
         # Get full path
         package_path = get_full_path_file(package, 'rpm')
         # Check exist and rpm extension
@@ -392,9 +395,9 @@ def sign(ctx, package_path, index, key_path, cert_path, verbose):
 
 
 @group_psdk.command()
-@click.option('-p', '--package-path', multiple=True, type=click.STRING, required=True)
+@click.option('-p', '--path', multiple=True, type=click.STRING, required=True)
 @click.option('-v', '--verbose', is_flag=True)
-def validate(package_path, verbose):
+def validate(path, verbose):
     """Validate RPM packages."""
 
     psdks = get_list_psdk_installed()
@@ -432,7 +435,7 @@ def validate(package_path, verbose):
     r_index = prompt_index(targets)
     target = list(targets)[r_index - 1]
 
-    for package in package_path:
+    for package in path:
         # Get full path
         package_path = get_full_path_file(package, 'rpm')
         # Has error

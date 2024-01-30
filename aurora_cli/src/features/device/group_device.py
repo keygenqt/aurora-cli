@@ -48,16 +48,16 @@ def available(ctx):
 
 @group_device.command()
 @click.pass_context
-@click.option('-e', '--exec_command', type=click.STRING, required=True)
+@click.option('-e', '--execute', type=click.STRING, required=True)
 @click.option('-i', '--index', type=click.INT)
-def command(ctx, exec_command, index):
+def command(ctx, execute, index):
     """Execute the command on the device."""
 
     # Get device client
     device, client = prompt_ssh_client_device(ctx, index)
 
     # Run command
-    ssh_stdout, ssh_stderr = ssh_client_exec_command(client, exec_command)
+    ssh_stdout, ssh_stderr = ssh_client_exec_command(client, execute)
 
     # Show output
     if ssh_stdout:
@@ -68,9 +68,9 @@ def command(ctx, exec_command, index):
 
 @group_device.command()
 @click.pass_context
-@click.option('-f', '--file_path', multiple=True, type=click.STRING, required=True)
+@click.option('-f', '--path', multiple=True, type=click.STRING, required=True)
 @click.option('-i', '--index', type=click.INT)
-def upload(ctx, file_path, index):
+def upload(ctx, path, index):
     """Upload file to ~/Download directory device."""
 
     # Get device client
@@ -79,7 +79,7 @@ def upload(ctx, file_path, index):
     # Folder upload
     upload_path = '/home/defaultuser/Downloads'
 
-    for file in file_path:
+    for file in path:
         # Get full path
         package_path = get_full_path_file(file)
         # Get file name
@@ -94,11 +94,11 @@ def upload(ctx, file_path, index):
 
 @group_device.command()
 @click.pass_context
-@click.option('-f', '--file-path', multiple=True, type=click.STRING, required=True)
+@click.option('-f', '--path', multiple=True, type=click.STRING, required=True)
 @click.option('-i', '--index', type=click.INT)
 @click.option('-s', '--devel-su', type=click.STRING)
 @click.option('-v', '--verbose', is_flag=True)
-def install(ctx, file_path, index, devel_su, verbose):
+def install(ctx, path, index, devel_su, verbose):
     """Install RPM package on device."""
 
     # Get device client
@@ -111,7 +111,7 @@ def install(ctx, file_path, index, devel_su, verbose):
     # Folder upload
     upload_path = '/home/defaultuser/Downloads'
 
-    for package in file_path:
+    for package in path:
         # Get full path
         package_path = get_full_path_file(package, 'rpm')
         # Get file name

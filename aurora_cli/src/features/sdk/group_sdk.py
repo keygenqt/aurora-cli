@@ -20,9 +20,9 @@ import subprocess
 
 import click
 
+from aurora_cli.src.base.sdk import get_sdk_installed
 from aurora_cli.src.base.utils import get_string_from_list, get_string_from_list_numbered, prompt_index
 from aurora_cli.src.features.sdk.impl.download import multi_download
-from aurora_cli.src.base.sdk import get_sdk_installed
 from aurora_cli.src.features.sdk.impl.urls import get_map_versions, TypeSDK, get_urls_on_html
 
 
@@ -55,17 +55,22 @@ def installed():
 
 
 @group_sdk.command()
+@click.option('-l', '--latest', is_flag=True, help="Select latest version")
 @click.option('-t', '--install-type', default='offline', type=click.Choice(['offline', 'online'], case_sensitive=False))
-def install(install_type):
+def install(latest, install_type):
     """Download and run install Aurora SDK."""
 
     versions = get_map_versions(TypeSDK.SDK)
 
-    click.echo('Select index Aurora SDK versions:\n{}'
-               .format(get_string_from_list_numbered(versions.keys())))
+    if not latest:
+        # Query index
+        click.echo('Select index Aurora SDK versions:\n{}'
+                   .format(get_string_from_list_numbered(versions.keys())))
+        index = prompt_index(versions.keys())
+        key = list(versions.keys())[index - 1]
+    else:
+        key = list(versions.keys())[0]
 
-    index = prompt_index(versions.keys())
-    key = list(versions.keys())[index - 1]
     url = '{}{}'.format(versions[key], key)
 
     links = get_urls_on_html(url)
