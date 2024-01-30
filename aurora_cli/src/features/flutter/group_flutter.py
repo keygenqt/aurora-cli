@@ -141,6 +141,9 @@ def remove():
     key = list(flutters.keys())[index - 1]
     path = flutters[key]
 
+    if not click.confirm('Do you want to continue?\nThe path folder will be deleted: {}'.format(path)):
+        return
+
     # Remove folder
     shutil.rmtree(path)
 
