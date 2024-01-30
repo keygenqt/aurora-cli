@@ -79,5 +79,9 @@ def _multi_progress(total_length, files):
                 if os.path.isfile(file):
                     file_stats = os.stat(file)
                     file_size += file_stats.st_size
-            bar(file_size - download_length)
+            add_length = file_size - download_length
+            if total_length < add_length + bar.current:
+                bar(total_length - bar.current)
+                break
+            bar(add_length)
             download_length = file_size

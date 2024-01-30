@@ -12,14 +12,18 @@ An application that simplifies the life of an application developer for the Auro
     - available - Get available version Aurora SDK.
     - install - Download and run install Aurora SDK.
     - installed - Get version installed Aurora SDK.
+    - tool - Run maintenance tool (remove, update).
 * psdk
     - available - Get available version Aurora Platform SDK.
     - install - Download and install Aurora Platform SDK.
     - installed - Get installed list Aurora Platform SDK.
     - remove - Remove installed Aurora Platform SDK.
-    - sudoers - Add sudoers permissions Aurora Platform SDK.
+    - sudoers - Add/Del sudoers permissions Aurora Platform SDK.
     - sign - Sign (with re-sign) RPM package.
     - validate - Validate RPM packages.
+    - sdk-install - Install RPM packages to target.
+    - sdk-remove - Remove package from target.
+    - list-targets - Get list targets Aurora Platform SDK.
 * flutter
     - available - Get available versions flutter.
     - install - Install Flutter SDK for Aurora OS.
