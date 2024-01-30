@@ -28,7 +28,6 @@ def multi_download(urls):
     downloads = {}
     files = []
     total_length = 0
-    click.echo('')
 
     # Get size files and check exist
     for url in urls:

@@ -17,6 +17,7 @@ import os
 import shlex
 import stat
 import subprocess
+from pathlib import Path
 
 import click
 
@@ -60,6 +61,12 @@ def installed():
 def install(latest, install_type):
     """Download and run install Aurora SDK."""
 
+    version, _ = get_sdk_installed()
+
+    if version:
+        click.echo(click.style('Aurora SDK already installed, only install one at a time.', fg='red'), err=True)
+        exit(0)
+
     versions = get_map_versions(TypeSDK.SDK)
 
     if not latest:
@@ -82,6 +89,26 @@ def install(latest, install_type):
     if files:
         os.chmod(files[0], os.stat(files[0]).st_mode | stat.S_IEXEC)
         cmds = shlex.split(files[0])
-        subprocess.Popen(cmds, start_new_session=True)
+        subprocess.Popen(cmds, start_new_session=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     else:
         click.echo(click.style('Error: Something went wrong.', fg='red'), err=True)
+
+
+@group_sdk.command()
+def tool():
+    """Run maintenance tool (remove, update)."""
+
+    _, path = get_sdk_installed()
+
+    if not path:
+        click.echo('Aurora SDK not found.')
+        return
+
+    path = Path(path) / 'SDKMaintenanceTool'
+
+    os.chmod(path, os.stat(path).st_mode | stat.S_IEXEC)
+    cmds = shlex.split(str(path))
+    subprocess.Popen(cmds, start_new_session=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+
+

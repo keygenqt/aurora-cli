@@ -70,6 +70,7 @@ def install(latest):
     files_url = ['{}{}'.format(url, item) for item in files]
 
     # Download files
+    click.echo('')
     files = multi_download(files_url)
 
     # Find archive
