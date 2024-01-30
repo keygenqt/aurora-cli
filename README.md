@@ -105,7 +105,7 @@ pip install -r requirements.txt
 deactivate
 
 # Add alias to ~/.bashrc
-alias aurora-cli='cli() { (cd ~/.local/opt/aurora-cli && .venv/bin/python -m aurora_cli "$@"); } && cli'
+alias aurora-cli='_cli() { (cd ~/.local/opt/aurora-cli && .venv/bin/python -m aurora_cli "$@"); } && _cli'
 
 # Update environment
 source ~/.bashrc
