@@ -275,7 +275,8 @@ def remove():
 
 
 @group_psdk.command()
-def sudoers():
+@click.option('-d', '--delete', is_flag=True, default=False, required=True, help="Enable remove sudoers permissions.")
+def sudoers(delete):
     """Add sudoers permissions Aurora Platform SDK."""
 
     psdks = get_list_psdk_installed()
@@ -293,15 +294,32 @@ def sudoers():
     key = list(psdks.keys())[index - 1]
     psdk_dir = os.path.dirname(psdks[key])
 
-    # Update /etc/sudoers.d/mer-sdk-chroot
-    insert = MER_SDK_CHROOT_DATA.format(username=getpass.getuser(), psdk_dir=psdk_dir)
-    path = update_file_lines(MER_SDK_CHROOT, key, insert=insert)
-    move_root_file(path, MER_SDK_CHROOT)
+    if delete:
+        # Clear /etc/sudoers.d/mer-sdk-chroot
+        path = update_file_lines(MER_SDK_CHROOT, key)
+        move_root_file(path, MER_SDK_CHROOT)
 
-    # Update /etc/sudoers.d/sdk-chroot
-    insert = SDK_CHROOT_DATA.format(username=getpass.getuser(), psdk_dir=psdk_dir)
-    path = update_file_lines(SDK_CHROOT, key, insert=insert)
-    move_root_file(path, SDK_CHROOT)
+        # Clear /etc/sudoers.d/sdk-chroot
+        path = update_file_lines(SDK_CHROOT, key)
+        move_root_file(path, SDK_CHROOT)
+
+        click.echo('{}{}{}'.format(click.style('Delete for "', fg='green'),
+                                   key,
+                                   click.style('" sudoers permissions successfully!', fg='green')))
+    else:
+        # Update /etc/sudoers.d/mer-sdk-chroot
+        insert = MER_SDK_CHROOT_DATA.format(username=getpass.getuser(), psdk_dir=psdk_dir)
+        path = update_file_lines(MER_SDK_CHROOT, key, insert=insert)
+        move_root_file(path, MER_SDK_CHROOT)
+
+        # Update /etc/sudoers.d/sdk-chroot
+        insert = SDK_CHROOT_DATA.format(username=getpass.getuser(), psdk_dir=psdk_dir)
+        path = update_file_lines(SDK_CHROOT, key, insert=insert)
+        move_root_file(path, SDK_CHROOT)
+
+        click.echo('{}{}{}'.format(click.style('Added for "', fg='green'),
+                                   key,
+                                   click.style('" sudoers permissions successfully!', fg='green')))
 
 
 @group_psdk.command()
