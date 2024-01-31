@@ -20,7 +20,7 @@ def get_app_name():
 
 
 def get_app_version():
-    return '2.0.12'
+    return '2.1.0'
 
 
 def get_default_config():

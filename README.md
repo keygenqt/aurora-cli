@@ -72,7 +72,7 @@ This method is as simple as possible - the entire application is in a pyz file.
 mkdir ~/.local/opt
 
 # Download
-wget -x https://github.com/keygenqt/aurora-cli/raw/main/builds/aurora-cli-2.0.12.pyz \
+wget -x https://github.com/keygenqt/aurora-cli/raw/main/builds/aurora-cli-2.1.0.pyz \
   -O ~/.local/opt/aurora-cli.pyz
 
 # Add alias to ~/.bashrc
