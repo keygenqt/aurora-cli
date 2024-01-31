@@ -1,4 +1,4 @@
-# Aurora CLI 2.0
+# Aurora CLI
 
 ![picture](https://github.com/keygenqt/aurora-cli/blob/main/data/banner_small.png?raw=true)
 
