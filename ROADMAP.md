@@ -2,8 +2,6 @@
 
 A small plan for the future, it will be supplemented and adjusted.
 
-* sdk
-    - Remove installed Aurora SDK.
 * device
     - Search for Wi-Fi devices on the local network.
 * emulator
