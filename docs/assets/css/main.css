@@ -1,0 +1,35 @@
+.md-grid {
+    max-width: 1300px;
+}
+
+.md-header__button.md-logo img, .md-header__button.md-logo svg {
+    background: white;
+    border-radius: 50%;
+    padding: 3px;
+}
+
+:root {
+  --md-primary-fg-color: #42735F;
+  --md-primary-bg-color: white;
+}
+
+[data-md-color-scheme="default"] {
+  --md-typeset-a-color: #1f4037;
+}
+
+[data-md-color-scheme="slate"] {
+    --md-primary-fg-color: #1f4037;
+    --md-typeset-a-color: #99f2c8;
+}
+
+[title="Edit this page"] {
+    display: none;
+}
+
+[data-md-component="content"] h1 {
+    display: none;
+}
+
+[data-md-component="content"] h1[id] {
+    display: inherit;
+}

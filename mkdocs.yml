@@ -1,0 +1,83 @@
+site_name: Aurora CLI
+repo_name: Aurora CLI GitHub
+site_dir: docs-static
+site_url: https://github.com/keygenqt/aurora-cli
+repo_url: https://github.com/keygenqt/aurora-cli
+site_description: Makes life easier for developers on Aurora OS.
+
+# Navigation
+nav:
+  - Main:
+      - Index: index.md
+      - Links:
+          - PyPi: https://pypi.org/project/aurora-cli
+          - GitHub: https://github.com/keygenqt/aurora-cli
+          - Versions: https://github.com/keygenqt/aurora-cli/tags
+  - Install:
+      - Index: install/index.md
+      - pip: install/pip.md
+      - pyz: install/pyz.md
+      - source: install/source.md
+  - Using:
+      - Index: using/index.md
+      - Aurora SDK: using/sdk.md
+      - Platform SDK: using/psdk.md
+      - Flutter SDK: using/flutter.md
+      - Devices: using/devices.md
+      - Emulator: using/emulator.md
+
+# Assets
+extra_css:
+  - assets/css/main.css
+
+# Extensions
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+
+# Configuration
+theme:
+  name: 'material'
+  language: 'en'
+  custom_dir: docs/assets
+  favicon: images/favicon.ico
+  icon:
+    logo: custom/icon
+  features:
+    - toc.integrate
+    - content.action.edit
+    - content.code.annotate
+    - content.code.copy
+    - content.tooltips
+    - navigation.footer
+    - navigation.indexes
+    - navigation.sections
+    - navigation.tabs
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+  palette:
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono

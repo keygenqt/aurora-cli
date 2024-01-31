@@ -8,3 +8,6 @@
 /dist/
 /build/
 .pypirc
+
+# MkDocs
+docs-static
