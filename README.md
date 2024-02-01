@@ -1,16 +1,16 @@
 # Aurora CLI
 
+### Subscribe and like! <img src="https://github.com/keygenqt/aurora-cli/blob/main/data/star.gif" width="16px"/>
+
 ![picture](https://github.com/keygenqt/aurora-cli/blob/main/data/banner_round.png?raw=true)
 
 [![PyPI version](https://badge.fury.io/py/aurora-cli.svg)](https://badge.fury.io/py/aurora-cli)
 
 An application that simplifies the life of an application developer for the Aurora OS.
 
-### Subscribe and like! <img src="https://github.com/keygenqt/aurora-cli/blob/main/data/star.gif" width="16px"/>
-
 <p>
     <a href="https://keygenqt.github.io/aurora-cli">
-        <img src="data/see_more.gif" width="150px"/>
+        <img src="data/see_more.gif" width="170px"/>
     </a>
 </p>
 
