@@ -8,7 +8,7 @@ An application that simplifies the life of an application developer for the Auro
 
 <p>
     <a href="https://keygenqt.github.io/aurora-cli">
-        <img src="data/common/see_more.gif" width="200px"/>
+        <img src="data/see_more.gif" width="200px"/>
     </a>
 </p>
 
