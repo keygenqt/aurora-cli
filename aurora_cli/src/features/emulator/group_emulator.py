@@ -78,7 +78,7 @@ def command(execute):
 
 
 @group_emulator.command()
-@click.option('-f', '--path', multiple=True, type=click.STRING, required=True)
+@click.option('-p', '--path', multiple=True, type=click.STRING, required=True)
 def upload(path):
     """Upload file to ~/Download directory emulator."""
 
@@ -107,7 +107,7 @@ def upload(path):
 
 
 @group_emulator.command()
-@click.option('-f', '--path', multiple=True, type=click.STRING, required=True)
+@click.option('-p', '--path', multiple=True, type=click.STRING, required=True)
 @click.option('-v', '--verbose', is_flag=True)
 def install(path, verbose):
     """Install RPM package on emulator."""

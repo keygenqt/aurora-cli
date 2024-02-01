@@ -2,17 +2,27 @@
 
 This method is as simple as possible - the entire application is in a pyz file.
 
+### Create folder
+
 ```shell
-# Create folder
 mkdir ~/.local/opt
+```
 
-# Download
-wget -x https://github.com/keygenqt/aurora-cli/raw/main/builds/aurora-cli-2.1.0.pyz \
+### Download
+
+```shell
+wget -x https://github.com/keygenqt/aurora-cli/raw/main/builds/aurora-cli-2.1.1.pyz \
   -O ~/.local/opt/aurora-cli.pyz
+```
 
-# Add alias to ~/.bashrc
+### Add alias to `~/.bashrc`
+
+```shell
 alias aurora-cli='python3 ~/.local/opt/aurora-cli.pyz'
+```
 
-# Update environment
+### Update environment
+
+```shell
 source ~/.bashrc
 ```

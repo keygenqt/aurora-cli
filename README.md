@@ -43,9 +43,7 @@ An application that simplifies the life of an application developer for the Auro
     - install - Install RPM package on emulator.
     - run - Run package on emulator in container.
 
-## Usage
-
-### Install dependencies
+## Install dependencies
 
 ```shell
 # Update
@@ -55,64 +53,10 @@ sudo apt update
 sudo apt install python3-pip git git-lfs curl tar unzip bzip2
 ```
 
-### Method 1
-
-The standard way to distribute python packages.
+## Install app
 
 ```shell
 python3 -m pip install aurora-cli
-```
-
-### Method 2
-
-This method is as simple as possible - the entire application is in a pyz file.
-
-```shell
-# Create folder
-mkdir ~/.local/opt
-
-# Download
-wget -x https://github.com/keygenqt/aurora-cli/raw/main/builds/aurora-cli-2.1.0.pyz \
-  -O ~/.local/opt/aurora-cli.pyz
-
-# Add alias to ~/.bashrc
-alias aurora-cli='python3 ~/.local/opt/aurora-cli.pyz'
-
-# Update environment
-source ~/.bashrc
-```
-
-### Method 3
-
-This method is suitable for development.
-
-```shell
-# Create folder
-mkdir -p ~/.local/opt/aurora-cli
-
-# Clone project
-git clone https://github.com/keygenqt/aurora-cli.git ~/.local/opt/aurora-cli
-
-# Open folder project
-cd ~/.local/opt/aurora-cli
-
-# Init environment
-virtualenv .venv
-
-# Open environment
-source .venv/bin/activate
-
-# Install requirements
-pip install -r requirements.txt
-
-# Deactivate environment
-deactivate
-
-# Add alias to ~/.bashrc
-alias aurora-cli='_cli() { (cd ~/.local/opt/aurora-cli && .venv/bin/python -m aurora_cli "$@"); } && _cli'
-
-# Update environment
-source ~/.bashrc
 ```
 
 ### License

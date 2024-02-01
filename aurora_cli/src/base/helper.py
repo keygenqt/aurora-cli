@@ -20,11 +20,11 @@ def get_app_name():
 
 
 def get_app_version():
-    return '2.1.0'
+    return '2.1.1'
 
 
 def get_default_config():
-    return """## Application configuration file Aurora CLI 2.0
+    return """## Application configuration file Aurora CLI
 ## Version config: 0.0.1
 
 ## Path to sign keys

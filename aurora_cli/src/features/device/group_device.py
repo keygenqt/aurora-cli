@@ -68,7 +68,7 @@ def command(ctx, execute, index):
 
 @group_device.command()
 @click.pass_context
-@click.option('-f', '--path', multiple=True, type=click.STRING, required=True)
+@click.option('-p', '--path', multiple=True, type=click.STRING, required=True)
 @click.option('-i', '--index', type=click.INT)
 def upload(ctx, path, index):
     """Upload file to ~/Download directory device."""
@@ -94,7 +94,7 @@ def upload(ctx, path, index):
 
 @group_device.command()
 @click.pass_context
-@click.option('-f', '--path', multiple=True, type=click.STRING, required=True)
+@click.option('-p', '--path', multiple=True, type=click.STRING, required=True)
 @click.option('-i', '--index', type=click.INT)
 @click.option('-s', '--devel-su', type=click.STRING)
 @click.option('-v', '--verbose', is_flag=True)

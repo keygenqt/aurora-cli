@@ -13,18 +13,19 @@ nav:
           - PyPi: https://pypi.org/project/aurora-cli
           - GitHub: https://github.com/keygenqt/aurora-cli
           - Versions: https://github.com/keygenqt/aurora-cli/tags
-  - Install:
-      - Index: install/index.md
-      - pip: install/pip.md
-      - pyz: install/pyz.md
-      - source: install/source.md
   - Using:
       - Index: using/index.md
+      - Configuration: using/configuration.md
       - Aurora SDK: using/sdk.md
       - Platform SDK: using/psdk.md
       - Flutter SDK: using/flutter.md
       - Devices: using/devices.md
       - Emulator: using/emulator.md
+  - Install:
+      - Index: install/index.md
+      - pip: install/pip.md
+      - pyz: install/pyz.md
+      - source: install/source.md
 
 # Assets
 extra_css:
