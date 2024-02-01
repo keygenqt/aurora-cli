@@ -1,6 +1,6 @@
 [![PyPI version](https://badge.fury.io/py/aurora-cli.svg)](https://badge.fury.io/py/aurora-cli)
 
-![picture](https://github.com/keygenqt/aurora-cli/blob/main/data/banner_small.png?raw=true)
+![picture](https://github.com/keygenqt/aurora-cli/blob/main/data/banner_round.png?raw=true)
 
 ### License
 
