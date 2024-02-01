@@ -2,9 +2,9 @@
 
 ### Subscribe and like! <img src="https://github.com/keygenqt/aurora-cli/blob/main/data/star.gif" width="16px"/>
 
-![picture](https://github.com/keygenqt/aurora-cli/blob/main/data/banner_round.png?raw=true)
-
 [![PyPI version](https://badge.fury.io/py/aurora-cli.svg)](https://badge.fury.io/py/aurora-cli)
+
+![picture](https://github.com/keygenqt/aurora-cli/blob/main/data/banner_round.png?raw=true)
 
 An application that simplifies the life of an application developer for the Aurora OS.
 
