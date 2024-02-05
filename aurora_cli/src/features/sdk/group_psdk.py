@@ -577,6 +577,79 @@ def sdk_install(path, verbose):
 @group_psdk.command()
 @click.option('-p', '--package', type=click.STRING, required=True)
 @click.option('-v', '--verbose', is_flag=True)
+def sdk_search(package, verbose):
+    """Search package in target."""
+
+    psdks = get_list_psdk_installed()
+
+    if not psdks:
+        click.echo('Aurora Platform SDK not found.')
+        return
+
+    if len(psdks.keys()) != 1:
+        click.echo('Found the installed Aurora Platform SDK:\n{}'
+                   .format(get_string_from_list_numbered(psdks.keys())))
+
+    # Query index
+    r_index = prompt_index(psdks.keys())
+    key = list(psdks.keys())[r_index - 1]
+
+    # Chroot
+    chroot = psdks[key]
+
+    # Check and query root permission
+    check_sudoers_chroot(key)
+
+    # Get psdk targets
+    targets = get_list_targets(chroot)
+
+    if not targets:
+        click.echo('Targets in Aurora Platform SDK not found.')
+        return
+
+    if len(targets) != 1:
+        click.echo('Found targets Aurora Platform SDK:\n{}'
+                   .format(get_string_from_list_numbered(targets)))
+
+    # Query index
+    r_index = prompt_index(targets)
+    target = list(targets)[r_index - 1]
+
+    # Has error
+    is_fond = False
+
+    # Run execute
+    with subprocess.Popen([
+        chroot,
+        'sb2',
+        '-t',
+        target,
+        '-R',
+        'zypper',
+        'search',
+        '--installed-only',
+        '-s',
+        package
+    ], stdout=subprocess.PIPE, stderr=subprocess.PIPE) as process:
+        for line in iter(lambda: process.stdout.readline(), ""):
+            if not line:
+                break
+            line = unicode(line.rstrip(), "utf-8")
+            if verbose:
+                click.echo(line)
+            else:
+                if 'i+' in line:
+                    is_fond = True
+                    values = line.split('|')
+                    click.echo(line.replace(values[1], click.style(values[1], fg='blue')))
+
+        if not is_fond and not verbose:
+            click.echo(click.style('The package not found.', fg='blue'))
+
+
+@group_psdk.command()
+@click.option('-p', '--package', type=click.STRING, required=True)
+@click.option('-v', '--verbose', is_flag=True)
 def sdk_remove(package, verbose):
     """Remove package from target."""
 
