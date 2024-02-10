@@ -15,22 +15,22 @@ limitations under the License.
 """
 import click
 
-from aurora_cli.src.base.helper import get_app_name, get_app_version
-from aurora_cli.src.base.conf import Conf
-
-from aurora_cli.src.features.device.group_device import group_device
-from aurora_cli.src.features.emulator.group_emulator import group_emulator
+from aurora_cli.src.features.devices.group_device import group_device
+from aurora_cli.src.features.devices.group_emulator import group_emulator
 from aurora_cli.src.features.flutter.group_flutter import group_flutter
-from aurora_cli.src.features.sdk.group_psdk import group_psdk
+from aurora_cli.src.features.psdk.group_psdk import group_psdk
 from aurora_cli.src.features.sdk.group_sdk import group_sdk
+from aurora_cli.src.support.conf import Conf
 
 
-@click.group()
-@click.version_option(version=get_app_version(), prog_name=get_app_name())
+@click.group(invoke_without_command=True)
+@click.version_option(version=Conf.get_app_version(), prog_name=Conf.get_app_name())
 @click.option('--conf', '-c', default=None, help='Specify config path.', type=click.STRING, required=False)
 @click.pass_context
 def main(ctx, conf):
     ctx.obj = Conf(conf)
+    if not ctx.invoked_subcommand:
+        print(ctx.get_help())
 
 
 main.add_command(group_sdk)

@@ -58,6 +58,16 @@ Add/Del sudoers permissions Aurora Platform SDK.
 aurora-cli psdk sudoers
 ```
 
+### List targets 
+
+Get list targets.
+
+**Example**
+
+```shell
+aurora-cli psdk list-targets
+```
+
 ### Sign 
 
 Sign (with re-sign) RPM package.
@@ -66,9 +76,7 @@ Sign (with re-sign) RPM package.
 
 * `--path (-p)` - Path to RPM package.
 * `--index (-i)` - Keys index from the config.
-* `--key-path (-k)` - You can specify the path to the key, by default it is taken from the config.
-* `--cert-path (-c)` - You can specify the path to the cert, by default it is taken from the config.
-* `--verbose (-v)` - Detailed log output.
+* `--verbose (-v)` - Detailed output.
 
 **Example**
 
@@ -83,7 +91,7 @@ Validate RPM packages.
 **Params**
 
 * `--path (-p)` - Path to RPM package.
-* `--verbose (-v)` - Detailed log output.
+* `--verbose (-v)` - Detailed output.
 
 **Example**
 
@@ -91,43 +99,47 @@ Validate RPM packages.
 aurora-cli psdk validate -p {path}
 ```
 
-### SDK install
+### Package install 
 
 Install RPM packages to target.
 
 **Params**
 
 * `--path (-p)` - Path to RPM package.
-* `--verbose (-v)` - Detailed log output.
+* `--verbose (-v)` - Detailed output.
 
 **Example**
 
 ```shell
-aurora-cli psdk sdk-install -p {path}
+aurora-cli psdk package-install -p {path}
 ```
 
-### SDK remove
+### Package remove 
 
-Remove package from target.
+Remove RPM packages from target.
 
 **Params**
 
 * `--package (-p)` - Package name.
-* `--verbose (-v)` - Detailed log output.
+* `--verbose (-v)` - Detailed output.
 
 **Example**
 
 ```shell
-aurora-cli psdk sdk-remove -p {package name}
+aurora-cli psdk package-remove -p {package.name}
 ```
 
-### List targets
+### Package search 
 
-Get list targets Aurora Platform SDK.
+Search installed RPM packages in target.
+
+**Params**
+
+* `--package (-p)` - Package name.
+* `--verbose (-v)` - Detailed output.
 
 **Example**
 
 ```shell
-aurora-cli psdk list-targets
+aurora-cli psdk package-search -p {package.name}
 ```
-

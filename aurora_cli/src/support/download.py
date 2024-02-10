@@ -22,9 +22,12 @@ import click
 import requests
 from alive_progress import alive_bar
 
+from aurora_cli.src.support.output import echo_stdout
+from aurora_cli.src.support.texts import AppTexts
+
 
 # Download files with progress
-def multi_download(urls):
+def multi_download(urls: []) -> []:
     downloads = {}
     files = []
     total_length = 0
@@ -35,12 +38,12 @@ def multi_download(urls):
         download_path = str(Path.home() / "Downloads" / file_name)
         files.append(download_path)
         if os.path.isfile(download_path):
-            click.echo('Already exists: {}'.format(file_name))
+            echo_stdout(AppTexts.already_exists(file_name))
         else:
             downloads[url] = download_path
             response = requests.head(url)
             total_length += int(response.headers.get('content-length'))
-            click.echo('Download: {}'.format(file_name))
+            echo_stdout(AppTexts.download(file_name))
 
     # Check has downloads files
     if not downloads:
@@ -60,7 +63,7 @@ def multi_download(urls):
 
 
 # Run download file
-def _download(url, file):
+def _download(url: str, file: str):
     with requests.get(url, stream=True) as r:
         r.raise_for_status()
         with open(file, 'wb') as f:
@@ -69,7 +72,7 @@ def _download(url, file):
 
 
 # Show progress
-def _multi_progress(total_length, files):
+def _multi_progress(total_length: int, files: []):
     download_length = 0
     with alive_bar(total_length) as bar:
         while download_length < total_length:

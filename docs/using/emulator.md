@@ -4,20 +4,28 @@
 
 Start emulator.
 
+**Params**
+
+* `--verbose (-v)` - Detailed output.
+
 **Example**
 
 ```shell
 aurora-cli emulator start
 ```
 
-### Available 
+### Screenshot 
 
-Get available emulator from configuration.
+Take screenshot emulator.
+
+**Params**
+
+* `--verbose (-v)` - Detailed output.
 
 **Example**
 
 ```shell
-aurora-cli emulator available
+aurora-cli emulator screenshot
 ```
 
 ### Command 
@@ -27,11 +35,42 @@ Execute the command on the emulator.
 **Params**
 
 * `--execute (-e)` - Command to execute on the emulator.
+* `--verbose (-v)` - Detailed output.
 
 **Example**
 
 ```shell
 aurora-cli emulator command -e 'ls'
+```
+
+### Run 
+
+Run package on emulator in container.
+
+**Params**
+
+* `--package (-p)` - Package name app for run in container.
+* `--verbose (-v)` - Detailed output.
+
+**Example**
+
+```shell
+aurora-cli device run -p {package name}
+```
+
+### Install 
+
+Install RPM package on emulator.
+
+**Params**
+
+* `--path (-p)` - Path to RPM package.
+* `--verbose (-v)` - Detailed output.
+
+**Example**
+
+```shell
+aurora-cli emulator install -p {path}.rpm
 ```
 
 ### Upload 
@@ -48,32 +87,6 @@ Upload file to `~/Download` directory emulator.
 aurora-cli emulator upload -p {path}
 ```
 
-### Install 
 
-Install RPM package on emulator.
 
-**Params**
 
-* `--path (-p)` - Path to RPM package.
-* `--verbose (-v)` - Detailed log output.
-
-**Example**
-
-```shell
-aurora-cli emulator install -p {path}.rpm
-```
-
-### Run 
-
-Run package on emulator in container.
-
-**Params**
-
-* `--package (-p)` - Package name app for run in container.
-* `--verbose (-v)` - Detailed log output.
-
-**Example**
-
-```shell
-aurora-cli device run -p {package name}
-```

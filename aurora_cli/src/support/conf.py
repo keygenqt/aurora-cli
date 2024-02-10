@@ -14,7 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import os
-import pathlib
 from pathlib import Path
 
 import click.exceptions
@@ -22,8 +21,13 @@ import requests
 from yaml import Loader
 from yaml import load
 
-from aurora_cli.src.base.helper import get_default_config
-from aurora_cli.src.base.utils import get_full_path
+from aurora_cli.src.support.helper import get_path_file
+from aurora_cli.src.support.output import echo_stdout
+from aurora_cli.src.support.texts import AppTexts
+
+# Data versions
+APP_NAME = 'aurora-cli'
+APP_VERSION = '2.2.0'
 
 # Default path config
 PATH_CONF = '~/.aurora-cli/configuration.yaml'
@@ -35,51 +39,79 @@ URL_CERT = 'https://developer.auroraos.ru/static/regular_cert.pem'
 
 # Loader configuration yaml
 class Conf:
-    def __init__(self, path):
 
-        self.conf_path = get_full_path(PATH_CONF)
+    @staticmethod
+    def get_app_name():
+        return APP_NAME
 
-        # Get path config
-        if path is not None and os.path.isfile(path) and path.lower().endswith('.yaml'):
-            self.conf_path = Path(path)
+    @staticmethod
+    def get_app_version():
+        return APP_VERSION
+
+    @staticmethod
+    def _get_default_config():
+        return """## Application configuration file Aurora CLI
+## Version config: 0.0.1
+
+## Path to sign keys
+## name - The name you will see in the list
+## key  - Path to the key.pem file
+## cert - Path to the cert.pem file
+keys:
+  - name: Public
+    key: ~/.aurora-cli/keys/regular_key.pem
+    cert: ~/.aurora-cli/keys/regular_cert.pem
+
+## Devices list
+## ip       - Device IP WI-FI or cable connection
+## pass     - SSH password
+## port     - SSH port
+## devel-su - Device root password
+devices:
+  - ip: 192.168.2.15
+    pass: '00000'
+    port: 22
+    devel-su: '00000'
+"""
+
+    @staticmethod
+    def _get_path_conf(path, default):
+
+        path = get_path_file(path, False)
+        default = get_path_file(default, False)
+
+        if path and os.path.isfile(path) and path.lower().endswith('.yaml'):
+            return Path(path)
         else:
-            if not os.path.isfile(self.conf_path):
-                click.echo('{} {}'.format(click.style('Configuration file not found:', fg='red'), self.conf_path))
-                self._create_default_config()
+            if not os.path.isfile(default):
+                Conf._create_default_config(default)
+            return Path(default)
 
-        # Check and download key pairs
-        self._check_key_pairs()
-
-        # Load config
-        with open(self.conf_path, 'rb') as file:
-            self.conf = load(file.read(), Loader=Loader)
-
-    # Create default file configuration
-    def _create_default_config(self):
-        if not click.confirm('\nCreate default configuration file?'):
+    @staticmethod
+    def _create_default_config(path):
+        if not click.confirm(AppTexts.conf_confirm()):
             exit(0)
 
-        path_dir = os.path.dirname(self.conf_path)
+        path_dir = os.path.dirname(path)
 
         # Create dir if not exist
         if not os.path.isdir(path_dir):
-            pathlib.Path(path_dir).mkdir()
+            Path(path_dir).mkdir()
 
         # Write default configuration file
-        with open(self.conf_path, 'w') as file:
-            print(get_default_config(), file=file)
+        with open(path, 'w') as file:
+            print(Conf._get_default_config(), file=file)
 
-        click.echo('\n{} {}\n'.format(
-            click.style('Configuration file created successfully:', fg='green'), self.conf_path))
+        echo_stdout(AppTexts.conf_created_success(path), 2)
 
-    # Check and download key pairs
-    def _check_key_pairs(self):
-        path_dir = Path(os.path.dirname(self.conf_path)) / 'keys'
+    @staticmethod
+    def _check_key_pairs(path: Path):
+        path_dir = Path(os.path.dirname(path)) / 'keys'
         if not path_dir.is_dir():
             # Create a folder immediately to ask 1 time
             path_dir.mkdir()
-            if click.confirm('Public key pairs not found, download them for you?'):
-                click.echo('\nOne second...')
+            if click.confirm(AppTexts.conf_download_keys_confirm()):
+                echo_stdout(AppTexts.loading())
                 # Names file
                 key_name = os.path.basename(URL_KEY)
                 cert_name = os.path.basename(URL_CERT)
@@ -91,27 +123,29 @@ class Conf:
                     file.write(key.content)
                 with open(path_dir / cert_name, 'wb') as file:
                     file.write(cert.content)
+                # Echo info success
+                echo_stdout(AppTexts.conf_download_keys_success(str(path_dir)), 2)
 
-                click.echo(click.style('Public key pairs download successfully.\n', fg='green'))
+    def __init__(self, path):
+        # Get path config
+        self.conf_path = Conf._get_path_conf(path, default=PATH_CONF)
 
-    # Get debug path configuration
-    @staticmethod
-    def _get_path_debug():
-        return Path(os.path.dirname(
-            os.path.dirname(
-                os.path.dirname(
-                    os.path.dirname(
-                        os.path.realpath(__file__)))))) / "configuration.yaml"
+        # Check and download key pairs
+        Conf._check_key_pairs(self.conf_path)
+
+        # Load config
+        with open(self.conf_path, 'rb') as file:
+            self.conf = load(file.read(), Loader=Loader)
 
     # Get config path
-    def get_path(self):
+    def get_path(self) -> Path:
         return self.conf_path
 
     # Get config keys
-    def get_keys(self):
+    def get_keys(self) -> {}:
         keys = {}
         # If empty
-        if not self.conf['keys']:
+        if 'keys' not in self.conf.keys():
             return keys
         # Format keys
         for item in self.conf['keys']:
@@ -124,10 +158,10 @@ class Conf:
         return keys
 
     # Get config devices
-    def get_devices(self):
+    def get_devices(self) -> {}:
         devices = {}
         # If empty
-        if not self.conf['devices']:
+        if 'devices' not in self.conf.keys():
             return devices
         # Format keys
         for item in self.conf['devices']:

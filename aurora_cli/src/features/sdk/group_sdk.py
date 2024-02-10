@@ -21,10 +21,12 @@ from pathlib import Path
 
 import click
 
-from aurora_cli.src.base.sdk import get_sdk_installed
-from aurora_cli.src.base.utils import get_string_from_list, get_string_from_list_numbered, prompt_index
-from aurora_cli.src.features.sdk.impl.download import multi_download
-from aurora_cli.src.features.sdk.impl.urls import get_map_versions, TypeSDK, get_urls_on_html
+from aurora_cli.src.features.sdk.impl.utils import get_sdk_installed_version, get_sdk_folder, get_url_sdk_run
+from aurora_cli.src.support.download import multi_download
+from aurora_cli.src.support.helper import prompt_index
+from aurora_cli.src.support.output import echo_stdout, echo_stderr
+from aurora_cli.src.support.texts import AppTexts
+from aurora_cli.src.support.versions import get_versions_sdk
 
 
 @click.group(name='sdk')
@@ -37,78 +39,75 @@ def group_sdk():
 def available():
     """Get available version Aurora SDK."""
 
-    versions = get_map_versions(TypeSDK.SDK)
+    versions = get_versions_sdk()
 
-    click.echo('Available Aurora SDK versions:\n{}'
-               .format(get_string_from_list(versions.keys())))
+    echo_stdout(AppTexts.sdk_versions(versions))
+
+
+@group_sdk.command()
+@click.option('-l', '--latest', is_flag=True, help='Select latest version')
+@click.option('-t', '--install-type', default='offline', type=click.Choice(['offline', 'online'], case_sensitive=False),
+              help='Select installer type')
+def install(latest: bool, install_type: str):
+    """Download and run install Aurora SDK."""
+
+    version = get_sdk_installed_version()
+
+    if version:
+        echo_stderr(AppTexts.sdk_already_exist(version))
+        exit(1)
+
+    versions = get_versions_sdk()
+
+    echo_stdout(AppTexts.select_versions(versions))
+    echo_stdout(AppTexts.array_indexes(versions), 2)
+
+    # Query index
+    index = prompt_index(versions, 1 if latest else None)
+
+    # Select tag
+    version = versions[index]
+
+    # Get url path
+    installer_url = get_url_sdk_run(version, install_type)
+
+    if not installer_url:
+        echo_stderr(AppTexts.sdk_not_found())
+
+    # Download file installer
+    installer_path = multi_download([installer_url])[0]
+
+    # Run installer
+    os.chmod(installer_path, os.stat(installer_path).st_mode | stat.S_IEXEC)
+    cmds = shlex.split(installer_path)
+    subprocess.Popen(cmds, start_new_session=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
 @group_sdk.command()
 def installed():
     """Get version installed Aurora SDK."""
 
-    version, _ = get_sdk_installed()
+    version = get_sdk_installed_version()
 
     if version:
-        click.echo(version)
+        echo_stdout(AppTexts.sdk_version(version))
     else:
-        click.echo('Aurora SDK not found.')
-
-
-@group_sdk.command()
-@click.option('-l', '--latest', is_flag=True, help="Select latest version")
-@click.option('-t', '--install-type', default='offline', type=click.Choice(['offline', 'online'], case_sensitive=False))
-def install(latest, install_type):
-    """Download and run install Aurora SDK."""
-
-    version, _ = get_sdk_installed()
-
-    if version:
-        click.echo(click.style('Aurora SDK already installed, only install one at a time.', fg='red'), err=True)
-        exit(0)
-
-    versions = get_map_versions(TypeSDK.SDK)
-
-    if not latest:
-        # Query index
-        click.echo('Select index Aurora SDK versions:\n{}'
-                   .format(get_string_from_list_numbered(versions.keys())))
-        index = prompt_index(versions.keys())
-        key = list(versions.keys())[index - 1]
-    else:
-        key = list(versions.keys())[0]
-
-    url = '{}{}'.format(versions[key], key)
-
-    links = get_urls_on_html(url)
-    files = [item for item in links if 'run' in item and install_type in item]
-    files_url = ['{}{}'.format(url, item) for item in files]
-
-    files = multi_download(files_url)
-
-    if files:
-        os.chmod(files[0], os.stat(files[0]).st_mode | stat.S_IEXEC)
-        cmds = shlex.split(files[0])
-        subprocess.Popen(cmds, start_new_session=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    else:
-        click.echo(click.style('Error: Something went wrong.', fg='red'), err=True)
+        echo_stderr(AppTexts.sdk_not_found())
 
 
 @group_sdk.command()
 def tool():
     """Run maintenance tool (remove, update)."""
 
-    _, path = get_sdk_installed()
+    folder = get_sdk_folder()
 
-    if not path:
-        click.echo('Aurora SDK not found.')
-        return
+    if not folder:
+        echo_stderr(AppTexts.sdk_not_found())
+        exit(1)
 
-    path = Path(path) / 'SDKMaintenanceTool'
+    path = Path(folder) / 'SDKMaintenanceTool'
 
+    # Run maintenance tool
     os.chmod(path, os.stat(path).st_mode | stat.S_IEXEC)
     cmds = shlex.split(str(path))
     subprocess.Popen(cmds, start_new_session=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-
-
-

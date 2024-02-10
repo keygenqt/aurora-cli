@@ -16,18 +16,21 @@ limitations under the License.
 import os
 from pathlib import Path
 
-import click
+from aurora_cli.src.support.helper import get_first_or_none, check_home_folder
 
 
-# Get installed sdk
-def get_sdk_installed():
-    folders = [folder for folder in os.listdir(Path.home()) if
-               os.path.isdir(Path.home() / folder) and 'Aurora' in folder and os.path.isfile(
-                   Path.home() / folder / 'sdk-release')]
-    if folders:
-        with open(Path.home() / folders[0] / 'sdk-release') as f:
-            return [
-                'Aurora SDK: {}'.format(f.readline().strip().split('=')[1].replace('-base', '')),
-                str(Path.home() / folders[0])
-            ]
-    return [None, None]
+# Get path Aurora SDK
+def find_folder_sdk() -> Path:
+    return Path.home() / _find_folder_sdks(Path('sdk-release'))
+
+
+# Get path Aurora Platform SDK
+def find_folder_psdk() -> Path:
+    return Path.home() / _find_folder_sdks(Path('sdks') / 'aurora_psdk' / 'sdk-chroot')
+
+
+# Get installed sdk or psdk
+def _find_folder_sdks(contains_file_path: Path) -> []:
+    return get_first_or_none(
+        [d for d in os.listdir(Path.home()) if check_home_folder(d, 'Aurora', str(contains_file_path))]
+    )
