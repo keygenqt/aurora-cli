@@ -72,14 +72,14 @@ class AppTexts(Enum):
 
     @staticmethod
     def command_execute_error(command: str):
-        return (('<red>Command was executed with an error:</red> {}\n<white>'
-                 'For detailed reporting, use the</white> --verbose (-v) <white>flag.</white>')
+        return (('<red>Command was executed with an error:</red> {}\n<cyan>'
+                 'For detailed reporting, use the</cyan> --verbose (-v) <cyan>flag.</cyan>')
                 .format(' {}\n   '.format('\\').join(command.split(' '))))
 
     @staticmethod
     def command_execute_success(command: str):
-        return (('<green>Command was executed without errors:</green>\n{}\n<white>'
-                 'For detailed reporting, use the</white> --verbose (-v) <white>flag.</white>')
+        return (('<green>Command was executed without errors:</green>\n{}\n<cyan>'
+                 'For detailed reporting, use the</cyan> --verbose (-v) <cyan>flag.</cyan>')
                 .format(' {}\n   '.format('\\').join(command.split(' '))))
 
     @staticmethod
@@ -136,7 +136,7 @@ class AppTexts(Enum):
     @staticmethod
     def vm_is_not_running():
         return ('<yellow>Virtual machine is not running.</yellow>\n'
-                '<white>To run, run the command:</white> "aurora-cli emulator start"')
+                '<cyan>To run, run the command:</cyan> "aurora-cli emulator start"')
 
     @staticmethod
     def vm_not_found():
@@ -309,7 +309,7 @@ Good luck!""".format(version=version)
     @staticmethod
     def psdk_sign_keys_not_found():
         return ('<red>Signing keys not found.</red>\n'
-                '<white>Check your config file:</white> "~/.aurora-cli/configuration.yaml"')
+                '<cyan>Check your config file:</cyan> "~/.aurora-cli/configuration.yaml"')
 
     @staticmethod
     def psdk_sign(path: str):
