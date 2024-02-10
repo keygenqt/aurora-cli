@@ -64,7 +64,7 @@ def screenshot(verbose: bool):
             screenshot_dir.mkdir(parents=True, exist_ok=True)
 
         # Screenshot name
-        screenshot_name = 'Screenshot from {}.png'.format(datetime.now().strftime('%Y-%m-%d %H-%M-%S'))
+        screenshot_name = 'Screenshot_from_{}.png'.format(datetime.now().strftime('%Y-%m-%d_%H-%M-%S'))
 
         # Run command for take screenshot
         vb_manage_command(
