@@ -1,11 +1,11 @@
 import setuptools
 
-with open('README.md', 'r') as fh:
+with open('README_PIP.md', 'r') as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name='aurora-cli',
-    version='2.2.0',
+    version='2.2.1',
     author='Vitaliy Zarubin',
     author_email='keygenqt@gmail.com',
     description='An application that simplifies the life of an application developer for the Aurora OS.',
