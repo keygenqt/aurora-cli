@@ -7,6 +7,10 @@ sudo apt update && \
   sudo apt install python3-pip git git-lfs curl tar unzip bzip2
 ```
 
+!!! info
+
+    The application uses `sudo`, if you don't have it installed by default, install it. 
+
 ### Install application
 
 * Method 1 - [pip](pip.md)
