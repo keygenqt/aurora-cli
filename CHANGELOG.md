@@ -1,17 +1,45 @@
-## Updated: 31/01/2024 16:57:48 PM
+
+
+
+## Updated: 10/02/2024 14:39:04 PM
 
 ## Info
 
-- Last tag: 2.1.0
-- Released: 3
+- Last tag: 2.2.0
+- Released: 4
 
 ## Versions
+- Version: 2.2.0 (10/02/2024)
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
 
 
+### HEAD (10/02/2024 14:39:04 PM)
+
+
+### Version: 2.2.0 (10/02/2024)
+
+
+#### Feature
+
+* Add psdk search package. (Vitaliy Zarubin)
+* Add emulator take screenshot. (Vitaliy Zarubin)
+* Add search package in target. (Vitaliy Zarubin)
+* Add documentation. (Vitaliy Zarubin)
+
+#### Change
+
+* Global refactoring. (Vitaliy Zarubin)
+* Reworked output. (Vitaliy Zarubin)
+* Update documentation. (Vitaliy Zarubin)
+
+#### Bug
+
+*None*
+
 ### Version: 2.1.0 (31/01/2024)
+
 
 #### Feature
 
@@ -62,3 +90,4 @@
 #### Bug
 
 *None*
+
