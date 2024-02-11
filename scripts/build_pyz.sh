@@ -4,8 +4,8 @@
 ## Build pyz application
 ########################
 
-APP_NAME=$(grep name setup.py | sed "s/ //g" | sed "s/',//g" | sed "s/name='//g")
-APP_VERSION=$(grep version setup.py | sed "s/ //g" | sed "s/',//g" | sed "s/version='//g")
+APP_NAME=$(grep "APP_NAME = '" aurora_cli/src/support/conf.py  | sed "s/ //g" | sed "s/'//g" | sed "s/APP_NAME=//g")
+APP_VERSION=$(grep "APP_VERSION = '" aurora_cli/src/support/conf.py  | sed "s/ //g" | sed "s/'//g" | sed "s/APP_VERSION=//g")
 
 # Clean old build
 rm -r dist build ./*.egg-info

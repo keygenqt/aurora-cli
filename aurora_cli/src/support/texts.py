@@ -19,6 +19,14 @@ from enum import Enum
 # Application texts
 class AppTexts(Enum):
     @staticmethod
+    def error_dependency_git():
+        return '<red>Application</red> "git" <red>not found, install it.</red>'
+
+    @staticmethod
+    def error_dependency_sudo():
+        return '<red>Application</red> "sudo" <red>not found, install it.</red>'
+
+    @staticmethod
     def devices_not_found():
         return '<red>Devices not found.</red>'
 

@@ -17,7 +17,7 @@ import os
 from pathlib import Path
 
 import requests
-from pyquery import PyQuery as pq
+from bs4 import BeautifulSoup
 
 from aurora_cli.src.support.helper import check_string_regex
 
@@ -49,9 +49,9 @@ def get_url_sdk_folder(version: str) -> str | None:
     url = URL_AURORA_REPO_VERSION.format(version)
     response = requests.get(url)
     if response.status_code == 200:
-        d = pq(response.text)
-        for item in d.items('a'):
-            text = item.text().replace('/', '')
+        soup = BeautifulSoup(response.text, 'html.parser')
+        for item in soup.findAll('a'):
+            text = item.text.replace('/', '')
             if check_string_regex(text, [r'^\d.\d.\d']):
                 versions.append(int(text.replace(version, '').replace('.', '')))
 
@@ -67,9 +67,9 @@ def get_url_sdk_run(version: str, install_type: str) -> str | None:
     url_folder = get_url_sdk_folder(version)
     response = requests.get(url_folder)
     if response.status_code == 200:
-        d = pq(response.text)
-        for item in d.items('a'):
-            text = item.text()
+        soup = BeautifulSoup(response.text, 'html.parser')
+        for item in soup.findAll('a'):
+            text = item.text
             if check_string_regex(text, [r'^AuroraSDK.+linux.+{}.+\d\.run'.format(install_type)]):
                 return '{}/{}'.format(url_folder, text)
     return None

@@ -19,7 +19,7 @@ import subprocess
 from pathlib import Path
 
 import requests
-from pyquery import PyQuery as pq
+from bs4 import BeautifulSoup
 
 from aurora_cli.src.support.helper import check_string_regex, clear_file_line, prompt_index, sudo_request, pc_command
 from aurora_cli.src.support.output import echo_stdout, VerboseType
@@ -68,9 +68,9 @@ def get_url_sdk_folder(version: str) -> str | None:
     url = URL_AURORA_REPO_VERSION.format(version)
     response = requests.get(url)
     if response.status_code == 200:
-        d = pq(response.text)
-        for item in d.items('a'):
-            text = item.text().replace('/', '')
+        soup = BeautifulSoup(response.text, 'html.parser')
+        for item in soup.findAll('a'):
+            text = item.text.replace('/', '')
             if check_string_regex(text, [r'^\d.\d.\d']):
                 versions.append(int(text.replace(version, '').replace('.', '')))
 
@@ -87,9 +87,9 @@ def get_url_psdk_archives(version: str) -> []:
     response = requests.get(url_folder)
     result = []
     if response.status_code == 200:
-        d = pq(response.text)
-        for item in d.items('a'):
-            text = item.text()
+        soup = BeautifulSoup(response.text, 'html.parser')
+        for item in soup.findAll('a'):
+            text = item.text
             if 'md5sum' not in text and 'Aurora_OS' in text and '-pu' not in text:
                 result.append('{}/{}'.format(url_folder, text))
     return result

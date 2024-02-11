@@ -212,3 +212,17 @@ def clear_file_line(file: Path, search: str):
 def sudo_request():
     subprocess.call(['sudo', 'echo'],
                     stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+
+
+# Request sudo permissions
+def check_dependency():
+    try:
+        subprocess.run(['git', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except (Exception,):
+        echo_stderr(AppTexts.error_dependency_git())
+        exit(1)
+    try:
+        subprocess.run(['sudo', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except (Exception,):
+        echo_stderr(AppTexts.error_dependency_sudo())
+        exit(1)

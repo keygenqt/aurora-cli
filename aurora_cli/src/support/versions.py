@@ -1,5 +1,5 @@
 import requests
-from pyquery import PyQuery as pq
+from bs4 import BeautifulSoup
 
 from aurora_cli.src.support.helper import check_string_regex
 from aurora_cli.src.support.output import echo_stdout
@@ -18,9 +18,9 @@ def get_versions_sdk() -> []:
     echo_stdout(AppTexts.loading_server())
     response = requests.get(URL_AURORA_REPO)
     if response.status_code == 200:
-        d = pq(response.text)
-        for item in d.items('a'):
-            text = item.text().replace('/', '')
+        soup = BeautifulSoup(response.text, 'html.parser')
+        for item in soup.findAll('a'):
+            text = item.text.replace('/', '')
             if check_string_regex(text, [r'\d.\d.\d']):
                 versions.append(text)
     versions.reverse()

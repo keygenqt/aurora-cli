@@ -15,12 +15,16 @@ limitations under the License.
 """
 import click
 
-from aurora_cli.src.features.devices.group_device import group_device
-from aurora_cli.src.features.devices.group_emulator import group_emulator
-from aurora_cli.src.features.flutter.group_flutter import group_flutter
-from aurora_cli.src.features.psdk.group_psdk import group_psdk
-from aurora_cli.src.features.sdk.group_sdk import group_sdk
-from aurora_cli.src.support.conf import Conf
+from aurora_cli.src.support.helper import check_dependency
+
+check_dependency()
+
+from aurora_cli.src.features.devices.group_device import group_device  # noqa: E402
+from aurora_cli.src.features.devices.group_emulator import group_emulator  # noqa: E402
+from aurora_cli.src.features.flutter.group_flutter import group_flutter  # noqa: E402
+from aurora_cli.src.features.psdk.group_psdk import group_psdk  # noqa: E402
+from aurora_cli.src.features.sdk.group_sdk import group_sdk  # noqa: E402
+from aurora_cli.src.support.conf import Conf  # noqa: E402
 
 
 @click.group(invoke_without_command=True)

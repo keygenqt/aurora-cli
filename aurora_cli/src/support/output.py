@@ -16,7 +16,7 @@ limitations under the License.
 from enum import Enum
 
 import click
-from pyquery import PyQuery as pq
+from bs4 import BeautifulSoup
 
 
 # Verbose output types
@@ -64,10 +64,10 @@ def echo_line(newlines: int = 1):
 def _colorize_text(text: str) -> str:
     if '<' not in text:
         return text
-    d = pq(text)
+    soup = BeautifulSoup(text, 'html.parser')
     for tag in EchoColors:
-        for item in d.items(tag.value):
+        for item in soup.findAll(tag.value):
             text = text.replace(
-                '<{}>{}</{}>'.format(tag.value, item.text(), tag.value),
-                click.style(item.text(), fg=tag.value))
+                '<{}>{}</{}>'.format(tag.value, item.text, tag.value),
+                click.style(item.text, fg=tag.value))
     return click.style(text, fg='reset')

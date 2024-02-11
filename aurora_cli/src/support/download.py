@@ -64,10 +64,11 @@ def multi_download(urls: []) -> []:
 
 # Run download file
 def _download(url: str, file: str):
-    with requests.get(url, stream=True) as r:
+    session = requests.Session()
+    with session.get(url, stream=True) as r:
         r.raise_for_status()
         with open(file, 'wb') as f:
-            for chunk in r.iter_content(chunk_size=1024):
+            for chunk in r.iter_content(chunk_size=1024*1024):
                 f.write(chunk)
 
 
