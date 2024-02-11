@@ -1,14 +1,15 @@
 
 
 
-## Updated: 12/02/2024 00:41:04 AM
+## Updated: 12/02/2024 01:06:14 AM
 
 ## Info
 
-- Last tag: 2.2.4
-- Released: 5
+- Last tag: 2.2.5
+- Released: 6
 
 ## Versions
+- Version: 2.2.5 (12/02/2024)
 - Version: 2.2.4 (12/02/2024)
 - Version: 2.2.0 (10/02/2024)
 - Version: 2.1.0 (31/01/2024)
@@ -16,8 +17,23 @@
 - Version: 2.0.11 (27/01/2024)
 
 
-### HEAD (12/02/2024 00:41:04 AM)
+### HEAD (12/02/2024 01:06:14 AM)
 
+
+### Version: 2.2.5 (12/02/2024)
+
+
+#### Feature
+
+*None*
+
+#### Change
+
+*None*
+
+#### Bug
+
+* Fix download speed. (Vitaliy Zarubin)
 
 ### Version: 2.2.4 (12/02/2024)
 
