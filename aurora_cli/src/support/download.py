@@ -35,7 +35,15 @@ def multi_download(urls: []) -> []:
     # Get size files and check exist
     for url in urls:
         file_name = os.path.basename(url)
-        download_path = str(Path.home() / "Downloads" / file_name)
+
+        # Get downloads dir
+        download_dir = Path.home() / "Загрузки"
+        if not download_dir.is_dir():
+            download_dir = Path.home() / "Downloads"
+            if not download_dir.is_dir():
+                download_dir.mkdir(parents=True, exist_ok=True)
+
+        download_path = str(download_dir / file_name)
         files.append(download_path)
         if os.path.isfile(download_path):
             echo_stdout(AppTexts.already_exists(file_name))
@@ -64,11 +72,10 @@ def multi_download(urls: []) -> []:
 
 # Run download file
 def _download(url: str, file: str):
-    session = requests.Session()
-    with session.get(url, stream=True) as r:
+    with requests.get(url, stream=True) as r:
         r.raise_for_status()
         with open(file, 'wb') as f:
-            for chunk in r.iter_content(chunk_size=1024*1024):
+            for chunk in r.iter_content(chunk_size=1024):
                 f.write(chunk)
 
 
