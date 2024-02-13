@@ -16,10 +16,12 @@ limitations under the License.
 import os
 import re
 import subprocess
+from datetime import datetime
 from pathlib import Path
 from typing import Callable
 
 import click
+import requests
 from cffi.backend_ctypes import unicode
 
 from aurora_cli.src.support.output import echo_stderr, echo_stdout, VerboseType
@@ -185,8 +187,11 @@ def pc_command(
                     index += 1
 
     except Exception as e:
-        echo_stderr(AppTexts.exec_pc_command_error(str(e)))
-        exit(1)
+        if verbose != VerboseType.none:
+            echo_stderr(AppTexts.exec_pc_command_error(str(e)))
+            exit(1)
+        else:
+            output(str(e), len(result))
 
     if verbose == VerboseType.false:
         if is_error:
@@ -226,3 +231,36 @@ def check_dependency():
     except (Exception,):
         echo_stderr(AppTexts.error_dependency_sudo())
         exit(1)
+    try:
+        subprocess.run(['ffmpeg', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except (Exception,):
+        echo_stderr(AppTexts.error_dependency_ffmpeg())
+        exit(1)
+
+
+# Check file sum
+def check_size_file(size: int, file: Path) -> bool:
+    if size <= 0:
+        return False
+    if file.is_file():
+        file_stats = os.stat(file)
+        if file_stats.st_size == size:
+            return True
+    return False
+
+
+# Get file size by url
+def get_file_size(url: str) -> int:
+    response = requests.head(url)
+    if response.status_code == 200:
+        return int(response.headers.get('content-length'))
+    return -1
+
+
+# Gen file name
+def gen_file_name(before: str, extension: str) -> str:
+    return '{before}{time}.{extension}'.format(
+        before=before,
+        time=datetime.now().strftime('%Y-%m-%d_%H-%M-%S'),
+        extension=extension
+    )

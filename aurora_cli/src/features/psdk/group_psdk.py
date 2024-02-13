@@ -21,11 +21,11 @@ import click
 
 from aurora_cli.src.features.psdk.impl.utils import get_psdk_installed_versions, get_url_psdk_archives, get_psdk_folder, \
     clear_sudoers_psdk, psdk_folder_select, add_sudoers_psdk, get_psdk_chroot, check_sudoers_chroot, psdk_target_select, \
-    get_psdk_targets
+    get_psdk_targets, check_sdk_chroot
 from aurora_cli.src.support.alive_bar.progress_alive_bar import ProgressAliveBar
 from aurora_cli.src.support.download import multi_download
 from aurora_cli.src.support.helper import prompt_index, pc_command, clear_file_line, sudo_request, \
-    check_empty_with_exit, get_path_file, get_path_files
+    check_empty_with_exit, get_path_file, get_path_files, check_size_file, get_file_size
 from aurora_cli.src.support.output import echo_stdout, echo_stderr, VerboseType, echo_line
 from aurora_cli.src.support.texts import AppTexts
 from aurora_cli.src.support.versions import get_versions_sdk
@@ -71,6 +71,20 @@ def install(latest: bool):
 
     # Download if needed
     files = multi_download(archives)
+
+    # Check files size
+    is_error_size = False
+    for index, url in enumerate(archives):
+        if not check_size_file(get_file_size(url), Path(files[index])):
+            if not is_error_size:
+                echo_line()
+            echo_stderr(AppTexts.file_error_size(files[index]))
+            is_error_size = True
+
+    if is_error_size:
+        echo_line()
+        echo_stderr(AppTexts.file_error_size_common())
+        exit(1)
 
     # Find archive
     archive_chroot = [item for item in files if 'Chroot' in item and 'tar.bz2' in item]
@@ -221,15 +235,24 @@ def sudoers(delete):
 
     folder = psdk_folder_select()
 
-    # Get root permissions
-    sudo_request()
-
     if delete:
+        # Check exist sudoers
+        if not check_sdk_chroot(folder):
+            echo_stdout(AppTexts.psdk_sudoers_not_exist_error())
+            exit(0)
+        # Get root permissions
+        sudo_request()
         # Clear sudoers
         clear_sudoers_psdk(folder)
         # Output
         echo_stdout(AppTexts.psdk_clear_sudoers_success(folder.name))
     else:
+        # Check not exist sudoers
+        if check_sdk_chroot(folder):
+            echo_stdout(AppTexts.psdk_sudoers_exist_error())
+            exit(0)
+        # Get root permissions
+        sudo_request()
         # Add sudoers
         add_sudoers_psdk(folder)
         # Output
@@ -320,8 +343,15 @@ def sign(ctx: {}, path: [], index: int, verbose: bool):
 
 @group_psdk.command()
 @click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help='Path to RPM file')
+@click.option('-pr', '--profile', default='regular', type=click.Choice([
+    'regular',
+    'extended',
+    'mdm',
+    'antivirus',
+    'auth',
+], case_sensitive=False), help='Select profile')
 @click.option('-v', '--verbose', is_flag=True, help='Detailed output')
-def validate(path: [], verbose: bool):
+def validate(path: [], profile, verbose: bool):
     """Validate RPM packages."""
 
     folder = psdk_folder_select()
@@ -353,6 +383,8 @@ def validate(path: [], verbose: bool):
             '-m',
             'emulate',
             'rpm-validator',
+            '-p',
+            profile,
             str(path)
         ], VerboseType.true if verbose else VerboseType.false, ['.+ERROR.+'])
 

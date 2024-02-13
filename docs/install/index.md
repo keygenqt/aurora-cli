@@ -4,7 +4,7 @@
 
 ```shell
 sudo apt update && \
-  sudo apt install python3-pip git git-lfs curl tar unzip bzip2
+  sudo apt install python3-pip git git-lfs curl tar unzip bzip2 ffmpeg
 ```
 
 !!! info

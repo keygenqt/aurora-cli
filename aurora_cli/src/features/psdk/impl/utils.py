@@ -121,6 +121,16 @@ def update_permissions_sudoers_for_use(path: Path):
                         stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
 
 
+# Check sdk_chroot if exist - true
+def check_sdk_chroot(folder: Path) -> bool:
+    file = Path(SDK_CHROOT)
+    with open(file, 'r') as file:
+        for line in file:
+            if folder.name in line:
+                return True
+    return False
+
+
 # Add sudoers files psdk by folder name
 def add_sudoers_psdk(folder: Path):
     # Add /etc/sudoers.d/mer-sdk-chroot

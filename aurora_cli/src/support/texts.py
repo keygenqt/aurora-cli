@@ -27,6 +27,10 @@ class AppTexts(Enum):
         return '<red>Application</red> "sudo" <red>not found, install it.</red>'
 
     @staticmethod
+    def error_dependency_ffmpeg():
+        return '<red>Application</red> "ffmpeg" <red>not found, install it.</red>'
+
+    @staticmethod
     def devices_not_found():
         return '<red>Devices not found.</red>'
 
@@ -342,3 +346,49 @@ Good luck!""".format(version=version)
     @staticmethod
     def psdk_target_package_not_found():
         return '<yellow>Package not found.</yellow>'
+
+    @staticmethod
+    def psdk_sudoers_exist_error():
+        return '<yellow>Sudoers already added.</yellow>'
+
+    @staticmethod
+    def psdk_sudoers_not_exist_error():
+        return '<yellow>Sudoers not exist.</yellow>'
+
+    @staticmethod
+    def file_error_size(path: str):
+        return '<red>Do not match size file</red>: {}'.format(path)
+
+    @staticmethod
+    def file_error_size_common():
+        return '<red>An error was found in the files, delete it and try downloading again.</red>'
+
+    @staticmethod
+    def emulator_screenshot_error():
+        return (('<red>Failed to take screenshot.</red>'
+                 '\n<cyan>For detailed reporting, use the</cyan> --verbose (-v) <cyan>flag.</cyan>'))
+
+    @staticmethod
+    def emulator_screenshot_success(path: str):
+        return '<green>Screenshot taken successfully:</green> {}'.format(path)
+
+    @staticmethod
+    def emulator_video_record_start():
+        return '<blue>Video recording started...</blue>'
+
+    @staticmethod
+    def emulator_video_record_convert():
+        return '<blue>Video convert started...</blue>'
+
+    @staticmethod
+    def emulator_video_record_prompt():
+        return 'Press to stop recording'
+
+    @staticmethod
+    def emulator_video_record_start_error():
+        return (('<red>Failed video recording started.</red>'
+                 '\n<cyan>For detailed reporting, use the</cyan> --verbose (-v) <cyan>flag.</cyan>'))
+
+    @staticmethod
+    def emulator_video_record_success(path: str):
+        return '<green>Recording completed successfully:</green> {}'.format(path)

@@ -23,8 +23,8 @@ import click
 
 from aurora_cli.src.features.sdk.impl.utils import get_sdk_installed_version, get_sdk_folder, get_url_sdk_run
 from aurora_cli.src.support.download import multi_download
-from aurora_cli.src.support.helper import prompt_index
-from aurora_cli.src.support.output import echo_stdout, echo_stderr
+from aurora_cli.src.support.helper import prompt_index, check_size_file, get_file_size
+from aurora_cli.src.support.output import echo_stdout, echo_stderr, echo_line
 from aurora_cli.src.support.texts import AppTexts
 from aurora_cli.src.support.versions import get_versions_sdk
 
@@ -76,6 +76,13 @@ def install(latest: bool, install_type: str):
 
     # Download file installer
     installer_path = multi_download([installer_url])[0]
+
+    # Check file size
+    if not check_size_file(get_file_size(installer_url), Path(installer_path)):
+        echo_line()
+        echo_stderr(AppTexts.file_error_size(installer_path))
+        echo_stderr(AppTexts.file_error_size_common())
+        exit(1)
 
     # Run installer
     os.chmod(installer_path, os.stat(installer_path).st_mode | stat.S_IEXEC)
