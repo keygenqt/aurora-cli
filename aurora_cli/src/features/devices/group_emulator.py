@@ -21,6 +21,7 @@ import moviepy.editor as moviepy
 
 from aurora_cli.src.features.devices.impl.common import common_command, common_run, common_install, common_upload
 from aurora_cli.src.features.devices.impl.utils import emulator_ssh_select
+from aurora_cli.src.support.dependency_required import check_dependency_ffmpeg
 from aurora_cli.src.support.helper import gen_file_name, get_path_file
 from aurora_cli.src.support.output import VerboseType, echo_stdout, echo_stderr
 from aurora_cli.src.support.texts import AppTexts
@@ -92,6 +93,10 @@ def screenshot(verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help='Detailed output')
 def recording(convert: bool, verbose: bool):
     """Take screenshot emulator."""
+
+    # Required ffmpeg dependency for convert
+    if convert:
+        check_dependency_ffmpeg()
 
     emulator_name = vm_search_emulator_aurora(verbose)
 

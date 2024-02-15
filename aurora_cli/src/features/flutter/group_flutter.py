@@ -20,6 +20,7 @@ from pathlib import Path
 import click
 from git import Repo
 
+from aurora_cli.src.features.flutter.group_flutter_debug import group_flutter_debug
 from aurora_cli.src.features.flutter.impl.utils import get_list_flutter_installed
 from aurora_cli.src.support.alive_bar.git_progress_alive_bar import GitProgressAliveBar
 from aurora_cli.src.support.helper import prompt_index, clear_file_line
@@ -32,6 +33,10 @@ from aurora_cli.src.support.versions import get_versions_flutter
 def group_flutter():
     """Working with the Flutter SDK for Aurora OS."""
     pass
+
+
+# Add subgroup
+group_flutter.add_command(group_flutter_debug)
 
 
 @group_flutter.command()

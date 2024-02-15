@@ -32,11 +32,12 @@ def get_ssh_client(
         username: str,
         port: int,
         key: Path | str
-):
+) -> SSHClient | None:
     try:
         # Connect
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
         if type(key) is PosixPath:
             client.connect(ip, username=username, key_filename=str(key), timeout=5, port=port)
         else:
@@ -114,3 +115,26 @@ def upload_file_sftp(client: SSHClient, upload_path: str, file_path: str):
     except FileNotFoundError:
         return False
     return True
+
+
+# Upload file
+def download_file_sftp(client: SSHClient, download_path: str, file_path: str) -> str | None:
+    if not client:
+        return None
+    try:
+        # Get file name
+        file_name = os.path.basename(download_path)
+        # Path to file
+        file_path = '{file_path}/{file_name}'.format(
+            file_path=file_path,
+            file_name=file_name
+        )
+        # Create ssh bar
+        bar = ProgressAliveBar(AppTexts.download_success())
+        # Upload file
+        client.open_sftp().get(download_path, file_path, callback=bar.update)
+    except paramiko.ssh_exception.SSHException:
+        return None
+    except FileNotFoundError:
+        return None
+    return file_path

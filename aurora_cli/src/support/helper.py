@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import glob
 import os
 import re
 import subprocess
@@ -96,6 +97,14 @@ def prompt_index(items: [], index: int = None) -> int:
         echo_stdout(AppTexts.select_index_success(result))
 
     return result - 1
+
+
+# Find file in directory
+def find_path_file(extension: str, path: Path) -> Path | None:
+    files = glob.glob(f'{path}/*.{extension}')
+    if files:
+        return Path(files[0])
+    return None
 
 
 # Get full path file
@@ -217,25 +226,6 @@ def clear_file_line(file: Path, search: str):
 def sudo_request():
     subprocess.call(['sudo', 'echo'],
                     stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
-
-
-# Request sudo permissions
-def check_dependency():
-    try:
-        subprocess.run(['git', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    except (Exception,):
-        echo_stderr(AppTexts.error_dependency_git())
-        exit(1)
-    try:
-        subprocess.run(['sudo', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    except (Exception,):
-        echo_stderr(AppTexts.error_dependency_sudo())
-        exit(1)
-    try:
-        subprocess.run(['ffmpeg', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    except (Exception,):
-        echo_stderr(AppTexts.error_dependency_ffmpeg())
-        exit(1)
 
 
 # Check file sum

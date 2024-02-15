@@ -15,20 +15,35 @@ limitations under the License.
 """
 from enum import Enum
 
+from aurora_cli.src.support.dependency import check_dependency_apt
+
 
 # Application texts
 class AppTexts(Enum):
     @staticmethod
     def error_dependency_git():
-        return '<red>Application</red> "git" <red>not found, install it.</red>'
+        return ('<red>Application</red> "git" <red>not found, install it.</red>'
+                + ('\nTry: sudo apt install git' if check_dependency_apt() else ''))
 
     @staticmethod
     def error_dependency_sudo():
-        return '<red>Application</red> "sudo" <red>not found, install it.</red>'
+        return ('<red>Application</red> "sudo" <red>not found, install it.</red>'
+                + ('\nTry: sudo apt install sudo' if check_dependency_apt() else ''))
 
     @staticmethod
     def error_dependency_ffmpeg():
-        return '<red>Application</red> "ffmpeg" <red>not found, install it.</red>'
+        return ('<red>Application</red> "ffmpeg" <red>not found, install it.</red>'
+                + ('\nTry: sudo apt install ffmpeg' if check_dependency_apt() else ''))
+
+    @staticmethod
+    def error_dependency_vscode():
+        return ('<red>Application</red> "vscode" <red>not found, install it.</red>'
+                + ('\nTry: https://code.visualstudio.com/download' if check_dependency_apt() else ''))
+
+    @staticmethod
+    def error_dependency_gdb_multiarch():
+        return ('<red>Application</red> "gdb-multiarch" <red>not found, install it.</red>'
+                + ('\nTry: sudo apt install gdb-multiarch' if check_dependency_apt() else ''))
 
     @staticmethod
     def devices_not_found():
@@ -124,6 +139,10 @@ class AppTexts(Enum):
     @staticmethod
     def upload_success():
         return '<green>Upload successful.</green>'
+
+    @staticmethod
+    def download_success():
+        return '<green>Download successful.</green>'
 
     @staticmethod
     def loading():
@@ -392,3 +411,23 @@ Good luck!""".format(version=version)
     @staticmethod
     def emulator_video_record_success(path: str):
         return '<green>Recording completed successfully:</green> {}'.format(path)
+
+    @staticmethod
+    def gdb_install_vs_extension(ext: str):
+        return '<blue>Installing extension:</blue> {}'.format(ext)
+
+    @staticmethod
+    def gdb_is_not_flutter_aurora_project():
+        return '<red>You must run the initialization</red> "gdb" <red>in the flutter application for Aurora OS.</red>'
+
+    @staticmethod
+    def gdb_flutter_project_read_spec_error():
+        return '<red>Error reading project spec file.</red>'
+
+    @staticmethod
+    def gdb_error_download_bin():
+        return '<red>No application found to launch. Install the debug version before starting.</red>'
+
+    @staticmethod
+    def gdb_configure_confirm():
+        return 'File launch.json will be overwritten, continue?'

@@ -27,10 +27,13 @@ from aurora_cli.src.support.texts import AppTexts
 
 # Data versions
 APP_NAME = 'aurora-cli'
-APP_VERSION = '2.2.5'
+APP_VERSION = '2.3.0'
 
 # Default path config
 PATH_CONF = '~/.aurora-cli/configuration.yaml'
+
+# Temp folder
+PATH_TEMP = '~/.aurora-cli/temp'
 
 # Public key pairs
 URL_KEY = 'https://developer.auroraos.ru/static/regular_key.pem'
@@ -41,15 +44,22 @@ URL_CERT = 'https://developer.auroraos.ru/static/regular_cert.pem'
 class Conf:
 
     @staticmethod
-    def get_app_name():
+    def get_temp_folder() -> str:
+        temp_folder = Path(get_path_file(PATH_TEMP, check_exist=False))
+        if not temp_folder.is_dir():
+            temp_folder.mkdir(parents=True, exist_ok=True)
+        return str(temp_folder)
+
+    @staticmethod
+    def get_app_name() -> str:
         return APP_NAME
 
     @staticmethod
-    def get_app_version():
+    def get_app_version() -> str:
         return APP_VERSION
 
     @staticmethod
-    def _get_default_config():
+    def _get_default_config() -> str:
         return """## Application configuration file Aurora CLI
 ## Version config: 0.0.1
 
@@ -154,7 +164,11 @@ devices:
                 click.echo('{} {}'.format(
                     click.style('The configuration file is filled in incorrectly:', fg='red'), self.conf_path))
                 exit(1)
-            keys[str(item['name'])] = {'key': str(item['key']), 'cert': str(item['cert'])}
+            keys[str(item['name'])] = {
+                'name': str(item['name']),
+                'key': str(item['key']),
+                'cert': str(item['cert']),
+            }
         return keys
 
     # Get config devices
@@ -171,5 +185,9 @@ devices:
                     click.style('The configuration file is filled in incorrectly:', fg='red'), self.conf_path))
                 exit(1)
             devices[str(item['ip'])] = {
-                'pass': str(item['pass']), 'port': str(item['port']), 'devel-su': str(item['devel-su'])}
+                'ip': str(item['ip']),
+                'pass': str(item['pass']),
+                'port': str(item['port']),
+                'devel-su': str(item['devel-su']),
+            }
         return devices

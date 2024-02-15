@@ -48,7 +48,7 @@ def emulator_ssh_select(is_root: bool = False) -> SSHClient:
 def device_ssh_select(
         ctx: {},
         index: int
-) -> []:
+) -> [SSHClient | None, {}]:
     # Get devices
     devices = check_array_with_exit(
         ctx.obj.get_devices(),
@@ -80,12 +80,12 @@ def get_ssh_client_device(
         ip: str,
         port: int,
         password: str
-):
+) -> SSHClient | None:
     return get_ssh_client(ip, 'defaultuser', port, password)
 
 
 # Get ssh client emulator
-def get_ssh_client_emulator(is_root: bool):
+def get_ssh_client_emulator(is_root: bool) -> SSHClient | None:
     path = find_folder_sdk()
     if not path:
         return None

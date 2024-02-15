@@ -15,9 +15,9 @@ limitations under the License.
 """
 import click
 
-from aurora_cli.src.support.helper import check_dependency
+from aurora_cli.src.support.dependency_required import check_dependency_init
 
-check_dependency()
+check_dependency_init()
 
 from aurora_cli.src.features.devices.group_device import group_device  # noqa: E402
 from aurora_cli.src.features.devices.group_emulator import group_emulator  # noqa: E402

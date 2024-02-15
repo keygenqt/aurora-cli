@@ -38,20 +38,8 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### Deactivate environment
+### Run app
 
 ```shell
-deactivate
-```
-
-### Add alias to `~/.bashrc`
-
-```shell
-alias aurora-cli='_cli() { (cd ~/.local/opt/aurora-cli && .venv/bin/python -m aurora_cli "$@"); } && _cli'
-```
-
-### Update environment
-
-```shell
-source ~/.bashrc
+python -m aurora_cli
 ```
