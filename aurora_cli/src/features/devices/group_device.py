@@ -55,7 +55,7 @@ def command(ctx: {}, execute: str, index: int, verbose: bool):
     client, _ = device_ssh_select(ctx, index)
 
     # Run common with emulator function
-    common_command(client, execute, verbose)
+    common_command(client, execute, ctx.obj.get_type_output(verbose))
 
 
 @group_device.command()
@@ -70,7 +70,7 @@ def run(ctx: {}, package: str, index: int, verbose: bool):
     client, _ = device_ssh_select(ctx, index)
 
     # Run common with emulator function
-    common_run(client, package, verbose)
+    common_run(client, package, ctx.obj.get_type_output(verbose))
 
 
 @group_device.command()
@@ -85,7 +85,7 @@ def install(ctx: {}, path: [], index: int, verbose: bool):
     client, data = device_ssh_select(ctx, index)
 
     # Run common with emulator function
-    common_install(client, path, data, verbose)
+    common_install(client, path, data, ctx.obj.get_type_output(verbose))
 
 
 @group_device.command()

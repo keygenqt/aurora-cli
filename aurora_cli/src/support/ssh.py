@@ -70,7 +70,7 @@ def ssh_client_exec_command(
         line = str(line).strip()
         if error_regx and not is_error and error_regx:
             is_error = check_string_regex(line, error_regx)
-        if verbose == VerboseType.true:
+        if verbose == VerboseType.verbose:
             echo_stdout(line)
 
     stderr = []
@@ -89,11 +89,17 @@ def ssh_client_exec_command(
     if '|' in execute:
         execute = execute.split('|')[1].strip()
 
-    if verbose == VerboseType.false:
+    if verbose == VerboseType.command:
         if stderr or is_error:
             echo_stderr(AppTexts.command_execute_error(execute))
         else:
             echo_stdout(AppTexts.command_execute_success(execute))
+
+    if verbose == VerboseType.short:
+        if is_error:
+            echo_stderr(AppTexts.command_execute_error_short())
+        else:
+            echo_stdout(AppTexts.command_execute_success_short())
 
 
 # Upload file
@@ -118,7 +124,12 @@ def upload_file_sftp(client: SSHClient, upload_path: str, file_path: str):
 
 
 # Upload file
-def download_file_sftp(client: SSHClient, download_path: str, file_path: str) -> str | None:
+def download_file_sftp(
+        client: SSHClient,
+        download_path: str,
+        file_path: str,
+        show_bar: bool = False
+) -> str | None:
     if not client:
         return None
     try:
@@ -132,7 +143,7 @@ def download_file_sftp(client: SSHClient, download_path: str, file_path: str) ->
         # Create ssh bar
         bar = ProgressAliveBar(AppTexts.download_success())
         # Upload file
-        client.open_sftp().get(download_path, file_path, callback=bar.update)
+        client.open_sftp().get(download_path, file_path, callback=bar.update if show_bar else None)
     except paramiko.ssh_exception.SSHException:
         return None
     except FileNotFoundError:

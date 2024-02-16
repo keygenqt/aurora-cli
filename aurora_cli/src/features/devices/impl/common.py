@@ -12,11 +12,8 @@ from aurora_cli.src.support.texts import AppTexts
 def common_command(
         client: SSHClient,
         execute: str,
-        verbose: bool
+        verbose: VerboseType
 ):
-    # Get verbose type
-    verbose = VerboseType.true if verbose else VerboseType.false
-
     # Execute command
     ssh_client_exec_command(client, execute, verbose, ['^bash.+'])
 
@@ -28,13 +25,10 @@ def common_command(
 def common_run(
         client: SSHClient,
         package: str,
-        verbose: bool
+        verbose: VerboseType
 ):
     # Exec command
     execute = 'invoker --type=qt5 {package}'.format(package=package)
-
-    # Get verbose type
-    verbose = VerboseType.true if verbose else VerboseType.false
 
     # Execute command
     ssh_client_exec_command(client, execute, verbose, ['.+died.+'])
@@ -48,7 +42,7 @@ def common_install(
         client: SSHClient,
         path: [],
         data: {},
-        verbose: bool
+        verbose: VerboseType
 ):
     # Read paths
     paths = get_path_files(path, extension='rpm')
@@ -56,9 +50,6 @@ def common_install(
     if not paths:
         echo_stderr(AppTexts.file_no_one_not_found())
         exit(1)
-
-    # Get verbose type
-    verbose = VerboseType.true if verbose else VerboseType.false
 
     # Folder upload
     upload_path = '/home/defaultuser/Downloads'
@@ -84,8 +75,8 @@ def common_install(
                     file_name=file_name
                 )
             echo_line()
-            if verbose == VerboseType.false:
-                echo_stdout(AppTexts.loading())
+            if verbose != VerboseType.verbose:
+                echo_stdout(AppTexts.package_install_loading())
             # Execute command
             ssh_client_exec_command(client, execute, verbose, ['^error.+', '.+error.+'])
 

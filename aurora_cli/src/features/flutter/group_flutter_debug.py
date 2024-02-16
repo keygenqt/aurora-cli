@@ -44,6 +44,8 @@ def gdb(ctx: {}, index: int, verbose: bool):
 
     port_gdb_server = 2345
 
+    echo_stdout(AppTexts.gdb_prepare())
+
     # Get device client
     client, data = device_ssh_select(ctx, index)
 
@@ -115,5 +117,5 @@ def gdb(ctx: {}, index: int, verbose: bool):
     ssh_client_exec_command(
         client,
         'gdbserver --multi :{}'.format(port_gdb_server),
-        VerboseType.true if verbose else VerboseType.false
+        ctx.obj.get_type_output(verbose)
     )

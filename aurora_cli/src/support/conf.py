@@ -22,7 +22,7 @@ from yaml import Loader
 from yaml import load
 
 from aurora_cli.src.support.helper import get_path_file
-from aurora_cli.src.support.output import echo_stdout
+from aurora_cli.src.support.output import echo_stdout, VerboseType
 from aurora_cli.src.support.texts import AppTexts
 
 # Data versions
@@ -61,7 +61,10 @@ class Conf:
     @staticmethod
     def _get_default_config() -> str:
         return """## Application configuration file Aurora CLI
-## Version config: 0.0.1
+## Version config: 0.0.2
+
+## Type output: short | command | verbose
+output: short
 
 ## Path to sign keys
 ## name - The name you will see in the list
@@ -150,6 +153,21 @@ devices:
     # Get config path
     def get_path(self) -> Path:
         return self.conf_path
+
+    # Get config keys
+    def get_type_output(self, verbose: bool) -> VerboseType:
+        if verbose:
+            return VerboseType.verbose
+        if 'output' not in self.conf.keys():
+            return VerboseType.short
+        match self.conf['output']:
+            case 'short':
+                return VerboseType.short
+            case 'command':
+                return VerboseType.command
+            case 'verbose':
+                return VerboseType.verbose
+        return VerboseType.short
 
     # Get config keys
     def get_keys(self) -> {}:

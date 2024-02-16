@@ -110,6 +110,16 @@ class AppTexts(Enum):
                 .format(' {}\n   '.format('\\').join(command.split(' '))))
 
     @staticmethod
+    def command_execute_error_short():
+        return (('<red>The command was completed with an error.</red>'
+                 '\n<cyan>For detailed reporting, use the</cyan> --verbose (-v) <cyan>flag.</cyan>'))
+
+    @staticmethod
+    def command_execute_success_short():
+        return (('<green>The command completed successfully.</green>'
+                 '\n<cyan>For detailed reporting, use the</cyan> --verbose (-v) <cyan>flag.</cyan>'))
+
+    @staticmethod
     def file_not_found(path: str):
         return '<red>File path not found:</red> {}'.format(path)
 
@@ -147,6 +157,10 @@ class AppTexts(Enum):
     @staticmethod
     def loading():
         return '<blue>Loading...</blue>'
+
+    @staticmethod
+    def package_install_loading():
+        return '<blue>Install package loading...</blue>'
 
     @staticmethod
     def loading_server():
@@ -431,3 +445,20 @@ Good luck!""".format(version=version)
     @staticmethod
     def gdb_configure_confirm():
         return 'File launch.json will be overwritten, continue?'
+
+    @staticmethod
+    def gdb_prepare():
+        return '<blue>Preparing...</blue>'
+
+    @staticmethod
+    def flutter_build_script_confirm():
+        return 'File build.sh will be overwritten, continue?'
+
+    @staticmethod
+    def flutter_project_not_found_confirm():
+        return 'Project not defined as flutter-aurora, continue?'
+
+    @staticmethod
+    def flutter_build_script_add_success(path: str):
+        return ('<green>Script has been successfully added:</green> {}'
+                '\n<cyan>It requires additional manual configuration.</cyan>').format(path)

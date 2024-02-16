@@ -31,7 +31,7 @@ from aurora_cli.src.support.conf import Conf  # noqa: E402
 @click.version_option(version=Conf.get_app_version(), prog_name=Conf.get_app_name())
 @click.option('--conf', '-c', default=None, help='Specify config path.', type=click.STRING, required=False)
 @click.pass_context
-def main(ctx, conf):
+def main(ctx: {}, conf: {}):
     ctx.obj = Conf(conf)
     if not ctx.invoked_subcommand:
         print(ctx.get_help())

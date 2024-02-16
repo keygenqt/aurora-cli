@@ -21,8 +21,9 @@ from bs4 import BeautifulSoup
 
 # Verbose output types
 class VerboseType(Enum):
-    false = 'Not verbose'
-    true = 'Show verbose'
+    short = 'Short output'
+    command = 'Show output with command'
+    verbose = 'Show output command'
     none = 'Disable all output'
 
 

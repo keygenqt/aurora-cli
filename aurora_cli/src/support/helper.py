@@ -161,6 +161,7 @@ def pc_command(
         args: [],
         verbose: VerboseType,
         error_regx: [] = None,
+        error_exit: bool = True,
         callback: Callable[[str, int], None] = None,
         is_char: bool = False
 ) -> []:
@@ -171,7 +172,7 @@ def pc_command(
         result.append(value)
         if callback:
             callback(value, i)
-        if verbose == VerboseType.true:
+        if verbose == VerboseType.verbose:
             echo_stdout(value)
         if error_regx and error_regx:
             return check_string_regex(value, error_regx)
@@ -196,17 +197,22 @@ def pc_command(
                     index += 1
 
     except Exception as e:
-        if verbose != VerboseType.none:
-            echo_stderr(AppTexts.exec_pc_command_error(str(e)))
-            exit(1)
-        else:
-            output(str(e), len(result))
+        is_error = output(str(e), len(result))
 
-    if verbose == VerboseType.false:
+    if verbose == VerboseType.command:
         if is_error:
             echo_stderr(AppTexts.command_execute_error(' '.join(args)))
         else:
             echo_stdout(AppTexts.command_execute_success(' '.join(args)))
+
+    if verbose == VerboseType.short:
+        if is_error:
+            echo_stderr(AppTexts.command_execute_error_short())
+        else:
+            echo_stdout(AppTexts.command_execute_success_short())
+
+    if is_error and error_exit:
+        exit(1)
 
     return result
 

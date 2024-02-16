@@ -23,7 +23,7 @@ VM_MANAGE = "VBoxManage"
 
 
 # Search engine name in vb
-def vm_search_engine_aurora(verbose: bool) -> str:
+def vm_search_engine_aurora(verbose: VerboseType) -> str:
     vm = _vm_search_by_regx(['.+Aurora.+Engine.+'], verbose)
     if not vm:
         echo_stderr(AppTexts.vm_not_found())
@@ -32,7 +32,7 @@ def vm_search_engine_aurora(verbose: bool) -> str:
 
 
 # Search emulator name in vb
-def vm_search_emulator_aurora(verbose: bool) -> str:
+def vm_search_emulator_aurora(verbose: VerboseType) -> str:
     vm = _vm_search_by_regx(['.+AuroraOS.+'], verbose)
     if not vm:
         echo_stderr(AppTexts.vm_not_found())
@@ -41,8 +41,7 @@ def vm_search_emulator_aurora(verbose: bool) -> str:
 
 
 # Search vm by regex in vb
-def _vm_search_by_regx(key_regx: [], verbose: bool) -> str | None:
-    verbose = VerboseType.true if verbose else VerboseType.none
+def _vm_search_by_regx(key_regx: [], verbose: VerboseType) -> str | None:
     for vm in vb_manage_command(['list', 'vms'], verbose):
         if check_string_regex(vm, key_regx):
             return vm.split(' {')[0].strip('"')
@@ -65,4 +64,4 @@ def vb_manage_command(
         error_regx: [] = None,
         callback: Callable[[str], None] = None
 ) -> []:
-    return pc_command([VM_MANAGE] + args, verbose, error_regx, callback)
+    return pc_command([VM_MANAGE] + args, verbose, error_regx, True, callback)
