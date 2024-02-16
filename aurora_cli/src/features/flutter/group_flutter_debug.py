@@ -37,10 +37,10 @@ def group_flutter_debug():
 
 @group_flutter_debug.command()
 @click.pass_context
-@click.option('-i', '--index', type=click.INT, help='Specify index')
+@click.option('-i', '--index', type=click.INT, help='Specify index device')
 @click.option('-v', '--verbose', is_flag=True, help='Detailed output')
 def gdb(ctx: {}, index: int, verbose: bool):
-    """Project run for gdb debug."""
+    """Project configure and run for gdb debug."""
 
     port_gdb_server = 2345
 

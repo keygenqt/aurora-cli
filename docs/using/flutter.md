@@ -43,3 +43,32 @@ Remove Flutter SDK.
 ```shell
 aurora-cli flutter remove
 ```
+
+### Build
+
+Add script to project for build Flutter application.
+
+**Params**
+
+* `--latest (-l)` - Select latest version.
+
+**Example**
+
+```shell
+aurora-cli flutter build
+```
+
+### Debug gdb
+
+Project configure and run for gdb debug.
+
+**Params**
+
+* `--index (-i)` - Specify index device.
+* `--verbose (-v)` - Detailed output.
+
+**Example**
+
+```shell
+aurora-cli flutter debug gdb
+```

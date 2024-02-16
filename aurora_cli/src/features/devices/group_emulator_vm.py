@@ -91,7 +91,7 @@ def emulator_screenshot(ctx: {}, verbose: bool):
 @click.option('-c', '--convert', is_flag=True, help='Convert video to mp4')
 @click.option('-v', '--verbose', is_flag=True, help='Detailed output')
 def emulator_recording(ctx: {}, convert: bool, verbose: bool):
-    """Take screenshot emulator."""
+    """Recording video from emulator."""
 
     # Required ffmpeg dependency for convert
     if convert:

@@ -129,7 +129,7 @@ $FLUTTER pub run build_runner build --delete-conflicting-outputs
 @click.group(name='build', invoke_without_command=True)
 @click.option('-l', '--latest', is_flag=True, help="Select latest version")
 def group_flutter_build(latest: bool):
-    """Add script to project for build application."""
+    """Add script to project for build Flutter application."""
 
     versions = get_versions_flutter()
 

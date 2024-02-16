@@ -14,7 +14,7 @@ Start emulator.
 aurora-cli emulator start
 ```
 
-### Screenshot 
+### Screenshot
 
 Take screenshot emulator.
 
@@ -26,6 +26,21 @@ Take screenshot emulator.
 
 ```shell
 aurora-cli emulator screenshot
+```
+
+### Recording
+
+Recording video from emulator.
+
+**Params**
+
+* `--convert (-c)` - Convert video to mp4.
+* `--verbose (-v)` - Detailed output.
+
+**Example**
+
+```shell
+aurora-cli emulator recording
 ```
 
 ### Command 
