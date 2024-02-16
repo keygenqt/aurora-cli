@@ -14,10 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import shutil
+import subprocess
 from pathlib import Path
 
 import click
-import moviepy.editor as moviepy
 
 from aurora_cli.src.support.dependency_required import check_dependency_ffmpeg
 from aurora_cli.src.support.helper import gen_file_name, get_path_file
@@ -155,16 +155,25 @@ def emulator_recording(ctx: {}, convert: bool, verbose: bool):
             exit(1)
 
         if convert:
+            video_path = str(video_path).replace('webm', 'mp4')
+            output = None if verbose == VerboseType.verbose else subprocess.DEVNULL
             # Move file with convert
-            video_path = Path(str(video_path).replace('webm', 'mp4'))
-            echo_stdout(AppTexts.emulator_video_record_convert())
-            clip = moviepy.VideoFileClip(str(default_path))
-            clip.write_videofile(
-                filename=str(video_path),
-                preset='slow',
-                verbose=verbose,
-                logger='bar' if verbose else None,
-            )
+            subprocess.run([
+                'ffmpeg',
+                '-i',
+                str(default_path),
+                '-c:v',
+                'libx264',
+                '-preset',
+                'slow',
+                '-crf',
+                '22',
+                '-c:a',
+                'aac',
+                '-b:a',
+                '128k',
+                str(video_path),
+            ], stdout=output, stderr=output)
         else:
             # Move file
             shutil.move(default_path, video_path)

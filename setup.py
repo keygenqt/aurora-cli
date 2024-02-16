@@ -47,7 +47,6 @@ setuptools.setup(
         'cffi>=1.16.0',
         'GitPython>=3.1.41',
         'beautifulsoup4>=4.12.3',
-        'moviepy>=1.0.3',
     ],
     python_requires='>=3.8.2',
     entry_points={
