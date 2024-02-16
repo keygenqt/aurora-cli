@@ -8,7 +8,10 @@ It is described in sufficient detail, I present it here:
 
 ```yaml
 ## Application configuration file Aurora CLI
-## Version config: 0.0.1
+## Version config: 0.0.2
+
+## Type output: short | command | verbose
+output: short
 
 ## Path to sign keys
 ## name - The name you will see in the list
