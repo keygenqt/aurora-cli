@@ -1,14 +1,15 @@
 
 
 
-## Updated: 12/02/2024 01:06:14 AM
+## Updated: 16/02/2024 21:15:12 PM
 
 ## Info
 
-- Last tag: 2.2.5
-- Released: 6
+- Last tag: 2.3.0
+- Released: 7
 
 ## Versions
+- Version: 2.3.0 (16/02/2024)
 - Version: 2.2.5 (12/02/2024)
 - Version: 2.2.4 (12/02/2024)
 - Version: 2.2.0 (10/02/2024)
@@ -17,8 +18,30 @@
 - Version: 2.0.11 (27/01/2024)
 
 
-### HEAD (12/02/2024 01:06:14 AM)
+### HEAD (16/02/2024 21:15:12 PM)
 
+
+### Version: 2.3.0 (16/02/2024)
+
+
+#### Feature
+
+* Add output types config. (Vitaliy Zarubin)
+* Add flutter build.sh. (Vitaliy Zarubin)
+* Add gdb debug flutter project. (Vitaliy Zarubin)
+* Add check size files downloads. (Vitaliy Zarubin)
+* Add video recording from emulator. (Vitaliy Zarubin)
+
+#### Change
+
+* Update documentation. (Vitaliy Zarubin)
+* Add check contains sudoers. (Vitaliy Zarubin)
+* Add validate profile to psdk. (Vitaliy Zarubin)
+* Update output screenshot. (Vitaliy Zarubin)
+
+#### Bug
+
+*None*
 
 ### Version: 2.2.5 (12/02/2024)
 
