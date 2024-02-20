@@ -69,7 +69,7 @@ def dart(ctx: {}, index: int, yes: bool, verbose: bool):
 
     # Required project folder
     if not package_name or not version or not release:
-        echo_stderr(AppTexts.gdb_flutter_project_read_spec_error())
+        echo_stderr(AppTexts.debug_flutter_project_read_spec_error())
         exit(1)
 
     # Select flutter
@@ -83,7 +83,7 @@ def dart(ctx: {}, index: int, yes: bool, verbose: bool):
         'dart-code.flutter'
     ]:
         if not check_dependency_vscode_plugin(extension):
-            echo_stdout(AppTexts.gdb_install_vs_extension(extension))
+            echo_stdout(AppTexts.debug_install_vs_extension(extension))
             pc_command(['code', '--install-extension', extension], VerboseType.none)
 
     # Enable custom device in flutter
@@ -141,7 +141,7 @@ def dart(ctx: {}, index: int, yes: bool, verbose: bool):
 
     def update_launch(line: str, _: int):
         if 'not found' in line:
-            echo_stderr(AppTexts.debug_error_download_bin())
+            echo_stderr(AppTexts.debug_error_launch_bin())
             exit(1)
         if 'listening on ' in line:
             url = line.split('listening on ')[1]
@@ -188,7 +188,7 @@ def gdb(ctx: {}, index: int, verbose: bool):
         'ms-vscode.cpptools-extension-pack'
     ]:
         if not check_dependency_vscode_plugin(extension):
-            echo_stdout(AppTexts.gdb_install_vs_extension(extension))
+            echo_stdout(AppTexts.debug_install_vs_extension(extension))
             pc_command(['code', '--install-extension', extension], VerboseType.none)
 
     # Get path application
@@ -205,14 +205,14 @@ def gdb(ctx: {}, index: int, verbose: bool):
     # Get package keys
     package_name, version, release = get_spec_keys(file_spec)
     if not package_name or not version or not release:
-        echo_stderr(AppTexts.gdb_flutter_project_read_spec_error())
+        echo_stderr(AppTexts.debug_flutter_project_read_spec_error())
 
     file_path = download_file_sftp(client,
                                    download_path='/usr/bin/{}'.format(package_name),
                                    file_path=Conf.get_temp_folder())
 
     if not file_path:
-        echo_stderr(AppTexts.debug_error_download_bin())
+        echo_stderr(AppTexts.debug_error_launch_bin())
         exit(1)
 
     # Get path to launch.json

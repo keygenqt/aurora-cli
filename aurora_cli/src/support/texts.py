@@ -431,7 +431,7 @@ Good luck!""".format(version=version)
         return '<green>Recording completed successfully:</green> {}'.format(path)
 
     @staticmethod
-    def gdb_install_vs_extension(ext: str):
+    def debug_install_vs_extension(ext: str):
         return '<blue>Installing extension:</blue> {}'.format(ext)
 
     @staticmethod
@@ -439,11 +439,11 @@ Good luck!""".format(version=version)
         return '<red>You must run debug in the flutter application for Aurora OS.</red>'
 
     @staticmethod
-    def gdb_flutter_project_read_spec_error():
+    def debug_flutter_project_read_spec_error():
         return '<red>Error reading project spec file.</red>'
 
     @staticmethod
-    def debug_error_download_bin():
+    def debug_error_launch_bin():
         return '<red>No application found to launch. Install the debug version before starting.</red>'
 
     @staticmethod
