@@ -19,8 +19,9 @@ from pathlib import Path
 
 import click
 
+from aurora_cli.src.features.flutter.impl.utils import get_list_flutter_installed
 from aurora_cli.src.support.helper import find_path_file, prompt_index
-from aurora_cli.src.support.output import echo_stdout
+from aurora_cli.src.support.output import echo_stdout, echo_stderr
 from aurora_cli.src.support.texts import AppTexts
 from aurora_cli.src.support.versions import get_versions_flutter
 
@@ -28,7 +29,7 @@ build_script = '''#!/bin/bash
 
 ###################################################
 # Path to flutter
-FLUTTER="$HOME/.local/opt/flutter-{tag}/bin/flutter"
+FLUTTER="{flutter}"
 
 # Build a version of your app.
 # debug || profile || release
@@ -127,21 +128,20 @@ $FLUTTER pub run build_runner build --delete-conflicting-outputs
 
 
 @click.group(name='build', invoke_without_command=True)
-@click.option('-l', '--latest', is_flag=True, help="Select latest version")
-def group_flutter_build(latest: bool):
+@click.option('-i', '--index', type=click.INT, help='Specify index version')
+def group_flutter_build(index: int):
     """Add script to project for build Flutter application."""
 
-    versions = get_versions_flutter()
+    # Required flutter
+    versions = get_list_flutter_installed()
+    if not versions:
+        echo_stderr(AppTexts.flutter_not_found())
+        exit(0)
 
-    if not latest:
-        echo_stdout(AppTexts.select_versions(versions))
-        echo_stdout(AppTexts.array_indexes(versions), 2)
-
-    # Query index
-    index = prompt_index(versions, 1 if latest else None)
-
-    # Select tag
-    tag = versions[index]
+    # Select flutter
+    echo_stdout(AppTexts.select_versions(versions))
+    echo_stdout(AppTexts.array_indexes(versions), 2)
+    flutter = Path.home() / '.local' / 'opt' / 'flutter-{}'.format(versions[prompt_index(versions)]) / 'bin' / 'flutter'
 
     # Get path application
     application = Path(f'{os.getcwd()}/example')
@@ -165,7 +165,7 @@ def group_flutter_build(latest: bool):
 
     # Create .gdbinit app flutter
     with open(build_path, 'w') as file:
-        print(build_script.format(tag=tag), file=file)
+        print(build_script.format(flutter=flutter), file=file)
 
     # Add run permission
     os.chmod(build_path, os.stat(build_path).st_mode | stat.S_IEXEC)

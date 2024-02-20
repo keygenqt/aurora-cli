@@ -16,10 +16,10 @@ limitations under the License.
 import os
 from pathlib import Path
 
-GDBINIT_DATA = '''handle SIGILL pass nostop noprint
+GDB_INIT_DATA = '''handle SIGILL pass nostop noprint
 set remote exec-file /usr/bin/{package}'''
 
-GDBVSCODE_DATA = r'''{{
+GDB_VSCODE_DATA = r'''{{
     "version": "0.2.0",
     "configurations": [
         {{
@@ -34,6 +34,76 @@ GDBVSCODE_DATA = r'''{{
             "cwd": "${{workspaceRoot}}"
          }}
     ]
+}}'''
+
+DART_VSCODE_DATA = r'''{{
+    "version": "0.2.0",
+    "configurations": [
+        {{
+            "name": "Attach with Debug",
+            "type": "dart",
+            "request": "attach",
+            "vmServiceUri": "{vm_service_uri}",
+            "program": "{main_path}",
+        }},
+    ]
+}}'''
+
+CUSTOM_DEVICE_CODE_DATA = r'''{{
+  "custom-devices": [
+    {{
+      "id": "aurora",
+      "label": "Aurora",
+      "sdkNameAndVersion": "5.0",
+      "platform": null,
+      "enabled": true,
+      "ping": [
+        "ping",
+        "-c",
+        "1",
+        "-w",
+        "1",
+        "{ip}"
+      ],
+      "pingSuccessRegex": null,
+      "postBuild": null,
+      "install": [
+        "scp",
+        "-r",
+        "-o",
+        "BatchMode=yes",
+        "${{localPath}}",
+        "defaultuser@{ip}:/tmp/${{appName}}"
+      ],
+      "uninstall": [
+        "ssh",
+        "-o",
+        "BatchMode=yes",
+        "defaultuser@{ip}",
+        "rm -rf \"/tmp/${{appName}}\""
+      ],
+      "runDebug": [
+        "ssh",
+        "-o",
+        "BatchMode=yes",
+        "defaultuser@{ip}",
+        "/usr/bin/ru.auroraos.sensors_plus_aurora_example"
+      ],
+      "forwardPort": [
+        "ssh",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ExitOnForwardFailure=yes",
+        "-L",
+        "127.0.0.1:${{hostPort}}:127.0.0.1:${{devicePort}}",
+        "defaultuser@{ip}",
+        "echo 'Port forwarding success'; read"
+      ],
+      "forwardPortSuccessRegex": "Port forwarding success",
+      "screenshot": null
+    }}
+  ]
 }}'''
 
 

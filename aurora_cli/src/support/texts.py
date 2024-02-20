@@ -188,6 +188,10 @@ class AppTexts(Enum):
         return '<red>Virtual machine not found.</red>'
 
     @staticmethod
+    def flutter_not_found():
+        return '<red>Flutter installed not found.</red>'
+
+    @staticmethod
     def vm_error_connect():
         return '<red>Error connect to virtual machine.</red>'
 
@@ -431,8 +435,8 @@ Good luck!""".format(version=version)
         return '<blue>Installing extension:</blue> {}'.format(ext)
 
     @staticmethod
-    def gdb_is_not_flutter_aurora_project():
-        return '<red>You must run the initialization</red> "gdb" <red>in the flutter application for Aurora OS.</red>'
+    def debug_is_not_flutter_aurora_project():
+        return '<red>You must run debug in the flutter application for Aurora OS.</red>'
 
     @staticmethod
     def gdb_flutter_project_read_spec_error():
@@ -443,8 +447,8 @@ Good luck!""".format(version=version)
         return '<red>No application found to launch. Install the debug version before starting.</red>'
 
     @staticmethod
-    def gdb_configure_confirm():
-        return 'File launch.json will be overwritten, continue?'
+    def debug_configure_confirm(file_name: str):
+        return 'File {} will be overwritten, continue?'.format(file_name)
 
     @staticmethod
     def gdb_prepare():

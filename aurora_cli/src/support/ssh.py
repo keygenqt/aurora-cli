@@ -16,6 +16,7 @@ limitations under the License.
 import os
 import socket
 from pathlib import PosixPath, Path
+from typing import Callable
 
 import paramiko
 from paramiko.client import SSHClient
@@ -58,7 +59,8 @@ def ssh_client_exec_command(
         client: SSHClient,
         execute: str,
         verbose: VerboseType,
-        error_regx=None
+        error_regx=None,
+        callback: Callable[[str, int], None] = None,
 ):
     # Exec
     _, ssh_stdout, ssh_stderr = client.exec_command(execute, get_pty=True)
@@ -66,12 +68,16 @@ def ssh_client_exec_command(
     is_error = False
 
     # Output
+    index = 0
     for line in iter(ssh_stdout.readline, ""):
         line = str(line).strip()
+        if callback:
+            callback(line, index)
         if error_regx and not is_error and error_regx:
             is_error = check_string_regex(line, error_regx)
         if verbose == VerboseType.verbose:
             echo_stdout(line)
+        index += 1
 
     stderr = []
 
