@@ -42,7 +42,7 @@ def group_flutter_debug():
 @click.option('-y', '--yes', is_flag=True, help='All yes confirm')
 @click.option('-v', '--verbose', is_flag=True, help='Detailed output')
 def dart(ctx: {}, index: int, yes: bool, verbose: bool):
-    """Project configure and run for gdb debug."""
+    """Project configure and run for dart debug or hot reload."""
 
     # Required dependency
     check_dependency_vscode()
