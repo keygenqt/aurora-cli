@@ -140,7 +140,9 @@ def dart(ctx: {}, index: int, yes: bool, verbose: bool):
         ], VerboseType.verbose)
 
     def update_launch(line: str, _: int):
-        # todo check error
+        if 'not found' in line:
+            echo_stderr(AppTexts.debug_error_download_bin())
+            exit(1)
         if 'listening on ' in line:
             url = line.split('listening on ')[1]
             rewrite_configs(url, data['ip'])
@@ -154,7 +156,7 @@ def dart(ctx: {}, index: int, yes: bool, verbose: bool):
         client,
         execute,
         ctx.obj.get_type_output(verbose),
-        [r'.+found.+'],
+        None,
         callback=update_launch
     )
 
@@ -210,7 +212,7 @@ def gdb(ctx: {}, index: int, verbose: bool):
                                    file_path=Conf.get_temp_folder())
 
     if not file_path:
-        echo_stderr(AppTexts.gdb_error_download_bin())
+        echo_stderr(AppTexts.debug_error_download_bin())
         exit(1)
 
     # Get path to launch.json

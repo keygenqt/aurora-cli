@@ -443,7 +443,7 @@ Good luck!""".format(version=version)
         return '<red>Error reading project spec file.</red>'
 
     @staticmethod
-    def gdb_error_download_bin():
+    def debug_error_download_bin():
         return '<red>No application found to launch. Install the debug version before starting.</red>'
 
     @staticmethod
