@@ -23,7 +23,6 @@ from aurora_cli.src.features.flutter.impl.utils import get_list_flutter_installe
 from aurora_cli.src.support.helper import find_path_file, prompt_index
 from aurora_cli.src.support.output import echo_stdout, echo_stderr
 from aurora_cli.src.support.texts import AppTexts
-from aurora_cli.src.support.versions import get_versions_flutter
 
 build_script = '''#!/bin/bash
 
@@ -129,7 +128,8 @@ $FLUTTER pub run build_runner build --delete-conflicting-outputs
 
 @click.group(name='build', invoke_without_command=True)
 @click.option('-i', '--index', type=click.INT, help='Specify index version')
-def group_flutter_build(index: int):
+@click.option('-y', '--yes', is_flag=True, help='All yes confirm')
+def group_flutter_build(index: int, yes: bool):
     """Add script to project for build Flutter application."""
 
     # Required flutter
@@ -141,7 +141,8 @@ def group_flutter_build(index: int):
     # Select flutter
     echo_stdout(AppTexts.select_versions(versions))
     echo_stdout(AppTexts.array_indexes(versions), 2)
-    flutter = Path.home() / '.local' / 'opt' / 'flutter-{}'.format(versions[prompt_index(versions)]) / 'bin' / 'flutter'
+    flutter = (Path.home() / '.local' / 'opt' / 'flutter-{}'
+               .format(versions[prompt_index(versions, index)]) / 'bin' / 'flutter')
 
     # Get path application
     application = Path(f'{os.getcwd()}/example')
@@ -151,15 +152,15 @@ def group_flutter_build(index: int):
     # Find spec app flutter
     file_spec = find_path_file('spec', Path(f'{application}/aurora/rpm'))
     if not file_spec or not file_spec.is_file():
-        if not click.confirm(AppTexts.flutter_project_not_found_confirm()):
-            exit(0)
+        echo_stderr(AppTexts.flutter_project_read_spec_error())
+        exit(1)
 
     # Get path to launch.json
     vscode_dir = Path(f'{os.getcwd()}/.vscode')
     vscode_dir.mkdir(parents=True, exist_ok=True)
     build_path = Path(f'{vscode_dir}/build.sh')
 
-    if build_path.is_file():
+    if build_path.is_file() and not yes:
         if not click.confirm(AppTexts.flutter_build_script_confirm()):
             exit(0)
 

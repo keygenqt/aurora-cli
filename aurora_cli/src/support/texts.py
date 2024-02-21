@@ -159,6 +159,10 @@ class AppTexts(Enum):
         return '<blue>Loading...</blue>'
 
     @staticmethod
+    def preparing():
+        return '<blue>Preparing...</blue>'
+
+    @staticmethod
     def package_install_loading():
         return '<blue>Install package loading...</blue>'
 
@@ -439,10 +443,6 @@ Good luck!""".format(version=version)
         return '<red>You must run debug in the flutter application for Aurora OS.</red>'
 
     @staticmethod
-    def debug_flutter_project_read_spec_error():
-        return '<red>Error reading project spec file.</red>'
-
-    @staticmethod
     def debug_error_launch_bin():
         return '<red>No application found to launch. Install the debug version before starting.</red>'
 
@@ -451,16 +451,12 @@ Good luck!""".format(version=version)
         return 'File {} will be overwritten, continue?'.format(file_name)
 
     @staticmethod
-    def gdb_prepare():
-        return '<blue>Preparing...</blue>'
+    def flutter_project_read_spec_error():
+        return '<red>Error reading project spec file.</red>'
 
     @staticmethod
     def flutter_build_script_confirm():
         return 'File build.sh will be overwritten, continue?'
-
-    @staticmethod
-    def flutter_project_not_found_confirm():
-        return 'Project not defined as flutter-aurora, continue?'
 
     @staticmethod
     def flutter_build_script_add_success(path: str):
