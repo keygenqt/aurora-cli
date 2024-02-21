@@ -25,10 +25,12 @@ from aurora_cli.src.support.texts import AppTexts
 
 
 @click.group(name='remove', invoke_without_command=True)
-def psdk_remove():
+@click.pass_context
+def psdk_remove(ctx: {}):
     """Remove installed Aurora Platform SDK."""
 
-    folder = psdk_folder_select()
+    workdir = ctx.obj.get_workdir()
+    folder = psdk_folder_select(workdir)
 
     if not click.confirm(AppTexts.psdk_remove_confirm(str(folder))):
         exit(0)

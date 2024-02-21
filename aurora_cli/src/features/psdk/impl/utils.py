@@ -41,23 +41,28 @@ Defaults!{folder_psdk}/sdks/aurora_psdk/sdk-chroot env_keep += "SSH_AGENT_PID SS
 '''
 
 
+# Get path to folder psdk
+def get_psdk_folder(workdir: Path, version: str) -> Path:
+    return workdir / 'Aurora_Platform_SDK_{}'.format(version)
+
+
 # Get installed psdk folder
-def get_psdk_folders() -> []:
+def get_psdk_folders(workdir: Path) -> []:
     result = []
-    folders = [folder for folder in os.listdir(Path.home()) if
-               os.path.isdir(Path.home() / folder) and 'Aurora_Platform_SDK_' in folder and os.path.isfile(
-                   Path.home() / folder / 'sdks' / 'aurora_psdk' / 'etc' / 'os-release')]
+    folders = [folder for folder in os.listdir(workdir) if
+               os.path.isdir(workdir / folder) and 'Aurora_Platform_SDK_' in folder and os.path.isfile(
+                   workdir / folder / 'sdks' / 'aurora_psdk' / 'etc' / 'os-release')]
     for folder in folders:
-        result.append(Path.home() / folder)
+        result.append(workdir / folder)
     return result
 
 
 # Get installed Aurora Platform SDK version
-def get_psdk_installed_versions() -> []:
+def get_psdk_installed_versions(workdir: Path) -> []:
     result = []
-    folders = get_psdk_folders()
+    folders = get_psdk_folders(workdir)
     for folder in folders:
-        with open(Path.home() / folder / 'sdks' / 'aurora_psdk' / 'etc' / 'os-release') as f:
+        with open(workdir / folder / 'sdks' / 'aurora_psdk' / 'etc' / 'os-release') as f:
             result.append([item for item in f.readlines() if 'VERSION_ID' in item][0].split('=')[1].strip())
     return result
 
@@ -93,11 +98,6 @@ def get_url_psdk_archives(version: str) -> []:
             if 'md5sum' not in text and 'Aurora_OS' in text and '-pu' not in text:
                 result.append('{}/{}'.format(url_folder, text))
     return result
-
-
-# Get path to folder psdk
-def get_psdk_folder(version: str) -> Path:
-    return Path.home() / 'Aurora_Platform_SDK_{}'.format(version)
 
 
 # Get path to folder psdk
@@ -176,8 +176,8 @@ def clear_sudoers_psdk(folder: Path):
 
 
 # Select psdk folder
-def psdk_folder_select() -> Path:
-    versions = get_psdk_installed_versions()
+def psdk_folder_select(workdir: Path) -> Path:
+    versions = get_psdk_installed_versions(workdir)
 
     if not versions:
         echo_stdout(AppTexts.psdk_installed_not_found())
@@ -190,7 +190,7 @@ def psdk_folder_select() -> Path:
     index = prompt_index(versions)
 
     # Folder psdk
-    folder = get_psdk_folder(versions[index])
+    folder = get_psdk_folder(workdir, versions[index])
 
     if not folder.is_dir():
         echo_stdout(AppTexts.psdk_folder_psdk_not_found(str(folder)))

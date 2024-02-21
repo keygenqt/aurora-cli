@@ -84,7 +84,7 @@ def install(latest: bool):
     repo.git.checkout(tag)
 
     # Output
-    echo_stdout(AppTexts.flutter_install_success(tag))
+    echo_stdout(AppTexts.flutter_install_success(str(flutter_root_path), tag))
 
 
 @group_flutter.command()

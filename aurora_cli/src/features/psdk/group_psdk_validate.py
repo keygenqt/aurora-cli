@@ -37,7 +37,8 @@ from aurora_cli.src.support.texts import AppTexts
 def psdk_validate(ctx: {}, path: [], profile, verbose: bool):
     """Validate RPM packages."""
 
-    folder = psdk_folder_select()
+    workdir = ctx.obj.get_workdir()
+    folder = psdk_folder_select(workdir)
 
     # Chroot
     chroot = get_psdk_chroot(folder)

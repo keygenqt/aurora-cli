@@ -24,11 +24,13 @@ from aurora_cli.src.support.texts import AppTexts
 
 
 @click.group(name='sudoers', invoke_without_command=True)
+@click.pass_context
 @click.option('-d', '--delete', is_flag=True, default=False, required=True, help="Enable remove sudoers permissions.")
-def psdk_sudoers(delete: bool):
+def psdk_sudoers(ctx: {}, delete: bool):
     """Update sudoers permissions Aurora Platform SDK."""
 
-    folder = psdk_folder_select()
+    workdir = ctx.obj.get_workdir()
+    folder = psdk_folder_select(workdir)
 
     if delete:
         # Check exist sudoers

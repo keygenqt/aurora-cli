@@ -30,7 +30,8 @@ from aurora_cli.src.support.texts import AppTexts
 def psdk_package_install(ctx: {}, path: [], verbose: bool):
     """Install RPM packages to target."""
 
-    folder = psdk_folder_select()
+    workdir = ctx.obj.get_workdir()
+    folder = psdk_folder_select(workdir)
 
     # Chroot
     chroot = get_psdk_chroot(folder)
@@ -74,7 +75,8 @@ def psdk_package_install(ctx: {}, path: [], verbose: bool):
 def psdk_package_remove(ctx: {}, package: [], verbose: bool):
     """Remove RPM packages from target."""
 
-    folder = psdk_folder_select()
+    workdir = ctx.obj.get_workdir()
+    folder = psdk_folder_select(workdir)
 
     # Chroot
     chroot = get_psdk_chroot(folder)
@@ -104,12 +106,14 @@ def psdk_package_remove(ctx: {}, package: [], verbose: bool):
 
 
 @click.group(name='package-search', invoke_without_command=True)
+@click.pass_context
 @click.option('-p', '--package', multiple=True, type=click.STRING, required=True, help='Package name')
 @click.option('-v', '--verbose', is_flag=True, help='Detailed output')
-def psdk_package_search(package: [], verbose: bool):
+def psdk_package_search(ctx: {}, package: [], verbose: bool):
     """Search installed RPM packages in target."""
 
-    folder = psdk_folder_select()
+    workdir = ctx.obj.get_workdir()
+    folder = psdk_folder_select(workdir)
 
     # Chroot
     chroot = get_psdk_chroot(folder)

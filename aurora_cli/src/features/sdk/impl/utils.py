@@ -26,20 +26,20 @@ URL_AURORA_REPO_VERSION = 'https://sdk-repo.omprussia.ru/sdk/installers/{}/AppSD
 
 
 # Get installed sdk folder
-def get_sdk_folder() -> Path | None:
-    folders = [folder for folder in os.listdir(Path.home()) if
-               os.path.isdir(Path.home() / folder) and 'Aurora' in folder and os.path.isfile(
-                   Path.home() / folder / 'sdk-release')]
+def get_sdk_folder(workdir: Path) -> Path | None:
+    folders = [folder for folder in os.listdir(workdir) if
+               os.path.isdir(workdir / folder) and 'Aurora' in folder and os.path.isfile(
+                   workdir / folder / 'sdk-release')]
     if folders:
-        return Path.home() / folders[0]
+        return workdir / folders[0]
     return None
 
 
 # Get installed Aurora SDK version
-def get_sdk_installed_version() -> str | None:
-    folder = get_sdk_folder()
+def get_sdk_installed_version(workdir: Path) -> str | None:
+    folder = get_sdk_folder(workdir)
     if folder:
-        with open(Path.home() / folder / 'sdk-release') as f:
+        with open(workdir / folder / 'sdk-release') as f:
             return f.readline().strip().split('=')[1].replace('-base', '')
 
 

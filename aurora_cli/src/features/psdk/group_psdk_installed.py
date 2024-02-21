@@ -22,10 +22,12 @@ from aurora_cli.src.support.texts import AppTexts
 
 
 @click.group(name='installed', invoke_without_command=True)
-def psdk_installed():
+@click.pass_context
+def psdk_installed(ctx: {}):
     """Get installed list Aurora Platform SDK."""
 
-    versions = get_psdk_installed_versions()
+    workdir = ctx.obj.get_workdir()
+    versions = get_psdk_installed_versions(workdir)
 
     if versions:
         echo_stdout(AppTexts.psdk_installed_versions(versions))

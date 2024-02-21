@@ -29,10 +29,12 @@ from aurora_cli.src.support.versions import get_versions_sdk
 
 
 @click.group(name='install', invoke_without_command=True)
+@click.pass_context
 @click.option('-l', '--latest', is_flag=True, help="Select latest version")
-def psdk_install(latest: bool):
+def psdk_install(ctx: {}, latest: bool):
     """Download and install Aurora Platform SDK."""
 
+    workdir = ctx.obj.get_workdir()
     versions = get_versions_sdk()
 
     echo_stdout(AppTexts.select_versions(versions))
@@ -87,7 +89,7 @@ def psdk_install(latest: bool):
     version = archive_chroot[0].split('-')[1]
 
     # Get path for install
-    path_psdk = get_psdk_folder(version)
+    path_psdk = get_psdk_folder(workdir, version)
     path_chroot = '{}/sdks/aurora_psdk'.format(path_psdk)
 
     # Chroot path
@@ -166,4 +168,4 @@ def psdk_install(latest: bool):
         ], VerboseType.none, [], callback=lambda _, i: bar.update(i, total))
         bar.update(30, total)
 
-    echo_stdout(AppTexts.psdk_install_success(version))
+    echo_stdout(AppTexts.psdk_install_success(str(path_psdk), version))

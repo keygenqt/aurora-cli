@@ -23,10 +23,12 @@ from aurora_cli.src.support.texts import AppTexts
 
 
 @click.group(name='list-targets', invoke_without_command=True)
-def psdk_list_targets():
+@click.pass_context
+def psdk_list_targets(ctx: {}):
     """Get list targets."""
 
-    folder = psdk_folder_select()
+    workdir = ctx.obj.get_workdir()
+    folder = psdk_folder_select(workdir)
 
     # Chroot
     chroot = get_psdk_chroot(folder)

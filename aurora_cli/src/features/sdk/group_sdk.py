@@ -45,13 +45,15 @@ def available():
 
 
 @group_sdk.command()
+@click.pass_context
 @click.option('-l', '--latest', is_flag=True, help='Select latest version')
-@click.option('-t', '--install-type', default='offline', type=click.Choice(['offline', 'online'], case_sensitive=False),
+@click.option('-t', '--install-type', default='online', type=click.Choice(['offline', 'online'], case_sensitive=False),
               help='Select installer type')
-def install(latest: bool, install_type: str):
+def install(ctx: {}, latest: bool, install_type: str):
     """Download and run install Aurora SDK."""
 
-    version = get_sdk_installed_version()
+    workdir = ctx.obj.get_workdir()
+    version = get_sdk_installed_version(workdir)
 
     if version:
         echo_stderr(AppTexts.sdk_already_exist(version))
@@ -91,10 +93,12 @@ def install(latest: bool, install_type: str):
 
 
 @group_sdk.command()
-def installed():
+@click.pass_context
+def installed(ctx: {}):
     """Get version installed Aurora SDK."""
 
-    version = get_sdk_installed_version()
+    workdir = ctx.obj.get_workdir()
+    version = get_sdk_installed_version(workdir)
 
     if version:
         echo_stdout(AppTexts.sdk_version(version))
@@ -103,10 +107,12 @@ def installed():
 
 
 @group_sdk.command()
-def tool():
+@click.pass_context
+def tool(ctx: {}):
     """Run maintenance tool (remove, update)."""
 
-    folder = get_sdk_folder()
+    workdir = ctx.obj.get_workdir()
+    folder = get_sdk_folder(workdir)
 
     if not folder:
         echo_stderr(AppTexts.sdk_not_found())

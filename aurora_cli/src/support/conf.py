@@ -22,7 +22,7 @@ from yaml import Loader
 from yaml import load
 
 from aurora_cli.src.support.helper import get_path_file
-from aurora_cli.src.support.output import echo_stdout, VerboseType
+from aurora_cli.src.support.output import echo_stdout, VerboseType, echo_stderr
 from aurora_cli.src.support.texts import AppTexts
 
 # Data versions
@@ -61,7 +61,11 @@ class Conf:
     @staticmethod
     def _get_default_config() -> str:
         return """## Application configuration file Aurora CLI
-## Version config: 0.0.2
+## Version config: 0.0.3
+
+## The parameter sets the path to install psdk and search sdk
+## Specify an existing directory
+workdir: ~/
 
 ## Type output: short | command | verbose
 output: short
@@ -153,6 +157,17 @@ devices:
     # Get config path
     def get_path(self) -> Path:
         return self.conf_path
+
+    # Get config keys
+    def get_workdir(self) -> Path:
+        if 'workdir' not in self.conf.keys():
+            return Path.home()
+        else:
+            path = Path(get_path_file(self.conf['workdir'], False))
+            if not path.is_dir():
+                echo_stderr(AppTexts.workdir_not_found())
+                exit(1)
+            return path
 
     # Get config keys
     def get_type_output(self, verbose: bool) -> VerboseType:

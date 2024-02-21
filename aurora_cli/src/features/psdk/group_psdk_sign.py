@@ -32,7 +32,8 @@ from aurora_cli.src.support.texts import AppTexts
 def psdk_sign(ctx: {}, path: [], index: int, verbose: bool):
     """Sign (with re-sign) RPM package."""
 
-    folder = psdk_folder_select()
+    workdir = ctx.obj.get_workdir()
+    folder = psdk_folder_select(workdir)
 
     # Chroot
     chroot = get_psdk_chroot(folder)
@@ -68,7 +69,7 @@ def psdk_sign(ctx: {}, path: [], index: int, verbose: bool):
     verbose = ctx.obj.get_type_output(verbose)
 
     for path in paths:
-        echo_line(len(get_psdk_installed_versions()) - 1)
+        echo_line(len(get_psdk_installed_versions(workdir)) - 1)
         if verbose != VerboseType.verbose:
             echo_stdout(AppTexts.psdk_sign(path))
         # Remove if exist sign

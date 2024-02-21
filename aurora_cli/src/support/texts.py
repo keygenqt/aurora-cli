@@ -196,6 +196,10 @@ class AppTexts(Enum):
         return '<red>Flutter installed not found.</red>'
 
     @staticmethod
+    def workdir_not_found():
+        return '<red>Directory workdir not found. Update the configuration file.</red>'
+
+    @staticmethod
     def vm_error_connect():
         return '<red>Error connect to virtual machine.</red>'
 
@@ -236,13 +240,13 @@ class AppTexts(Enum):
         return '<green>Remove Flutter SDK successfully!</green>'
 
     @staticmethod
-    def flutter_install_success(tag: str):
+    def flutter_install_success(flutter_root_path: str, tag: str):
         return """
 <green>Install Flutter SDK "{tag}" successfully!</green>
 
 Add alias to ~/.bashrc for convenience:
 
-    <blue>alias flutter-aurora=$HOME/.local/opt/flutter-{tag}/bin/flutter</blue>
+    <blue>alias flutter-aurora={flutter_root_path}/flutter-{tag}/bin/flutter</blue>
 
 After that run the command:
 
@@ -252,7 +256,7 @@ You can check the installation with the command:
 
     <blue>flutter-aurora --version</blue>
 
-Good luck!""".format(tag=tag)
+Good luck!""".format(flutter_root_path=flutter_root_path, tag=tag)
 
     @staticmethod
     def sdk_versions(versions: []):
@@ -303,17 +307,17 @@ Good luck!""".format(tag=tag)
         return '<blue>Install target:</blue> {}'.format(arch)
 
     @staticmethod
-    def psdk_install_success(version: str):
+    def psdk_install_success(psdk_path: str, version: str):
         return """
 <green>Install Aurora Platform SDK "{version}" successfully!</green>
 
 You should update your ~/.bashrc to include export:
 
-    <blue>export PSDK_DIR=$HOME/Aurora_Platform_SDK_{version}/sdks/aurora_psdk</blue>
+    <blue>export PSDK_DIR={psdk_path}/sdks/aurora_psdk</blue>
 
 Add alias for convenience:
 
-    <blue>alias aurora_psdk=$HOME/Aurora_Platform_SDK_{version}/sdks/aurora_psdk/sdk-chroot</blue>
+    <blue>alias aurora_psdk={psdk_path}/sdks/aurora_psdk/sdk-chroot</blue>
 
 After that run the command:
 
@@ -325,7 +329,7 @@ You can check the installation with the command:
 
 The files have been downloaded to the ~/Downloads folder, if you no longer need them, delete them.
 
-Good luck!""".format(version=version)
+Good luck!""".format(version=version, psdk_path=psdk_path)
 
     @staticmethod
     def psdk_installed_not_found():
