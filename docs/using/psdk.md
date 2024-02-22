@@ -143,3 +143,17 @@ Search installed RPM packages in target.
 ```shell
 aurora-cli psdk package-search -p {package.name}
 ```
+
+### Clear
+
+Remove snapshots targets.
+
+**Params**
+
+* `--verbose (-v)` - Detailed output.
+
+**Example**
+
+```shell
+aurora-cli psdk clear
+```

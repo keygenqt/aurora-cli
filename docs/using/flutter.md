@@ -50,7 +50,8 @@ Add script to project for build Flutter application.
 
 **Params**
 
-* `--latest (-l)` - Select latest version.
+* `--index (-i)` - Specify index version.
+* `--yes (-y)` - All yes confirm.
 
 **Example**
 
@@ -71,4 +72,20 @@ Project configure and run for gdb debug.
 
 ```shell
 aurora-cli flutter debug gdb
+```
+
+### Debug dart
+
+Project configure and run on device for dart debug or hot reload.
+
+**Params**
+
+* `--index (-i)` - Specify index device.
+* `--yes (-y)` - All yes confirm.
+* `--verbose (-v)` - Detailed output.
+
+**Example**
+
+```shell
+aurora-cli flutter debug dart
 ```

@@ -8,7 +8,11 @@ It is described in sufficient detail, I present it here:
 
 ```yaml
 ## Application configuration file Aurora CLI
-## Version config: 0.0.2
+## Version config: 0.0.3
+
+## The parameter sets the path to install psdk and search sdk
+## Specify an existing directory
+workdir: ~/
 
 ## Type output: short | command | verbose
 output: short
