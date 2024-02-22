@@ -401,6 +401,10 @@ Good luck!""".format(version=version, psdk_path=psdk_path)
         return '<yellow>Sudoers not exist.</yellow>'
 
     @staticmethod
+    def psdk_remove_snapshot(target: str):
+        return '<blue>Cleaning</blue> "{}" <blue>snapshot...</blue>'.format(target)
+
+    @staticmethod
     def file_error_size(path: str):
         return '<red>Do not match size file</red>: {}'.format(path)
 

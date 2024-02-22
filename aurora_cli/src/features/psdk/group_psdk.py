@@ -17,6 +17,7 @@ limitations under the License.
 import click
 
 from aurora_cli.src.features.psdk.group_psdk_available import psdk_available
+from aurora_cli.src.features.psdk.group_psdk_clear import psdk_clear
 from aurora_cli.src.features.psdk.group_psdk_install import psdk_install
 from aurora_cli.src.features.psdk.group_psdk_installed import psdk_installed
 from aurora_cli.src.features.psdk.group_psdk_package import psdk_package_install, psdk_package_remove, \
@@ -36,6 +37,7 @@ def group_psdk():
 
 # Add subgroup
 group_psdk.add_command(psdk_available)
+group_psdk.add_command(psdk_clear)
 group_psdk.add_command(psdk_install)
 group_psdk.add_command(psdk_installed)
 group_psdk.add_command(psdk_package_install)
