@@ -1,14 +1,15 @@
 
 
 
-## Updated: 16/02/2024 21:15:12 PM
+## Updated: 22/02/2024 18:44:37 PM
 
 ## Info
 
-- Last tag: 2.3.0
-- Released: 7
+- Last tag: 2.4.0
+- Released: 8
 
 ## Versions
+- Version: 2.4.0 (22/02/2024)
 - Version: 2.3.0 (16/02/2024)
 - Version: 2.2.5 (12/02/2024)
 - Version: 2.2.4 (12/02/2024)
@@ -18,8 +19,25 @@
 - Version: 2.0.11 (27/01/2024)
 
 
-### HEAD (16/02/2024 21:15:12 PM)
+### HEAD (22/02/2024 18:44:37 PM)
 
+
+### Version: 2.4.0 (22/02/2024)
+
+
+#### Feature
+
+* Add psdk clear. (Vitaliy Zarubin)
+* Add workdir for install & search. (Vitaliy Zarubin)
+* Add flutter debug dart. (Vitaliy Zarubin)
+
+#### Change
+
+* Update documentation. (Vitaliy Zarubin)
+
+#### Bug
+
+*None*
 
 ### Version: 2.3.0 (16/02/2024)
 
