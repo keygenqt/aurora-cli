@@ -1,14 +1,15 @@
 
 
 
-## Updated: 24/02/2024 19:29:24 PM
+## Updated: 24/02/2024 20:06:19 PM
 
 ## Info
 
-- Last tag: 2.4.1
-- Released: 9
+- Last tag: 2.4.2
+- Released: 10
 
 ## Versions
+- Version: 2.4.2 (24/02/2024)
 - Version: 2.4.1 (24/02/2024)
 - Version: 2.4.0 (22/02/2024)
 - Version: 2.3.0 (16/02/2024)
@@ -20,8 +21,23 @@
 - Version: 2.0.11 (27/01/2024)
 
 
-### HEAD (24/02/2024 19:29:24 PM)
+### HEAD (24/02/2024 20:06:19 PM)
 
+
+### Version: 2.4.2 (24/02/2024)
+
+
+#### Feature
+
+*None*
+
+#### Change
+
+* Add check run app debug version. (Vitaliy Zarubin)
+
+#### Bug
+
+*None*
 
 ### Version: 2.4.1 (24/02/2024)
 
