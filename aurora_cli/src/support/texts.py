@@ -455,6 +455,10 @@ Good luck!""".format(version=version, psdk_path=psdk_path)
         return '<red>No application found to launch. Install the debug version before starting.</red>'
 
     @staticmethod
+    def debug_error_launch_debug_app():
+        return '<red>The application cannot get the debug link. Install the debug version before starting.</red>'
+
+    @staticmethod
     def debug_configure_confirm(file_name: str):
         return 'File {} will be overwritten, continue?'.format(file_name)
 

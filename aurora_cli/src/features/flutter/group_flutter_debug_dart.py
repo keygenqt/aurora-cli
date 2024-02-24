@@ -15,6 +15,7 @@ limitations under the License.
 """
 import os
 from pathlib import Path
+from threading import Timer
 
 import click
 
@@ -134,6 +135,15 @@ def group_flutter_debug_dart(ctx: {}, index: int, yes: bool, verbose: bool):
             'defaultuser@{ip}'.format(ip=data['ip'])
         ], VerboseType.verbose)
 
+    # Loading 10 second link from app
+    def exit_not_debug_run():
+        echo_stderr(AppTexts.debug_error_launch_debug_app())
+        os._exit(1)
+
+    # Run timer
+    debug_check_run = Timer(10.0, exit_not_debug_run)
+    debug_check_run.start()
+
     def update_launch(line: str, _: int):
         if '-bash' in line:
             echo_stderr(AppTexts.debug_error_launch_bin())
@@ -142,6 +152,7 @@ def group_flutter_debug_dart(ctx: {}, index: int, yes: bool, verbose: bool):
             url = line.split('listening on ')[1]
             rewrite_configs(url, data['ip'])
             ssh_nfl(int(url.split('/')[2].split(':')[1]))
+            debug_check_run.cancel()
 
     # Exec command
     execute = '/usr/bin/{}'.format(package_name)
