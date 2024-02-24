@@ -115,13 +115,15 @@ def group_flutter_debug_dart(ctx: {}, index: int, yes: bool, verbose: bool):
         with open(custom_devices, 'w') as file:
             print(CUSTOM_DEVICE_CODE_DATA.format(
                 ip=ip,
+                package=package_name,
             ), file=file)
         # Create launch.json
         launch.unlink(missing_ok=True)
         with open(launch, 'w') as f:
             print(DART_VSCODE_DATA.format(
                 vm_service_uri=url,
-                main_path=('example/lib/main.dart' if 'example' in str(application) else 'lib/main.dart')
+                main_path=('example/lib/main.dart' if 'example' in str(application) and str(
+                    application) != os.getcwd() else 'lib/main.dart')
             ), file=f)
 
     def ssh_nfl(port: int):
@@ -143,8 +145,6 @@ def group_flutter_debug_dart(ctx: {}, index: int, yes: bool, verbose: bool):
 
     # Exec command
     execute = '/usr/bin/{}'.format(package_name)
-
-    print(execute)
 
     # Execute command
     ssh_client_exec_command(

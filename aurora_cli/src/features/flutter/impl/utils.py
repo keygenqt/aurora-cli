@@ -87,7 +87,7 @@ CUSTOM_DEVICE_CODE_DATA = r'''{{
         "-o",
         "BatchMode=yes",
         "defaultuser@{ip}",
-        "/usr/bin/ru.auroraos.sensors_plus_aurora_example"
+        "/usr/bin/{package}"
       ],
       "forwardPort": [
         "ssh",
