@@ -1,14 +1,15 @@
 
 
 
-## Updated: 22/02/2024 18:44:37 PM
+## Updated: 24/02/2024 19:29:24 PM
 
 ## Info
 
-- Last tag: 2.4.0
-- Released: 8
+- Last tag: 2.4.1
+- Released: 9
 
 ## Versions
+- Version: 2.4.1 (24/02/2024)
 - Version: 2.4.0 (22/02/2024)
 - Version: 2.3.0 (16/02/2024)
 - Version: 2.2.5 (12/02/2024)
@@ -19,8 +20,23 @@
 - Version: 2.0.11 (27/01/2024)
 
 
-### HEAD (22/02/2024 18:44:37 PM)
+### HEAD (24/02/2024 19:29:24 PM)
 
+
+### Version: 2.4.1 (24/02/2024)
+
+
+#### Feature
+
+*None*
+
+#### Change
+
+*None*
+
+#### Bug
+
+* Fix path to package and fix example dir path for debug. (Vitaliy Zarubin)
 
 ### Version: 2.4.0 (22/02/2024)
 
