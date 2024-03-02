@@ -8,9 +8,17 @@
 
 An application that simplifies the life of an application developer for the Aurora OS.
 
+#### Documentation:
 <p>
     <a href="https://keygenqt.github.io/aurora-cli">
-        <img src="data/see_more.gif" width="170px"/>
+        <img src="data/see_more.gif" width="136px"/>
+    </a>
+</p>
+
+#### YouTube:
+<p>
+    <a href="https://keygenqt.github.io/aurora-cli">
+        <img src="data/btn_youtube.gif" width="46px"/>
     </a>
 </p>
 
