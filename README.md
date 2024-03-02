@@ -17,7 +17,7 @@ An application that simplifies the life of an application developer for the Auro
 
 #### YouTube:
 <p>
-    <a href="https://keygenqt.github.io/aurora-cli">
+    <a href="https://youtu.be/mK7MDtxJ94M">
         <img src="data/btn_youtube.gif" width="46px"/>
     </a>
 </p>
