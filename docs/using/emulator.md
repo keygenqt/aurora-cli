@@ -70,7 +70,7 @@ Run package on emulator in container.
 **Example**
 
 ```shell
-aurora-cli device run -p {package name}
+aurora-cli emulator run -p {package name}
 ```
 
 ### Install 

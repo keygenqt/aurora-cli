@@ -17,7 +17,7 @@ Download and run install Aurora SDK.
 **Params**
 
 * `--latest (-l)` - Aurora select latest version for install.
-* `--install-type (-t)` - Download installer `offline` or `online` (default - `offline`).
+* `--install-type (-t)` - Download installer `offline` or `online` (default - `online`).
 
 **Example**
 
