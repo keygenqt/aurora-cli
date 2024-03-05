@@ -196,6 +196,28 @@ class AppTexts(Enum):
         return '<red>Flutter installed not found.</red>'
 
     @staticmethod
+    def flutter_error_read_json():
+        return '<red>Error read json file.</red>'
+
+    @staticmethod
+    def flutter_platform_specific_plugins(plugins: []):
+        if not plugins or len(plugins) == 1:
+            return None
+        return '<blue>Platform-specific plugins:</blue>\n{}'.format('\n'.join(plugins))
+
+    @staticmethod
+    def flutter_platform_not_specific_plugins(plugins: []):
+        if not plugins or len(plugins) == 1:
+            return None
+        return '<blue>Not platform-specific plugins:</blue>\n{}'.format('\n'.join(plugins))
+
+    @staticmethod
+    def flutter_platform_specific_plugins_has_aurora(plugins: []):
+        if not plugins or len(plugins) == 1:
+            return None
+        return '<blue>Has Aurora OS platform-specific plugins:</blue>\n{}'.format('\n'.join(plugins))
+
+    @staticmethod
     def workdir_not_found():
         return '<red>Directory workdir not found. Update the configuration file.</red>'
 

@@ -9,7 +9,10 @@ from aurora_cli.src.support.texts import AppTexts
 URL_AURORA_REPO = 'https://sdk-repo.omprussia.ru/sdk/installers/'
 
 # Url Flutter SDK
-URL_FLUTTER_SDK = 'https://gitlab.com/api/v4/projects/53055476/repository/tags?per_page=50'
+URL_FLUTTER_SDK = 'https://gitlab.com/api/v4/projects/53055476/repository/tags?per_page=100'
+
+# Url Flutter Plugins
+URL_FLUTTER_PLUGINS = 'https://gitlab.com/api/v4/projects/48571226/repository/tags?per_page=100'
 
 
 # Get list versions Aurora SDK
@@ -31,4 +34,11 @@ def get_versions_sdk() -> []:
 def get_versions_flutter() -> []:
     echo_stdout(AppTexts.loading_server())
     response = requests.get(URL_FLUTTER_SDK)
+    return [obj['name'] for obj in response.json()]
+
+
+# Get list plugins tags flutter for Aurora OS
+def get_flutter_plugins() -> []:
+    echo_stdout(AppTexts.loading_server())
+    response = requests.get(URL_FLUTTER_PLUGINS)
     return [obj['name'] for obj in response.json()]
