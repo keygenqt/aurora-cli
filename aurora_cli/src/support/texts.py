@@ -168,7 +168,7 @@ class AppTexts(Enum):
 
     @staticmethod
     def loading_server():
-        return '<blue>Searching for versions on the server...</blue>'
+        return '<blue>We are waiting for a response from the server...</blue>'
 
     @staticmethod
     def exec_pc_command_error(exception: str):
