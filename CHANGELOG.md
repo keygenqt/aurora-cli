@@ -1,14 +1,15 @@
 
 
 
-## Updated: 24/02/2024 20:06:19 PM
+## Updated: 06/03/2024 18:24:56 PM
 
 ## Info
 
-- Last tag: 2.4.2
-- Released: 10
+- Last tag: 2.4.3
+- Released: 11
 
 ## Versions
+- Version: 2.4.3 (06/03/2024)
 - Version: 2.4.2 (24/02/2024)
 - Version: 2.4.1 (24/02/2024)
 - Version: 2.4.0 (22/02/2024)
@@ -21,8 +22,23 @@
 - Version: 2.0.11 (27/01/2024)
 
 
-### HEAD (24/02/2024 20:06:19 PM)
+### HEAD (06/03/2024 18:24:56 PM)
 
+
+### Version: 2.4.3 (06/03/2024)
+
+
+#### Feature
+
+* Add flutter plugins info type (Vitaliy Zarubin)
+
+#### Change
+
+*None*
+
+#### Bug
+
+* Fix UnicodeDecodeError output. (Vitaliy Zarubin)
 
 ### Version: 2.4.2 (24/02/2024)
 
