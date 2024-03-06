@@ -65,19 +65,25 @@ def ssh_client_exec_command(
     # Exec
     _, ssh_stdout, ssh_stderr = client.exec_command(execute, get_pty=True)
 
-    is_error = False
-
     # Output
-    index = 0
-    for line in iter(ssh_stdout.readline, ""):
-        line = str(line).strip()
-        if callback:
-            callback(line, index)
-        if error_regx and not is_error and error_regx:
-            is_error = check_string_regex(line, error_regx)
-        if verbose == VerboseType.verbose:
-            echo_stdout(line)
-        index += 1
+    def read_lines(index: int, fis_error: bool, value: str = ''):
+        if value and verbose == VerboseType.verbose:
+            echo_stdout(value)
+        try:
+            for value in iter(ssh_stdout.readline, ""):
+                value = str(value).strip()
+                if callback:
+                    callback(value, index)
+                if error_regx and not fis_error and error_regx:
+                    fis_error = check_string_regex(value, error_regx)
+                if verbose == VerboseType.verbose:
+                    echo_stdout(value)
+                index += 1
+        except UnicodeDecodeError as e:
+            fis_error = read_lines(index + 1, fis_error, 'UnicodeDecodeError: {}'.format(str(e)))
+        return fis_error
+
+    is_error = read_lines(0, False)
 
     stderr = []
 
