@@ -209,13 +209,21 @@ class AppTexts(Enum):
     def flutter_platform_not_specific_plugins(plugins: []):
         if not plugins or len(plugins) == 1:
             return None
-        return '<blue>Not platform-specific plugins:</blue>\n{}'.format('\n'.join(plugins))
+        return '<blue>Non platform-specific plugins:</blue>\n{}'.format('\n'.join(plugins))
 
     @staticmethod
     def flutter_platform_specific_plugins_has_aurora(plugins: []):
         if not plugins or len(plugins) == 1:
             return None
-        return '<blue>Has Aurora OS platform-specific plugins:</blue>\n{}'.format('\n'.join(plugins))
+        return '<blue>Platform-specific plugins that are in Aurora OS:</blue>\n{}'.format('\n'.join(plugins))
+
+    @staticmethod
+    def flutter_project_read_pubspec_error():
+        return '<red>Error reading project pubspec file.</red>'
+
+    @staticmethod
+    def flutter_plugins_save_as_pdf_success(path: str):
+        return '<green>Output save as PDF successfully:</green> {}'.format(path)
 
     @staticmethod
     def workdir_not_found():

@@ -18,8 +18,9 @@ import os
 from pathlib import Path
 
 import click
+from weasyprint import HTML
 
-from aurora_cli.src.features.flutter.impl.utils import get_list_flutter_installed
+from aurora_cli.src.features.flutter.impl.utils import get_list_flutter_installed, gen_html_plugins, get_pubspec_values
 from aurora_cli.src.support.helper import prompt_index, pc_command
 from aurora_cli.src.support.output import echo_stdout, echo_stderr, VerboseType, echo_line
 from aurora_cli.src.support.texts import AppTexts
@@ -27,7 +28,8 @@ from aurora_cli.src.support.versions import get_flutter_plugins
 
 
 @click.group(name='plugins', invoke_without_command=True)
-def group_flutter_plugins():
+@click.option('-p', '--pdf', is_flag=True, help='Save info about plugins in PDF.')
+def group_flutter_plugins(pdf: bool):
     """Get types plugins info."""
 
     available_plugins_list = get_flutter_plugins()
@@ -43,6 +45,12 @@ def group_flutter_plugins():
     echo_stdout(AppTexts.select_versions(flutters))
     echo_stdout(AppTexts.array_indexes(flutters), 2)
     flutter = Path.home() / '.local' / 'opt' / 'flutter-{}'.format(flutters[prompt_index(flutters)]) / 'bin' / 'flutter'
+
+    pubspec_path = Path(os.getcwd()) / 'pubspec.yaml'
+
+    if not pubspec_path.is_file():
+        echo_stderr(AppTexts.flutter_project_read_pubspec_error())
+        exit(1)
 
     # Enable custom device in flutter
     pc_command([
@@ -96,8 +104,23 @@ def group_flutter_plugins():
                         else:
                             platform_specific_plugins.append(item['name'])
 
-    echo_stdout(AppTexts.flutter_platform_specific_plugins_has_aurora(aurora_platform_specific_plugins))
-    echo_line(1 if (len(platform_specific_plugins)) else 0)
-    echo_stdout(AppTexts.flutter_platform_specific_plugins(platform_specific_plugins))
-    echo_line(1 if (len(not_platform_specific_plugins)) else 0)
-    echo_stdout(AppTexts.flutter_platform_not_specific_plugins(not_platform_specific_plugins))
+    # Read data pubspec.yaml
+    package_name, package_desc = get_pubspec_values(pubspec_path)
+
+    # Output
+    if pdf:
+        pdf_path = Path(os.getcwd()) / 'pubspec.pdf'
+        HTML(string=gen_html_plugins(
+            name=package_name,
+            description=package_desc,
+            items_plugins_ps_aurora=aurora_platform_specific_plugins,
+            items_plugins_ps=platform_specific_plugins,
+            items_plugins_dart=not_platform_specific_plugins,
+        )).write_pdf(pdf_path)
+        echo_stdout(AppTexts.flutter_plugins_save_as_pdf_success(str(pdf_path)))
+    else:
+        echo_stdout(AppTexts.flutter_platform_specific_plugins_has_aurora(aurora_platform_specific_plugins))
+        echo_line(1 if (len(platform_specific_plugins)) else 0)
+        echo_stdout(AppTexts.flutter_platform_specific_plugins(platform_specific_plugins))
+        echo_line(1 if (len(not_platform_specific_plugins)) else 0)
+        echo_stdout(AppTexts.flutter_platform_not_specific_plugins(not_platform_specific_plugins))
