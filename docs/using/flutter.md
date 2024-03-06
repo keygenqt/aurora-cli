@@ -89,3 +89,13 @@ Project configure and run on device for dart debug or hot reload.
 ```shell
 aurora-cli flutter debug dart
 ```
+
+### Plugins
+
+Get types plugins info. Run in folder with pubspec.yaml.
+
+**Example**
+
+```shell
+aurora-cli flutter plugins
+```
