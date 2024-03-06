@@ -11,7 +11,7 @@ mkdir ~/.local/opt
 ### Download
 
 ```shell
-wget -x https://github.com/keygenqt/aurora-cli/raw/main/builds/aurora-cli-2.4.2.pyz \
+wget -x https://github.com/keygenqt/aurora-cli/raw/main/builds/aurora-cli-2.4.3.pyz \
   -O ~/.local/opt/aurora-cli.pyz
 ```
 

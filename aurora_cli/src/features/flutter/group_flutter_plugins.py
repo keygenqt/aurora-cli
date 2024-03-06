@@ -34,15 +34,15 @@ def group_flutter_plugins():
     available_plugins_list = [plugin.split('-')[0].replace('_aurora', '') for plugin in available_plugins_list]
 
     # Required flutter
-    versions = get_list_flutter_installed()
-    if not versions:
+    flutters = get_list_flutter_installed()
+    if not flutters:
         echo_stderr(AppTexts.flutter_not_found())
         exit(0)
 
     # Select flutter
-    echo_stdout(AppTexts.select_versions(versions))
-    echo_stdout(AppTexts.array_indexes(versions), 2)
-    flutter = Path.home() / '.local' / 'opt' / 'flutter-{}'.format(versions[prompt_index(versions)]) / 'bin' / 'flutter'
+    echo_stdout(AppTexts.select_versions(flutters))
+    echo_stdout(AppTexts.array_indexes(flutters), 2)
+    flutter = Path.home() / '.local' / 'opt' / 'flutter-{}'.format(flutters[prompt_index(flutters)]) / 'bin' / 'flutter'
 
     # Enable custom device in flutter
     pc_command([
@@ -70,7 +70,8 @@ def group_flutter_plugins():
         '_linux',
         '_macos',
         '_web',
-        '_windows'
+        '_windows',
+        '_aurora'
     ]
 
     def if_has_key(name: str, value: []):
