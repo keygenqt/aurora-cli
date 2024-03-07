@@ -1,14 +1,15 @@
 
 
 
-## Updated: 06/03/2024 18:24:56 PM
+## Updated: 07/03/2024 23:13:46 PM
 
 ## Info
 
-- Last tag: 2.4.3
-- Released: 11
+- Last tag: 2.4.4
+- Released: 12
 
 ## Versions
+- Version: 2.4.4 (07/03/2024)
 - Version: 2.4.3 (06/03/2024)
 - Version: 2.4.2 (24/02/2024)
 - Version: 2.4.1 (24/02/2024)
@@ -22,8 +23,23 @@
 - Version: 2.0.11 (27/01/2024)
 
 
-### HEAD (06/03/2024 18:24:56 PM)
+### HEAD (07/03/2024 23:13:46 PM)
 
+
+### Version: 2.4.4 (07/03/2024)
+
+
+#### Feature
+
+* Plugins output in PDF. (Vitaliy Zarubin)
+
+#### Change
+
+*None*
+
+#### Bug
+
+*None*
 
 ### Version: 2.4.3 (06/03/2024)
 
