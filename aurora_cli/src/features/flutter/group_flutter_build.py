@@ -45,6 +45,9 @@ RUN='false'
 
 # Open example folder if exist
 if [ -d "example" ]; then
+  # Get dependency plugin
+  $FLUTTER pub get
+  # Open example project
   cd example || exit
 fi
 

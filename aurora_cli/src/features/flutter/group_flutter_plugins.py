@@ -26,6 +26,16 @@ from aurora_cli.src.support.output import echo_stdout, echo_stderr, VerboseType,
 from aurora_cli.src.support.texts import AppTexts
 from aurora_cli.src.support.versions import get_flutter_plugins
 
+# Supported plugins without implementation
+available_plugins_list_not_impl = [
+    'dbus',
+    'build_runner',
+    'build_runner_core',
+    'flutter_cache_manager',
+    'cached_network_image',
+    'google_fonts',
+]
+
 
 @click.group(name='plugins', invoke_without_command=True)
 @click.option('-p', '--pdf', is_flag=True, help='Save info about plugins in PDF.')
@@ -40,6 +50,9 @@ def group_flutter_plugins(pdf: bool):
     if not flutters:
         echo_stderr(AppTexts.flutter_not_found())
         exit(0)
+
+    # Adding plugins that are not in the repository but are supported
+    available_plugins_list = available_plugins_list + available_plugins_list_not_impl
 
     # Select flutter
     echo_stdout(AppTexts.select_versions(flutters))
