@@ -1,14 +1,15 @@
 
 
 
-## Updated: 07/03/2024 23:13:46 PM
+## Updated: 09/03/2024 13:01:59 PM
 
 ## Info
 
-- Last tag: 2.4.4
-- Released: 12
+- Last tag: 2.4.5
+- Released: 13
 
 ## Versions
+- Version: 2.4.5 (09/03/2024)
 - Version: 2.4.4 (07/03/2024)
 - Version: 2.4.3 (06/03/2024)
 - Version: 2.4.2 (24/02/2024)
@@ -23,8 +24,24 @@
 - Version: 2.0.11 (27/01/2024)
 
 
-### HEAD (07/03/2024 23:13:46 PM)
+### HEAD (09/03/2024 13:01:59 PM)
 
+
+### Version: 2.4.5 (09/03/2024)
+
+
+#### Feature
+
+*None*
+
+#### Change
+
+*None*
+
+#### Bug
+
+* Check connection error. (Vitaliy Zarubin)
+* Fix check chroot (Vitaliy Zarubin)
 
 ### Version: 2.4.4 (07/03/2024)
 
