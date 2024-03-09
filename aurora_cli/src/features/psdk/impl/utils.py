@@ -124,6 +124,8 @@ def update_permissions_sudoers_for_use(path: Path):
 # Check sdk_chroot if exist - true
 def check_sdk_chroot(folder: Path) -> bool:
     file = Path(SDK_CHROOT)
+    if not file.is_file():
+        return False
     with open(file, 'r') as file:
         for line in file:
             if folder.name in line:
