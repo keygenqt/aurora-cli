@@ -51,7 +51,7 @@ def psdk_install(ctx: {}, latest: bool):
 
     # Check is not empty
     if not archives:
-        echo_stderr(AppTexts.sdk_not_found())
+        echo_stderr(AppTexts.psdk_not_found())
 
     # Download if needed
     files = multi_download(archives)

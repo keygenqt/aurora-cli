@@ -22,6 +22,7 @@ import click
 import requests
 from alive_progress import alive_bar
 
+from aurora_cli.src.support.helper import get_request
 from aurora_cli.src.support.output import echo_stdout
 from aurora_cli.src.support.texts import AppTexts
 
@@ -72,7 +73,7 @@ def multi_download(urls: []) -> []:
 
 # Run download file
 def _download(url: str, file: str):
-    with requests.get(url, stream=True) as r:
+    with get_request(url, stream=True) as r:
         r.raise_for_status()
         with open(file, 'wb') as f:
             for chunk in r.iter_content(chunk_size=1024):

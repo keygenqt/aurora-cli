@@ -19,7 +19,7 @@ from pathlib import Path
 import requests
 from bs4 import BeautifulSoup
 
-from aurora_cli.src.support.helper import check_string_regex
+from aurora_cli.src.support.helper import check_string_regex, get_request
 
 # Url Aurora SDK
 URL_AURORA_REPO_VERSION = 'https://sdk-repo.omprussia.ru/sdk/installers/{}/AppSDK/'
@@ -47,7 +47,7 @@ def get_sdk_installed_version(workdir: Path) -> str | None:
 def get_url_sdk_folder(version: str) -> str | None:
     versions = []
     url = URL_AURORA_REPO_VERSION.format(version)
-    response = requests.get(url)
+    response = get_request(url)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
         for item in soup.findAll('a'):
@@ -65,7 +65,7 @@ def get_url_sdk_folder(version: str) -> str | None:
 # Find installer sdk from version
 def get_url_sdk_run(version: str, install_type: str) -> str | None:
     url_folder = get_url_sdk_folder(version)
-    response = requests.get(url_folder)
+    response = get_request(url_folder)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
         for item in soup.findAll('a'):

@@ -46,6 +46,10 @@ class AppTexts(Enum):
                 + ('\nTry: sudo apt install gdb-multiarch' if check_dependency_apt() else ''))
 
     @staticmethod
+    def error_connect_internet():
+        return '<red>Internet connection error. Check the connection.</red>'
+
+    @staticmethod
     def devices_not_found():
         return '<red>Devices not found.</red>'
 

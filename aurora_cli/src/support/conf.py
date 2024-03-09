@@ -21,13 +21,13 @@ import requests
 from yaml import Loader
 from yaml import load
 
-from aurora_cli.src.support.helper import get_path_file
+from aurora_cli.src.support.helper import get_path_file, get_request
 from aurora_cli.src.support.output import echo_stdout, VerboseType, echo_stderr
 from aurora_cli.src.support.texts import AppTexts
 
 # Data versions
 APP_NAME = 'aurora-cli'
-APP_VERSION = '2.4.4'
+APP_VERSION = '2.4.5'
 
 # Default path config
 PATH_CONF = '~/.aurora-cli/configuration.yaml'
@@ -133,8 +133,8 @@ devices:
                 key_name = os.path.basename(URL_KEY)
                 cert_name = os.path.basename(URL_CERT)
                 # Download
-                key = requests.get(URL_KEY, allow_redirects=True)
-                cert = requests.get(URL_CERT, allow_redirects=True)
+                key = get_request(URL_KEY)
+                cert = get_request(URL_CERT)
                 # Write
                 with open(path_dir / key_name, 'wb') as file:
                     file.write(key.content)

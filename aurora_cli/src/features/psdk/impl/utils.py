@@ -21,7 +21,8 @@ from pathlib import Path
 import requests
 from bs4 import BeautifulSoup
 
-from aurora_cli.src.support.helper import check_string_regex, clear_file_line, prompt_index, sudo_request, pc_command
+from aurora_cli.src.support.helper import check_string_regex, clear_file_line, prompt_index, sudo_request, pc_command, \
+    get_request
 from aurora_cli.src.support.output import echo_stdout, VerboseType
 from aurora_cli.src.support.texts import AppTexts
 
@@ -71,7 +72,7 @@ def get_psdk_installed_versions(workdir: Path) -> []:
 def get_url_sdk_folder(version: str) -> str | None:
     versions = []
     url = URL_AURORA_REPO_VERSION.format(version)
-    response = requests.get(url)
+    response = get_request(url)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
         for item in soup.findAll('a'):
@@ -89,7 +90,7 @@ def get_url_sdk_folder(version: str) -> str | None:
 # Find archive Platform SDK
 def get_url_psdk_archives(version: str) -> []:
     url_folder = get_url_sdk_folder(version)
-    response = requests.get(url_folder)
+    response = get_request(url_folder)
     result = []
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')

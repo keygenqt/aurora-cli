@@ -260,3 +260,12 @@ def gen_file_name(before: str, extension: str) -> str:
         time=datetime.now().strftime('%Y-%m-%d_%H-%M-%S'),
         extension=extension
     )
+
+
+# Request with check
+def get_request(url: str, stream: bool = False):
+    try:
+        return requests.get(url, stream=stream)
+    except requests.exceptions.ConnectionError:
+        echo_stderr(AppTexts.error_connect_internet())
+        exit(1)
