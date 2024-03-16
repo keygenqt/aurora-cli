@@ -1,6 +1,6 @@
 # Aurora CLI - Flutter for Aurora OS
 
-### Available 
+### Available
 
 Get available versions flutter.
 
@@ -10,7 +10,7 @@ Get available versions flutter.
 aurora-cli flutter available
 ```
 
-### Install 
+### Install
 
 Install Flutter SDK for Aurora OS.
 
@@ -24,7 +24,7 @@ Install Flutter SDK for Aurora OS.
 aurora-cli flutter install --latest
 ```
 
-### Installed 
+### Installed
 
 Get installed list Flutter SDK.
 
@@ -34,7 +34,7 @@ Get installed list Flutter SDK.
 aurora-cli flutter installed
 ```
 
-### Remove 
+### Remove
 
 Remove Flutter SDK.
 
@@ -98,4 +98,18 @@ Get types plugins info. Run in folder with pubspec.yaml.
 
 ```shell
 aurora-cli flutter plugins
+```
+
+### Icons
+
+Create icons size for flutter project.
+
+**Params**
+
+* `--path (-p)` - Path to image.
+
+**Example**
+
+```shell
+aurora-cli flutter icons -p {/path/to/file.png}
 ```

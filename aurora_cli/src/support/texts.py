@@ -508,3 +508,11 @@ Good luck!""".format(version=version, psdk_path=psdk_path)
     def flutter_build_script_add_success(path: str):
         return ('<green>Script has been successfully added:</green> {}'
                 '\n<cyan>It requires additional manual configuration.</cyan>').format(path)
+
+    @staticmethod
+    def error_size_image_icon(width: int, height: int):
+        return '<red>Minimum icon size {}x{}.</red>'.format(width, height)
+
+    @staticmethod
+    def flutter_icons_create_success(path: str):
+        return '<green>Create icons successfully:</green> {}'.format(path)
