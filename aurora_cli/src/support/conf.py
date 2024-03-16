@@ -27,7 +27,7 @@ from aurora_cli.src.support.texts import AppTexts
 
 # Data versions
 APP_NAME = 'aurora-cli'
-APP_VERSION = '2.4.6'
+APP_VERSION = '2.4.7'
 
 # Default path config
 PATH_CONF = '~/.aurora-cli/configuration.yaml'

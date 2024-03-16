@@ -516,3 +516,7 @@ Good luck!""".format(version=version, psdk_path=psdk_path)
     @staticmethod
     def flutter_icons_create_success(path: str):
         return '<green>Create icons successfully:</green> {}'.format(path)
+
+    @staticmethod
+    def confirm_image_size():
+        return 'The image\'s width and height are not equal, continue?'

@@ -44,6 +44,10 @@ def group_flutter_icons(path: str):
 
     width, height = image.size
 
+    if width != height:
+        if not click.confirm(AppTexts.confirm_image_size()):
+            exit(0)
+
     if width < sizes[0][0] or height < sizes[0][1]:
         echo_stderr(AppTexts.error_size_image_icon(sizes[0][0], sizes[0][1]))
         exit(1)
@@ -54,7 +58,11 @@ def group_flutter_icons(path: str):
     folder.mkdir()
 
     for size in sizes:
+        out = Image.new('RGBA', (size[0], size[1]), (0, 0, 0, 0))
         image.thumbnail((size[0], size[1]))
-        image.save(folder / '{}x{}.png'.format(size[0], size[1]))
+        x = (out.width - image.width) // 2
+        y = (out.height - image.height) // 2
+        out.paste(image, (x, y))
+        out.save(folder / '{}x{}.png'.format(size[0], size[1]))
 
-    echo_stdout(AppTexts.flutter_icons_create_success(str(folder)))
+    echo_stdout(AppTexts.flutter_icons_create_success(str(folder.absolute())))
