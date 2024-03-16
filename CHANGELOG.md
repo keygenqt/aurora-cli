@@ -1,11 +1,12 @@
-## Updated: 03/11/2024 09:06:03 AM
+## Updated: 03/16/2024 22:21:15 PM
 
 ## Info
 
-- Last tag: 2.4.5
-- Released: 13
+- Last tag: 2.4.6
+- Released: 14
 
 ## Versions
+- Version: 2.4.6 (16/03/2024)
 - Version: 2.4.5 (09/03/2024)
 - Version: 2.4.4 (07/03/2024)
 - Version: 2.4.3 (06/03/2024)
@@ -19,6 +20,12 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 2.4.6 (16/03/2024)
+
+#### Feature
+
+- Add gen multiple size icons for application. (Vitaliy Zarubin)
 
 ### Version: 2.4.5 (09/03/2024)
 
