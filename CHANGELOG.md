@@ -1,11 +1,12 @@
-## Updated: 03/16/2024 23:57:29 PM
+## Updated: 03/29/2024 19:19:20 PM
 
 ## Info
 
-- Last tag: 2.4.7
-- Released: 15
+- Last tag: 2.4.8
+- Released: 16
 
 ## Versions
+- Version: 2.4.8 (29/03/2024)
 - Version: 2.4.7 (16/03/2024)
 - Version: 2.4.6 (16/03/2024)
 - Version: 2.4.5 (09/03/2024)
@@ -21,6 +22,16 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 2.4.8 (29/03/2024)
+
+#### Bug
+
+- Fix workdir search emulator keys. (Vitaliy Zarubin)
+
+#### Feature
+
+- Add flag for show all versions available. (Vitaliy Zarubin)
 
 ### Version: 2.4.7 (16/03/2024)
 
