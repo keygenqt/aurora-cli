@@ -247,7 +247,7 @@ class AppTexts(Enum):
 
     @staticmethod
     def conf_download_keys_confirm():
-        return 'Public key pairs not found, download them for you?'
+        return 'Download public keys for sign RPM packages?'
 
     @staticmethod
     def conf_download_keys_success(path: str):

@@ -30,12 +30,12 @@ from aurora_cli.src.support.texts import AppTexts
 
 
 # Check folder in home dir by name, contains file
-def check_home_folder(name: str, contains_name: str, contains_file_path: str) -> bool:
+def check_home_folder(workdir: Path, name: str, contains_name: str, contains_file_path: str) -> bool:
     if contains_name not in name:
         return False
-    if not os.path.isdir(Path.home() / name):
+    if not os.path.isdir(workdir / name):
         return False
-    if not os.path.isfile(Path.home() / name / contains_file_path):
+    if not os.path.isfile(workdir / name / contains_file_path):
         return False
     return True
 
@@ -57,7 +57,7 @@ def check_empty_with_exit(obj: {}, text: str) -> {}:
 
 
 # Get fist or None from array
-def get_first_or_none(array: []) -> []:
+def get_first_or_none(array: []):
     return array[0] if array else None
 
 

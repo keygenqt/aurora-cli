@@ -40,7 +40,9 @@ group_emulator.add_command(emulator_recording)
 def command(ctx: {}, execute: str, verbose: bool):
     """Execute the command on the emulator."""
 
-    client = emulator_ssh_select()
+    workdir = ctx.obj.get_workdir()
+    # Get emulator client
+    client = emulator_ssh_select(workdir=workdir)
 
     # Run common with emulator function
     common_command(client, execute, ctx.obj.get_type_output(verbose))
@@ -53,8 +55,9 @@ def command(ctx: {}, execute: str, verbose: bool):
 def run(ctx: {}, package: str, verbose: bool):
     """Run package on emulator in container."""
 
+    workdir = ctx.obj.get_workdir()
     # Get emulator client
-    client = emulator_ssh_select()
+    client = emulator_ssh_select(workdir=workdir)
 
     # Run common with emulator function
     common_run(client, package, ctx.obj.get_type_output(verbose))
@@ -67,20 +70,23 @@ def run(ctx: {}, package: str, verbose: bool):
 def install(ctx: {}, path: [], verbose: bool):
     """Install RPM package on emulator."""
 
+    workdir = ctx.obj.get_workdir()
     # Get emulator client
-    client = emulator_ssh_select(is_root=True)
+    client = emulator_ssh_select(workdir=workdir, is_root=True)
 
     # Run common with emulator function
     common_install(client, path, {}, ctx.obj.get_type_output(verbose))
 
 
 @group_emulator.command()
+@click.pass_context
 @click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help='Path to file')
-def upload(path: []):
+def upload(ctx: {}, path: []):
     """Upload file to ~/Download directory emulator."""
 
+    workdir = ctx.obj.get_workdir()
     # Get emulator client
-    client = emulator_ssh_select()
+    client = emulator_ssh_select(workdir=workdir)
 
     # Run common with emulator function
     common_upload(client, path)

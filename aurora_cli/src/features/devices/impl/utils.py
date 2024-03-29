@@ -13,10 +13,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+from pathlib import Path
+
 from paramiko.client import SSHClient
 
 from aurora_cli.src.support.helper import check_array_with_exit, prompt_index, get_by_index, check_empty_with_exit
-from aurora_cli.src.support.output import echo_stdout
+from aurora_cli.src.support.output import echo_stdout, VerboseType
 from aurora_cli.src.support.sdk import find_folder_sdk
 from aurora_cli.src.support.ssh import get_ssh_client
 from aurora_cli.src.support.texts import AppTexts
@@ -24,9 +26,9 @@ from aurora_cli.src.support.vbox import vm_search_emulator_aurora, vm_check_is_r
 
 
 # Get emulator ssh client
-def emulator_ssh_select(is_root: bool = False) -> SSHClient:
+def emulator_ssh_select(workdir: Path, is_root: bool = False) -> SSHClient:
     # Get name emulator
-    emulator_name = vm_search_emulator_aurora(False)
+    emulator_name = vm_search_emulator_aurora(VerboseType.none)
 
     # Check emulator is running
     if not vm_check_is_run(emulator_name):
@@ -34,7 +36,7 @@ def emulator_ssh_select(is_root: bool = False) -> SSHClient:
         exit(1)
 
     # Get emulator client
-    client = get_ssh_client_emulator(is_root)
+    client = get_ssh_client_emulator(workdir=workdir, is_root=is_root)
 
     # Check emulator is running
     if not client:
@@ -85,8 +87,8 @@ def get_ssh_client_device(
 
 
 # Get ssh client emulator
-def get_ssh_client_emulator(is_root: bool) -> SSHClient | None:
-    path = find_folder_sdk()
+def get_ssh_client_emulator(workdir: Path, is_root: bool) -> SSHClient | None:
+    path = find_folder_sdk(workdir=workdir)
     if not path:
         return None
     return get_ssh_client(

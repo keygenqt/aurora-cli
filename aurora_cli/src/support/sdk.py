@@ -17,20 +17,30 @@ import os
 from pathlib import Path
 
 from aurora_cli.src.support.helper import get_first_or_none, check_home_folder
+from aurora_cli.src.support.output import echo_stderr
+from aurora_cli.src.support.texts import AppTexts
 
 
 # Get path Aurora SDK
-def find_folder_sdk() -> Path:
-    return Path.home() / _find_folder_sdks(Path('sdk-release'))
+def find_folder_sdk(workdir: Path) -> Path:
+    path = _find_folder_sdks(workdir, Path('sdk-release'))
+    if not path:
+        echo_stderr(AppTexts.sdk_not_found())
+        exit(0)
+    return workdir / str(path)
 
 
 # Get path Aurora Platform SDK
-def find_folder_psdk() -> Path:
-    return Path.home() / _find_folder_sdks(Path('sdks') / 'aurora_psdk' / 'sdk-chroot')
+def find_folder_psdk(workdir: Path) -> Path:
+    path = _find_folder_sdks(workdir, Path('sdks') / 'aurora_psdk' / 'sdk-chroot')
+    if not path:
+        echo_stderr(AppTexts.psdk_not_found())
+        exit(0)
+    return workdir / str(path)
 
 
 # Get installed sdk or psdk
-def _find_folder_sdks(contains_file_path: Path) -> []:
+def _find_folder_sdks(workdir: Path, contains_file_path: Path):
     return get_first_or_none(
-        [d for d in os.listdir(Path.home()) if check_home_folder(d, 'Aurora', str(contains_file_path))]
+        [d for d in os.listdir(workdir) if check_home_folder(workdir, d, 'Aurora', str(contains_file_path))]
     )

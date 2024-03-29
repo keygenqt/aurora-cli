@@ -31,7 +31,7 @@ URL_FLUTTER_PLUGINS = 'https://gitlab.com/api/v4/projects/48571226/repository/ta
 
 
 # Get list versions Aurora SDK
-def get_versions_sdk() -> []:
+def get_versions_sdk(show_all: bool = False) -> []:
     versions = []
     echo_stdout(AppTexts.loading_server())
     response = get_request(URL_AURORA_REPO)
@@ -42,7 +42,10 @@ def get_versions_sdk() -> []:
             if check_string_regex(text, [r'\d.\d.\d']):
                 versions.append(text)
     versions.reverse()
-    return versions[:3]
+    if show_all:
+        return versions
+    else:
+        return versions[:4]
 
 
 # Get list versions flutter

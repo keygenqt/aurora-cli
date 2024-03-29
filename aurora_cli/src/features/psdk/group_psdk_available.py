@@ -22,9 +22,10 @@ from aurora_cli.src.support.versions import get_versions_sdk
 
 
 @click.group(name='available', invoke_without_command=True)
-def psdk_available():
+@click.option('-a', '--show-all', is_flag=True, default=False, help="Show all versions")
+def psdk_available(show_all: bool):
     """Get available version Aurora Platform SDK."""
 
-    versions = get_versions_sdk()
+    versions = get_versions_sdk(show_all)
 
     echo_stdout(AppTexts.psdk_versions(versions))

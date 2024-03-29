@@ -36,20 +36,22 @@ def group_sdk():
 
 
 @group_sdk.command()
-def available():
+@click.option('-a', '--show-all', is_flag=True, default=False, help="Show all versions")
+def available(show_all: bool):
     """Get available version Aurora SDK."""
 
-    versions = get_versions_sdk()
+    versions = get_versions_sdk(show_all)
 
     echo_stdout(AppTexts.sdk_versions(versions))
 
 
 @group_sdk.command()
 @click.pass_context
+@click.option('-a', '--show-all', is_flag=True, default=False, help="Show all versions")
 @click.option('-l', '--latest', is_flag=True, help='Select latest version')
 @click.option('-t', '--install-type', default='online', type=click.Choice(['offline', 'online'], case_sensitive=False),
               help='Select installer type')
-def install(ctx: {}, latest: bool, install_type: str):
+def install(ctx: {}, show_all: bool, latest: bool, install_type: str):
     """Download and run install Aurora SDK."""
 
     workdir = ctx.obj.get_workdir()
@@ -59,7 +61,7 @@ def install(ctx: {}, latest: bool, install_type: str):
         echo_stderr(AppTexts.sdk_already_exist(version))
         exit(1)
 
-    versions = get_versions_sdk()
+    versions = get_versions_sdk(show_all)
 
     echo_stdout(AppTexts.select_versions(versions))
     echo_stdout(AppTexts.array_indexes(versions), 2)

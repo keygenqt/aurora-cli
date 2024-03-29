@@ -4,6 +4,10 @@
 
 Get available version Aurora Platform SDK.
 
+**Params**
+
+* `--show-all (-a)` - Show all versions.
+
 **Example**
 
 ```shell
@@ -16,6 +20,7 @@ Download and install Aurora Platform SDK.
 
 **Params**
 
+* `--show-all (-a)` - Show all versions.
 * `--latest (-l)` - Aurora select latest version for install.
 
 **Example**

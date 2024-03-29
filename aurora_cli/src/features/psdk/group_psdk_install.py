@@ -30,12 +30,13 @@ from aurora_cli.src.support.versions import get_versions_sdk
 
 @click.group(name='install', invoke_without_command=True)
 @click.pass_context
+@click.option('-a', '--show-all', is_flag=True, default=False, help="Show all versions")
 @click.option('-l', '--latest', is_flag=True, help="Select latest version")
-def psdk_install(ctx: {}, latest: bool):
+def psdk_install(ctx: {}, show_all: bool, latest: bool):
     """Download and install Aurora Platform SDK."""
 
     workdir = ctx.obj.get_workdir()
-    versions = get_versions_sdk()
+    versions = get_versions_sdk(show_all)
 
     echo_stdout(AppTexts.select_versions(versions))
     echo_stdout(AppTexts.array_indexes(versions), 2)
