@@ -57,7 +57,7 @@ def emulator_screenshot(ctx: {}, verbose: bool):
         screenshot_dir = Path.home() / 'Pictures' / 'Screenshots'
 
         # Create is not exist
-        if screenshot_dir.is_dir():
+        if not screenshot_dir.is_dir():
             screenshot_dir.mkdir(parents=True, exist_ok=True)
 
         # Screenshot name
