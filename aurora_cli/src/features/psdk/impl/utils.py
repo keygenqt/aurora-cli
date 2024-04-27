@@ -90,6 +90,8 @@ def get_url_sdk_folder(version: str) -> str | None:
 # Find archive Platform SDK
 def get_url_psdk_archives(version: str) -> []:
     url_folder = get_url_sdk_folder(version)
+    if not url_folder:
+        return []
     response = get_request(url_folder)
     result = []
     if response.status_code == 200:
