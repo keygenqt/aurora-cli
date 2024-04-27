@@ -75,7 +75,7 @@ $FLUTTER pub run build_runner build --delete-conflicting-outputs
   output=$($FLUTTER build aurora --target-platform aurora-$PLATFORM --$VERSION | tee /dev/fd/5)
 
   # Get path to rmp
-  listRPMs=$(echo "$output" | grep "│" | tr -d "\n" | sed 's/│//g' | sed 's/ //g' | sed 's/\.\//;/g')
+  listRPMs=$(echo "$output" | grep "│" | tr -d "\n" | sed 's/│//g' | sed 's/ //g' | sed 's/\\.\\//;/g')
 
   # Get package name
   for item in $(echo "$listRPMs" | tr ";" "\n")

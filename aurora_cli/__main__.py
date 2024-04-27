@@ -32,6 +32,16 @@ from aurora_cli.src.support.conf import Conf  # noqa: E402
 @click.option('--conf', '-c', default=None, help='Specify config path.', type=click.STRING, required=False)
 @click.pass_context
 def main(ctx: {}, conf: {}):
+    """
+The application allows you to install tools for working with the Aurora OS and simplifies working with them.
+More details about the tools can be found on the documentation page:
+
+Flutter SDK  https://omprussia.gitlab.io/flutter/flutter
+Aurora SDK   https://developer.auroraos.ru/doc/software_development/sdk
+Platform SDK https://developer.auroraos.ru/doc/software_development/psdk
+
+This is a third party tool written by enthusiasts!
+    """
     ctx.obj = Conf(conf)
     if not ctx.invoked_subcommand:
         print(ctx.get_help())
