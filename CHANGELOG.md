@@ -1,11 +1,12 @@
-## Updated: 03/29/2024 19:19:20 PM
+## Updated: 04/28/2024 11:51:04 AM
 
 ## Info
 
-- Last tag: 2.4.8
-- Released: 16
+- Last tag: 2.5.0
+- Released: 17
 
 ## Versions
+- Version: 2.5.0 (28/04/2024)
 - Version: 2.4.8 (29/03/2024)
 - Version: 2.4.7 (16/03/2024)
 - Version: 2.4.6 (16/03/2024)
@@ -22,6 +23,18 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 2.5.0 (28/04/2024)
+
+#### Bug
+
+- Block download not exist files sdk. (Vitaliy Zarubin)
+- Fix create folder for save screenshots. (Vitaliy Zarubin)
+
+#### Feature
+
+- Add dart debug & hot reload for emulator. (Vitaliy Zarubin)
+- Add application description. (Vitaliy Zarubin)
 
 ### Version: 2.4.8 (29/03/2024)
 
