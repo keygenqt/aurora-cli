@@ -81,6 +81,7 @@ Project configure and run on device for dart debug or hot reload.
 **Params**
 
 * `--index (-i)` - Specify index device.
+* `--emulator (-e)` - Run on emulator.
 * `--yes (-y)` - All yes confirm.
 * `--verbose (-v)` - Detailed output.
 
