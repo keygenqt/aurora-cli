@@ -31,3 +31,12 @@ def check_dependency_apt() -> bool:
         return True
     except (Exception,):
         return False
+
+
+# Check dependency sshpass
+def check_dependency_sshpass() -> bool:
+    try:
+        subprocess.run(['sshpass', '-V'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        return True
+    except (Exception,):
+        return False

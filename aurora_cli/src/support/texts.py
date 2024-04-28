@@ -21,6 +21,11 @@ from aurora_cli.src.support.dependency import check_dependency_apt
 # Application texts
 class AppTexts(Enum):
     @staticmethod
+    def error_dependency_sshpass():
+        return ('<red>Application</red> "sshpass" <red>not found, install it.</red>'
+                + ('\nTry: sudo apt install sshpass' if check_dependency_apt() else ''))
+
+    @staticmethod
     def error_dependency_git():
         return ('<red>Application</red> "git" <red>not found, install it.</red>'
                 + ('\nTry: sudo apt install git' if check_dependency_apt() else ''))
@@ -48,6 +53,11 @@ class AppTexts(Enum):
     @staticmethod
     def error_connect_internet():
         return '<red>Internet connection error. Check the connection.</red>'
+
+    @staticmethod
+    def error_find_ssh_key(path_key: str):
+        return ('<red>Public-key authentication is required to connect to the debug</red>.\n'
+                '<red>Key not found:</red> {path}').format(path=path_key)
 
     @staticmethod
     def devices_not_found():
