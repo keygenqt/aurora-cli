@@ -107,6 +107,72 @@ CUSTOM_DEVICE_CODE_DATA = r'''{{
   ]
 }}'''
 
+CUSTOM_DEVICE_CODE_DATA_VM = r'''{{
+  "custom-devices": [
+    {{
+      "id": "aurora",
+      "label": "Aurora",
+      "sdkNameAndVersion": "5.0",
+      "platform": null,
+      "enabled": true,
+      "ping": [
+        "ping",
+        "-c",
+        "1",
+        "-w",
+        "1",
+        "{ip}"
+      ],
+      "pingSuccessRegex": null,
+      "postBuild": null,
+      "install": [
+        "scp",
+        "-r",
+        "-o",
+        "BatchMode=yes",
+        "${{localPath}}",
+        "defaultuser@{ip}:/tmp/${{appName}}"
+      ],
+      "uninstall": [
+        "ssh",
+        "-i",
+        "{sdk_path}/vmshare/ssh/private_keys/sdk",
+        "-p2223",
+        "-o",
+        "BatchMode=yes",
+        "defaultuser@{ip}",
+        "rm -rf \"/tmp/${{appName}}\""
+      ],
+      "runDebug": [
+        "ssh",
+        "-i",
+        "{sdk_path}/vmshare/ssh/private_keys/sdk",
+        "-p2223",
+        "-o",
+        "BatchMode=yes",
+        "defaultuser@{ip}",
+        "/usr/bin/{package}"
+      ],
+      "forwardPort": [
+        "ssh",
+        "-i",
+        "{sdk_path}/vmshare/ssh/private_keys/sdk",
+        "-p2223",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ExitOnForwardFailure=yes",
+        "-L",
+        "127.0.0.1:${{hostPort}}:127.0.0.1:${{devicePort}}",
+        "defaultuser@{ip}",
+        "echo 'Port forwarding success'; read"
+      ],
+      "forwardPortSuccessRegex": "Port forwarding success",
+      "screenshot": null
+    }}
+  ]
+}}'''
+
 PLUGINS_OUTPUT_HTML = '''
 <!DOCTYPE html>
 <html lang="en">

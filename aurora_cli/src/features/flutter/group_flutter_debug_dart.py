@@ -19,13 +19,14 @@ from threading import Timer
 
 import click
 
-from aurora_cli.src.features.devices.impl.utils import device_ssh_select
+from aurora_cli.src.features.devices.impl.utils import device_ssh_select, emulator_ssh_select
 from aurora_cli.src.features.flutter.impl.utils import get_spec_keys, DART_VSCODE_DATA, \
-    CUSTOM_DEVICE_CODE_DATA, get_list_flutter_installed
+    CUSTOM_DEVICE_CODE_DATA, get_list_flutter_installed, CUSTOM_DEVICE_CODE_DATA_VM
 from aurora_cli.src.support.dependency import check_dependency_vscode_plugin
 from aurora_cli.src.support.dependency_required import check_dependency_vscode
 from aurora_cli.src.support.helper import pc_command, find_path_file, prompt_index
 from aurora_cli.src.support.output import VerboseType, echo_stdout, echo_stderr
+from aurora_cli.src.support.sdk import find_folder_sdk
 from aurora_cli.src.support.ssh import ssh_client_exec_command
 from aurora_cli.src.support.texts import AppTexts
 
@@ -33,10 +34,14 @@ from aurora_cli.src.support.texts import AppTexts
 @click.group(name='dart', invoke_without_command=True)
 @click.pass_context
 @click.option('-i', '--index', type=click.INT, help='Specify index device')
+@click.option('-e', '--emulator', is_flag=True, default=False, help="Run on emulator")
 @click.option('-y', '--yes', is_flag=True, help='All yes confirm')
 @click.option('-v', '--verbose', is_flag=True, help='Detailed output')
-def group_flutter_debug_dart(ctx: {}, index: int, yes: bool, verbose: bool):
+def group_flutter_debug_dart(ctx: {}, index: int, emulator: bool, yes: bool, verbose: bool):
     """Project configure and run on device for dart debug or hot reload."""
+
+    workdir = ctx.obj.get_workdir()
+    sdk_path = find_folder_sdk(workdir)
 
     # Required dependency
     check_dependency_vscode()
@@ -87,8 +92,12 @@ def group_flutter_debug_dart(ctx: {}, index: int, yes: bool, verbose: bool):
         '--enable-custom-devices',
     ], VerboseType.none)
 
-    # Get device client
-    client, data = device_ssh_select(ctx, index)
+    if emulator:
+        client = emulator_ssh_select(workdir=workdir)
+        device_ip = '127.0.0.1'
+    else:
+        client, data = device_ssh_select(ctx, index)
+        device_ip = data['ip']
 
     # Get path to launch.json
     vscode_dir = Path(f'{os.getcwd()}/.vscode')
@@ -114,10 +123,17 @@ def group_flutter_debug_dart(ctx: {}, index: int, yes: bool, verbose: bool):
         # Create custom_devices.json
         custom_devices.unlink(missing_ok=True)
         with open(custom_devices, 'w') as file:
-            print(CUSTOM_DEVICE_CODE_DATA.format(
-                ip=ip,
-                package=package_name,
-            ), file=file)
+            if emulator:
+                print(CUSTOM_DEVICE_CODE_DATA_VM.format(
+                    ip=ip,
+                    package=package_name,
+                    sdk_path=sdk_path
+                ), file=file)
+            else:
+                print(CUSTOM_DEVICE_CODE_DATA.format(
+                    ip=ip,
+                    package=package_name,
+                ), file=file)
         # Create launch.json
         launch.unlink(missing_ok=True)
         with open(launch, 'w') as f:
@@ -128,12 +144,23 @@ def group_flutter_debug_dart(ctx: {}, index: int, yes: bool, verbose: bool):
             ), file=f)
 
     def ssh_nfl(port: int):
-        pc_command([
-            'ssh',
-            '-NfL',
-            '{port}:127.0.0.1:{port}'.format(port=port),
-            'defaultuser@{ip}'.format(ip=data['ip'])
-        ], VerboseType.verbose)
+        if emulator:
+            pc_command([
+                'ssh',
+                '-i',
+                '{sdk_path}/vmshare/ssh/private_keys/sdk'.format(sdk_path=sdk_path),
+                '-NfL',
+                '{port}:127.0.0.1:{port}'.format(port=port),
+                'defaultuser@{ip}'.format(ip=device_ip),
+                '-p2223'
+            ], VerboseType.verbose)
+        else:
+            pc_command([
+                'ssh',
+                '-NfL',
+                '{port}:127.0.0.1:{port}'.format(port=port),
+                'defaultuser@{ip}'.format(ip=device_ip),
+            ], VerboseType.verbose)
 
     # Loading 10 second link from app
     def exit_not_debug_run():
@@ -150,7 +177,7 @@ def group_flutter_debug_dart(ctx: {}, index: int, yes: bool, verbose: bool):
             exit(1)
         if 'listening on ' in line:
             url = line.split('listening on ')[1]
-            rewrite_configs(url, data['ip'])
+            rewrite_configs(url, device_ip)
             ssh_nfl(int(url.split('/')[2].split(':')[1]))
             debug_check_run.cancel()
 

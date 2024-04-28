@@ -22,6 +22,7 @@ import click
 from aurora_cli.src.support.dependency_required import check_dependency_ffmpeg
 from aurora_cli.src.support.helper import gen_file_name, get_path_file
 from aurora_cli.src.support.output import VerboseType, echo_stdout, echo_stderr
+from aurora_cli.src.support.sdk import find_folder_sdk
 from aurora_cli.src.support.texts import AppTexts
 from aurora_cli.src.support.vbox import vm_search_emulator_aurora, vb_manage_command, vm_check_is_run
 
@@ -93,6 +94,9 @@ def emulator_screenshot(ctx: {}, verbose: bool):
 def emulator_recording(ctx: {}, convert: bool, verbose: bool):
     """Recording video from emulator."""
 
+    workdir = ctx.obj.get_workdir()
+    sdk_path = find_folder_sdk(workdir)
+
     # Required ffmpeg dependency for convert
     if convert:
         check_dependency_ffmpeg()
@@ -146,7 +150,7 @@ def emulator_recording(ctx: {}, convert: bool, verbose: bool):
 
         default_path = Path(
             get_path_file(
-                '~/AuroraOS/emulator/{name}/{name}/{name}-screen0.webm'.format(name=emulator_name)
+                '{sdk_path}/emulator/{name}/{name}/{name}-screen0.webm'.format(sdk_path=sdk_path, name=emulator_name)
             )
         )
 
