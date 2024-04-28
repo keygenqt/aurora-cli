@@ -1,11 +1,12 @@
-## Updated: 04/28/2024 11:51:04 AM
+## Updated: 04/28/2024 17:28:09 PM
 
 ## Info
 
-- Last tag: 2.5.0
-- Released: 17
+- Last tag: 2.5.1
+- Released: 18
 
 ## Versions
+- Version: 2.5.1 (28/04/2024)
 - Version: 2.5.0 (28/04/2024)
 - Version: 2.4.8 (29/03/2024)
 - Version: 2.4.7 (16/03/2024)
@@ -23,6 +24,12 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 2.5.1 (28/04/2024)
+
+#### Bug
+
+- Fix flutter debug without public key ssh. (Vitaliy Zarubin)
 
 ### Version: 2.5.0 (28/04/2024)
 
