@@ -66,6 +66,8 @@ Project configure and run for gdb debug.
 **Params**
 
 * `--index (-i)` - Specify index device.
+* `--port (-p)` - Specify port for gdb server.
+* `--emulator (-e)` - Run on emulator.
 * `--verbose (-v)` - Detailed output.
 
 **Example**
