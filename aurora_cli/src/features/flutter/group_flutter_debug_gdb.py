@@ -18,7 +18,7 @@ from pathlib import Path
 
 import click
 
-from aurora_cli.src.features.devices.impl.utils import device_ssh_select
+from aurora_cli.src.features.devices.impl.utils import device_ssh_select, emulator_ssh_select
 from aurora_cli.src.features.flutter.impl.utils import get_spec_keys, GDB_INIT_DATA, GDB_VSCODE_DATA
 from aurora_cli.src.support.conf import Conf
 from aurora_cli.src.support.dependency import check_dependency_vscode_plugin
@@ -32,16 +32,23 @@ from aurora_cli.src.support.texts import AppTexts
 @click.group(name='gdb', invoke_without_command=True)
 @click.pass_context
 @click.option('-i', '--index', type=click.INT, help='Specify index device')
+@click.option('-p', '--port', type=click.INT, default=20000, help='Specify port for gdb server')
+@click.option('-e', '--emulator', is_flag=True, default=False, help="Run on emulator")
 @click.option('-v', '--verbose', is_flag=True, help='Detailed output')
-def group_flutter_debug_gdb(ctx: {}, index: int, verbose: bool):
+def group_flutter_debug_gdb(ctx: {}, index: int, port: int, emulator: bool, verbose: bool):
     """Project configure and run on device for gdb debug."""
 
-    port_gdb_server = 2345
+    workdir = ctx.obj.get_workdir()
 
     echo_stdout(AppTexts.preparing())
 
     # Get device client
-    client, data = device_ssh_select(ctx, index)
+    if emulator:
+        client = emulator_ssh_select(workdir=workdir)
+        device_ip = '127.0.0.1'
+    else:
+        client, data = device_ssh_select(ctx, index)
+        device_ip = data['ip']
 
     # Required dependency
     check_dependency_vscode()
@@ -103,13 +110,13 @@ def group_flutter_debug_gdb(ctx: {}, index: int, verbose: bool):
     with open(launch, 'w') as file:
         print(GDB_VSCODE_DATA.format(
             rmp_path=file_path,
-            ip=data['ip'],
-            port=port_gdb_server,
+            ip=device_ip,
+            port=port,
         ), file=file)
 
     # Run server
     ssh_client_exec_command(
         client,
-        'gdbserver --multi :{}'.format(port_gdb_server),
+        'gdbserver --multi :{}'.format(port),
         ctx.obj.get_type_output(verbose)
     )
