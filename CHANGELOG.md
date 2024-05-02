@@ -1,11 +1,12 @@
-## Updated: 04/28/2024 17:28:09 PM
+## Updated: 05/02/2024 21:26:50 PM
 
 ## Info
 
-- Last tag: 2.5.1
-- Released: 18
+- Last tag: 2.6.0
+- Released: 19
 
 ## Versions
+- Version: 2.6.0 (02/05/2024)
 - Version: 2.5.1 (28/04/2024)
 - Version: 2.5.0 (28/04/2024)
 - Version: 2.4.8 (29/03/2024)
@@ -24,6 +25,12 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 2.6.0 (02/05/2024)
+
+#### Feature
+
+- Add gdb debug for emulator (Dmitry Seloustev)
 
 ### Version: 2.5.1 (28/04/2024)
 
