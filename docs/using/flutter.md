@@ -51,6 +51,7 @@ Add script to project for build Flutter application.
 **Params**
 
 * `--index (-i)` - Specify index version.
+* `--apm (-a)` - Use new install APM.
 * `--yes (-y)` - All yes confirm.
 
 **Example**
@@ -68,7 +69,7 @@ Project configure and run for gdb debug.
 * `--index (-i)` - Specify index device.
 * `--port (-p)` - Specify port for gdb server.
 * `--emulator (-e)` - Run on emulator.
-* `--verbose (-v)` - Detailed output.
+* `--verbose (-v)` - Command output.
 
 **Example**
 
@@ -85,7 +86,7 @@ Project configure and run on device for dart debug or hot reload.
 * `--index (-i)` - Specify index device.
 * `--emulator (-e)` - Run on emulator.
 * `--yes (-y)` - All yes confirm.
-* `--verbose (-v)` - Detailed output.
+* `--verbose (-v)` - Command output.
 
 **Example**
 
@@ -115,4 +116,21 @@ Create icons size for flutter project.
 
 ```shell
 aurora-cli flutter icons -p {/path/to/file.png}
+```
+
+### Format project Dart & C++
+
+Formatting C++ and Dart code in a Flutter project according to the
+[rules](https://omprussia.gitlab.io/flutter/flutter/faq/#dart) adopted in Flutter for Aurora OS.
+Call it in the project package or specify the path to it.
+
+**Params**
+
+* `--path (-p)` - Path to project.
+* `--verbose (-v)` - Command output.
+
+**Example**
+
+```shell
+aurora-cli flutter format
 ```

@@ -36,7 +36,7 @@ group_emulator.add_command(emulator_recording)
 @group_emulator.command()
 @click.pass_context
 @click.option('-e', '--execute', type=click.STRING, required=True, help='The command to be executed on the emulator')
-@click.option('-v', '--verbose', is_flag=True, help='Detailed output')
+@click.option('-v', '--verbose', is_flag=True, help='Command output')
 def command(ctx: {}, execute: str, verbose: bool):
     """Execute the command on the emulator."""
 
@@ -51,7 +51,7 @@ def command(ctx: {}, execute: str, verbose: bool):
 @group_emulator.command()
 @click.pass_context
 @click.option('-p', '--package', type=click.STRING, required=True, help='Package name')
-@click.option('-v', '--verbose', is_flag=True, help='Detailed output')
+@click.option('-v', '--verbose', is_flag=True, help='Command output')
 def run(ctx: {}, package: str, verbose: bool):
     """Run package on emulator in container."""
 
@@ -66,8 +66,9 @@ def run(ctx: {}, package: str, verbose: bool):
 @group_emulator.command()
 @click.pass_context
 @click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help='Path to RPM file')
-@click.option('-v', '--verbose', is_flag=True, help='Detailed output')
-def install(ctx: {}, path: [], verbose: bool):
+@click.option('-a', '--apm', is_flag=True, help='Use new install APM')
+@click.option('-v', '--verbose', is_flag=True, help='Command output')
+def install(ctx: {}, path: [], apm: bool, verbose: bool):
     """Install RPM package on emulator."""
 
     workdir = ctx.obj.get_workdir()
@@ -75,7 +76,7 @@ def install(ctx: {}, path: [], verbose: bool):
     client = emulator_ssh_select(workdir=workdir, is_root=True)
 
     # Run common with emulator function
-    common_install(client, path, {}, ctx.obj.get_type_output(verbose))
+    common_install(client, path, {}, apm, ctx.obj.get_type_output(verbose))
 
 
 @group_emulator.command()

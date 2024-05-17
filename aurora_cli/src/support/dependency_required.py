@@ -58,3 +58,12 @@ def check_dependency_gdb_multiarch():
     except (Exception,):
         echo_stderr(AppTexts.error_dependency_gdb_multiarch())
         exit(1)
+
+
+# Check dependency clang-format
+def check_dependency_clang_format():
+    try:
+        subprocess.run(['clang-format', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except (Exception,):
+        echo_stderr(AppTexts.error_dependency_clang_format())
+        exit(1)

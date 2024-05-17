@@ -22,6 +22,7 @@ from git import Repo
 
 from aurora_cli.src.features.flutter.group_flutter_build import group_flutter_build
 from aurora_cli.src.features.flutter.group_flutter_debug import group_flutter_debug
+from aurora_cli.src.features.flutter.group_flutter_format import group_flutter_format
 from aurora_cli.src.features.flutter.group_flutter_icon import group_flutter_icons
 from aurora_cli.src.features.flutter.group_flutter_plugins import group_flutter_plugins
 from aurora_cli.src.features.flutter.impl.utils import get_list_flutter_installed
@@ -43,6 +44,7 @@ group_flutter.add_command(group_flutter_debug)
 group_flutter.add_command(group_flutter_build)
 group_flutter.add_command(group_flutter_plugins)
 group_flutter.add_command(group_flutter_icons)
+group_flutter.add_command(group_flutter_format)
 
 
 @group_flutter.command()

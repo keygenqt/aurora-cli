@@ -18,7 +18,7 @@ Execute the command on the device.
 
 * `--execute (-e)` - Command to execute on the device.
 * `--index (-i)` - Device index from the config.
-* `--verbose (-v)` - Detailed output.
+* `--verbose (-v)` - Command output.
 
 **Example**
 
@@ -34,7 +34,7 @@ Run package on device in container.
 
 * `--package (-p)` - Package name app for run in container.
 * `--index (-i)` - Device index from the config.
-* `--verbose (-v)` - Detailed output.
+* `--verbose (-v)` - Command output.
 
 **Example**
 
@@ -49,8 +49,9 @@ Install RPM package on device.
 **Params**
 
 * `--path (-p)` - Path to RPM package.
+* `--apm (-a)` - Use new install APM.
 * `--index (-i)` - Device index from the config.
-* `--verbose (-v)` - Detailed output.
+* `--verbose (-v)` - Command output.
 
 **Example**
 

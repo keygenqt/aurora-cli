@@ -47,7 +47,7 @@ def available(ctx: {}):
 @click.pass_context
 @click.option('-e', '--execute', type=click.STRING, required=True, help='The command to be executed on the device')
 @click.option('-i', '--index', type=click.INT, help='Specify index')
-@click.option('-v', '--verbose', is_flag=True, help='Detailed output')
+@click.option('-v', '--verbose', is_flag=True, help='Command output')
 def command(ctx: {}, execute: str, index: int, verbose: bool):
     """Execute the command on the device."""
 
@@ -62,7 +62,7 @@ def command(ctx: {}, execute: str, index: int, verbose: bool):
 @click.pass_context
 @click.option('-p', '--package', type=click.STRING, required=True, help='Package name')
 @click.option('-i', '--index', type=click.INT, help='Specify index')
-@click.option('-v', '--verbose', is_flag=True, help='Detailed output')
+@click.option('-v', '--verbose', is_flag=True, help='Command output')
 def run(ctx: {}, package: str, index: int, verbose: bool):
     """Run package on device in container."""
 
@@ -76,16 +76,17 @@ def run(ctx: {}, package: str, index: int, verbose: bool):
 @group_device.command()
 @click.pass_context
 @click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help='Path to RPM file')
+@click.option('-a', '--apm', is_flag=True, help='Use new install APM')
 @click.option('-i', '--index', type=click.INT, help='Specify index')
-@click.option('-v', '--verbose', is_flag=True, help='Detailed output')
-def install(ctx: {}, path: [], index: int, verbose: bool):
+@click.option('-v', '--verbose', is_flag=True, help='Command output')
+def install(ctx: {}, path: [], apm: bool, index: int, verbose: bool):
     """Install RPM package on device."""
 
     # Get device client
     client, data = device_ssh_select(ctx, index)
 
     # Run common with emulator function
-    common_install(client, path, data, ctx.obj.get_type_output(verbose))
+    common_install(client, path, data, apm, ctx.obj.get_type_output(verbose))
 
 
 @group_device.command()

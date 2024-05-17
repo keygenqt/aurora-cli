@@ -7,6 +7,7 @@
 /venv/
 /dist/
 /build/
+/builds/
 .pypirc
 
 # MkDocs

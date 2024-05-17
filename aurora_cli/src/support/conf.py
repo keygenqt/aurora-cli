@@ -27,7 +27,7 @@ from aurora_cli.src.support.texts import AppTexts
 
 # Data versions
 APP_NAME = 'aurora-cli'
-APP_VERSION = '2.6.0'
+APP_VERSION = '2.7.0'
 
 # Default path config
 PATH_CONF = '~/.aurora-cli/configuration.yaml'
@@ -38,6 +38,9 @@ PATH_TEMP = '~/.aurora-cli/temp'
 # Public key pairs
 URL_KEY = 'https://developer.auroraos.ru/static/regular_key.pem'
 URL_CERT = 'https://developer.auroraos.ru/static/regular_cert.pem'
+
+# Configuration file clang-format
+URL_CLANG_FORMAT_CONF = 'https://gitlab.com/omprussia/flutter/flutter/-/raw/stable/.clang-format'
 
 
 # Loader configuration yaml
@@ -153,6 +156,10 @@ devices:
         # Load config
         with open(self.conf_path, 'rb') as file:
             self.conf = load(file.read(), Loader=Loader)
+
+    # Get config folder
+    def get_folder(self) -> Path:
+        return Path(os.path.dirname(self.conf_path))
 
     # Get config path
     def get_path(self) -> Path:

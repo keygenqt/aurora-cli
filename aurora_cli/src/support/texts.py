@@ -51,6 +51,11 @@ class AppTexts(Enum):
                 + ('\nTry: sudo apt install gdb-multiarch' if check_dependency_apt() else ''))
 
     @staticmethod
+    def error_dependency_clang_format():
+        return ('<red>Application</red> "clang-format" <red>not found, install it.</red>'
+                + ('\nTry: sudo apt install clang-format' if check_dependency_apt() else ''))
+
+    @staticmethod
     def error_connect_internet():
         return '<red>Internet connection error. Check the connection.</red>'
 
@@ -138,6 +143,10 @@ class AppTexts(Enum):
         return '<red>File path not found:</red> {}'.format(path)
 
     @staticmethod
+    def dir_not_found(path: str):
+        return '<red>Directory path not found:</red> {}'.format(path)
+
+    @staticmethod
     def already_exists(name: str):
         return '<blue>Already exists:</blue> {}'.format(name)
 
@@ -210,6 +219,10 @@ class AppTexts(Enum):
         return '<red>Flutter installed not found.</red>'
 
     @staticmethod
+    def configuration_clang_format_not_found():
+        return '<red>The clang-format configuration file is required.</red>'
+
+    @staticmethod
     def flutter_error_read_json():
         return '<red>Error read json file.</red>'
 
@@ -258,6 +271,10 @@ class AppTexts(Enum):
     @staticmethod
     def conf_download_keys_confirm():
         return 'Download public keys for sign RPM packages?'
+
+    @staticmethod
+    def conf_download_clang_format_conf_confirm():
+        return 'Download clang-format configuration file?'
 
     @staticmethod
     def conf_download_keys_success(path: str):
@@ -530,3 +547,15 @@ Good luck!""".format(version=version, psdk_path=psdk_path)
     @staticmethod
     def confirm_image_size():
         return 'The image\'s width and height are not equal, continue?'
+
+    @staticmethod
+    def end_format(count_files: int, time_end: str):
+        return 'Formatted {count_f} files in {time} seconds.'.format(count_f=count_files, time=time_end)
+
+    @staticmethod
+    def run_clang_format(path: str):
+        return '<blue>Format</blue> <red>C++</red> <blue>files folder:</blue> {}'.format(path)
+
+    @staticmethod
+    def run_dart_format(path: str):
+        return '<blue>Format</blue> <green>Dart</green> <blue>files folder:</blue> {}'.format(path)

@@ -36,7 +36,7 @@ from aurora_cli.src.support.texts import AppTexts
 @click.option('-i', '--index', type=click.INT, help='Specify index device')
 @click.option('-e', '--emulator', is_flag=True, default=False, help="Run on emulator")
 @click.option('-y', '--yes', is_flag=True, help='All yes confirm')
-@click.option('-v', '--verbose', is_flag=True, help='Detailed output')
+@click.option('-v', '--verbose', is_flag=True, help='Command output')
 def group_flutter_debug_dart(ctx: {}, index: int, emulator: bool, yes: bool, verbose: bool):
     """Project configure and run on device for dart debug or hot reload."""
 

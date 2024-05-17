@@ -24,7 +24,6 @@ nav:
   - Install:
       - Index: install/index.md
       - pip: install/pip.md
-      - pyz: install/pyz.md
       - source: install/source.md
 
 # Assets

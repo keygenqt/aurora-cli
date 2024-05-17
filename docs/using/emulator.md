@@ -6,7 +6,7 @@ Start emulator.
 
 **Params**
 
-* `--verbose (-v)` - Detailed output.
+* `--verbose (-v)` - Command output.
 
 **Example**
 
@@ -20,7 +20,7 @@ Take screenshot emulator.
 
 **Params**
 
-* `--verbose (-v)` - Detailed output.
+* `--verbose (-v)` - Command output.
 
 **Example**
 
@@ -35,7 +35,7 @@ Recording video from emulator.
 **Params**
 
 * `--convert (-c)` - Convert video to mp4.
-* `--verbose (-v)` - Detailed output.
+* `--verbose (-v)` - Command output.
 
 **Example**
 
@@ -50,7 +50,7 @@ Execute the command on the emulator.
 **Params**
 
 * `--execute (-e)` - Command to execute on the emulator.
-* `--verbose (-v)` - Detailed output.
+* `--verbose (-v)` - Command output.
 
 **Example**
 
@@ -65,7 +65,7 @@ Run package on emulator in container.
 **Params**
 
 * `--package (-p)` - Package name app for run in container.
-* `--verbose (-v)` - Detailed output.
+* `--verbose (-v)` - Command output.
 
 **Example**
 
@@ -80,7 +80,8 @@ Install RPM package on emulator.
 **Params**
 
 * `--path (-p)` - Path to RPM package.
-* `--verbose (-v)` - Detailed output.
+* `--apm (-a)` - Use new install APM.
+* `--verbose (-v)` - Command output.
 
 **Example**
 

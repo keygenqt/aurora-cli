@@ -100,9 +100,9 @@ $FLUTTER pub run build_runner build --delete-conflicting-outputs
       aurora-cli psdk sign -p "./$item"
       # Install
       if [[ "$PLATFORM" = "x64" ]]; then
-        aurora-cli emulator install -p "./$item"
+        aurora-cli emulator install -p "./$item"{apm}
       else
-        aurora-cli device install -p "./$item"
+        aurora-cli device install -p "./$item"{apm}
       fi
     fi
   done
@@ -131,8 +131,9 @@ $FLUTTER pub run build_runner build --delete-conflicting-outputs
 
 @click.group(name='build', invoke_without_command=True)
 @click.option('-i', '--index', type=click.INT, help='Specify index version')
+@click.option('-a', '--apm', is_flag=True, help='Use new install APM')
 @click.option('-y', '--yes', is_flag=True, help='All yes confirm')
-def group_flutter_build(index: int, yes: bool):
+def group_flutter_build(index: int, apm: bool, yes: bool):
     """Add script to project for build Flutter application."""
 
     # Required flutter
@@ -169,7 +170,7 @@ def group_flutter_build(index: int, yes: bool):
 
     # Create .gdbinit app flutter
     with open(build_path, 'w') as file:
-        print(build_script.format(flutter=flutter), file=file)
+        print(build_script.format(flutter=flutter, apm=' --apm' if apm else ''), file=file)
 
     # Add run permission
     os.chmod(build_path, os.stat(build_path).st_mode | stat.S_IEXEC)

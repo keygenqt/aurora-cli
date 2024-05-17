@@ -25,7 +25,7 @@ from aurora_cli.src.support.texts import AppTexts
 
 @click.group(name='clear', invoke_without_command=True)
 @click.pass_context
-@click.option('-v', '--verbose', is_flag=True, help='Detailed output')
+@click.option('-v', '--verbose', is_flag=True, help='Command output')
 def psdk_clear(ctx: {}, verbose: bool):
     """Remove snapshots targets."""
 

@@ -57,6 +57,7 @@ def common_install(
         client: SSHClient,
         path: [],
         data: {},
+        is_apm: bool,
         verbose: VerboseType
 ):
     # Read paths
@@ -69,6 +70,14 @@ def common_install(
     # Folder upload
     upload_path = '/home/defaultuser/Downloads'
 
+    # @todo old version 5.0 use pkcon - I'll temporarily add a flag until everyone is reflashed
+    # Check version Aurora OS
+    # is_apm = False
+    # _, ssh_stdout, _ = client.exec_command('version')
+    # for value in iter(ssh_stdout.readline, ""):
+    #     print(str(value).strip())
+    #     is_apm = 'Aurora 5' in str(value).strip()
+
     for path in paths:
         echo_line()
         echo_stdout(AppTexts.start_upload(path))
@@ -76,19 +85,28 @@ def common_install(
             # Get file name
             file_name = os.path.basename(path)
             # Exec command
-            if data:
-                execute = 'echo {} | {} {upload_path}/{file_name}'.format(
-                    data['devel-su'],
-                    'devel-su pkcon -y install-local',
-                    upload_path=upload_path,
-                    file_name=file_name
-                )
+            if is_apm:
+                prompt = "{'ShowPrompt': <false>}"
+                execute = (f'gdbus call --system '
+                           f'--dest ru.omp.APM '
+                           f'--object-path /ru/omp/APM '
+                           f'--method ru.omp.APM.Install '
+                           f'"{upload_path}/{file_name}" '
+                           f'"{prompt}"')
             else:
-                execute = '{} {upload_path}/{file_name}'.format(
-                    'pkcon -y install-local',
-                    upload_path=upload_path,
-                    file_name=file_name
-                )
+                if data:
+                    execute = 'echo {} | {} {upload_path}/{file_name}'.format(
+                        data['devel-su'],
+                        'devel-su pkcon -y install-local',
+                        upload_path=upload_path,
+                        file_name=file_name
+                    )
+                else:
+                    execute = '{} {upload_path}/{file_name}'.format(
+                        'pkcon -y install-local',
+                        upload_path=upload_path,
+                        file_name=file_name
+                    )
             echo_line()
             if verbose != VerboseType.verbose:
                 echo_stdout(AppTexts.package_install_loading())

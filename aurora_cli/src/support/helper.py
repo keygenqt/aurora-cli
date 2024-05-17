@@ -107,11 +107,8 @@ def find_path_file(extension: str, path: Path) -> Path | None:
     return None
 
 
-# Get full path file
-def get_path_file(path: str, check_exist=True) -> str | None:
-    if not path:
-        return None
-
+# Get path
+def get_format_path(path: str) -> Path:
     # Format path
     if path.startswith('~/'):
         path = os.path.expanduser(path)
@@ -119,9 +116,16 @@ def get_path_file(path: str, check_exist=True) -> str | None:
         path = '{}{}'.format(os.getcwd(), path[1:])
     if path.startswith('../'):
         path = '{}/{}'.format(os.getcwd(), path)
+    return Path(path)
+
+
+# Get full path file
+def get_path_file(path: str, check_exist=True) -> str | None:
+    if not path:
+        return None
 
     # Read path
-    path = Path(path)
+    path = get_format_path(path)
 
     if not check_exist:
         return str(path.absolute())

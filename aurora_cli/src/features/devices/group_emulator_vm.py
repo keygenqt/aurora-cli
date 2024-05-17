@@ -29,7 +29,7 @@ from aurora_cli.src.support.vbox import vm_search_emulator_aurora, vb_manage_com
 
 @click.group(name='start', invoke_without_command=True)
 @click.pass_context
-@click.option('-v', '--verbose', is_flag=True, help='Detailed output')
+@click.option('-v', '--verbose', is_flag=True, help='Command output')
 def emulator_start(ctx: {}, verbose: bool):
     """Start emulator."""
 
@@ -47,7 +47,7 @@ def emulator_start(ctx: {}, verbose: bool):
 
 @click.group(name='screenshot', invoke_without_command=True)
 @click.pass_context
-@click.option('-v', '--verbose', is_flag=True, help='Detailed output')
+@click.option('-v', '--verbose', is_flag=True, help='Command output')
 def emulator_screenshot(ctx: {}, verbose: bool):
     """Take screenshot emulator."""
 
@@ -90,7 +90,7 @@ def emulator_screenshot(ctx: {}, verbose: bool):
 @click.group(name='recording', invoke_without_command=True)
 @click.pass_context
 @click.option('-c', '--convert', is_flag=True, help='Convert video to mp4')
-@click.option('-v', '--verbose', is_flag=True, help='Detailed output')
+@click.option('-v', '--verbose', is_flag=True, help='Command output')
 def emulator_recording(ctx: {}, convert: bool, verbose: bool):
     """Recording video from emulator."""
 

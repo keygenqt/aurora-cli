@@ -34,7 +34,7 @@ from aurora_cli.src.support.texts import AppTexts
 @click.option('-i', '--index', type=click.INT, help='Specify index device')
 @click.option('-p', '--port', type=click.INT, default=20000, help='Specify port for gdb server')
 @click.option('-e', '--emulator', is_flag=True, default=False, help="Run on emulator")
-@click.option('-v', '--verbose', is_flag=True, help='Detailed output')
+@click.option('-v', '--verbose', is_flag=True, help='Command output')
 def group_flutter_debug_gdb(ctx: {}, index: int, port: int, emulator: bool, verbose: bool):
     """Project configure and run on device for gdb debug."""
 

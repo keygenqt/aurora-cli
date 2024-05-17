@@ -81,7 +81,7 @@ Sign (with re-sign) RPM package.
 
 * `--path (-p)` - Path to RPM package.
 * `--index (-i)` - Keys index from the config.
-* `--verbose (-v)` - Detailed output.
+* `--verbose (-v)` - Command output.
 
 **Example**
 
@@ -96,7 +96,7 @@ Validate RPM packages.
 **Params**
 
 * `--path (-p)` - Path to RPM package.
-* `--verbose (-v)` - Detailed output.
+* `--verbose (-v)` - Command output.
 
 **Example**
 
@@ -111,7 +111,7 @@ Install RPM packages to target.
 **Params**
 
 * `--path (-p)` - Path to RPM package.
-* `--verbose (-v)` - Detailed output.
+* `--verbose (-v)` - Command output.
 
 **Example**
 
@@ -126,7 +126,7 @@ Remove RPM packages from target.
 **Params**
 
 * `--package (-p)` - Package name.
-* `--verbose (-v)` - Detailed output.
+* `--verbose (-v)` - Command output.
 
 **Example**
 
@@ -141,7 +141,7 @@ Search installed RPM packages in target.
 **Params**
 
 * `--package (-p)` - Package name.
-* `--verbose (-v)` - Detailed output.
+* `--verbose (-v)` - Command output.
 
 **Example**
 
@@ -155,7 +155,7 @@ Remove snapshots targets.
 
 **Params**
 
-* `--verbose (-v)` - Detailed output.
+* `--verbose (-v)` - Command output.
 
 **Example**
 
