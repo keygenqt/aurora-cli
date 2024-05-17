@@ -1,11 +1,12 @@
-## Updated: 05/02/2024 21:26:50 PM
+## Updated: 05/17/2024 19:54:01 PM
 
 ## Info
 
-- Last tag: 2.6.0
-- Released: 19
+- Last tag: 2.7.0
+- Released: 20
 
 ## Versions
+- Version: 2.7.0 (17/05/2024)
 - Version: 2.6.0 (02/05/2024)
 - Version: 2.5.1 (28/04/2024)
 - Version: 2.5.0 (28/04/2024)
@@ -25,6 +26,13 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 2.7.0 (17/05/2024)
+
+#### Feature
+
+- Flutter project format. (Vitaliy Zarubin)
+- Add new install APM. (Vitaliy Zarubin)
 
 ### Version: 2.6.0 (02/05/2024)
 
