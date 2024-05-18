@@ -15,12 +15,13 @@ limitations under the License.
 """
 import click
 
+from aurora_cli.src.api.group_api import group_api
+from aurora_cli.src.cli.emulator.group_emulator import group_emulator
 from aurora_cli.src.support.dependency_required import check_dependency_init
 
 check_dependency_init()
 
 from aurora_cli.src.features.devices.group_device import group_device  # noqa: E402
-from aurora_cli.src.features.devices.group_emulator import group_emulator  # noqa: E402
 from aurora_cli.src.features.flutter.group_flutter import group_flutter  # noqa: E402
 from aurora_cli.src.features.psdk.group_psdk import group_psdk  # noqa: E402
 from aurora_cli.src.features.sdk.group_sdk import group_sdk  # noqa: E402
@@ -30,8 +31,9 @@ from aurora_cli.src.support.conf import Conf  # noqa: E402
 @click.group(invoke_without_command=True)
 @click.version_option(version=Conf.get_app_version(), prog_name=Conf.get_app_name())
 @click.option('--conf', '-c', default=None, help='Specify config path.', type=click.STRING, required=False)
+@click.option('--api', default=None, help='Application Programming Interface.', type=click.STRING, required=False)
 @click.pass_context
-def main(ctx: {}, conf: {}):
+def main(ctx: {}, conf: str, api: str):
     """
 The application allows you to install tools for working with the Aurora OS and simplifies working with them.
 More details about the tools can be found on the documentation page:
@@ -42,9 +44,13 @@ Platform SDK https://developer.auroraos.ru/doc/software_development/psdk
 
 This is a third party tool written by enthusiasts!
     """
+
     ctx.obj = Conf(conf)
-    if not ctx.invoked_subcommand:
-        print(ctx.get_help())
+    if api:
+        group_api(api)
+    else:
+        if not ctx.invoked_subcommand:
+            print(ctx.get_help())
 
 
 main.add_command(group_sdk)
