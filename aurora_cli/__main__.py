@@ -16,7 +16,7 @@ limitations under the License.
 import click
 
 from aurora_cli.src.api.group_api import group_api
-from aurora_cli.src.cli.emulator.group_emulator import group_emulator
+from aurora_cli.src.cli.emulator.commands import group_emulator
 from aurora_cli.src.support.dependency_required import check_dependency_init
 
 check_dependency_init()
@@ -57,6 +57,7 @@ main.add_command(group_sdk)
 main.add_command(group_psdk)
 main.add_command(group_device)
 main.add_command(group_flutter)
+
 main.add_command(group_emulator)
 
 if __name__ == '__main__':

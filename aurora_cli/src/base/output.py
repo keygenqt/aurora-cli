@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import json
+from dataclasses import dataclass
 from enum import Enum
 
 import click
@@ -37,6 +38,38 @@ class EchoJsonCode(Enum):
     OK = 200
 
 
+@dataclass
+class Out:
+    """Class out data."""
+    message: str
+    data: str = None
+    code: EchoJsonCode = EchoJsonCode.OK
+
+
+@dataclass
+class Out400(Out):
+    """Class out data EchoJsonCode.Bad_Request."""
+    code: EchoJsonCode = EchoJsonCode.Bad_Request
+
+
+@dataclass
+class Out404(Out):
+    """Class out data EchoJsonCode.Not_Found."""
+    code: EchoJsonCode = EchoJsonCode.Not_Found
+
+
+@dataclass
+class Out418(Out):
+    """Class out data EchoJsonCode.Im_teapot."""
+    code: EchoJsonCode = EchoJsonCode.Im_teapot
+
+
+@dataclass
+class Out500(Out):
+    """Class out data EchoJsonCode.Internal_Server_Error."""
+    code: EchoJsonCode = EchoJsonCode.Internal_Server_Error
+
+
 # Color tags
 class EchoColors(Enum):
     red = 'red'
@@ -49,28 +82,24 @@ class EchoColors(Enum):
     reset = 'reset'
 
 
-# App output echo error
-def echo_stderr(text: str, newlines: int = 1):
-    if text:
-        click.echo(_colorize_text(text).strip(), nl=False, err=True)
-        for x in range(newlines):
-            click.echo()
-
-
 # App output echo
-def echo_stdout(text: str, newlines: int = 1):
-    if text:
-        click.echo(_colorize_text(text).strip(), nl=False)
+def echo_stdout(out: Out, verbose: bool = False, newlines: int = 1):
+    if out.message:
+        click.echo(_colorize_text(out.message).strip(), nl=False)
         for x in range(newlines):
             click.echo()
+    if verbose:
+        echo_verbose_shell()
 
 
 # App output echo json
-def echo_stdout_json(message: str, verbose: bool = False, code: EchoJsonCode = EchoJsonCode.OK):
+def echo_stdout_json(out: Out, verbose: bool = False):
     data = {
-        'code': code.value,
-        'message': _colorize_clear(message).strip(),
+        'code': out.code.value,
+        'message': _colorize_clear(out.message).strip(),
     }
+    if out.data:
+        data['data'] = out.data
     if verbose:
         data['verbose'] = shell_verbose_map()
     click.echo(json.dumps(data, indent=2))
@@ -78,11 +107,11 @@ def echo_stdout_json(message: str, verbose: bool = False, code: EchoJsonCode = E
 
 def echo_verbose_shell():
     for exec_command in shell_verbose_map():
-        echo_stdout(TextInfo.command_execute(exec_command['command']))
+        echo_stdout(Out(TextInfo.command_execute(exec_command['command'])))
         if exec_command['stdout']:
-            echo_stdout('\n'.join(exec_command['stdout']))
+            echo_stdout(Out('\n'.join(exec_command['stdout'])))
         if exec_command['stderr']:
-            echo_stdout('\n'.join(exec_command['stderr']))
+            echo_stdout(Out('\n'.join(exec_command['stderr'])))
 
 
 # App output echo just line
@@ -92,39 +121,8 @@ def echo_line(newlines: int = 1):
 
 
 # App output echo json EchoJsonCode.Bad_Request
-def echo_stdout_json_400(message: str, verbose: bool = False):
-    echo_stdout_json(
-        message=message,
-        verbose=verbose,
-        code=EchoJsonCode.Bad_Request
-    )
-
-
-# App output echo json EchoJsonCode.Not_Found
-def echo_stdout_json_404(message: str, verbose: bool = False):
-    echo_stdout_json(
-        message=message,
-        verbose=verbose,
-        code=EchoJsonCode.Not_Found
-    )
-
-
-# App output echo json EchoJsonCode.Im_teapot
-def echo_stdout_json_418(message: str, verbose: bool = False):
-    echo_stdout_json(
-        message=message,
-        verbose=verbose,
-        code=EchoJsonCode.Im_teapot
-    )
-
-
-# App output echo json EchoJsonCode.Internal_Server_Error
-def echo_stdout_json_500(message: str, verbose: bool = False):
-    echo_stdout_json(
-        message=message,
-        verbose=verbose,
-        code=EchoJsonCode.Internal_Server_Error
-    )
+def echo_stdout_json_400(out: Out):
+    echo_stdout_json(out)
 
 
 # Colorize text clear

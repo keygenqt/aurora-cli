@@ -16,7 +16,8 @@ limitations under the License.
 
 import click
 
-from aurora_cli.src.cli.emulator.command_start import command_start
+from aurora_cli.src.base.output import echo_stdout
+from aurora_cli.src.common.emulator.features import emulator_start, emulator_screenshot
 
 
 @click.group(name='emulator')
@@ -25,5 +26,15 @@ def group_emulator():
     pass
 
 
-# Add commands
-group_emulator.add_command(command_start)
+@group_emulator.command(name='start')
+@click.option('-v', '--verbose', is_flag=True, help='Command output')
+def command_start(verbose: bool):
+    """Start emulator."""
+    echo_stdout(emulator_start(), verbose)
+
+
+@group_emulator.command(name='screenshot')
+@click.option('-v', '--verbose', is_flag=True, help='Command output')
+def command_screenshot(verbose: bool):
+    """Emulator take screenshot."""
+    echo_stdout(emulator_screenshot(), verbose)

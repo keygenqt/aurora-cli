@@ -15,9 +15,9 @@ limitations under the License.
 """
 from urllib.parse import urlparse
 
-from aurora_cli.src.api.emulator.command_start import command_start
-from aurora_cli.src.base.common.output import echo_stdout_json_404
+from aurora_cli.src.api.emulator.commands import command_start, command_screenshot
 from aurora_cli.src.base.common.texts.error import TextError
+from aurora_cli.src.base.output import echo_stdout_json, Out404
 
 
 def get_route_root(route: str) -> str:
@@ -32,5 +32,7 @@ def group_api(route: str):
     match get_route_root(route):
         case '/emulator/start':
             command_start(get_route_arg(route, 'verbose').lower() == 'true')
+        case '/emulator/screenshot':
+            command_screenshot(get_route_arg(route, 'verbose').lower() == 'true')
         case _:
-            echo_stdout_json_404(TextError.route_not_found())
+            echo_stdout_json(Out404(TextError.route_not_found()))

@@ -1,16 +1,9 @@
 import subprocess
-from enum import Enum
 from typing import Callable
 
 from cffi.backend_ctypes import unicode
 
 commands_verbose_save = []
-
-
-class ResultExec(Enum):
-    success = 'Command completed successfully'
-    locked = 'Command cannot be executed'
-    error = 'Command was executed with an error'
 
 
 def shell_command(
@@ -41,7 +34,9 @@ def shell_command(
             for line in iter(lambda: process.stdout.readline(), ""):
                 if not line:
                     break
-                set_out(unicode(line.rstrip(), "utf-8"))
+                line = unicode(line.rstrip(), "utf-8").strip()
+                if line:
+                    set_out(line)
     except Exception as e:
         set_out(str(e), True)
 
