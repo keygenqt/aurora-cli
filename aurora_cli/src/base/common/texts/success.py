@@ -23,7 +23,7 @@ class TextSuccess(Enum):
         return '<green>Video record convert successfully:</green> {}'.format(path)
 
     @staticmethod
-    def emulator_exec_command_success(execute: str, stdout: str, stderr: str) -> str:
+    def emulator_exec_command_success(execute: str, stdout: str = None, stderr: str = None) -> str:
         stdout = f'\n{stdout}' if stdout else ''
         stderr = f'\n{stderr}' if stderr else ''
         return f'<green>The command was executed successfully:</green> `{execute}`{stdout}{stderr}'

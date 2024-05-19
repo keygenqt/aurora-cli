@@ -20,6 +20,7 @@ from paramiko.channel import ChannelFile
 from paramiko.client import SSHClient
 
 from aurora_cli.src.base.common.texts.error import TextError
+from aurora_cli.src.base.common.texts.success import TextSuccess
 from aurora_cli.src.base.output import OutResult, OutResult500
 from aurora_cli.src.common.emulator.vm_features import vm_emulator_ssh_key
 
@@ -96,7 +97,9 @@ def ssh_command(
 ) -> OutResult:
     stdout, stderr = _ssh_client_exec_command(client, execute)
     return OutResult(
-        message=execute,
+        message=TextSuccess.emulator_exec_command_success(
+            execute=execute
+        ),
         value={
             'stdout': stdout,
             'stderr': stderr,
