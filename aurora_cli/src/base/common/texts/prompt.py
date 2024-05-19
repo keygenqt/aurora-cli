@@ -3,5 +3,5 @@ from enum import Enum
 
 class TextPrompt(Enum):
     @staticmethod
-    def select_index() -> str:
-        return 'Select index'
+    def emulator_recording_video_loading():
+        return 'Press to stop recording'

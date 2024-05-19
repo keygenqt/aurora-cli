@@ -39,33 +39,36 @@ class EchoJsonCode(Enum):
 
 
 @dataclass
-class Out:
+class OutResult:
     """Class out data."""
-    message: str
-    data: str = None
+    message: str = None
+    value: any = None
     code: EchoJsonCode = EchoJsonCode.OK
+
+    def is_error(self):
+        return self.code != EchoJsonCode.OK
 
 
 @dataclass
-class Out400(Out):
+class OutResult400(OutResult):
     """Class out data EchoJsonCode.Bad_Request."""
     code: EchoJsonCode = EchoJsonCode.Bad_Request
 
 
 @dataclass
-class Out404(Out):
+class OutResult404(OutResult):
     """Class out data EchoJsonCode.Not_Found."""
     code: EchoJsonCode = EchoJsonCode.Not_Found
 
 
 @dataclass
-class Out418(Out):
+class OutResult418(OutResult):
     """Class out data EchoJsonCode.Im_teapot."""
     code: EchoJsonCode = EchoJsonCode.Im_teapot
 
 
 @dataclass
-class Out500(Out):
+class OutResult500(OutResult):
     """Class out data EchoJsonCode.Internal_Server_Error."""
     code: EchoJsonCode = EchoJsonCode.Internal_Server_Error
 
@@ -83,7 +86,7 @@ class EchoColors(Enum):
 
 
 # App output echo
-def echo_stdout(out: Out, verbose: bool = False, newlines: int = 1):
+def echo_stdout(out: OutResult, verbose: bool = False, newlines: int = 1):
     if out.message:
         click.echo(_colorize_text(out.message).strip(), nl=False)
         for x in range(newlines):
@@ -93,13 +96,14 @@ def echo_stdout(out: Out, verbose: bool = False, newlines: int = 1):
 
 
 # App output echo json
-def echo_stdout_json(out: Out, verbose: bool = False):
+def echo_stdout_json(out: OutResult, verbose: bool = False):
     data = {
         'code': out.code.value,
-        'message': _colorize_clear(out.message).strip(),
     }
-    if out.data:
-        data['data'] = out.data
+    if out.message is not None:
+        data['message'] = _colorize_clear(out.message).strip()
+    if out.value is not None:
+        data['value'] = out.value
     if verbose:
         data['verbose'] = shell_verbose_map()
     click.echo(json.dumps(data, indent=2))
@@ -107,11 +111,11 @@ def echo_stdout_json(out: Out, verbose: bool = False):
 
 def echo_verbose_shell():
     for exec_command in shell_verbose_map():
-        echo_stdout(Out(TextInfo.command_execute(exec_command['command'])))
+        echo_stdout(OutResult(TextInfo.command_execute(exec_command['command'])))
         if exec_command['stdout']:
-            echo_stdout(Out('\n'.join(exec_command['stdout'])))
+            echo_stdout(OutResult('\n'.join(exec_command['stdout'])))
         if exec_command['stderr']:
-            echo_stdout(Out('\n'.join(exec_command['stderr'])))
+            echo_stdout(OutResult('\n'.join(exec_command['stderr'])))
 
 
 # App output echo just line
@@ -121,7 +125,7 @@ def echo_line(newlines: int = 1):
 
 
 # App output echo json EchoJsonCode.Bad_Request
-def echo_stdout_json_400(out: Out):
+def echo_stdout_json_400(out: OutResult):
     echo_stdout_json(out)
 
 

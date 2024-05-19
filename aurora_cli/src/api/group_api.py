@@ -15,9 +15,10 @@ limitations under the License.
 """
 from urllib.parse import urlparse
 
-from aurora_cli.src.api.emulator.commands import command_start, command_screenshot
+from aurora_cli.src.api.emulator.commands import command_start, command_screenshot, command_recording_video_start, \
+    command_recording_video_stop, command_recording_video_is_on
 from aurora_cli.src.base.common.texts.error import TextError
-from aurora_cli.src.base.output import echo_stdout_json, Out404
+from aurora_cli.src.base.output import echo_stdout_json, OutResult404
 
 
 def get_route_root(route: str) -> str:
@@ -29,10 +30,17 @@ def get_route_arg(route: str, arg: str) -> str:
 
 
 def group_api(route: str):
+    is_verbose = get_route_arg(route, 'verbose').lower() == 'true'
     match get_route_root(route):
         case '/emulator/start':
-            command_start(get_route_arg(route, 'verbose').lower() == 'true')
+            command_start(is_verbose)
         case '/emulator/screenshot':
-            command_screenshot(get_route_arg(route, 'verbose').lower() == 'true')
+            command_screenshot(is_verbose)
+        case '/emulator/recording/start':
+            command_recording_video_start(is_verbose)
+        case '/emulator/recording/stop':
+            command_recording_video_stop(is_verbose)
+        case '/emulator/recording/is_on':
+            command_recording_video_is_on(is_verbose)
         case _:
-            echo_stdout_json(Out404(TextError.route_not_found()))
+            echo_stdout_json(OutResult404(TextError.route_not_found()))

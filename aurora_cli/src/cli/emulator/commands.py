@@ -16,8 +16,10 @@ limitations under the License.
 
 import click
 
+from aurora_cli.src.base.common.texts.prompt import TextPrompt
 from aurora_cli.src.base.output import echo_stdout
-from aurora_cli.src.common.emulator.features import emulator_start, emulator_screenshot
+from aurora_cli.src.common.emulator.features import emulator_start, emulator_screenshot, emulator_record_start, \
+    emulator_record_stop
 
 
 @click.group(name='emulator')
@@ -38,3 +40,25 @@ def command_start(verbose: bool):
 def command_screenshot(verbose: bool):
     """Emulator take screenshot."""
     echo_stdout(emulator_screenshot(), verbose)
+
+
+@group_emulator.command(name='recording')
+@click.option('-v', '--verbose', is_flag=True, help='Command output')
+def command_recording_video(verbose: bool):
+    """Recording video from emulator."""
+    # Start record
+    result = emulator_record_start()
+    echo_stdout(result, verbose)
+    if result.is_error():
+        exit(1)
+
+    # Loading record
+    click.prompt(
+        text=TextPrompt.emulator_recording_video_loading(),
+        prompt_suffix='',
+        default='Enter',
+        hide_input=True
+    )
+
+    # Stop with save record
+    echo_stdout(emulator_record_stop(), verbose)

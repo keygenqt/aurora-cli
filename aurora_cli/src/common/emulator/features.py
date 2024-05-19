@@ -13,47 +13,62 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import os
 from pathlib import Path
 
 from aurora_cli.src.base.common.texts.error import TextError
 from aurora_cli.src.base.common.texts.info import TextInfo
 from aurora_cli.src.base.common.texts.success import TextSuccess
 from aurora_cli.src.base.helper import gen_file_name
-from aurora_cli.src.base.output import Out, Out418, Out500
+from aurora_cli.src.base.output import OutResult, OutResult418, OutResult500
 from aurora_cli.src.base.shell import shell_command
 
 VM_MANAGE = "VBoxManage"
 
 
-def _emulator_name() -> str | None:
+def emulator_name() -> OutResult:
     stdout, stderr = shell_command([
         VM_MANAGE,
         'list',
         'vms',
     ])
     if stderr:
-        return None
+        return OutResult()
     for line in stdout:
         if 'AuroraOS' in line:
-            return line.split('"')[1]
-    return None
+            return OutResult(value=line.split('"')[1])
+    return OutResult()
 
 
-def emulator_start() -> Out:
+def emulator_path() -> OutResult:
+    stdout, stderr = shell_command([
+        VM_MANAGE,
+        'showvminfo',
+        emulator_name().value,
+    ])
+    for line in stdout:
+        if 'Snapshot folder:' in line:
+            return OutResult(
+                value=os.path.dirname(line.replace('Snapshot folder:', '').strip())
+            )
+    return OutResult500()
+
+
+def emulator_start() -> OutResult:
     stdout, stderr = shell_command([
         VM_MANAGE,
         'startvm',
-        _emulator_name()
+        emulator_name().value
     ])
     if stderr:
         if 'already locked' in stderr[0]:
-            return Out418(TextInfo.emulator_start_locked())
+            return OutResult418(TextInfo.emulator_start_locked())
         else:
-            return Out500(TextError.emulator_start_error())
-    return Out(TextSuccess.emulator_start_success())
+            return OutResult500(TextError.emulator_start_error())
+    return OutResult(TextSuccess.emulator_start_success())
 
 
-def emulator_screenshot() -> Out:
+def emulator_screenshot() -> OutResult:
     screenshots = Path.home() / 'Pictures' / 'Screenshots'
     if not screenshots.is_dir():
         screenshots.mkdir(parents=True, exist_ok=True)
@@ -63,11 +78,97 @@ def emulator_screenshot() -> Out:
     stdout, stderr = shell_command([
         VM_MANAGE,
         'controlvm',
-        _emulator_name(),
+        emulator_name().value,
         'screenshotpng',
         screenshot
     ])
     if stdout or stderr:
-        return Out500(TextError.emulator_screenshot_error())
+        return OutResult500(TextError.emulator_screenshot_error())
 
-    return Out(TextSuccess.emulator_screenshot_success(screenshot), data=screenshot)
+    return OutResult(
+        message=TextSuccess.emulator_screenshot_success(screenshot),
+        value=screenshot
+    )
+
+
+def emulator_record_start() -> OutResult:
+    if emulator_record_is_on().value:
+        return OutResult418(TextInfo.emulator_recording_video_start_already())
+    stdout, stderr = shell_command([
+        VM_MANAGE,
+        'controlvm',
+        emulator_name().value,
+        'recording',
+        'on'
+    ])
+    if stdout or stderr:
+        OutResult500(TextError.emulator_recording_video_start_error())
+    return OutResult(TextSuccess.emulator_recording_video_start())
+
+
+def emulator_record_stop() -> OutResult:
+    if not emulator_record_is_on().value:
+        return OutResult418(TextInfo.emulator_recording_video_stop_already())
+
+    e_path = emulator_path().value
+    e_name = emulator_name().value
+    v_path = Path('{e_path}/{e_name}-screen0.webm'.format(e_path=e_path, e_name=e_name))
+    s_path = Path.home() / 'Videos' / gen_file_name('Video_from_', 'mp4')
+
+    if not v_path.is_file():
+        return OutResult500(TextError.emulator_recording_video_file_not_found())
+
+    if not s_path.parent.is_dir():
+        s_path.parent.mkdir(parents=True, exist_ok=True)
+
+    result = emulator_record_video_convert(v_path, s_path)
+    if result.is_error():
+        return result
+
+    stdout, stderr = shell_command([
+        VM_MANAGE,
+        'controlvm',
+        emulator_name().value,
+        'recording',
+        'off'
+    ])
+    if stdout or stderr:
+        OutResult500(TextError.emulator_recording_video_stop_error())
+    return OutResult(TextSuccess.emulator_recording_video_stop())
+
+
+def emulator_record_is_on() -> OutResult:
+    stdout, stderr = shell_command([
+        VM_MANAGE,
+        'showvminfo',
+        emulator_name().value,
+    ])
+    for line in stdout:
+        if 'Recording enabled:' in line and 'yes' in line:
+            return OutResult(value=True)
+    return OutResult(value=False)
+
+
+def emulator_record_video_convert(v_path: Path, s_path: Path) -> OutResult:
+    stdout, stderr = shell_command([
+        'ffmpeg',
+        '-i',
+        str(v_path),
+        '-c:v',
+        'libx264',
+        '-preset',
+        'slow',
+        '-crf',
+        '22',
+        '-c:a',
+        'copy',
+        '-b:a',
+        '128k',
+        str(s_path),
+    ])
+    if stderr:
+        return OutResult500(TextError.emulator_recording_video_convert_error())
+    return OutResult(
+        message=TextSuccess.emulator_recording_video_convert(str(s_path)),
+        value=str(s_path)
+    )

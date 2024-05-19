@@ -14,7 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 from aurora_cli.src.base.output import echo_stdout_json
-from aurora_cli.src.common.emulator.features import emulator_start, emulator_screenshot
+from aurora_cli.src.common.emulator.features import emulator_start, emulator_screenshot, emulator_record_start, \
+    emulator_record_stop, emulator_record_is_on
 
 
 def command_start(verbose: bool):
@@ -25,3 +26,18 @@ def command_start(verbose: bool):
 def command_screenshot(verbose: bool):
     """Emulator take screenshot."""
     echo_stdout_json(emulator_screenshot(), verbose)
+
+
+def command_recording_video_start(verbose: bool):
+    """Start recording video from emulator."""
+    echo_stdout_json(emulator_record_start(), verbose)
+
+
+def command_recording_video_stop(verbose: bool):
+    """Stop recording video from emulator."""
+    echo_stdout_json(emulator_record_stop(), verbose)
+
+
+def command_recording_video_is_on(verbose: bool):
+    """Check recording video from emulator."""
+    echo_stdout_json(emulator_record_is_on(), verbose)
