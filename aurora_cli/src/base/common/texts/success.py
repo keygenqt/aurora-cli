@@ -21,3 +21,9 @@ class TextSuccess(Enum):
     @staticmethod
     def emulator_recording_video_convert(path: str) -> str:
         return '<green>Video record convert successfully:</green> {}'.format(path)
+
+    @staticmethod
+    def emulator_exec_command_success(execute: str, stdout: str, stderr: str) -> str:
+        stdout = f'\n{stdout}' if stdout else ''
+        stderr = f'\n{stderr}' if stderr else ''
+        return f'<green>The command was executed successfully:</green> `{execute}`{stdout}{stderr}'

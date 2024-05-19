@@ -29,3 +29,11 @@ class TextError(Enum):
     @staticmethod
     def emulator_recording_video_convert_error() -> str:
         return '<red>Could not convert video recording.</red>'
+
+    @staticmethod
+    def ssh_connect_emulator_error() -> str:
+        return '<red>Error connecting to emulator via SSH.</red>'
+
+    @staticmethod
+    def ssh_connect_device_error() -> str:
+        return '<red>Error connecting to device via SSH.</red>'

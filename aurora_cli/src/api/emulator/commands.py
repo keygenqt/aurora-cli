@@ -14,30 +14,107 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 from aurora_cli.src.base.output import echo_stdout_json
-from aurora_cli.src.common.emulator.features import emulator_start, emulator_screenshot, emulator_record_start, \
-    emulator_record_stop, emulator_record_is_on
+from aurora_cli.src.common.emulator.ssh_features import (
+    ssh_command,
+    get_ssh_client_emulator
+)
+from aurora_cli.src.common.emulator.vm_features import (
+    vm_emulator_start,
+    vm_emulator_screenshot,
+    vm_emulator_record_start,
+    vm_emulator_record_stop,
+    vm_emulator_record_is_on
+)
 
 
-def command_start(verbose: bool):
+def vm_emulator_start_api(verbose: bool):
     """Start emulator."""
-    echo_stdout_json(emulator_start(), verbose)
+    echo_stdout_json(vm_emulator_start(), verbose)
 
 
-def command_screenshot(verbose: bool):
+def vm_emulator_screenshot_api(verbose: bool):
     """Emulator take screenshot."""
-    echo_stdout_json(emulator_screenshot(), verbose)
+    echo_stdout_json(vm_emulator_screenshot(), verbose)
 
 
-def command_recording_video_start(verbose: bool):
+def vm_emulator_record_start_api(verbose: bool):
     """Start recording video from emulator."""
-    echo_stdout_json(emulator_record_start(), verbose)
+    echo_stdout_json(vm_emulator_record_start(), verbose)
 
 
-def command_recording_video_stop(verbose: bool):
+def vm_emulator_record_stop_api(verbose: bool):
     """Stop recording video from emulator."""
-    echo_stdout_json(emulator_record_stop(), verbose)
+    echo_stdout_json(vm_emulator_record_stop(), verbose)
 
 
-def command_recording_video_is_on(verbose: bool):
+def vm_emulator_record_is_on_api(verbose: bool):
     """Check recording video from emulator."""
-    echo_stdout_json(emulator_record_is_on(), verbose)
+    echo_stdout_json(vm_emulator_record_is_on(), verbose)
+
+
+def ssh_emulator_command_api(execute: str, verbose: bool):
+    """Execute the command on the emulator."""
+    # Get path to key
+    result = get_ssh_client_emulator()
+    if result.is_error():
+        echo_stdout_json(result)
+        exit(1)
+    # Run base command
+    echo_stdout_json(ssh_command(
+        client=result.value,
+        execute=execute
+    ), verbose)
+
+
+def ssh_emulator_run_api(package: str, verbose: bool):
+    """Run package on emulator in container."""
+    pass
+    # echo_stdout_json(ssh_run(package), verbose)
+
+
+def ssh_emulator_upload_api(path: [], verbose: bool):
+    """Upload file to ~/Download directory emulator."""
+    pass
+    # echo_stdout_json(ssh_upload(path), verbose)
+
+
+def ssh_emulator_install_api(path: [], apm: bool, verbose: bool):
+    """Install RPM package on emulator."""
+    pass
+    # echo_stdout_json(ssh_install(path, apm), verbose)
+
+
+def ssh_emulator_remove_api(package: str, apm: bool, verbose: bool):
+    """Remove package from emulator."""
+    pass
+    # echo_stdout_json(ssh_remove(package, apm), verbose)
+
+
+def ssh_device_command_api(execute: str, verbose: bool):
+    """Execute the command on the device."""
+    pass
+    # echo_stdout_json(ssh_command(execute), verbose)
+
+
+def ssh_device_run_api(package: str, verbose: bool):
+    """Run package on device in container."""
+    pass
+    # echo_stdout_json(ssh_run(package), verbose)
+
+
+def ssh_device_upload_api(path: [], verbose: bool):
+    """Upload file to ~/Download directory device."""
+    pass
+    # echo_stdout_json(ssh_upload(path), verbose)
+
+
+def ssh_device_install_api(path: [], apm: bool, verbose: bool):
+    """Install RPM package on device."""
+    pass
+    # echo_stdout_json(ssh_install(path, apm), verbose)
+
+
+def ssh_device_remove_api(package: str, apm: bool, verbose: bool):
+    """Remove package from device."""
+    pass
+    # echo_stdout_json(ssh_remove(package, apm), verbose)
