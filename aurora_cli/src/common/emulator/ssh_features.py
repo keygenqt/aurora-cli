@@ -13,59 +13,18 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-from pathlib import Path, PosixPath
+import os
+from typing import Callable
 
-import paramiko
-from paramiko.channel import ChannelFile
 from paramiko.client import SSHClient
 
 from aurora_cli.src.base.common.texts.error import TextError
+from aurora_cli.src.base.common.texts.info import TextInfo
 from aurora_cli.src.base.common.texts.success import TextSuccess
-from aurora_cli.src.base.output import OutResult, OutResult500
+from aurora_cli.src.base.helper import convert_relative_path
+from aurora_cli.src.base.output import OutResult, OutResultError, OutResultInfo
+from aurora_cli.src.base.ssh import ssh_exec_command, ssh_client_connect
 from aurora_cli.src.common.emulator.vm_features import vm_emulator_ssh_key
-
-
-def _ssh_client_exec_command(
-        client: SSHClient,
-        execute: str,
-):
-    _, stdout, stderr = client.exec_command(execute, get_pty=True)
-
-    def read_lines(out: ChannelFile):
-        result = []
-        try:
-            for value in iter(out.readline, ""):
-                value = str(value).strip()
-                result.append(value)
-        except Exception as e:
-            result.append('Exception: {}'.format(str(e)))
-        return result
-
-    return read_lines(stdout), read_lines(stderr)
-
-
-# Get ssh client
-def _get_ssh_client(
-        ip: str,
-        username: str,
-        port: int,
-        key: Path | str
-) -> OutResult:
-    try:
-        # Connect
-        client = paramiko.SSHClient()
-        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-
-        if type(key) is PosixPath:
-            client.connect(ip, username=username, key_filename=str(key), timeout=5, port=port)
-        else:
-            client.connect(ip, username=username, password=key, timeout=5, port=port)
-        return OutResult(value=client)
-    except (Exception,):
-        if type(key) is PosixPath:
-            return OutResult500(TextError.ssh_connect_emulator_error())
-        else:
-            return OutResult500(TextError.ssh_connect_device_error())
 
 
 def get_ssh_client_emulator(user: str = 'defaultuser') -> OutResult:
@@ -74,30 +33,38 @@ def get_ssh_client_emulator(user: str = 'defaultuser') -> OutResult:
     if result.is_error():
         return result
     # Get ssh client
-    return _get_ssh_client(
+    client = ssh_client_connect(
         'localhost',
         user,
         2223,
         result.value
     )
+    if not client:
+        return OutResultError(TextError.ssh_connect_emulator_error())
+    else:
+        return OutResult(value=client)
 
 
 def get_ssh_client_device(ip: str, port: int, password: str) -> OutResult:
-    return _get_ssh_client(
+    client = ssh_client_connect(
         ip,
         'defaultuser',
         port,
         password
     )
+    if not client:
+        return OutResultError(TextError.ssh_connect_device_error())
+    else:
+        return OutResult(value=client)
 
 
 def ssh_command(
         client: SSHClient,
         execute: str
 ) -> OutResult:
-    stdout, stderr = _ssh_client_exec_command(client, execute)
+    stdout, stderr = ssh_exec_command(client, execute)
     return OutResult(
-        message=TextSuccess.emulator_exec_command_success(
+        message=TextSuccess.ssh_exec_command_success(
             execute=execute
         ),
         value={
@@ -109,29 +76,150 @@ def ssh_command(
 
 def ssh_run(
         client: SSHClient,
-        package: str
+        package: str,
+        listen_stdout: Callable[[OutResult | MemoryError], None],
+        listen_stderr: Callable[[OutResult | None], None],
 ) -> OutResult:
+    def check_is_error(out: str) -> bool:
+        if 'could not locate' in out:
+            return True
+        if 'invoker: error' in out:
+            return True
+        return False
+
+    stdout, stderr = ssh_exec_command(
+        client=client,
+        execute=f'invoker --type=qt5 {package}',
+        listen_stdout=lambda value, index: listen_stdout(
+            None if check_is_error(value) else OutResult(value=value, index=index)
+        ),
+        listen_stderr=lambda value, index: listen_stderr(
+            None if check_is_error(value) else OutResult(value=value, index=index)
+        ),
+    )
+    if stderr or (stdout and check_is_error(stdout[0])):
+        return OutResultError(
+            message=TextError.ssh_run_application_error(package),
+            value=stdout + stderr
+        )
     return OutResult()
 
 
 def ssh_upload(
         client: SSHClient,
-        path: []
+        path: str,
+        listen_progress: Callable[[OutResult], None],
 ) -> OutResult:
-    return OutResult()
+    cache_progress = []
+
+    def call_calculate_progress(transferred: int, total: int):
+        progress = int(transferred * 100 / total) if total != 0 else 0
+        if progress not in cache_progress:
+            cache_progress.append(progress)
+            listen_progress(OutResultInfo(
+                message=TextInfo.shh_download_progress(),
+                value=progress
+            ))
+
+    file_path = convert_relative_path(path)
+
+    try:
+        file_name = os.path.basename(file_path)
+        file_upload = f'/home/defaultuser/Downloads/{file_name}'
+        call_calculate_progress(0, 0)
+        client.open_sftp().put(
+            localpath=file_path,
+            remotepath=file_upload,
+            callback=lambda transferred, total: call_calculate_progress(transferred, total)
+        )
+        return OutResult(
+            message=TextSuccess.ssh_uploaded_success(file_name),
+            value={
+                'localpath': file_path,
+                'remotepath': file_upload,
+            }
+        )
+    except Exception as e:
+        return OutResultError(
+            message=TextError.ssh_upload_error(),
+            value=str(e)
+        )
 
 
-def ssh_install(
+def ssh_rpm_install(
         client: SSHClient,
-        path: [],
-        apm: bool
+        path: str,
+        apm: bool,
+        listen_progress: Callable[[OutResult], None],
 ) -> OutResult:
-    return OutResult()
+    def check_is_error(out: []) -> bool:
+        for line in out:
+            if 'Error:' in line:
+                return True
+            if 'Fatal error' in line:
+                return True
+        return False
+
+    result = ssh_upload(client, path, listen_progress)
+    if result.is_error():
+        return result
+
+    file_upload = result.value['remotepath']
+
+    if not apm:
+        execute = f'pkcon -y install-local {file_upload}'
+    else:
+        prompt = "{'ShowPrompt': <false>}"
+        execute = (f'gdbus call --system '
+                   f'--dest ru.omp.APM '
+                   f'--object-path /ru/omp/APM '
+                   f'--method ru.omp.APM.Install '
+                   f'"{file_upload}" '
+                   f'"{prompt}"')
+
+    stdout, stderr = ssh_exec_command(client, execute)
+
+    if check_is_error(stdout) or stderr:
+        return OutResultError(
+            message=TextError.ssh_install_rpm_error(),
+            value={
+                'stdout': stdout,
+                'stderr': stderr,
+            }
+        )
+
+    return OutResult(TextSuccess.ssh_install_rpm(os.path.basename(file_upload)))
 
 
-def ssh_remove(
+def ssh_rpm_remove(
         client: SSHClient,
         package: str,
-        apm: bool
+        apm: bool,
 ) -> OutResult:
-    return OutResult()
+    def check_is_error(out: []) -> bool:
+        for line in out:
+            if 'Package not found' in line:
+                return True
+        return False
+
+    if not apm:
+        execute = f'pkcon -y remove {package}'
+    else:
+        execute = (f'gdbus call --system '
+                   f'--dest ru.omp.APM '
+                   f'--object-path /ru/omp/APM '
+                   f'--method ru.omp.APM.Remove '
+                   f'"{package}"')
+
+    stdout, stderr = ssh_exec_command(client, execute)
+
+    if check_is_error(stdout) or stderr:
+        return OutResultError(
+            message=TextError.ssh_remove_rpm_error(),
+            value={
+                'stdout': stdout,
+                'stderr': stderr,
+            }
+        )
+
+    return OutResult(TextSuccess.ssh_remove_rpm())

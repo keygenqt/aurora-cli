@@ -1,16 +1,14 @@
+import re
+import string
 import subprocess
-from typing import Callable
 
 from cffi.backend_ctypes import unicode
 
-commands_verbose_save = []
+shell_commands_verbose_save = []
 
 
-def shell_command(
-        args: [],
-        listen: Callable[[str, int, bool], None] = None,
-) -> []:
-    global commands_verbose_save
+def shell_exec_command(args: []) -> []:
+    global shell_commands_verbose_save
 
     stdout = []
     stderr = []
@@ -26,21 +24,22 @@ def shell_command(
             stderr.append(out)
         else:
             stdout.append(out)
-        if listen:
-            listen(out, len(stderr) + len(stdout), is_error)
 
     try:
         with subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT) as process:
-            for line in iter(lambda: process.stdout.readline(), ""):
-                if not line:
+            for value in iter(lambda: process.stdout.readline(), ""):
+                if not value:
                     break
-                line = unicode(line.rstrip(), "utf-8").strip()
-                if line:
-                    set_out(line)
+                value = unicode(value.rstrip(), "utf-8")
+                value = str(value).strip()
+                value = str(re.sub(r'[^' + string.printable + r'абвгдеёжзийклмнопрстуфхцчшщъыьэюя\s]', '', value))
+                value = str(re.sub(r'\s+', ' ', value))
+                if value:
+                    set_out(value)
     except Exception as e:
         set_out(str(e), True)
 
-    commands_verbose_save.append({
+    shell_commands_verbose_save.append({
         'command': ' '.join(args),
         'stdout': stdout,
         'stderr': stderr,
@@ -50,7 +49,7 @@ def shell_command(
 
 
 def shell_verbose_map():
-    global commands_verbose_save
-    data = commands_verbose_save
-    commands_verbose_save = []
+    global shell_commands_verbose_save
+    data = shell_commands_verbose_save
+    shell_commands_verbose_save = []
     return data

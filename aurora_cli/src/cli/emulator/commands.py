@@ -16,12 +16,18 @@ limitations under the License.
 
 import click
 
+from aurora_cli.src.base.alive_bar_percentage import AliveBarPercentage
+from aurora_cli.src.base.common.texts.info import TextInfo
 from aurora_cli.src.base.common.texts.prompt import TextPrompt
 from aurora_cli.src.base.common.texts.success import TextSuccess
 from aurora_cli.src.base.output import echo_stdout, OutResult
 from aurora_cli.src.common.emulator.ssh_features import (
     ssh_command,
-    get_ssh_client_emulator
+    get_ssh_client_emulator,
+    ssh_run,
+    ssh_upload,
+    ssh_rpm_install,
+    ssh_rpm_remove
 )
 from aurora_cli.src.common.emulator.vm_features import (
     vm_emulator_start,
@@ -92,7 +98,7 @@ def ssh_emulator_command_cli(execute: str, verbose: bool):
         echo_stdout(result, verbose)
     else:
         echo_stdout(OutResult(
-            message=TextSuccess.emulator_exec_command_success(
+            message=TextSuccess.ssh_exec_command_success(
                 execute=execute,
                 stdout='\n'.join(result.value['stdout']),
                 stderr='\n'.join(result.value['stderr'])
@@ -105,8 +111,16 @@ def ssh_emulator_command_cli(execute: str, verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help='Command output')
 def ssh_emulator_run_cli(package: str, verbose: bool):
     """Run package on emulator in container."""
-    pass
-    # echo_stdout(ssh_run(package), verbose)
+    result = get_ssh_client_emulator()
+    if result.is_error():
+        echo_stdout(result)
+        exit(1)
+    echo_stdout(ssh_run(
+        client=result.value,
+        package=package,
+        listen_stdout=lambda stdout: echo_stdout(stdout),
+        listen_stderr=lambda stderr: echo_stdout(stderr),
+    ), verbose)
 
 
 @group_emulator.command(name='upload')
@@ -114,25 +128,63 @@ def ssh_emulator_run_cli(package: str, verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help='Command output')
 def ssh_emulator_upload_cli(path: [], verbose: bool):
     """Upload file to ~/Download directory emulator."""
-    pass
-    # echo_stdout(ssh_upload(path), verbose)
+    result = get_ssh_client_emulator()
+    if result.is_error():
+        echo_stdout(result)
+        exit(1)
+    for file_path in path:
+        echo_stdout(OutResult(TextInfo.shh_download_start(file_path)))
+        bar = AliveBarPercentage()
+        echo_stdout(ssh_upload(
+            client=result.value,
+            path=file_path,
+            listen_progress=lambda stdout: bar.update(stdout.value)
+        ))
+    if verbose:
+        echo_stdout(OutResult(), verbose)
 
 
-@group_emulator.command(name='install')
+@group_emulator.command(name='rpm-install')
 @click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help='Path to RPM file')
 @click.option('-a', '--apm', is_flag=True, help='Use new install APM')
 @click.option('-v', '--verbose', is_flag=True, help='Command output')
 def ssh_emulator_install_cli(path: [], apm: bool, verbose: bool):
     """Install RPM package on emulator."""
-    pass
-    # echo_stdout(ssh_install(path, apm), verbose)
+    result = get_ssh_client_emulator('root')
+    if result.is_error():
+        echo_stdout(result)
+        exit(1)
+
+    def bar_update(ab: AliveBarPercentage, percent: int):
+        ab.update(percent)
+        if percent == 100:
+            echo_stdout(OutResult(TextInfo.ssh_install_rpm()))
+
+    for file_path in path:
+        echo_stdout(OutResult(TextInfo.shh_download_start(file_path)))
+        bar = AliveBarPercentage()
+        echo_stdout(ssh_rpm_install(
+            client=result.value,
+            path=file_path,
+            apm=apm,
+            listen_progress=lambda stdout: bar_update(bar, stdout.value)
+        ))
+    if verbose:
+        echo_stdout(OutResult(), verbose)
 
 
-@group_emulator.command(name='remove')
+@group_emulator.command(name='rpm-remove')
 @click.option('-p', '--package', type=click.STRING, required=True, help='Package name')
-@click.option('-a', '--apm', is_flag=True, help='Use new remove APM')
+@click.option('-a', '--apm', is_flag=True, help='Use new install APM')
 @click.option('-v', '--verbose', is_flag=True, help='Command output')
-def ssh_emulator_remove_cli(package: str, apm: bool, verbose: bool):
-    """Remove package from emulator."""
-    pass
-    # echo_stdout(ssh_remove(package, apm), verbose)
+def ssh_emulator_install_cli(package: str, apm: bool, verbose: bool):
+    """Install RPM package on emulator."""
+    result = get_ssh_client_emulator('root')
+    if result.is_error():
+        echo_stdout(result)
+        exit(1)
+    echo_stdout(ssh_rpm_remove(
+        client=result.value,
+        package=package,
+        apm=apm,
+    ), verbose)

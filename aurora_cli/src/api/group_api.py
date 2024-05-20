@@ -23,82 +23,88 @@ from aurora_cli.src.api.emulator.commands import (
     vm_emulator_record_is_on_api,
     ssh_emulator_command_api,
     ssh_emulator_run_api,
+    ssh_emulator_rpm_install_api,
     ssh_emulator_upload_api,
-    ssh_emulator_install_api,
-    ssh_emulator_remove_api,
-    ssh_device_command_api,
-    ssh_device_run_api,
-    ssh_device_upload_api,
-    ssh_device_install_api,
-    ssh_device_remove_api,
+    ssh_emulator_rpm_remove_api,
 )
 from aurora_cli.src.base.common.texts.error import TextError
-from aurora_cli.src.base.output import echo_stdout_json, OutResult404, OutResult400
+from aurora_cli.src.base.output import echo_stdout_json, OutResultError
 
 
 def get_route_root(route: str) -> str:
     return route.split('?')[0]
 
 
-def get_route_arg(route: str, arg: str, is_required: bool = True) -> str:
-    result = urlparse(route).query.replace(f'{arg}=', '')
-    if not result and is_required:
+def get_arg_bool(route: str, arg: str) -> bool:
+    try:
+        return get_arg_str(route, arg).lower() == 'true'
+    except (Exception,):
+        return False
+
+
+def get_arg_str(route: str, arg: str) -> str | None:
+    result = None
+    for arg_value in urlparse(route).query.split('&'):
+        if f'{arg}=' in arg_value:
+            result = arg_value.replace(f'{arg}=', '')
+    if not result:
         raise Exception(f"Argument `{arg}` is required.")
     return result
 
 
 def group_api(route: str):
-    is_verbose = get_route_arg(route, 'verbose', False).lower() == 'true'
     try:
         match get_route_root(route):
             # Emulator vm
             case '/emulator/vm/start':
-                vm_emulator_start_api(is_verbose)
+                vm_emulator_start_api(
+                    verbose=get_arg_bool(route, 'verbose')
+                )
             case '/emulator/vm/screenshot':
-                vm_emulator_screenshot_api(is_verbose)
+                vm_emulator_screenshot_api(
+                    verbose=get_arg_bool(route, 'verbose')
+                )
             case '/emulator/vm/recording/start':
-                vm_emulator_record_start_api(is_verbose)
+                vm_emulator_record_start_api(
+                    verbose=get_arg_bool(route, 'verbose')
+                )
             case '/emulator/vm/recording/stop':
-                vm_emulator_record_stop_api(is_verbose)
+                vm_emulator_record_stop_api(
+                    verbose=get_arg_bool(route, 'verbose')
+                )
             case '/emulator/vm/recording/is_on':
-                vm_emulator_record_is_on_api(is_verbose)
+                vm_emulator_record_is_on_api(
+                    verbose=get_arg_bool(route, 'verbose')
+                )
             # Emulator ssh
             case '/emulator/ssh/command':
-                execute = get_route_arg(route, 'execute')
-                ssh_emulator_command_api(execute, is_verbose)
+                ssh_emulator_command_api(
+                    execute=get_arg_str(route, 'execute'),
+                    verbose=get_arg_bool(route, 'verbose')
+                )
             case '/emulator/ssh/run':
-                package = get_route_arg(route, 'package')
-                ssh_emulator_run_api(package, is_verbose)
+                ssh_emulator_run_api(
+                    package=get_arg_str(route, 'package'),
+                    verbose=get_arg_bool(route, 'verbose')
+                )
             case '/emulator/ssh/upload':
-                path = get_route_arg(route, 'path')
-                ssh_emulator_upload_api([path], is_verbose)
-            case '/emulator/ssh/install':
-                path = get_route_arg(route, 'path')
-                apm = get_route_arg(route, 'apm').lower() == 'true'
-                ssh_emulator_install_api([path], apm, is_verbose)
-            case '/emulator/ssh/remove':
-                package = get_route_arg(route, 'package')
-                apm = get_route_arg(route, 'apm').lower() == 'true'
-                ssh_emulator_remove_api(package, apm, is_verbose)
-            # Device ssh
-            case '/device/ssh/command':
-                execute = get_route_arg(route, 'execute')
-                ssh_device_command_api(execute, is_verbose)
-            case '/device/ssh/run':
-                package = get_route_arg(route, 'package')
-                ssh_device_run_api(package, is_verbose)
-            case '/device/ssh/upload':
-                path = get_route_arg(route, 'path')
-                ssh_device_upload_api([path], is_verbose)
-            case '/device/ssh/install':
-                path = get_route_arg(route, 'path')
-                apm = get_route_arg(route, 'apm').lower() == 'true'
-                ssh_device_install_api([path], apm, is_verbose)
-            case '/device/ssh/remove':
-                package = get_route_arg(route, 'package')
-                apm = get_route_arg(route, 'apm').lower() == 'true'
-                ssh_device_remove_api(package, apm, is_verbose)
+                ssh_emulator_upload_api(
+                    path=get_arg_str(route, 'path'),
+                    verbose=get_arg_bool(route, 'verbose')
+                )
+            case '/emulator/ssh/rpm_install':
+                ssh_emulator_rpm_install_api(
+                    path=get_arg_str(route, 'path'),
+                    apm=get_arg_str(route, 'apm').lower() == 'true',
+                    verbose=get_arg_bool(route, 'verbose')
+                )
+            case '/emulator/ssh/rpm_remove':
+                ssh_emulator_rpm_remove_api(
+                    package=get_arg_str(route, 'package'),
+                    apm=get_arg_str(route, 'apm').lower() == 'true',
+                    verbose=get_arg_bool(route, 'verbose')
+                )
             case _:
-                echo_stdout_json(OutResult404(TextError.route_not_found()))
+                echo_stdout_json(OutResultError(TextError.route_not_found()))
     except Exception as e:
-        echo_stdout_json(OutResult400(str(e)))
+        echo_stdout_json(OutResultError(str(e)))

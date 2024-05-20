@@ -23,7 +23,19 @@ class TextSuccess(Enum):
         return '<green>Video record convert successfully:</green> {}'.format(path)
 
     @staticmethod
-    def emulator_exec_command_success(execute: str, stdout: str = None, stderr: str = None) -> str:
+    def ssh_exec_command_success(execute: str, stdout: str = None, stderr: str = None) -> str:
         stdout = f'\n{stdout}' if stdout else ''
         stderr = f'\n{stderr}' if stderr else ''
         return f'<green>The command was executed successfully:</green> `{execute}`{stdout}{stderr}'
+
+    @staticmethod
+    def ssh_uploaded_success(file_name: str) -> str:
+        return '<green>The file was successfully uploaded:</green> {}'.format(file_name)
+
+    @staticmethod
+    def ssh_install_rpm(file_name: str) -> str:
+        return f'<green>Package</green> {file_name} <green>was installed successfully.</green>'
+
+    @staticmethod
+    def ssh_remove_rpm() -> str:
+        return '<green>Package was successfully removed.</green>'

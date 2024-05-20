@@ -13,10 +13,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+
 from aurora_cli.src.base.output import echo_stdout_json
 from aurora_cli.src.common.emulator.ssh_features import (
     ssh_command,
-    get_ssh_client_emulator
+    get_ssh_client_emulator,
+    ssh_run,
+    ssh_upload,
+    ssh_rpm_install,
+    ssh_rpm_remove
 )
 from aurora_cli.src.common.emulator.vm_features import (
     vm_emulator_start,
@@ -54,12 +59,10 @@ def vm_emulator_record_is_on_api(verbose: bool):
 
 def ssh_emulator_command_api(execute: str, verbose: bool):
     """Execute the command on the emulator."""
-    # Get path to key
     result = get_ssh_client_emulator()
     if result.is_error():
         echo_stdout_json(result)
         exit(1)
-    # Run base command
     echo_stdout_json(ssh_command(
         client=result.value,
         execute=execute
@@ -68,53 +71,53 @@ def ssh_emulator_command_api(execute: str, verbose: bool):
 
 def ssh_emulator_run_api(package: str, verbose: bool):
     """Run package on emulator in container."""
-    pass
-    # echo_stdout_json(ssh_run(package), verbose)
+    result = get_ssh_client_emulator()
+    if result.is_error():
+        echo_stdout_json(result)
+        exit(1)
+    echo_stdout_json(ssh_run(
+        client=result.value,
+        package=package,
+        listen_stdout=lambda stdout: echo_stdout_json(stdout),
+        listen_stderr=lambda stderr: echo_stdout_json(stderr),
+    ), verbose)
 
 
-def ssh_emulator_upload_api(path: [], verbose: bool):
+def ssh_emulator_upload_api(path: str, verbose: bool):
     """Upload file to ~/Download directory emulator."""
-    pass
-    # echo_stdout_json(ssh_upload(path), verbose)
+    result = get_ssh_client_emulator()
+    if result.is_error():
+        echo_stdout_json(result)
+        exit(1)
+    echo_stdout_json(ssh_upload(
+        client=result.value,
+        path=path,
+        listen_progress=lambda stdout: echo_stdout_json(stdout)
+    ), verbose)
 
 
-def ssh_emulator_install_api(path: [], apm: bool, verbose: bool):
+def ssh_emulator_rpm_install_api(path: str, apm: bool, verbose: bool):
     """Install RPM package on emulator."""
-    pass
-    # echo_stdout_json(ssh_install(path, apm), verbose)
+    result = get_ssh_client_emulator('root')
+    if result.is_error():
+        echo_stdout_json(result)
+        exit(1)
+    echo_stdout_json(ssh_rpm_install(
+        client=result.value,
+        path=path,
+        apm=apm,
+        listen_progress=lambda stdout: echo_stdout_json(stdout)
+    ), verbose)
 
 
-def ssh_emulator_remove_api(package: str, apm: bool, verbose: bool):
+def ssh_emulator_rpm_remove_api(package: str, apm: bool, verbose: bool):
     """Remove package from emulator."""
-    pass
-    # echo_stdout_json(ssh_remove(package, apm), verbose)
-
-
-def ssh_device_command_api(execute: str, verbose: bool):
-    """Execute the command on the device."""
-    pass
-    # echo_stdout_json(ssh_command(execute), verbose)
-
-
-def ssh_device_run_api(package: str, verbose: bool):
-    """Run package on device in container."""
-    pass
-    # echo_stdout_json(ssh_run(package), verbose)
-
-
-def ssh_device_upload_api(path: [], verbose: bool):
-    """Upload file to ~/Download directory device."""
-    pass
-    # echo_stdout_json(ssh_upload(path), verbose)
-
-
-def ssh_device_install_api(path: [], apm: bool, verbose: bool):
-    """Install RPM package on device."""
-    pass
-    # echo_stdout_json(ssh_install(path, apm), verbose)
-
-
-def ssh_device_remove_api(package: str, apm: bool, verbose: bool):
-    """Remove package from device."""
-    pass
-    # echo_stdout_json(ssh_remove(package, apm), verbose)
+    result = get_ssh_client_emulator('root')
+    if result.is_error():
+        echo_stdout_json(result)
+        exit(1)
+    echo_stdout_json(ssh_rpm_remove(
+        client=result.value,
+        package=package,
+        apm=apm,
+    ), verbose)

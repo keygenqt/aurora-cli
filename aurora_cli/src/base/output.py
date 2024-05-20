@@ -22,20 +22,14 @@ from bs4 import BeautifulSoup
 
 from aurora_cli.src.base.common.texts.info import TextInfo
 from aurora_cli.src.base.shell import shell_verbose_map
+from aurora_cli.src.base.ssh import ssh_verbose_map
 
 
 # Json output codes
 class EchoJsonCode(Enum):
-    # The application cannot or will not process the request due to something that is perceived to be a client error.
-    Bad_Request = 400
-    # The application cannot find the requested resource.
-    Not_Found = 404
-    # The application refuses the attempt to brew coffee with a teapot.
-    Im_teapot = 418
-    # The application has encountered a situation it does not know how to handle.
-    Internal_Server_Error = 500
-    # The request succeeded.
-    OK = 200
+    info = 100
+    success = 200
+    error = 500
 
 
 @dataclass
@@ -43,34 +37,23 @@ class OutResult:
     """Class out data."""
     message: str = None
     value: any = None
-    code: EchoJsonCode = EchoJsonCode.OK
+    index: int = None
+    code: EchoJsonCode = EchoJsonCode.success
 
     def is_error(self):
-        return self.code != EchoJsonCode.OK
+        return self.code != EchoJsonCode.success
 
 
 @dataclass
-class OutResult400(OutResult):
+class OutResultError(OutResult):
     """Class out data EchoJsonCode.Bad_Request."""
-    code: EchoJsonCode = EchoJsonCode.Bad_Request
+    code: EchoJsonCode = EchoJsonCode.error
 
 
 @dataclass
-class OutResult404(OutResult):
+class OutResultInfo(OutResult):
     """Class out data EchoJsonCode.Not_Found."""
-    code: EchoJsonCode = EchoJsonCode.Not_Found
-
-
-@dataclass
-class OutResult418(OutResult):
-    """Class out data EchoJsonCode.Im_teapot."""
-    code: EchoJsonCode = EchoJsonCode.Im_teapot
-
-
-@dataclass
-class OutResult500(OutResult):
-    """Class out data EchoJsonCode.Internal_Server_Error."""
-    code: EchoJsonCode = EchoJsonCode.Internal_Server_Error
+    code: EchoJsonCode = EchoJsonCode.info
 
 
 # Color tags
@@ -91,26 +74,31 @@ def echo_stdout(out: OutResult, verbose: bool = False, newlines: int = 1):
         click.echo(_colorize_text(out.message).strip(), nl=False)
         for x in range(newlines):
             click.echo()
+    if not out.message and out.value:
+        click.echo(out.value)
     if verbose:
         echo_verbose_shell()
 
 
 # App output echo json
-def echo_stdout_json(out: OutResult, verbose: bool = False):
-    data = {
-        'code': out.code.value,
-    }
-    if out.message is not None:
-        data['message'] = _colorize_clear(out.message).strip()
-    if out.value is not None:
-        data['value'] = out.value
-    if verbose:
-        data['verbose'] = shell_verbose_map()
-    click.echo(json.dumps(data, indent=2))
+def echo_stdout_json(out: OutResult | None, verbose: bool = False):
+    if out:
+        data = {
+            'code': out.code.value,
+        }
+        if out.message is not None:
+            data['message'] = _colorize_clear(out.message).strip()
+        if out.value is not None:
+            data['value'] = out.value
+        if out.index is not None:
+            data['index'] = out.index
+        if verbose:
+            data['verbose'] = shell_verbose_map() + ssh_verbose_map()
+        click.echo(json.dumps(data, indent=2))
 
 
 def echo_verbose_shell():
-    for exec_command in shell_verbose_map():
+    for exec_command in shell_verbose_map() + ssh_verbose_map():
         echo_stdout(OutResult(TextInfo.command_execute(exec_command['command'])))
         if exec_command['stdout']:
             echo_stdout(OutResult('\n'.join(exec_command['stdout'])))
@@ -122,11 +110,6 @@ def echo_verbose_shell():
 def echo_line(newlines: int = 1):
     for x in range(newlines):
         click.echo()
-
-
-# App output echo json EchoJsonCode.Bad_Request
-def echo_stdout_json_400(out: OutResult):
-    echo_stdout_json(out)
 
 
 # Colorize text clear

@@ -37,3 +37,19 @@ class TextError(Enum):
     @staticmethod
     def ssh_connect_device_error() -> str:
         return '<red>Error connecting to device via SSH.</red>'
+
+    @staticmethod
+    def ssh_run_application_error(package: str) -> str:
+        return f'<red>An error occurred while starting the application:</red> {package}'
+
+    @staticmethod
+    def ssh_upload_error() -> str:
+        return '<red>Failed to upload files.</red>'
+
+    @staticmethod
+    def ssh_install_rpm_error() -> str:
+        return '<red>Error installing RPM package.</red>'
+
+    @staticmethod
+    def ssh_remove_rpm_error() -> str:
+        return '<red>An error occurred while deleting the package.</red>'
