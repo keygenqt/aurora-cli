@@ -15,7 +15,7 @@ limitations under the License.
 """
 from urllib.parse import urlparse
 
-from aurora_cli.src.api.emulator.commands import (
+from aurora_cli.src.api.emulator import (
     vm_emulator_start_api,
     vm_emulator_screenshot_api,
     vm_emulator_record_start_api,
@@ -27,7 +27,7 @@ from aurora_cli.src.api.emulator.commands import (
     ssh_emulator_upload_api,
     ssh_emulator_rpm_remove_api,
 )
-from aurora_cli.src.base.common.texts.error import TextError
+from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.output import echo_stdout_json, OutResultError
 
 

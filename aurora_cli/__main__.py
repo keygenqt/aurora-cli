@@ -16,12 +16,12 @@ limitations under the License.
 import click
 
 from aurora_cli.src.api.group_api import group_api
-from aurora_cli.src.cli.emulator.commands import group_emulator
+from aurora_cli.src.cli.device import group_device
+from aurora_cli.src.cli.emulator import group_emulator
 from aurora_cli.src.support.dependency_required import check_dependency_init
 
 check_dependency_init()
 
-from aurora_cli.src.features.devices.group_device import group_device  # noqa: E402
 from aurora_cli.src.features.flutter.group_flutter import group_flutter  # noqa: E402
 from aurora_cli.src.features.psdk.group_psdk import group_psdk  # noqa: E402
 from aurora_cli.src.features.sdk.group_sdk import group_sdk  # noqa: E402
@@ -53,12 +53,14 @@ This is a third party tool written by enthusiasts!
             print(ctx.get_help())
 
 
+# new
+main.add_command(group_emulator)
+main.add_command(group_device)
+
+# old
 main.add_command(group_sdk)
 main.add_command(group_psdk)
-main.add_command(group_device)
 main.add_command(group_flutter)
-
-main.add_command(group_emulator)
 
 if __name__ == '__main__':
     main()

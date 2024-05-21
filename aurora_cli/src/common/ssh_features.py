@@ -18,44 +18,12 @@ from typing import Callable
 
 from paramiko.client import SSHClient
 
-from aurora_cli.src.base.common.texts.error import TextError
-from aurora_cli.src.base.common.texts.info import TextInfo
-from aurora_cli.src.base.common.texts.success import TextSuccess
 from aurora_cli.src.base.helper import convert_relative_path
 from aurora_cli.src.base.output import OutResult, OutResultError, OutResultInfo
-from aurora_cli.src.base.ssh import ssh_exec_command, ssh_client_connect
-from aurora_cli.src.common.emulator.vm_features import vm_emulator_ssh_key
-
-
-def get_ssh_client_emulator(user: str = 'defaultuser') -> OutResult:
-    # Get path to key
-    result = vm_emulator_ssh_key()
-    if result.is_error():
-        return result
-    # Get ssh client
-    client = ssh_client_connect(
-        'localhost',
-        user,
-        2223,
-        result.value
-    )
-    if not client:
-        return OutResultError(TextError.ssh_connect_emulator_error())
-    else:
-        return OutResult(value=client)
-
-
-def get_ssh_client_device(ip: str, port: int, password: str) -> OutResult:
-    client = ssh_client_connect(
-        ip,
-        'defaultuser',
-        port,
-        password
-    )
-    if not client:
-        return OutResultError(TextError.ssh_connect_device_error())
-    else:
-        return OutResult(value=client)
+from aurora_cli.src.base.ssh import ssh_exec_command
+from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.texts.info import TextInfo
+from aurora_cli.src.base.texts.success import TextSuccess
 
 
 def ssh_command(
@@ -198,6 +166,8 @@ def ssh_rpm_remove(
 ) -> OutResult:
     def check_is_error(out: []) -> bool:
         for line in out:
+            if 'Error:' in line:
+                return True
             if 'Package not found' in line:
                 return True
         return False

@@ -16,9 +16,9 @@ limitations under the License.
 import os
 from pathlib import Path
 
-from aurora_cli.src.base.common.texts.error import TextError
-from aurora_cli.src.base.common.texts.info import TextInfo
-from aurora_cli.src.base.common.texts.success import TextSuccess
+from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.texts.info import TextInfo
+from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.helper import gen_file_name
 from aurora_cli.src.base.output import OutResult, OutResultError, OutResultInfo
 from aurora_cli.src.base.shell import shell_exec_command

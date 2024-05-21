@@ -20,9 +20,7 @@ from enum import Enum
 import click
 from bs4 import BeautifulSoup
 
-from aurora_cli.src.base.common.texts.info import TextInfo
-from aurora_cli.src.base.shell import shell_verbose_map
-from aurora_cli.src.base.ssh import ssh_verbose_map
+from aurora_cli.src.base.texts.info import TextInfo
 
 
 # Json output codes
@@ -69,19 +67,30 @@ class EchoColors(Enum):
 
 
 # App output echo
-def echo_stdout(out: OutResult, verbose: bool = False, newlines: int = 1):
-    if out.message:
-        click.echo(_colorize_text(out.message).strip(), nl=False)
-        for x in range(newlines):
-            click.echo()
-    if not out.message and out.value:
-        click.echo(out.value)
+def echo_stdout(
+        out: OutResult | str | None,
+        verbose: bool = False,
+        newlines: int = 1
+):
+    if type(out) is str:
+        click.echo(_colorize_text(out))
+    else:
+        if out.message:
+            click.echo(_colorize_text(out.message).strip(), nl=False)
+            for x in range(newlines):
+                click.echo()
+        if not out.message and out.value:
+            click.echo(out.value)
     if verbose:
         echo_verbose_shell()
 
 
-# App output echo json
 def echo_stdout_json(out: OutResult | None, verbose: bool = False):
+    _echo_stdout_json(out, verbose)
+
+
+@click.pass_context
+def _echo_stdout_json(ctx: {}, out: OutResult | None, verbose: bool = False):
     if out:
         data = {
             'code': out.code.value,
@@ -93,12 +102,17 @@ def echo_stdout_json(out: OutResult | None, verbose: bool = False):
         if out.index is not None:
             data['index'] = out.index
         if verbose:
-            data['verbose'] = shell_verbose_map() + ssh_verbose_map()
+            data['verbose'] = ctx.obj.seize_verbose_map()
         click.echo(json.dumps(data, indent=2))
 
 
 def echo_verbose_shell():
-    for exec_command in shell_verbose_map() + ssh_verbose_map():
+    _echo_verbose_shell()
+
+
+@click.pass_context
+def _echo_verbose_shell(ctx: {}):
+    for exec_command in ctx.obj.seize_verbose_map():
         echo_stdout(OutResult(TextInfo.command_execute(exec_command['command'])))
         if exec_command['stdout']:
             echo_stdout(OutResult('\n'.join(exec_command['stdout'])))

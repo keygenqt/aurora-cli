@@ -53,3 +53,35 @@ class TextError(Enum):
     @staticmethod
     def ssh_remove_rpm_error() -> str:
         return '<red>An error occurred while deleting the package.</red>'
+
+    @staticmethod
+    def validate_config_devices_not_found() -> str:
+        return '<red>Section</red> devices <red>not found.</red>'
+
+    @staticmethod
+    def validate_config_devices() -> str:
+        return '<red>Section</red> devices <red>incorrect.</red>'
+
+    @staticmethod
+    def validate_config_keys_not_found() -> str:
+        return '<red>Section</red> keys <red>not found.</red>'
+
+    @staticmethod
+    def validate_config_keys() -> str:
+        return '<red>Section</red> keys <red>incorrect.</red>'
+
+    @staticmethod
+    def validate_config_key_not_found(path: str) -> str:
+        return f'<red>Not found file key:</red> {path}'
+
+    @staticmethod
+    def validate_config_cert_not_found(path: str) -> str:
+        return f'<red>Not found file cert:</red> {path}'
+
+    @staticmethod
+    def index_error() -> str:
+        return '<red>Invalid index entered.</red>'
+
+    @staticmethod
+    def index_and_select_at_the_same_time() -> str:
+        return '<red>Select one thing</red> --select <red>or</red> --index<red>.</red>'

@@ -1,5 +1,12 @@
 import os
+import re
 from datetime import datetime
+
+import click
+
+from aurora_cli.src.base.output import OutResultError, OutResult
+from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.texts.prompt import TextPrompt
 
 
 def gen_file_name(before: str, extension: str) -> str:
@@ -18,3 +25,43 @@ def convert_relative_path(path: str) -> str:
     if path.startswith('../'):
         path = '{}/{}'.format(os.getcwd(), path)
     return path
+
+
+def clear_str_line(line: str) -> str:
+    line = line.strip()
+    line = str(re.compile(r'(?:\x1B[@-_]|[\x80-\x9F])[0-?]*[ -/]*[@-~]').sub('', line))
+    # I don't know how to humanely clear a line from this ***
+    line = str(re.sub(r'\u0000|\u001b8|\u001b7', '', line))
+    line = str(re.sub(r'\s+', ' ', line))
+    return line
+
+
+def model_select(
+        models: [],
+        select: bool,
+        index: int | None
+) -> OutResult:
+    def has_index(i: int, arr: []) -> bool:
+        return i < 0 or len(arr) <= i
+
+    # At the same time index and select
+    if select and index is not None:
+        return OutResultError(TextError.index_and_select_at_the_same_time())
+    # If empty
+    if len(models) == 0:
+        return OutResultError(TextError.validate_config_devices_not_found())
+    # If select index
+    if index is not None:
+        if has_index(index - 1, models):
+            return OutResultError(TextError.index_error())
+        return OutResult(value=models[index - 1])
+    # If not prompt select fist
+    if not select:
+        return OutResult(value=models[0])
+    # Prompt
+    index = click.prompt(TextPrompt.select_index(), type=int)
+    # Check index
+    if has_index(index - 1, models):
+        return OutResultError(TextError.index_error())
+    # Result
+    return OutResult(value=models[index - 1])

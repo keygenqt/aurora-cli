@@ -1,15 +1,17 @@
-import re
-import string
 import subprocess
 
+import click
 from cffi.backend_ctypes import unicode
 
-shell_commands_verbose_save = []
+from aurora_cli.src.base.helper import clear_str_line
 
 
 def shell_exec_command(args: []) -> []:
-    global shell_commands_verbose_save
+    return _shell_exec_command(args)
 
+
+@click.pass_context
+def _shell_exec_command(ctx: {}, args: []) -> []:
     stdout = []
     stderr = []
 
@@ -30,26 +32,16 @@ def shell_exec_command(args: []) -> []:
             for value in iter(lambda: process.stdout.readline(), ""):
                 if not value:
                     break
-                value = unicode(value.rstrip(), "utf-8")
-                value = str(value).strip()
-                value = str(re.sub(r'[^' + string.printable + r'абвгдеёжзийклмнопрстуфхцчшщъыьэюя\s]', '', value))
-                value = str(re.sub(r'\s+', ' ', value))
+                value = clear_str_line(str(unicode(value.rstrip(), "utf-8")))
                 if value:
                     set_out(value)
     except Exception as e:
         set_out(str(e), True)
 
-    shell_commands_verbose_save.append({
-        'command': ' '.join(args),
-        'stdout': stdout,
-        'stderr': stderr,
-    })
+    ctx.obj.add_verbose_map(
+        command=' '.join(args),
+        stdout=stdout,
+        stderr=stderr,
+    )
 
     return stdout, stderr
-
-
-def shell_verbose_map():
-    global shell_commands_verbose_save
-    data = shell_commands_verbose_save
-    shell_commands_verbose_save = []
-    return data

@@ -13,17 +13,16 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
+from aurora_cli.src.base.models.emulator_model import EmulatorModel
 from aurora_cli.src.base.output import echo_stdout_json
-from aurora_cli.src.common.emulator.ssh_features import (
+from aurora_cli.src.common.ssh_features import (
     ssh_command,
-    get_ssh_client_emulator,
     ssh_run,
     ssh_upload,
     ssh_rpm_install,
     ssh_rpm_remove
 )
-from aurora_cli.src.common.emulator.vm_features import (
+from aurora_cli.src.common.vm_features import (
     vm_emulator_start,
     vm_emulator_screenshot,
     vm_emulator_record_start,
@@ -59,9 +58,9 @@ def vm_emulator_record_is_on_api(verbose: bool):
 
 def ssh_emulator_command_api(execute: str, verbose: bool):
     """Execute the command on the emulator."""
-    result = get_ssh_client_emulator()
+    result = EmulatorModel.get_model_user().get_ssh_client()
     if result.is_error():
-        echo_stdout_json(result)
+        echo_stdout_json(result, verbose)
         exit(1)
     echo_stdout_json(ssh_command(
         client=result.value,
@@ -71,9 +70,9 @@ def ssh_emulator_command_api(execute: str, verbose: bool):
 
 def ssh_emulator_run_api(package: str, verbose: bool):
     """Run package on emulator in container."""
-    result = get_ssh_client_emulator()
+    result = EmulatorModel.get_model_user().get_ssh_client()
     if result.is_error():
-        echo_stdout_json(result)
+        echo_stdout_json(result, verbose)
         exit(1)
     echo_stdout_json(ssh_run(
         client=result.value,
@@ -85,9 +84,9 @@ def ssh_emulator_run_api(package: str, verbose: bool):
 
 def ssh_emulator_upload_api(path: str, verbose: bool):
     """Upload file to ~/Download directory emulator."""
-    result = get_ssh_client_emulator()
+    result = EmulatorModel.get_model_user().get_ssh_client()
     if result.is_error():
-        echo_stdout_json(result)
+        echo_stdout_json(result, verbose)
         exit(1)
     echo_stdout_json(ssh_upload(
         client=result.value,
@@ -98,9 +97,9 @@ def ssh_emulator_upload_api(path: str, verbose: bool):
 
 def ssh_emulator_rpm_install_api(path: str, apm: bool, verbose: bool):
     """Install RPM package on emulator."""
-    result = get_ssh_client_emulator('root')
+    result = EmulatorModel.get_model_root().get_ssh_client()
     if result.is_error():
-        echo_stdout_json(result)
+        echo_stdout_json(result, verbose)
         exit(1)
     echo_stdout_json(ssh_rpm_install(
         client=result.value,
@@ -112,9 +111,9 @@ def ssh_emulator_rpm_install_api(path: str, apm: bool, verbose: bool):
 
 def ssh_emulator_rpm_remove_api(package: str, apm: bool, verbose: bool):
     """Remove package from emulator."""
-    result = get_ssh_client_emulator('root')
+    result = EmulatorModel.get_model_root().get_ssh_client()
     if result.is_error():
-        echo_stdout_json(result)
+        echo_stdout_json(result, verbose)
         exit(1)
     echo_stdout_json(ssh_rpm_remove(
         client=result.value,

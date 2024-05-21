@@ -29,3 +29,9 @@ class TextInfo(Enum):
     @staticmethod
     def ssh_install_rpm() -> str:
         return '<blue>Starting install RPM package...</blue>'
+
+    @staticmethod
+    def select_array_out(key: str, names: []) -> str:
+        if names:
+            return (f'<blue>Select</blue> {key} <blue>index:</blue>\n'
+                    + '\n'.join([f'{i + 1}: {n}' for i, n in enumerate(names)]))

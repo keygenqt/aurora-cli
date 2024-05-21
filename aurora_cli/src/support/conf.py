@@ -17,10 +17,10 @@ import os
 from pathlib import Path
 
 import click.exceptions
-import requests
 from yaml import Loader
 from yaml import load
 
+from aurora_cli.src.base.configuration import AppConfiguration
 from aurora_cli.src.support.helper import get_path_file, get_request
 from aurora_cli.src.support.output import echo_stdout, VerboseType, echo_stderr
 from aurora_cli.src.support.texts import AppTexts
@@ -150,12 +150,28 @@ devices:
         # Get path config
         self.conf_path = Conf._get_path_conf(path, default=PATH_CONF)
 
+        # @todo
+        self.commands_verbose_save = []
+        self.conf_new = AppConfiguration(self.conf_path)
+
         # Check and download key pairs
         Conf._check_key_pairs(self.conf_path)
 
         # Load config
         with open(self.conf_path, 'rb') as file:
             self.conf = load(file.read(), Loader=Loader)
+
+    def add_verbose_map(self, command: str, stdout: [], stderr: []):
+        self.commands_verbose_save.append({
+            'command': command,
+            'stdout': stdout,
+            'stderr': stderr,
+        })
+
+    def seize_verbose_map(self):
+        data = self.commands_verbose_save
+        self.commands_verbose_save = []
+        return data
 
     # Get config folder
     def get_folder(self) -> Path:

@@ -1,28 +1,28 @@
 import re
-import string
 from pathlib import Path, PosixPath
 from typing import Callable
 
+import click
 import paramiko
 from paramiko.channel import ChannelFile
 from paramiko.client import SSHClient
 
-ssh_commands_verbose_save = []
+from aurora_cli.src.base.helper import clear_str_line
 
 
 def ssh_client_connect(
-        ip: str,
+        host: str,
         username: str,
         port: int,
-        key: Path | str
+        auth: Path | str
 ) -> SSHClient | None:
     try:
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        if type(key) is PosixPath:
-            client.connect(ip, username=username, key_filename=str(key), timeout=5, port=port)
+        if type(auth) is PosixPath:
+            client.connect(host, username=username, key_filename=str(auth), timeout=5, port=port)
         else:
-            client.connect(ip, username=username, password=key, timeout=5, port=port)
+            client.connect(host, username=username, password=auth, timeout=5, port=port)
         return client
     except (Exception,):
         return None
@@ -34,8 +34,17 @@ def ssh_exec_command(
         listen_stdout: Callable[[str, int], None] = None,
         listen_stderr: Callable[[str, int], None] = None,
 ):
-    global ssh_commands_verbose_save
+    return _ssh_exec_command(client, execute, listen_stdout, listen_stderr)
 
+
+@click.pass_context
+def _ssh_exec_command(
+        ctx: {},
+        client: SSHClient,
+        execute: str,
+        listen_stdout: Callable[[str, int], None] = None,
+        listen_stderr: Callable[[str, int], None] = None,
+):
     _, stdout, stderr = client.exec_command(execute, get_pty=True)
 
     def call_listen(out: [], listen: Callable[[str, int], None] = None):
@@ -46,9 +55,7 @@ def ssh_exec_command(
         result = []
         try:
             for value in iter(out.readline, ""):
-                value = str(value).strip()
-                value = str(re.sub(r'[^' + string.printable + r'абвгдеёжзийклмнопрстуфхцчшщъыьэюя\s]', '', value))
-                value = str(re.sub(r'\s+', ' ', value))
+                value = clear_str_line(str(value))
                 if value:
                     result.append(value)
                     call_listen(result, listen)
@@ -60,17 +67,10 @@ def ssh_exec_command(
     _stdout = read_lines(stdout, listen_stdout)
     _stderr = read_lines(stderr, listen_stderr)
 
-    ssh_commands_verbose_save.append({
-        'command': execute,
-        'stdout': _stdout,
-        'stderr': _stderr,
-    })
+    ctx.obj.add_verbose_map(
+        command=execute,
+        stdout=_stdout,
+        stderr=_stderr,
+    )
 
     return _stdout, _stderr
-
-
-def ssh_verbose_map():
-    global ssh_commands_verbose_save
-    data = ssh_commands_verbose_save
-    ssh_commands_verbose_save = []
-    return data

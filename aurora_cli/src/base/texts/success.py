@@ -39,3 +39,11 @@ class TextSuccess(Enum):
     @staticmethod
     def ssh_remove_rpm() -> str:
         return '<green>Package was successfully removed.</green>'
+
+    @staticmethod
+    def validate_config_devices() -> str:
+        return '<green>Section</green> devices <green>was validated successfully.</green>'
+
+    @staticmethod
+    def validate_config_keys() -> str:
+        return '<green>Section</green> keys <green>was validated successfully.</green>'
