@@ -47,12 +47,20 @@ class TextError(Enum):
         return '<red>Failed to upload files.</red>'
 
     @staticmethod
+    def ssh_upload_file_not_found(path: str) -> str:
+        return f'<red>File not found for download:</red> {path}'
+
+    @staticmethod
     def ssh_install_rpm_error() -> str:
         return '<red>Error installing RPM package.</red>'
 
     @staticmethod
     def ssh_remove_rpm_error() -> str:
         return '<red>An error occurred while deleting the package.</red>'
+
+    @staticmethod
+    def validate_config_error() -> str:
+        return '<red>The configuration file failed verification.</red>'
 
     @staticmethod
     def validate_config_devices_not_found() -> str:
@@ -77,6 +85,22 @@ class TextError(Enum):
     @staticmethod
     def validate_config_cert_not_found(path: str) -> str:
         return f'<red>Not found file cert:</red> {path}'
+
+    @staticmethod
+    def validate_config_workdir_not_found() -> str:
+        return '<red>It was not possible to find and create the </red> workdir <red> folder.</red>'
+
+    @staticmethod
+    def validate_config_workdir_error_create(path: str) -> str:
+        return f'<red>Folder</red> {path} <red>not found.</red>'
+
+    @staticmethod
+    def validate_config_arg_path(path: str) -> str:
+        return f'<red>The specified configuration file does not exist:</red> {path}'
+
+    @staticmethod
+    def config_arg_path_load_error(path: str) -> str:
+        return f'<red>Configuration file cannot be read:</red> {path}'
 
     @staticmethod
     def index_error() -> str:

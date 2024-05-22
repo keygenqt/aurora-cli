@@ -41,6 +41,16 @@ class OutResult:
     def is_error(self):
         return self.code != EchoJsonCode.success
 
+    def to_json(self):
+        data = {
+            'code': self.code.value
+        }
+        if self.message:
+            data['message'] = _colorize_clear(self.message)
+        if self.value:
+            data['value'] = self.value
+        return data
+
 
 @dataclass
 class OutResultError(OutResult):
@@ -66,21 +76,30 @@ class EchoColors(Enum):
     reset = 'reset'
 
 
+def echo_stdout_with_check(is_api: bool, out: OutResult):
+    if is_api:
+        echo_stdout_json(out)
+    else:
+        echo_stdout(out)
+
+
 # App output echo
 def echo_stdout(
         out: OutResult | str | None,
         verbose: bool = False,
-        newlines: int = 1
+        newlines: int = 1,
+        prefix: str = ''
 ):
-    if type(out) is str:
-        click.echo(_colorize_text(out))
-    else:
-        if out.message:
-            click.echo(_colorize_text(out.message).strip(), nl=False)
-            for x in range(newlines):
-                click.echo()
-        if not out.message and out.value:
-            click.echo(out.value)
+    if out is not None:
+        if type(out) is str:
+            click.echo(prefix + _colorize_text(out))
+        else:
+            if out.message:
+                click.echo(prefix + _colorize_text(out.message).strip(), nl=False)
+                for x in range(newlines):
+                    click.echo()
+            if not out.message and out.value:
+                click.echo(out.value)
     if verbose:
         echo_verbose_shell()
 

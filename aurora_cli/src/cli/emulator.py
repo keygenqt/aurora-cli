@@ -15,20 +15,16 @@ limitations under the License.
 """
 
 import click
+from paramiko.client import SSHClient
 
-from aurora_cli.src.base.alive_bar_percentage import AliveBarPercentage
-
-from aurora_cli.src.base.models.emulator_model import EmulatorModel
-from aurora_cli.src.base.output import echo_stdout, OutResult
-from aurora_cli.src.base.texts.info import TextInfo
+from aurora_cli.src.base.output import echo_stdout
 from aurora_cli.src.base.texts.prompt import TextPrompt
-from aurora_cli.src.base.texts.success import TextSuccess
-from aurora_cli.src.common.ssh_features import (
-    ssh_command,
-    ssh_run,
-    ssh_upload,
-    ssh_rpm_install,
-    ssh_rpm_remove
+from aurora_cli.src.cli.ssh_commands import (
+    ssh_common_command_cli,
+    ssh_common_run_cli,
+    ssh_common_upload_cli,
+    ssh_common_install_cli,
+    ssh_common_remove_cli
 )
 from aurora_cli.src.common.vm_features import (
     vm_emulator_start,
@@ -36,6 +32,14 @@ from aurora_cli.src.common.vm_features import (
     vm_emulator_record_start,
     vm_emulator_record_stop,
 )
+
+
+def _get_emulator_ssh_client(verbose: bool) -> SSHClient:
+    result = vm_emulator_record_start()
+    echo_stdout(result, verbose)
+    if result.is_error():
+        exit(1)
+    return result.value
 
 
 @click.group(name='emulator')
@@ -80,24 +84,11 @@ def vm_emulator_record_cli(verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help='Command output')
 def ssh_emulator_command_cli(execute: str, verbose: bool):
     """Execute the command on the emulator."""
-    result = EmulatorModel.get_model_user().get_ssh_client()
-    if result.is_error():
-        echo_stdout(result, verbose)
-        exit(1)
-    result = ssh_command(
-        client=result.value,
-        execute=execute
+    ssh_common_command_cli(
+        client=_get_emulator_ssh_client(verbose),
+        execute=execute,
+        verbose=verbose
     )
-    if result.is_error():
-        echo_stdout(result, verbose)
-    else:
-        echo_stdout(OutResult(
-            message=TextSuccess.ssh_exec_command_success(
-                execute=execute,
-                stdout='\n'.join(result.value['stdout']),
-                stderr='\n'.join(result.value['stderr'])
-            )
-        ), verbose)
 
 
 @group_emulator.command(name='run')
@@ -105,16 +96,11 @@ def ssh_emulator_command_cli(execute: str, verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help='Command output')
 def ssh_emulator_run_cli(package: str, verbose: bool):
     """Run package on emulator in container."""
-    result = EmulatorModel.get_model_user().get_ssh_client()
-    if result.is_error():
-        echo_stdout(result, verbose)
-        exit(1)
-    echo_stdout(ssh_run(
-        client=result.value,
+    ssh_common_run_cli(
+        client=_get_emulator_ssh_client(verbose),
         package=package,
-        listen_stdout=lambda stdout: echo_stdout(stdout),
-        listen_stderr=lambda stderr: echo_stdout(stderr),
-    ), verbose)
+        verbose=verbose
+    )
 
 
 @group_emulator.command(name='upload')
@@ -122,20 +108,11 @@ def ssh_emulator_run_cli(package: str, verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help='Command output')
 def ssh_emulator_upload_cli(path: [], verbose: bool):
     """Upload file to ~/Download directory emulator."""
-    result = EmulatorModel.get_model_user().get_ssh_client()
-    if result.is_error():
-        echo_stdout(result, verbose)
-        exit(1)
-    for file_path in path:
-        echo_stdout(OutResult(TextInfo.shh_download_start(file_path)))
-        bar = AliveBarPercentage()
-        echo_stdout(ssh_upload(
-            client=result.value,
-            path=file_path,
-            listen_progress=lambda stdout: bar.update(stdout.value)
-        ))
-    if verbose:
-        echo_stdout(OutResult(), verbose)
+    ssh_common_upload_cli(
+        client=_get_emulator_ssh_client(verbose),
+        path=path,
+        verbose=verbose
+    )
 
 
 @group_emulator.command(name='package-install')
@@ -144,27 +121,12 @@ def ssh_emulator_upload_cli(path: [], verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help='Command output')
 def ssh_emulator_install_cli(path: [], apm: bool, verbose: bool):
     """Install RPM package on emulator."""
-    result = EmulatorModel.get_model_root().get_ssh_client()
-    if result.is_error():
-        echo_stdout(result, verbose)
-        exit(1)
-
-    def bar_update(ab: AliveBarPercentage, percent: int):
-        ab.update(percent)
-        if percent == 100:
-            echo_stdout(OutResult(TextInfo.ssh_install_rpm()))
-
-    for file_path in path:
-        echo_stdout(OutResult(TextInfo.shh_download_start(file_path)))
-        bar = AliveBarPercentage()
-        echo_stdout(ssh_rpm_install(
-            client=result.value,
-            path=file_path,
-            apm=apm,
-            listen_progress=lambda stdout: bar_update(bar, stdout.value)
-        ))
-    if verbose:
-        echo_stdout(OutResult(), verbose)
+    ssh_common_install_cli(
+        client=_get_emulator_ssh_client(verbose),
+        path=path,
+        apm=apm,
+        verbose=verbose
+    )
 
 
 @group_emulator.command(name='package-remove')
@@ -173,12 +135,9 @@ def ssh_emulator_install_cli(path: [], apm: bool, verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help='Command output')
 def ssh_emulator_remove_cli(package: str, apm: bool, verbose: bool):
     """Install RPM package on emulator."""
-    result = EmulatorModel.get_model_root().get_ssh_client()
-    if result.is_error():
-        echo_stdout(result, verbose)
-        exit(1)
-    echo_stdout(ssh_rpm_remove(
-        client=result.value,
+    ssh_common_remove_cli(
+        client=_get_emulator_ssh_client(verbose),
         package=package,
         apm=apm,
-    ), verbose)
+        verbose=verbose
+    )

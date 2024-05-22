@@ -1,5 +1,7 @@
 from enum import Enum
 
+from aurora_cli.src.base.helper import convert_relative_path
+
 
 class TextInfo(Enum):
     @staticmethod
@@ -20,7 +22,8 @@ class TextInfo(Enum):
 
     @staticmethod
     def shh_download_start(path: str) -> str:
-        return f'<blue>Starting file download:</blue> {path}'
+        if convert_relative_path(path).is_file():
+            return f'<blue>Starting file download:</blue> {path}'
 
     @staticmethod
     def shh_download_progress() -> str:
@@ -35,3 +38,7 @@ class TextInfo(Enum):
         if names:
             return (f'<blue>Select</blue> {key} <blue>index:</blue>\n'
                     + '\n'.join([f'{i + 1}: {n}' for i, n in enumerate(names)]))
+
+    @staticmethod
+    def create_default_config_file(path: str) -> str:
+        return f'<blue>A default configuration file has been created:</blue> {path}'

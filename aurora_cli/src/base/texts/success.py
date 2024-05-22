@@ -29,8 +29,8 @@ class TextSuccess(Enum):
         return f'<green>The command was executed successfully:</green> `{execute}`{stdout}{stderr}'
 
     @staticmethod
-    def ssh_uploaded_success(file_name: str) -> str:
-        return '<green>The file was successfully uploaded:</green> {}'.format(file_name)
+    def ssh_uploaded_success(remote_path: str) -> str:
+        return '<green>The file was successfully uploaded:</green> {}'.format(remote_path)
 
     @staticmethod
     def ssh_install_rpm(file_name: str) -> str:
@@ -47,3 +47,7 @@ class TextSuccess(Enum):
     @staticmethod
     def validate_config_keys() -> str:
         return '<green>Section</green> keys <green>was validated successfully.</green>'
+
+    @staticmethod
+    def validate_config_workdir() -> str:
+        return '<green>Value</green> workdir <green>was validated successfully.</green>'

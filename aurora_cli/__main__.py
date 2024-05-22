@@ -15,37 +15,22 @@ limitations under the License.
 """
 import click
 
-from aurora_cli.src.api.group_api import group_api
+from aurora_cli.src.api.routes.group_api import group_api
+from aurora_cli.src.base.configuration.app_config import AppConfig
+from aurora_cli.src.base.constants.app import APP_NAME, APP_VERSION, APP_INFO
 from aurora_cli.src.cli.device import group_device
 from aurora_cli.src.cli.emulator import group_emulator
-from aurora_cli.src.support.dependency_required import check_dependency_init
-
-check_dependency_init()
-
-from aurora_cli.src.features.flutter.group_flutter import group_flutter  # noqa: E402
-from aurora_cli.src.features.psdk.group_psdk import group_psdk  # noqa: E402
-from aurora_cli.src.features.sdk.group_sdk import group_sdk  # noqa: E402
-from aurora_cli.src.support.conf import Conf  # noqa: E402
 
 
 @click.group(invoke_without_command=True)
-@click.version_option(version=Conf.get_app_version(), prog_name=Conf.get_app_name())
-@click.option('--conf', '-c', default=None, help='Specify config path.', type=click.STRING, required=False)
+@click.version_option(version=APP_VERSION, prog_name=APP_NAME)
+@click.option('--config', help='Specify config path.', type=click.STRING, required=False)
 @click.option('--api', default=None, help='Application Programming Interface.', type=click.STRING, required=False)
 @click.pass_context
-def main(ctx: {}, conf: str, api: str):
-    """
-The application allows you to install tools for working with the Aurora OS and simplifies working with them.
-More details about the tools can be found on the documentation page:
+def main(ctx: {}, config: str, api: str | None):
+    f"""{APP_INFO}"""
 
-Flutter SDK  https://omprussia.gitlab.io/flutter/flutter
-Aurora SDK   https://developer.auroraos.ru/doc/software_development/sdk
-Platform SDK https://developer.auroraos.ru/doc/software_development/psdk
-
-This is a third party tool written by enthusiasts!
-    """
-
-    ctx.obj = Conf(conf)
+    ctx.obj = AppConfig.create(config, api is not None)
     if api:
         group_api(api)
     else:
@@ -56,11 +41,6 @@ This is a third party tool written by enthusiasts!
 # new
 main.add_command(group_emulator)
 main.add_command(group_device)
-
-# old
-main.add_command(group_sdk)
-main.add_command(group_psdk)
-main.add_command(group_flutter)
 
 if __name__ == '__main__':
     main()

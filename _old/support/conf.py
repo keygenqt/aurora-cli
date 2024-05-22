@@ -29,8 +29,8 @@ from aurora_cli.src.support.texts import AppTexts
 APP_NAME = 'aurora-cli'
 APP_VERSION = '2.7.0'
 
-# Default path config
-PATH_CONF = '~/.aurora-cli/configuration.yaml'
+# Default path config @todo
+PATH_CONF = '~/.aurora-cli/new_configuration.yaml'
 
 # Temp folder
 PATH_TEMP = '~/.aurora-cli/temp'

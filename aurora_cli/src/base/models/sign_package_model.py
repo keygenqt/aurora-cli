@@ -4,6 +4,7 @@ from pathlib import Path
 import click
 
 
+# @todo
 @dataclass
 class SignPackageModel:
     """Class device."""
@@ -25,4 +26,4 @@ class SignPackageModel:
     @staticmethod
     @click.pass_context
     def get_lists_keys(ctx: {}) -> []:
-        return ctx.obj.conf_new.get_keys()
+        return ctx.obj.get_keys()

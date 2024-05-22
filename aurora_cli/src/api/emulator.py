@@ -20,7 +20,7 @@ from aurora_cli.src.common.ssh_features import (
     ssh_run,
     ssh_upload,
     ssh_rpm_install,
-    ssh_rpm_remove
+    ssh_package_remove
 )
 from aurora_cli.src.common.vm_features import (
     vm_emulator_start,
@@ -109,13 +109,13 @@ def ssh_emulator_rpm_install_api(path: str, apm: bool, verbose: bool):
     ), verbose)
 
 
-def ssh_emulator_rpm_remove_api(package: str, apm: bool, verbose: bool):
+def ssh_emulator_package_remove_api(package: str, apm: bool, verbose: bool):
     """Remove package from emulator."""
     result = EmulatorModel.get_model_root().get_ssh_client()
     if result.is_error():
         echo_stdout_json(result, verbose)
         exit(1)
-    echo_stdout_json(ssh_rpm_remove(
+    echo_stdout_json(ssh_package_remove(
         client=result.value,
         package=package,
         apm=apm,

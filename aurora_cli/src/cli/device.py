@@ -16,17 +16,47 @@ limitations under the License.
 
 import click
 
+from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.models.device_model import DeviceModel
-from aurora_cli.src.base.output import echo_stdout, OutResult
+from aurora_cli.src.base.output import echo_stdout
 from aurora_cli.src.base.texts.info import TextInfo
-from aurora_cli.src.base.texts.success import TextSuccess
-from aurora_cli.src.common.ssh_features import ssh_command
+from aurora_cli.src.cli.ssh_commands import (
+    ssh_common_command_cli,
+    ssh_common_run_cli,
+    ssh_common_upload_cli,
+    ssh_common_install_cli,
+    ssh_common_remove_cli
+)
+
+
+def _get_device_ssh_client(
+        select: bool,
+        index: int | None,
+        verbose: bool
+):
+    if select and index is None:
+        echo_stdout(TextInfo.select_array_out(
+            key='devices',
+            names=DeviceModel.get_names_devices(),
+        ))
+    result_model = DeviceModel.get_model_select(select, index)
+    if result_model.is_error():
+        echo_stdout(result_model, verbose)
+        exit(1)
+    result_client = result_model.value.get_ssh_client()
+    if result_client.is_error():
+        echo_stdout(result_client, verbose)
+        exit(1)
+    return result_client.value, result_model.value.devel_su
 
 
 @click.group(name='device')
-def group_device():
+@click.option('--test', is_flag=True, default=False)
+@click.pass_context
+def group_device(ctx: {}, test: bool):
     """Working with the device."""
-    pass
+    if test:
+        ctx.obj = AppConfig.create_test()
 
 
 @group_device.command(name='command')
@@ -36,33 +66,12 @@ def group_device():
 @click.option('-v', '--verbose', is_flag=True, help='Command output')
 def ssh_device_command_cli(execute: str, select: bool, index: int | None, verbose: bool):
     """Execute the command on the device."""
-    if select and index is None:
-        echo_stdout(TextInfo.select_array_out(
-            key='devices',
-            names=DeviceModel.get_names_devices(),
-        ))
-    result = DeviceModel.get_model_select(select, index)
-    if result.is_error():
-        echo_stdout(result, verbose)
-        exit(1)
-    result = result.value.get_ssh_client()
-    if result.is_error():
-        echo_stdout(result, verbose)
-        exit(1)
-    result = ssh_command(
-        client=result.value,
-        execute=execute
+    client, _ = _get_device_ssh_client(select, index, verbose)
+    ssh_common_command_cli(
+        client=client,
+        execute=execute,
+        verbose=verbose
     )
-    if result.is_error():
-        echo_stdout(result, verbose)
-    else:
-        echo_stdout(OutResult(
-            message=TextSuccess.ssh_exec_command_success(
-                execute=execute,
-                stdout='\n'.join(result.value['stdout']),
-                stderr='\n'.join(result.value['stderr'])
-            )
-        ), verbose)
 
 
 @group_device.command(name='run')
@@ -72,17 +81,12 @@ def ssh_device_command_cli(execute: str, select: bool, index: int | None, verbos
 @click.option('-v', '--verbose', is_flag=True, help='Command output')
 def ssh_device_run_cli(package: str, select: bool, index: int, verbose: bool):
     """Run package on device in container."""
-    pass
-    # result = EmulatorModel.get_model_user().get_ssh_client()
-    # if result.is_error():
-    #     echo_stdout(result)
-    #     exit(1)
-    # echo_stdout(ssh_run(
-    #     client=result.value,
-    #     package=package,
-    #     listen_stdout=lambda stdout: echo_stdout(stdout),
-    #     listen_stderr=lambda stderr: echo_stdout(stderr),
-    # ), verbose)
+    client, _ = _get_device_ssh_client(select, index, verbose)
+    ssh_common_run_cli(
+        client=client,
+        package=package,
+        verbose=verbose
+    )
 
 
 @group_device.command(name='upload')
@@ -92,21 +96,12 @@ def ssh_device_run_cli(package: str, select: bool, index: int, verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help='Command output')
 def ssh_device_upload_cli(path: [], select: bool, index: int, verbose: bool):
     """Upload file to ~/Download directory device."""
-    pass
-    # result = EmulatorModel.get_model_user().get_ssh_client()
-    # if result.is_error():
-    #     echo_stdout(result)
-    #     exit(1)
-    # for file_path in path:
-    #     echo_stdout(OutResult(TextInfo.shh_download_start(file_path)))
-    #     bar = AliveBarPercentage()
-    #     echo_stdout(ssh_upload(
-    #         client=result.value,
-    #         path=file_path,
-    #         listen_progress=lambda stdout: bar.update(stdout.value)
-    #     ))
-    # if verbose:
-    #     echo_stdout(OutResult(), verbose)
+    client, _ = _get_device_ssh_client(select, index, verbose)
+    ssh_common_upload_cli(
+        client=client,
+        path=path,
+        verbose=verbose
+    )
 
 
 @group_device.command(name='package-install')
@@ -117,28 +112,14 @@ def ssh_device_upload_cli(path: [], select: bool, index: int, verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help='Command output')
 def ssh_device_install_cli(path: [], apm: bool, select: bool, index: int, verbose: bool):
     """Install RPM package on device."""
-    pass
-    # result = EmulatorModel.get_model_root().get_ssh_client()
-    # if result.is_error():
-    #     echo_stdout(result)
-    #     exit(1)
-    #
-    # def bar_update(ab: AliveBarPercentage, percent: int):
-    #     ab.update(percent)
-    #     if percent == 100:
-    #         echo_stdout(OutResult(TextInfo.ssh_install_rpm()))
-    #
-    # for file_path in path:
-    #     echo_stdout(OutResult(TextInfo.shh_download_start(file_path)))
-    #     bar = AliveBarPercentage()
-    #     echo_stdout(ssh_rpm_install(
-    #         client=result.value,
-    #         path=file_path,
-    #         apm=apm,
-    #         listen_progress=lambda stdout: bar_update(bar, stdout.value)
-    #     ))
-    # if verbose:
-    #     echo_stdout(OutResult(), verbose)
+    client, devel_su = _get_device_ssh_client(select, index, verbose)
+    ssh_common_install_cli(
+        client=client,
+        path=path,
+        apm=apm,
+        verbose=verbose,
+        devel_su=devel_su
+    )
 
 
 @group_device.command(name='package-remove')
@@ -149,13 +130,11 @@ def ssh_device_install_cli(path: [], apm: bool, select: bool, index: int, verbos
 @click.option('-v', '--verbose', is_flag=True, help='Command output')
 def ssh_device_remove_cli(package: str, apm: bool, select: bool, index: int, verbose: bool):
     """Install RPM package on device."""
-    pass
-    # result = get_ssh_client_emulator('root')
-    # if result.is_error():
-    #     echo_stdout(result)
-    #     exit(1)
-    # echo_stdout(ssh_rpm_remove(
-    #     client=result.value,
-    #     package=package,
-    #     apm=apm,
-    # ), verbose)
+    client, devel_su = _get_device_ssh_client(select, index, verbose)
+    ssh_common_remove_cli(
+        client=client,
+        package=package,
+        apm=apm,
+        verbose=verbose,
+        devel_su=devel_su
+    )

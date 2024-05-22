@@ -13,16 +13,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import os
 from dataclasses import dataclass
 from pathlib import Path
 
 import click
 from paramiko.client import SSHClient
 
-from aurora_cli.src.base.helper import model_select
 from aurora_cli.src.base.output import OutResult, OutResultError
 from aurora_cli.src.base.ssh import ssh_client_connect
 from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.cli.helper import model_select
 
 
 @dataclass
@@ -31,7 +32,7 @@ class DeviceModel:
     host: str
     port: int
     auth: str | Path
-    devel_su: str
+    devel_su: str | None = None
     user: str = 'defaultuser'
 
     @staticmethod
@@ -43,13 +44,15 @@ class DeviceModel:
         )
 
     @staticmethod
-    def get_model(host: str, port: int, auth: str, devel_su: str):
+    def get_model(host: str, port: int, auth: str, devel_su: str = None):
+        if os.path.isfile(auth):
+            auth = Path(auth)
         return DeviceModel(host, port, auth, devel_su)
 
     @staticmethod
     @click.pass_context
     def get_lists_devices(ctx: {}) -> []:
-        return ctx.obj.conf_new.get_devices()
+        return ctx.obj.get_devices()
 
     @staticmethod
     def get_names_devices() -> []:
@@ -66,3 +69,12 @@ class DeviceModel:
             return OutResultError(TextError.ssh_connect_device_error())
         else:
             return OutResult(value=client)
+
+    def to_dict(self) -> dict:
+        return {
+            'host': self.host,
+            'port': self.port,
+            'auth': str(self.auth),
+            'devel_su': self.devel_su if self.devel_su else False,
+            'user': self.user,
+        }

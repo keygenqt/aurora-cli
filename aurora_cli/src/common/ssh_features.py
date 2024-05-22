@@ -89,7 +89,12 @@ def ssh_upload(
                 value=progress
             ))
 
-    file_path = convert_relative_path(path)
+    file_path = str(convert_relative_path(path))
+
+    if not os.path.isfile(file_path):
+        return OutResultError(
+            message=TextError.ssh_upload_file_not_found(path),
+        )
 
     try:
         file_name = os.path.basename(file_path)
@@ -101,7 +106,7 @@ def ssh_upload(
             callback=lambda transferred, total: call_calculate_progress(transferred, total)
         )
         return OutResult(
-            message=TextSuccess.ssh_uploaded_success(file_name),
+            message=TextSuccess.ssh_uploaded_success(file_upload),
             value={
                 'localpath': file_path,
                 'remotepath': file_upload,
@@ -119,6 +124,7 @@ def ssh_rpm_install(
         path: str,
         apm: bool,
         listen_progress: Callable[[OutResult], None],
+        devel_su: str | None = None
 ) -> OutResult:
     def check_is_error(out: []) -> bool:
         for line in out:
@@ -135,7 +141,10 @@ def ssh_rpm_install(
     file_upload = result.value['remotepath']
 
     if not apm:
-        execute = f'pkcon -y install-local {file_upload}'
+        if devel_su:
+            execute = f'echo {devel_su} | devel-su pkcon -y install-local {file_upload}'
+        else:
+            execute = f'pkcon -y install-local {file_upload}'
     else:
         prompt = "{'ShowPrompt': <false>}"
         execute = (f'gdbus call --system '
@@ -159,10 +168,11 @@ def ssh_rpm_install(
     return OutResult(TextSuccess.ssh_install_rpm(os.path.basename(file_upload)))
 
 
-def ssh_rpm_remove(
+def ssh_package_remove(
         client: SSHClient,
         package: str,
         apm: bool,
+        devel_su: str | None = None
 ) -> OutResult:
     def check_is_error(out: []) -> bool:
         for line in out:
@@ -173,7 +183,10 @@ def ssh_rpm_remove(
         return False
 
     if not apm:
-        execute = f'pkcon -y remove {package}'
+        if devel_su:
+            execute = f'echo {devel_su} | devel-su pkcon -y remove {package}'
+        else:
+            execute = f'pkcon -y remove {package}'
     else:
         execute = (f'gdbus call --system '
                    f'--dest ru.omp.APM '
