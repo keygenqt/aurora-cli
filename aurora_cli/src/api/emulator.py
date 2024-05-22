@@ -14,22 +14,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from aurora_cli.src.base.models.emulator_model import EmulatorModel
-from aurora_cli.src.base.output import echo_stdout_json
-from aurora_cli.src.common.ssh_features import (
+from aurora_cli.src.base.common.ssh_features import (
     ssh_command,
     ssh_run,
     ssh_upload,
     ssh_rpm_install,
     ssh_package_remove
 )
-from aurora_cli.src.common.vm_features import (
+from aurora_cli.src.base.common.vm_features import (
     vm_emulator_start,
     vm_emulator_screenshot,
     vm_emulator_record_start,
     vm_emulator_record_stop,
     vm_emulator_record_is_on
 )
+from aurora_cli.src.base.models.emulator_model import EmulatorModel
+from aurora_cli.src.base.output import echo_stdout_json
 
 
 def vm_emulator_start_api(verbose: bool):

@@ -17,16 +17,16 @@ limitations under the License.
 from paramiko.client import SSHClient
 
 from aurora_cli.src.base.alive_bar_percentage import AliveBarPercentage
-from aurora_cli.src.base.output import echo_stdout, OutResult
-from aurora_cli.src.base.texts.info import TextInfo
-from aurora_cli.src.base.texts.success import TextSuccess
-from aurora_cli.src.common.ssh_features import (
+from aurora_cli.src.base.common.ssh_features import (
     ssh_command,
     ssh_run,
     ssh_upload,
     ssh_rpm_install,
     ssh_package_remove
 )
+from aurora_cli.src.base.output import echo_stdout, OutResult
+from aurora_cli.src.base.texts.info import TextInfo
+from aurora_cli.src.base.texts.success import TextSuccess
 
 
 def ssh_common_command_cli(

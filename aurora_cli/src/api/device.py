@@ -14,15 +14,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from aurora_cli.src.base.models.device_model import DeviceModel
-from aurora_cli.src.base.output import echo_stdout_json, OutResult
-from aurora_cli.src.common.ssh_features import (
+from aurora_cli.src.base.common.ssh_features import (
     ssh_command,
     ssh_run,
     ssh_upload,
     ssh_rpm_install,
     ssh_package_remove
 )
+from aurora_cli.src.base.models.device_model import DeviceModel
+from aurora_cli.src.base.output import echo_stdout_json, OutResult
 
 
 def device_list_api(verbose: bool):

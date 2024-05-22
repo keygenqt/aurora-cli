@@ -17,6 +17,12 @@ limitations under the License.
 import click
 from paramiko.client import SSHClient
 
+from aurora_cli.src.base.common.vm_features import (
+    vm_emulator_start,
+    vm_emulator_screenshot,
+    vm_emulator_record_start,
+    vm_emulator_record_stop,
+)
 from aurora_cli.src.base.output import echo_stdout
 from aurora_cli.src.base.texts.prompt import TextPrompt
 from aurora_cli.src.cli.ssh_commands import (
@@ -25,12 +31,6 @@ from aurora_cli.src.cli.ssh_commands import (
     ssh_common_upload_cli,
     ssh_common_install_cli,
     ssh_common_remove_cli
-)
-from aurora_cli.src.common.vm_features import (
-    vm_emulator_start,
-    vm_emulator_screenshot,
-    vm_emulator_record_start,
-    vm_emulator_record_stop,
 )
 
 
