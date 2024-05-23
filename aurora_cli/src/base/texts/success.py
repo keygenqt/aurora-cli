@@ -53,6 +53,10 @@ class TextSuccess(Enum):
         return f'<green>Package</green> {file_name} <green>was installed successfully.</green>'
 
     @staticmethod
+    def ssh_run_package(package: str) -> str:
+        return f'<green>Package</green> {package} <green>was run successfully.</green>'
+
+    @staticmethod
     def ssh_remove_rpm() -> str:
         return '<green>Package was successfully removed.</green>'
 

@@ -15,11 +15,10 @@ limitations under the License.
 """
 
 # Default path config
-PATH_CONFIG = '~/.aurora-cli/new_configuration.yaml'  # @todo
+CONFIG_PATH = '~/.aurora-cli/new_configuration.yaml'  # @todo
 
 # Default config
-DEFAULT_CONFIG = """
-## Application configuration file Aurora CLI
+CONFIG_DEFAULT = """## Application configuration file Aurora CLI
 ## Version config: 1.0.0
 
 ## The parameter sets the path to install psdk and search sdk

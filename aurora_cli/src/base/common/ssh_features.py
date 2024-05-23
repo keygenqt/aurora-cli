@@ -46,7 +46,8 @@ def ssh_command(
 def ssh_run(
         client: SSHClient,
         package: str,
-        listen_stdout: Callable[[OutResult | MemoryError], None],
+        close: bool,
+        listen_stdout: Callable[[OutResult | None], None],
         listen_stderr: Callable[[OutResult | None], None],
 ) -> OutResult:
     def check_is_error(out: str) -> bool:
@@ -56,9 +57,14 @@ def ssh_run(
             return True
         return False
 
+    if close:
+        execute = f'nohup invoker --type=qt5 {package}'
+    else:
+        execute = f'invoker --type=qt5 {package}'
+
     stdout, stderr = ssh_exec_command(
         client=client,
-        execute=f'invoker --type=qt5 {package}',
+        execute=execute,
         listen_stdout=lambda value, index: listen_stdout(
             None if check_is_error(value) else OutResult(value=value, index=index)
         ),
@@ -66,6 +72,7 @@ def ssh_run(
             None if check_is_error(value) else OutResult(value=value, index=index)
         ),
     )
+
     if stderr or (stdout and check_is_error(stdout[0])):
         return OutResultError(
             message=TextError.ssh_run_application_error(package),

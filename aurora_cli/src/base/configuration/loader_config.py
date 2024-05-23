@@ -13,64 +13,41 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
-from pathlib import Path
-from typing import Callable
+from typing import AnyStr
 
 from yaml import load, Loader
 
 from aurora_cli.src.base.helper import convert_relative_path
 from aurora_cli.src.base.output import OutResult, OutResultError
 from aurora_cli.src.base.texts.error import TextError
-from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
 
 
 class ConfigLoader:
-    def __init__(
-            self,
-            default_config: str,
-            path: Path | None = None,
-            default_path: Path | None = None,
-            stdout: Callable[[OutResult], None] = None,
-    ):
-        if default_path is None:
-            self._loader = load(default_config, Loader=Loader)
-        else:
-            if path is None and not default_path.is_file():
-                default_path.parent.mkdir(parents=True, exist_ok=True)
-                with open(default_path, 'w') as file:
-                    print(default_config, file=file)
-                self._loader = load(default_config, Loader=Loader)
-                if stdout:
-                    stdout(OutResult(TextInfo.create_default_config_file(str(default_path))))
-            else:
-                with open(path if path else default_path, 'rb') as file:
-                    self._loader = load(file.read(), Loader=Loader)
-
-        self.result_checks = []
-        self.result_checks.append(self._check_workdir())
-        self.result_checks.append(self._check_keys())
-        self.result_checks.append(self._check_devices())
+    def __init__(self, config: AnyStr):
+        self._result_checks = []
+        self._loader = load(config, Loader=Loader)
 
     def get_data(self):
         return self._loader
 
-    def get_validate(self):
-        return self.result_checks
+    def get_validate(self) -> []:
+        if not self._result_checks:
+            self._result_checks = [self._check_workdir(), self._check_keys(), self._check_devices()]
+        return self._result_checks
 
     def get_validate_json(self):
-        return [result.to_json() for result in self.result_checks]
+        return [result.to_json() for result in self.get_validate()]
 
     def is_error(self):
-        for result in self.result_checks:
+        for result in self.get_validate():
             if result.is_error():
                 return True
         return False
 
     def _check_workdir(self) -> OutResult:
         # Check exist
-        if 'workdir' not in self._loader.keys():
+        if self._loader is None or 'workdir' not in self._loader.keys():
             return OutResultError(TextError.validate_config_workdir_not_found())
         # Check value
         path = convert_relative_path(self._loader['workdir'])
@@ -82,7 +59,7 @@ class ConfigLoader:
 
     def _check_keys(self) -> OutResult:
         # Check exist
-        if 'keys' not in self._loader.keys():
+        if self._loader is None or 'keys' not in self._loader.keys():
             return OutResultError(TextError.validate_config_keys_not_found())
         # Check values
         for item in self._loader['keys']:
@@ -98,7 +75,7 @@ class ConfigLoader:
 
     def _check_devices(self) -> OutResult:
         # Check exist
-        if 'devices' not in self._loader.keys():
+        if self._loader is None or 'devices' not in self._loader.keys():
             return OutResultError(TextError.validate_config_devices_not_found())
         # Check values
         for item in self._loader['devices']:

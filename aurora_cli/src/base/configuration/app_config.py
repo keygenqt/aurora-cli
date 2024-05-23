@@ -15,14 +15,16 @@ limitations under the License.
 """
 
 from pathlib import Path
+from typing import AnyStr
 
 from aurora_cli.src.base.configuration.loader_config import ConfigLoader
-from aurora_cli.src.base.constants.config import DEFAULT_CONFIG, PATH_CONFIG
+from aurora_cli.src.base.constants.config import CONFIG_DEFAULT, CONFIG_PATH
 from aurora_cli.src.base.helper import convert_relative_path
 from aurora_cli.src.base.models.device_model import DeviceModel
 from aurora_cli.src.base.models.sign_package_model import SignPackageModel
-from aurora_cli.src.base.output import echo_stdout, echo_stdout_json, OutResultError, echo_stdout_with_check
+from aurora_cli.src.base.output import echo_stdout, echo_stdout_json, OutResultError, echo_stdout_with_check, OutResult
 from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.texts.info import TextInfo
 
 
 class AppConfig:
@@ -32,25 +34,40 @@ class AppConfig:
 
     @staticmethod
     def create_test():
-        return AppConfig(ConfigLoader(
-            default_config=DEFAULT_CONFIG
-        ).get_data())
+        return AppConfig(ConfigLoader(CONFIG_DEFAULT).get_data())
 
     @staticmethod
-    def create(path: str | None, is_api: bool):
-        if path is not None and not convert_relative_path(path).is_file():
-            echo_stdout_with_check(is_api, OutResultError(TextError.validate_config_arg_path(path)))
-            exit(1)
+    def create(path: str | None):
+        # @todo
+        is_api = False
+        arg_path = convert_relative_path(path)
+        default_path = convert_relative_path(CONFIG_PATH)
         try:
-            loader = ConfigLoader(
-                default_config=DEFAULT_CONFIG,
-                path=convert_relative_path(path),
-                default_path=convert_relative_path(PATH_CONFIG),
-                stdout=lambda out: echo_stdout(out)
-            )
+            def load_file_config(config_path: Path) -> AnyStr:
+                with open(config_path, 'rb') as file_config:
+                    return file_config.read()
+
+            if arg_path is not None:
+                if not arg_path.is_file():
+                    print(path)
+                    echo_stdout_with_check(is_api, OutResultError(TextError.validate_config_arg_path(path)))
+                    exit(1)
+                else:
+                    config_str = load_file_config(arg_path)
+            else:
+                if not default_path.is_file():
+                    default_path.parent.mkdir(parents=True, exist_ok=True)
+                    with open(default_path, 'w') as file:
+                        print(CONFIG_DEFAULT, file=file)
+                    echo_stdout_with_check(is_api, OutResult(TextInfo.create_default_config_file(str(default_path))))
+                    config_str = CONFIG_DEFAULT
+                else:
+                    config_str = load_file_config(default_path)
+
+            loader = ConfigLoader(config_str)
         except (Exception,):
             echo_stdout_with_check(is_api, OutResultError(TextError.config_arg_path_load_error(
-                path=path if path else PATH_CONFIG
+                path=path if path else CONFIG_PATH
             )))
             exit(1)
         if loader.is_error():

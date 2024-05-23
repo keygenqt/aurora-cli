@@ -54,14 +54,23 @@ def ssh_common_command_cli(
 def ssh_common_run_cli(
         client: SSHClient,
         package: str,
-        verbose: bool
+        close: bool,
+        verbose: bool,
 ):
     """Run package in container."""
+
+    def echo_stdout_with_check_close(stdout: OutResult | None):
+        if stdout and close and not stdout.is_error() and 'nohup:' in stdout.value:
+            echo_stdout(OutResult(TextSuccess.ssh_run_package(package)))
+        else:
+            echo_stdout(stdout)
+
     echo_stdout(ssh_run(
         client=client,
         package=package,
-        listen_stdout=lambda stdout: echo_stdout(stdout),
-        listen_stderr=lambda stderr: echo_stdout(stderr),
+        close=close,
+        listen_stdout=lambda stdout: echo_stdout_with_check_close(stdout),
+        listen_stderr=lambda stderr: echo_stdout(stderr)
     ), verbose)
 
 

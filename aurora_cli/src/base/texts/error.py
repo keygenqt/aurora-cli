@@ -104,7 +104,7 @@ class TextError(Enum):
 
     @staticmethod
     def validate_config_workdir_not_found() -> str:
-        return '<red>It was not possible to find and create the </red> workdir <red> folder.</red>'
+        return '<red>It was not possible to find and create the</red> workdir <red>folder.</red>'
 
     @staticmethod
     def validate_config_workdir_error_create(path: str) -> str:
