@@ -182,13 +182,14 @@ devices:
             return VerboseType.verbose
         if 'output' not in self.conf.keys():
             return VerboseType.short
-        match self.conf['output']:
-            case 'short':
-                return VerboseType.short
-            case 'command':
-                return VerboseType.command
-            case 'verbose':
-                return VerboseType.verbose
+        output = self.conf['output']
+        if isinstance(output, str) and output == "short":
+            return VerboseType.short
+        if isinstance(output, str) and output == "command":
+            return VerboseType.command
+        if isinstance(output, str) and output == "verbose":
+            return VerboseType.verbose
+
         return VerboseType.short
 
     # Get config keys

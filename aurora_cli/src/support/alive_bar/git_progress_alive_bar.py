@@ -49,9 +49,9 @@ class GitProgressAliveBar(RemoteProgress):
     def update(
             self,
             op_code: int,
-            cur_count: str | float,
-            max_count: str | float | None = None,
-            message: str | None = "",
+            cur_count,
+            max_count = None,
+            message = "",
     ) -> None:
         cur_count = float(cur_count)
         max_count = float(max_count)
@@ -69,7 +69,7 @@ class GitProgressAliveBar(RemoteProgress):
         if op_code & RemoteProgress.END:
             self._destroy_bar()
 
-    def _dispatch_bar(self, title: str | None = "") -> None:
+    def _dispatch_bar(self, title = "") -> None:
         """Create a new progress bar"""
         self.alive_bar_instance = alive_bar(manual=True, title=title)
         self.bar = self.alive_bar_instance.__enter__()

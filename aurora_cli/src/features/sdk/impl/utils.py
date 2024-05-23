@@ -26,7 +26,7 @@ URL_AURORA_REPO_VERSION = 'https://sdk-repo.omprussia.ru/sdk/installers/{}/AppSD
 
 
 # Get installed sdk folder
-def get_sdk_folder(workdir: Path) -> Path | None:
+def get_sdk_folder(workdir: Path):
     folders = [folder for folder in os.listdir(workdir) if
                os.path.isdir(workdir / folder) and 'Aurora' in folder and os.path.isfile(
                    workdir / folder / 'sdk-release')]
@@ -36,7 +36,7 @@ def get_sdk_folder(workdir: Path) -> Path | None:
 
 
 # Get installed Aurora SDK version
-def get_sdk_installed_version(workdir: Path) -> str | None:
+def get_sdk_installed_version(workdir: Path):
     folder = get_sdk_folder(workdir)
     if folder:
         with open(workdir / folder / 'sdk-release') as f:
@@ -44,7 +44,7 @@ def get_sdk_installed_version(workdir: Path) -> str | None:
 
 
 # Find file sdk from version
-def get_url_sdk_folder(version: str) -> str | None:
+def get_url_sdk_folder(version: str):
     versions = []
     url = URL_AURORA_REPO_VERSION.format(version)
     response = get_request(url)
@@ -63,7 +63,7 @@ def get_url_sdk_folder(version: str) -> str | None:
 
 
 # Find installer sdk from version
-def get_url_sdk_run(version: str, install_type: str) -> str | None:
+def get_url_sdk_run(version: str, install_type: str):
     url_folder = get_url_sdk_folder(version)
     response = get_request(url_folder)
     if response.status_code == 200:

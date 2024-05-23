@@ -100,7 +100,7 @@ def prompt_index(items: [], index: int = None) -> int:
 
 
 # Find file in directory
-def find_path_file(extension: str, path: Path) -> Path | None:
+def find_path_file(extension: str, path: Path):
     files = glob.glob(f'{path}/*.{extension}')
     if files:
         return Path(files[0])
@@ -120,7 +120,7 @@ def get_format_path(path: str) -> Path:
 
 
 # Get full path file
-def get_path_file(path: str, check_exist=True) -> str | None:
+def get_path_file(path: str, check_exist=True):
     if not path:
         return None
 

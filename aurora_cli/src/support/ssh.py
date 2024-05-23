@@ -32,8 +32,8 @@ def get_ssh_client(
         ip: str,
         username: str,
         port: int,
-        key: Path | str
-) -> SSHClient | None:
+        key
+):
     try:
         # Connect
         client = paramiko.SSHClient()
@@ -141,7 +141,7 @@ def download_file_sftp(
         download_path: str,
         file_path: str,
         show_bar: bool = False
-) -> str | None:
+):
     if not client:
         return None
     try:

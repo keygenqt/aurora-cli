@@ -37,9 +37,9 @@ class ProgressAliveBar:
             if self.message_success:
                 echo_stdout(self.message_success)
 
-    def _dispatch_bar(self, title: str | None = "") -> None:
+    def _dispatch_bar(self, title: str = ""):
         self.alive_bar_instance = alive_bar(manual=True, title=title)
         self.bar = self.alive_bar_instance.__enter__()
 
-    def _destroy_bar(self) -> None:
+    def _destroy_bar(self):
         self.alive_bar_instance.__exit__(None, None, None)

@@ -42,7 +42,7 @@ def vm_search_emulator_aurora(verbose: VerboseType) -> str:
 
 
 # Search vm by regex in vb
-def _vm_search_by_regx(key_regx: [], verbose: VerboseType) -> str | None:
+def _vm_search_by_regx(key_regx: [], verbose: VerboseType):
     for vm in vb_manage_command(['list', 'vms'], verbose):
         if check_string_regex(vm, key_regx):
             return vm.split(' {')[0].strip('"')

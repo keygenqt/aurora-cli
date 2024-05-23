@@ -69,7 +69,7 @@ def get_psdk_installed_versions(workdir: Path) -> []:
 
 
 # Find file sdk from version
-def get_url_sdk_folder(version: str) -> str | None:
+def get_url_sdk_folder(version: str):
     versions = []
     url = URL_AURORA_REPO_VERSION.format(version)
     response = get_request(url)
