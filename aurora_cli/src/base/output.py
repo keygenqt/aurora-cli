@@ -66,7 +66,17 @@ class OutResultInfo(OutResult):
 
 
 # Color tags
-class EchoColors(Enum):
+class EchoTextStyles(Enum):
+    # Styles
+    i = 'i'
+    u = 'u'
+    d = 'd'
+    t = 't'
+
+
+# Color tags
+class EchoTextColors(Enum):
+    # Colors
     red = 'red'
     green = 'green'
     yellow = 'yellow'
@@ -77,15 +87,32 @@ class EchoColors(Enum):
     reset = 'reset'
 
 
-def echo_stdout_with_check(is_api: bool, out: OutResult):
-    if is_api:
-        echo_stdout_json(out)
-    else:
-        echo_stdout(out)
-
-
-# App output echo
 def echo_stdout(
+        out: OutResult | str | None,
+        verbose: bool = False,
+        newlines: int = 1,
+        prefix: str = ''
+):
+    echo_stdout(out, verbose, newlines, prefix)
+
+
+@click.pass_context
+def echo_stdout(
+        ctx: {},
+        out: OutResult | str | None,
+        verbose: bool = False,
+        newlines: int = 1,
+        prefix: str = '',
+        is_api: bool = False
+):
+    if is_api or ctx.obj is not None and ctx.obj.is_api():
+        _echo_stdout_json(ctx, out, verbose)
+    else:
+        echo_stdout_shell(ctx, out, verbose, newlines, prefix)
+
+
+def echo_stdout_shell(
+        ctx: {},
         out: OutResult | str | None,
         verbose: bool = False,
         newlines: int = 1,
@@ -102,15 +129,19 @@ def echo_stdout(
             if not out.message and out.value:
                 click.echo(out.value)
     if verbose:
-        echo_verbose_shell()
+        for exec_command in ctx.obj.seize_verbose_map():
+            echo_stdout(OutResult(TextInfo.command_execute(exec_command['command'])))
+            if exec_command['stdout']:
+                echo_stdout(OutResult('\n'.join(exec_command['stdout'])))
+            if exec_command['stderr']:
+                echo_stdout(OutResult('\n'.join(exec_command['stderr'])))
 
 
-def echo_stdout_json(out: OutResult | None, verbose: bool = False):
-    _echo_stdout_json(out, verbose)
-
-
-@click.pass_context
-def _echo_stdout_json(ctx: {}, out: OutResult | None, verbose: bool = False):
+def _echo_stdout_json(
+        ctx: {},
+        out: OutResult | None,
+        verbose: bool = False
+):
     if out:
         data = {
             'code': out.code.value,
@@ -126,20 +157,6 @@ def _echo_stdout_json(ctx: {}, out: OutResult | None, verbose: bool = False):
         click.echo(json.dumps(data, indent=2))
 
 
-def echo_verbose_shell():
-    _echo_verbose_shell()
-
-
-@click.pass_context
-def _echo_verbose_shell(ctx: {}):
-    for exec_command in ctx.obj.seize_verbose_map():
-        echo_stdout(OutResult(TextInfo.command_execute(exec_command['command'])))
-        if exec_command['stdout']:
-            echo_stdout(OutResult('\n'.join(exec_command['stdout'])))
-        if exec_command['stderr']:
-            echo_stdout(OutResult('\n'.join(exec_command['stderr'])))
-
-
 # App output echo just line
 def echo_line(newlines: int = 1):
     for x in range(newlines):
@@ -151,7 +168,11 @@ def _colorize_clear(text: str) -> str:
     if '<' not in text:
         return text
     soup = BeautifulSoup(text, 'html.parser')
-    for tag in EchoColors:
+    for tag in EchoTextStyles:
+        for item in soup.findAll(tag.value):
+            text = text.replace('<{}>{}</{}>'.format(tag.value, item.text, tag.value), item.text)
+    soup = BeautifulSoup(text, 'html.parser')
+    for tag in EchoTextColors:
         for item in soup.findAll(tag.value):
             text = text.replace('<{}>{}</{}>'.format(tag.value, item.text, tag.value), item.text)
     return text
@@ -161,10 +182,32 @@ def _colorize_clear(text: str) -> str:
 def _colorize_text(text: str) -> str:
     if '<' not in text:
         return text
+
     soup = BeautifulSoup(text, 'html.parser')
-    for tag in EchoColors:
+    for tag in EchoTextStyles:
+        for item in soup.findAll(tag.value):
+            is_italic = False
+            is_underline = False
+            is_dim = False
+            if tag == EchoTextStyles.i:
+                is_italic = True
+            if tag == EchoTextStyles.u:
+                is_underline = True
+            if tag == EchoTextStyles.d:
+                is_dim = True
+            if tag == EchoTextStyles.t:
+                is_italic = True
+                is_dim = True
+
+            text = text.replace(
+                '<{}>{}</{}>'.format(tag.value, item.text, tag.value),
+                click.style(item.text, italic=is_italic, underline=is_underline, dim=is_dim))
+
+    soup = BeautifulSoup(text, 'html.parser')
+    for tag in EchoTextColors:
         for item in soup.findAll(tag.value):
             text = text.replace(
                 '<{}>{}</{}>'.format(tag.value, item.text, tag.value),
                 click.style(item.text, fg=tag.value))
+
     return click.style(text, fg='reset')

@@ -13,10 +13,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
 import os
 from pathlib import Path
 
+from aurora_cli.src.base.constants.other import VM_MANAGE
 from aurora_cli.src.base.helper import gen_file_name
 from aurora_cli.src.base.output import OutResult, OutResultError, OutResultInfo
 from aurora_cli.src.base.shell import shell_exec_command
@@ -24,62 +24,60 @@ from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
 
-VM_MANAGE = "VBoxManage"
 
-
-def vm_emulator_name() -> OutResult:
+def _vm_emulator_name() -> OutResult:
     stdout, stderr = shell_exec_command([
         VM_MANAGE,
         'list',
         'vms',
     ])
     if stderr:
-        return OutResult()
+        return OutResultError(TextError.emulator_not_found())
     for line in stdout:
         if 'AuroraOS' in line:
             return OutResult(value=line.split('"')[1])
-    return OutResult()
+    return OutResultError(TextError.emulator_not_found())
 
 
-def vm_emulator_path() -> OutResult:
+def _vm_emulator_is_on(emulator_name: str) -> OutResult:
+    stdout, stderr = shell_exec_command([
+        VM_MANAGE,
+        'list',
+        'runningvms',
+    ])
+    for line in stdout:
+        if emulator_name in line:
+            return OutResult()
+    return OutResultError(TextError.emulator_not_found_running())
+
+
+def _vm_emulator_path(emulator_name: str) -> OutResult:
     stdout, stderr = shell_exec_command([
         VM_MANAGE,
         'showvminfo',
-        vm_emulator_name().value,
+        emulator_name,
     ])
     for line in stdout:
         if 'Snapshot folder:' in line:
             return OutResult(
                 value=os.path.dirname(line.replace('Snapshot folder:', '').strip())
             )
-    return OutResultError()
-
-
-def vm_emulator_ssh_key() -> OutResult:
-    stdout, stderr = shell_exec_command([
-        VM_MANAGE,
-        'showvminfo',
-        vm_emulator_name().value,
-    ])
-    for line in stdout:
-        if 'Snapshot folder:' in line:
-            return OutResult(
-                value=Path(os.path.dirname(
-                    os.path.dirname(
-                        os.path.dirname(
-                            os.path.dirname(line.replace('Snapshot folder:', '').strip())
-                        )
-                    )
-                )) / 'vmshare' / 'ssh' / 'private_keys' / 'sdk'
-            )
-    return OutResultError()
+    return OutResultError(TextError.emulator_path_not_found())
 
 
 def vm_emulator_start() -> OutResult:
+    result_vm_name = _vm_emulator_name()
+    if result_vm_name.is_error():
+        return result_vm_name
+
+    result_vm_is_on = _vm_emulator_is_on(result_vm_name.value)
+    if not result_vm_is_on.is_error():
+        return OutResultInfo(TextInfo.emulator_start_locked())
+
     stdout, stderr = shell_exec_command([
         VM_MANAGE,
         'startvm',
-        vm_emulator_name().value
+        result_vm_name.value
     ])
     if stderr:
         if 'already locked' in stderr[0]:
@@ -90,6 +88,14 @@ def vm_emulator_start() -> OutResult:
 
 
 def vm_emulator_screenshot() -> OutResult:
+    result_vm_name = _vm_emulator_name()
+    if result_vm_name.is_error():
+        return result_vm_name
+
+    result_vm_is_on = _vm_emulator_is_on(result_vm_name.value)
+    if result_vm_is_on.is_error():
+        return result_vm_is_on
+
     screenshots = Path.home() / 'Pictures' / 'Screenshots'
     if not screenshots.is_dir():
         screenshots.mkdir(parents=True, exist_ok=True)
@@ -99,7 +105,7 @@ def vm_emulator_screenshot() -> OutResult:
     stdout, stderr = shell_exec_command([
         VM_MANAGE,
         'controlvm',
-        vm_emulator_name().value,
+        result_vm_name.value,
         'screenshotpng',
         screenshot
     ])
@@ -113,12 +119,22 @@ def vm_emulator_screenshot() -> OutResult:
 
 
 def vm_emulator_record_start() -> OutResult:
-    if vm_emulator_record_is_on().value:
-        return OutResultInfo(TextInfo.emulator_recording_video_start_already())
+    result_vm_name = _vm_emulator_name()
+    if result_vm_name.is_error():
+        return result_vm_name
+
+    result_vm_is_on = _vm_emulator_is_on(result_vm_name.value)
+    if result_vm_is_on.is_error():
+        return result_vm_is_on
+
+    result_vm_is_on_record = vm_emulator_is_on_record(result_vm_name.value)
+    if not result_vm_is_on_record.is_error():
+        return OutResultError(TextError.emulator_already_running_recording())
+
     stdout, stderr = shell_exec_command([
         VM_MANAGE,
         'controlvm',
-        vm_emulator_name().value,
+        result_vm_name.value,
         'recording',
         'on'
     ])
@@ -128,11 +144,24 @@ def vm_emulator_record_start() -> OutResult:
 
 
 def vm_emulator_record_stop() -> OutResult:
-    if not vm_emulator_record_is_on().value:
-        return OutResultInfo(TextInfo.emulator_recording_video_stop_already())
+    result_vm_name = _vm_emulator_name()
+    if result_vm_name.is_error():
+        return result_vm_name
 
-    e_path = vm_emulator_path().value
-    e_name = vm_emulator_name().value
+    result_vm_is_on = _vm_emulator_is_on(result_vm_name.value)
+    if result_vm_is_on.is_error():
+        return result_vm_is_on
+
+    result_vm_is_on_record = vm_emulator_is_on_record(result_vm_name.value)
+    if result_vm_is_on_record.is_error():
+        return result_vm_is_on_record
+
+    result_vm_path = _vm_emulator_path(result_vm_name.value)
+    if result_vm_path.is_error():
+        return result_vm_path
+
+    e_path = result_vm_path.value
+    e_name = result_vm_name.value
     v_path = Path('{e_path}/{e_name}-screen0.webm'.format(e_path=e_path, e_name=e_name))
     s_path = Path.home() / 'Videos' / gen_file_name('Video_from_', 'mp4')
 
@@ -142,35 +171,30 @@ def vm_emulator_record_stop() -> OutResult:
     if not s_path.parent.is_dir():
         s_path.parent.mkdir(parents=True, exist_ok=True)
 
-    result = vm_emulator_record_video_convert(v_path, s_path)
-    if result.is_error():
-        return result
-
     stdout, stderr = shell_exec_command([
         VM_MANAGE,
         'controlvm',
-        vm_emulator_name().value,
+        e_name,
         'recording',
         'off'
     ])
     if stdout or stderr:
         OutResultError(TextError.emulator_recording_video_stop_error())
-    return OutResult(TextSuccess.emulator_recording_video_stop())
 
+    result = vm_emulator_record_video_convert(v_path, s_path)
+    if result.is_error():
+        return result
 
-def vm_emulator_record_is_on() -> OutResult:
-    stdout, stderr = shell_exec_command([
-        VM_MANAGE,
-        'showvminfo',
-        vm_emulator_name().value,
-    ])
-    for line in stdout:
-        if 'Recording enabled:' in line and 'yes' in line:
-            return OutResult(value=True)
-    return OutResult(value=False)
+    return OutResult(TextSuccess.emulator_recording_video_stop_with_save(str(s_path)))
 
 
 def vm_emulator_record_video_convert(v_path: Path, s_path: Path) -> OutResult:
+    def check_is_error(outs: []) -> bool:
+        for out in outs:
+            if 'Unknown-sized element at' in out:
+                return True
+        return False
+
     stdout, stderr = shell_exec_command([
         'ffmpeg',
         '-i',
@@ -187,9 +211,51 @@ def vm_emulator_record_video_convert(v_path: Path, s_path: Path) -> OutResult:
         '128k',
         str(s_path),
     ])
-    if stderr:
+    if stderr or check_is_error(stdout):
         return OutResultError(TextError.emulator_recording_video_convert_error())
     return OutResult(
         message=TextSuccess.emulator_recording_video_convert(str(s_path)),
         value=str(s_path)
     )
+
+
+def vm_emulator_is_on_record(emulator_name: str | None = None) -> OutResult:
+    if not emulator_name:
+        result_vm_name = _vm_emulator_name()
+        if result_vm_name.is_error():
+            return result_vm_name
+        emulator_name = result_vm_name.value
+
+    stdout, stderr = shell_exec_command([
+        VM_MANAGE,
+        'showvminfo',
+        emulator_name,
+    ])
+    for line in stdout:
+        if 'Recording enabled:' in line and 'yes' in line:
+            return OutResult()
+    return OutResultError(TextError.emulator_not_running_recording())
+
+
+def vm_emulator_ssh_key() -> OutResult:
+    result_vm_name = _vm_emulator_name()
+    if result_vm_name.is_error():
+        return result_vm_name
+
+    stdout, stderr = shell_exec_command([
+        VM_MANAGE,
+        'showvminfo',
+        result_vm_name.value,
+    ])
+    for line in stdout:
+        if 'Snapshot folder:' in line:
+            return OutResult(
+                value=Path(os.path.dirname(
+                    os.path.dirname(
+                        os.path.dirname(
+                            os.path.dirname(line.replace('Snapshot folder:', '').strip())
+                        )
+                    )
+                )) / 'vmshare' / 'ssh' / 'private_keys' / 'sdk'
+            )
+    return OutResultError()

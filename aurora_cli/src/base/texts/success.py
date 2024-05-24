@@ -31,8 +31,8 @@ class TextSuccess(Enum):
         return '<green>Video recording activated.</green>'
 
     @staticmethod
-    def emulator_recording_video_stop() -> str:
-        return '<green>Video recording is deactivated.</green>'
+    def emulator_recording_video_stop_with_save(path: str) -> str:
+        return f'<green>Video recording has stopped. File saved:</green> {path}'
 
     @staticmethod
     def emulator_recording_video_convert(path: str) -> str:

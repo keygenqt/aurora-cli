@@ -81,7 +81,7 @@ class TestGroupEmulatorAPI(unittest.TestCase):
             '/emulator/vm/recording/stop'
         ])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn('already off', result.output)
+        self.assertIn('not started', result.output)
 
     def test_emulator_a4_recording_is(self):
         sleep(1)
@@ -92,7 +92,7 @@ class TestGroupEmulatorAPI(unittest.TestCase):
             '/emulator/vm/recording/is-on'
         ])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn('"value": false', result.output)
+        self.assertIn('not started', result.output)
 
     def test_emulator_a5_command_execute(self):
         sleep(5)

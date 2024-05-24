@@ -22,14 +22,14 @@ from aurora_cli.src.base.common.ssh_features import (
     ssh_package_remove
 )
 from aurora_cli.src.base.models.device_model import DeviceModel
-from aurora_cli.src.base.output import echo_stdout_json, OutResult
+from aurora_cli.src.base.output import echo_stdout, OutResult
 from aurora_cli.src.base.texts.success import TextSuccess
 
 
 def device_list_api(verbose: bool):
     """Get list devices."""
     devices = DeviceModel.get_lists_devices()
-    echo_stdout_json(OutResult(
+    echo_stdout(OutResult(
         value=[device.to_dict() for device in devices]
     ), verbose)
 
@@ -48,9 +48,9 @@ def ssh_device_command_api(
         auth=auth,
     ).get_ssh_client()
     if result.is_error():
-        echo_stdout_json(result, verbose)
+        echo_stdout(result, verbose)
         exit(1)
-    echo_stdout_json(ssh_command(
+    echo_stdout(ssh_command(
         client=result.value,
         execute=execute
     ), verbose)
@@ -68,9 +68,9 @@ def ssh_device_run_api(
 
     def echo_stdout_with_check_close(stdout: OutResult | None):
         if stdout and close and not stdout.is_error() and 'nohup:' in stdout.value:
-            echo_stdout_json(OutResult(TextSuccess.ssh_run_package(package)))
+            echo_stdout(OutResult(TextSuccess.ssh_run_package(package)))
         else:
-            echo_stdout_json(stdout)
+            echo_stdout(stdout)
 
     result = DeviceModel.get_model(
         host=host,
@@ -78,14 +78,14 @@ def ssh_device_run_api(
         auth=auth,
     ).get_ssh_client()
     if result.is_error():
-        echo_stdout_json(result, verbose)
+        echo_stdout(result, verbose)
         exit(1)
-    echo_stdout_json(ssh_run(
+    echo_stdout(ssh_run(
         client=result.value,
         package=package,
         close=close,
         listen_stdout=lambda stdout: echo_stdout_with_check_close(stdout),
-        listen_stderr=lambda stderr: echo_stdout_json(stderr),
+        listen_stderr=lambda stderr: echo_stdout(stderr),
     ), verbose)
 
 
@@ -103,12 +103,12 @@ def ssh_device_upload_api(
         auth=auth,
     ).get_ssh_client()
     if result.is_error():
-        echo_stdout_json(result, verbose)
+        echo_stdout(result, verbose)
         exit(1)
-    echo_stdout_json(ssh_upload(
+    echo_stdout(ssh_upload(
         client=result.value,
         path=path,
-        listen_progress=lambda stdout: echo_stdout_json(stdout)
+        listen_progress=lambda stdout: echo_stdout(stdout)
     ), verbose)
 
 
@@ -129,13 +129,13 @@ def ssh_device_rpm_install_api(
         devel_su=devel_su,
     ).get_ssh_client()
     if result.is_error():
-        echo_stdout_json(result, verbose)
+        echo_stdout(result, verbose)
         exit(1)
-    echo_stdout_json(ssh_rpm_install(
+    echo_stdout(ssh_rpm_install(
         client=result.value,
         path=path,
         apm=apm,
-        listen_progress=lambda stdout: echo_stdout_json(stdout),
+        listen_progress=lambda stdout: echo_stdout(stdout),
         devel_su=devel_su
     ), verbose)
 
@@ -157,9 +157,9 @@ def ssh_device_package_remove_api(
         devel_su=devel_su,
     ).get_ssh_client()
     if result.is_error():
-        echo_stdout_json(result, verbose)
+        echo_stdout(result, verbose)
         exit(1)
-    echo_stdout_json(ssh_package_remove(
+    echo_stdout(ssh_package_remove(
         client=result.value,
         package=package,
         apm=apm,

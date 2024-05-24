@@ -76,7 +76,7 @@ def ssh_device_command_cli(execute: str, select: bool, index: int | None, verbos
 
 @group_device.command(name='upload')
 @click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help='Path to file')
-@click.option('-s', '--select', is_flag=False, help='Select from available')
+@click.option('-s', '--select', is_flag=True, help='Select from available')
 @click.option('-i', '--index', type=click.INT, help='Specify index')
 @click.option('-v', '--verbose', is_flag=True, help='Command output')
 def ssh_device_upload_cli(path: [], select: bool, index: int, verbose: bool):
@@ -92,7 +92,7 @@ def ssh_device_upload_cli(path: [], select: bool, index: int, verbose: bool):
 @group_device.command(name='package-run')
 @click.option('-p', '--package', type=click.STRING, required=True, help='Package name')
 @click.option('-с', '--close', is_flag=True, help='Exit after run')
-@click.option('-s', '--select', is_flag=False, help='Select from available')
+@click.option('-s', '--select', is_flag=True, help='Select from available')
 @click.option('-i', '--index', type=click.INT, help='Specify index')
 @click.option('-v', '--verbose', is_flag=True, help='Command output')
 def ssh_device_run_cli(package: str, close: bool, select: bool, index: int, verbose: bool):
@@ -109,7 +109,7 @@ def ssh_device_run_cli(package: str, close: bool, select: bool, index: int, verb
 @group_device.command(name='package-install')
 @click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help='Path to RPM file')
 @click.option('-a', '--apm', is_flag=True, help='Use new install APM')
-@click.option('-s', '--select', is_flag=False, help='Select from available')
+@click.option('-s', '--select', is_flag=True, help='Select from available')
 @click.option('-i', '--index', type=click.INT, help='Specify index')
 @click.option('-v', '--verbose', is_flag=True, help='Command output')
 def ssh_device_install_cli(path: [], apm: bool, select: bool, index: int, verbose: bool):
@@ -127,7 +127,7 @@ def ssh_device_install_cli(path: [], apm: bool, select: bool, index: int, verbos
 @group_device.command(name='package-remove')
 @click.option('-p', '--package', type=click.STRING, required=True, help='Package name')
 @click.option('-a', '--apm', is_flag=True, help='Use new install APM')
-@click.option('-s', '--select', is_flag=False, help='Select from available')
+@click.option('-s', '--select', is_flag=True, help='Select from available')
 @click.option('-i', '--index', type=click.INT, help='Specify index')
 @click.option('-v', '--verbose', is_flag=True, help='Command output')
 def ssh_device_remove_cli(package: str, apm: bool, select: bool, index: int, verbose: bool):

@@ -28,6 +28,14 @@ def gen_file_name(before: str, extension: str) -> str:
     )
 
 
+def convert_relative_path_check(path: str | None) -> Path | str:
+    path_file = convert_relative_path(path)
+    if path_file.is_file():
+        return path
+    else:
+        return path
+
+
 def convert_relative_path(path: str | None) -> Path | None:
     if path is None:
         return None

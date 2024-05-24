@@ -13,48 +13,46 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import sys
 
 import click
 
 from aurora_cli.src.api.group_api import group_api
+from aurora_cli.src.base.common.vm_features import vm_emulator_record_stop
 from aurora_cli.src.base.configuration.app_config import AppConfig
-from aurora_cli.src.base.constants.app import APP_NAME, APP_VERSION, APP_INFO
-from aurora_cli.src.cli.group_abort import abort
 from aurora_cli.src.cli.group_device import group_device
 from aurora_cli.src.cli.group_emulator import group_emulator
 
 
-# @todo
-# tab
-# ru localisation
+# If the application was closed via ctrl+c, you need to end running tasks
+# But the application context is closed along with it
+# The `abort` group recreates it by repeating the `main` group
+# Once the context is restored, running tasks can be completed
+# A good example of such a task is running a recording in the emulator
 @click.group(invoke_without_command=True)
-@click.version_option(version=APP_VERSION, prog_name=APP_NAME)
 @click.option('--config', help='Specify config path.', type=click.STRING, required=False)
 @click.pass_context
-def main(ctx: {}, config: str):
-    f"""{APP_INFO}"""
-    ctx.obj = AppConfig.create(config, ctx.invoked_subcommand == 'api')
-    if not ctx.invoked_subcommand:
-        print(ctx.get_help())
+def abort(ctx: {}, config: str):
+    argv = sys.argv
+    ctx.obj = AppConfig.create(config, False)
+    print('Aborted! Closing...')
+
+    # Stop recording video if recording
+    if 'emulator' in argv and 'recording' in argv:
+        vm_emulator_record_cli()
+
+    print('Goodbye 👋')
+    exit(1)
 
 
 # noinspection PyTypeChecker
-main.add_command(group_api)
+abort.add_command(group_api)
 # noinspection PyTypeChecker
-main.add_command(group_emulator)
+abort.add_command(group_emulator)
 # noinspection PyTypeChecker
-main.add_command(group_device)
+abort.add_command(group_device)
 
-if __name__ == '__main__':
-    try:
-        try:
-            # Run app
-            main(standalone_mode=False)
-        except click.exceptions.UsageError:
-            # Show error usage
-            main()
-        except click.exceptions.Abort:
-            # Cleaning up after the application
-            abort(standalone_mode=False)
-    except (Exception,):
-        print(click.style('An unexpected error occurred in the application.', fg='red'))
+
+def vm_emulator_record_cli():
+    """Stop recording video from emulator."""
+    vm_emulator_record_stop()

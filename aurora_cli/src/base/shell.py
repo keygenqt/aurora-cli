@@ -19,10 +19,20 @@ import subprocess
 import click
 from cffi.backend_ctypes import unicode
 
+from aurora_cli.src.base.dependency import check_dependency
 from aurora_cli.src.base.helper import clear_str_line
+from aurora_cli.src.base.output import echo_stdout
+from aurora_cli.src.base.texts.error import TextError
 
 
 def shell_exec_command(args: []) -> []:
+    if not args:
+        echo_stdout(TextError.shell_exec_command_empty())
+        exit(1)
+    result = check_dependency(args[0])
+    if result.is_error():
+        echo_stdout(result)
+        exit(1)
     return _shell_exec_command(args)
 
 

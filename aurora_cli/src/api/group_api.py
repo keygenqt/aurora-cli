@@ -19,7 +19,7 @@ import click
 from aurora_cli.src.api.routes.routes_device import search_route_device
 from aurora_cli.src.api.routes.routes_emulator import search_route_emulator
 from aurora_cli.src.base.configuration.app_config import AppConfig
-from aurora_cli.src.base.output import echo_stdout_json, OutResultError
+from aurora_cli.src.base.output import echo_stdout, OutResultError
 from aurora_cli.src.base.texts.error import TextError
 
 
@@ -30,12 +30,12 @@ from aurora_cli.src.base.texts.error import TextError
 def group_api(ctx: {}, route: str, test: bool):
     """Application Programming Interface."""
     if test:
-        ctx.obj = AppConfig.create_test()
+        ctx.obj = AppConfig.create_test(is_api=True)
     try:
         if search_route_emulator(route):
             return
         if search_route_device(route):
             return
-        echo_stdout_json(OutResultError(TextError.route_not_found()))
+        echo_stdout(OutResultError(TextError.route_not_found()))
     except Exception as e:
-        echo_stdout_json(OutResultError(str(e)))
+        echo_stdout(OutResultError(str(e)))

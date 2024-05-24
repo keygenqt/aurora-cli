@@ -19,27 +19,26 @@ from typing import AnyStr
 
 from aurora_cli.src.base.configuration.loader_config import ConfigLoader
 from aurora_cli.src.base.constants.config import CONFIG_DEFAULT, CONFIG_PATH
-from aurora_cli.src.base.helper import convert_relative_path
+from aurora_cli.src.base.helper import convert_relative_path, convert_relative_path_check
 from aurora_cli.src.base.models.device_model import DeviceModel
 from aurora_cli.src.base.models.sign_package_model import SignPackageModel
-from aurora_cli.src.base.output import echo_stdout, echo_stdout_json, OutResultError, echo_stdout_with_check, OutResult
+from aurora_cli.src.base.output import echo_stdout, OutResultError, OutResult
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 
 
 class AppConfig:
-    def __init__(self, _data_config: {}):
+    def __init__(self, _data_config: {}, _is_api: bool):
+        self._is_api = _is_api
         self._data_config = _data_config
         self._commands_verbose_save = []
 
     @staticmethod
-    def create_test():
-        return AppConfig(ConfigLoader(CONFIG_DEFAULT).get_data())
+    def create_test(is_api: bool = False):
+        return AppConfig(ConfigLoader(CONFIG_DEFAULT).get_data(), is_api)
 
     @staticmethod
-    def create(path: str | None):
-        # @todo
-        is_api = False
+    def create(path: str | None, is_api: bool):
         arg_path = convert_relative_path(path)
         default_path = convert_relative_path(CONFIG_PATH)
         try:
@@ -49,8 +48,7 @@ class AppConfig:
 
             if arg_path is not None:
                 if not arg_path.is_file():
-                    print(path)
-                    echo_stdout_with_check(is_api, OutResultError(TextError.validate_config_arg_path(path)))
+                    echo_stdout(OutResultError(TextError.validate_config_arg_path(path)), is_api=is_api)
                     exit(1)
                 else:
                     config_str = load_file_config(arg_path)
@@ -59,29 +57,32 @@ class AppConfig:
                     default_path.parent.mkdir(parents=True, exist_ok=True)
                     with open(default_path, 'w') as file:
                         print(CONFIG_DEFAULT, file=file)
-                    echo_stdout_with_check(is_api, OutResult(TextInfo.create_default_config_file(str(default_path))))
+                    echo_stdout(OutResult(TextInfo.create_default_config_file(str(default_path))), is_api=is_api)
                     config_str = CONFIG_DEFAULT
                 else:
                     config_str = load_file_config(default_path)
 
             loader = ConfigLoader(config_str)
         except (Exception,):
-            echo_stdout_with_check(is_api, OutResultError(TextError.config_arg_path_load_error(
+            echo_stdout(OutResultError(TextError.config_arg_path_load_error(
                 path=path if path else CONFIG_PATH
-            )))
+            )), is_api=is_api)
             exit(1)
         if loader.is_error():
             if is_api:
-                echo_stdout_json(OutResultError(
+                echo_stdout(OutResultError(
                     message=TextError.validate_config_error(),
                     value=loader.get_validate_json()
-                ))
+                ), is_api=True)
             else:
                 echo_stdout(TextError.validate_config_error())
                 for output in loader.get_validate():
                     echo_stdout(output, prefix='- ')
             exit(1)
-        return AppConfig(loader.get_data())
+        return AppConfig(loader.get_data(), is_api)
+
+    def is_api(self) -> bool:
+        return self._is_api
 
     def get_workdir(self) -> Path | None:
         return Path(self._data_config['workdir'])
@@ -102,7 +103,7 @@ class AppConfig:
             devices.append(DeviceModel(
                 host=item['host'],
                 port=item['port'],
-                auth=item['auth'],
+                auth=convert_relative_path_check(item['auth']),
                 devel_su=item['devel-su'],
             ))
         return devices

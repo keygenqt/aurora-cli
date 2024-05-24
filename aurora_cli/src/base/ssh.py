@@ -22,7 +22,9 @@ import paramiko
 from paramiko.channel import ChannelFile
 from paramiko.client import SSHClient
 
+from aurora_cli.src.base.dependency import check_dependency
 from aurora_cli.src.base.helper import clear_str_line
+from aurora_cli.src.base.output import echo_stdout
 
 
 def ssh_client_connect(
@@ -31,6 +33,10 @@ def ssh_client_connect(
         port: int,
         auth: Path | str
 ) -> SSHClient | None:
+    result = check_dependency('ssh')
+    if result.is_error():
+        echo_stdout(result)
+        exit(1)
     try:
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())

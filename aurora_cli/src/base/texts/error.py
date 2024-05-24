@@ -16,11 +16,30 @@ limitations under the License.
 
 from enum import Enum
 
+from aurora_cli.src.base.texts.tint import tint
+
 
 class TextError(Enum):
     @staticmethod
+    def shell_exec_command_empty() -> str:
+        return '<red>Error reading shell arguments.</red>'
+
+    @staticmethod
+    def emulator_not_found() -> str:
+        return '<red>Emulator with Aurora OS not found.</red>'
+
+    @staticmethod
+    @tint
+    def emulator_not_found_running() -> str:
+        return '<red>No running emulator with Aurora OS was found.</red>'
+
+    @staticmethod
     def emulator_start_error() -> str:
         return '<red>Failed to start the emulator.</red>'
+
+    @staticmethod
+    def emulator_path_not_found() -> str:
+        return '<red>Could not find path to emulator.</red>'
 
     @staticmethod
     def route_not_found() -> str:
@@ -29,6 +48,14 @@ class TextError(Enum):
     @staticmethod
     def emulator_screenshot_error() -> str:
         return '<red>Failed to take screenshot.</red>'
+
+    @staticmethod
+    def emulator_already_running_recording() -> str:
+        return '<red>The emulator recording video is already on.</red>'
+
+    @staticmethod
+    def emulator_not_running_recording() -> str:
+        return '<red>The emulator recording not started.</red>'
 
     @staticmethod
     def emulator_recording_video_start_error() -> str:
@@ -79,18 +106,22 @@ class TextError(Enum):
         return '<red>The configuration file failed verification.</red>'
 
     @staticmethod
+    @tint
     def validate_config_devices_not_found() -> str:
         return '<red>Section</red> devices <red>not found.</red>'
 
     @staticmethod
+    @tint
     def validate_config_devices() -> str:
         return '<red>Section</red> devices <red>incorrect.</red>'
 
     @staticmethod
+    @tint
     def validate_config_keys_not_found() -> str:
         return '<red>Section</red> keys <red>not found.</red>'
 
     @staticmethod
+    @tint
     def validate_config_keys() -> str:
         return '<red>Section</red> keys <red>incorrect.</red>'
 
@@ -103,6 +134,7 @@ class TextError(Enum):
         return f'<red>Not found file cert:</red> {path}'
 
     @staticmethod
+    @tint
     def validate_config_workdir_not_found() -> str:
         return '<red>It was not possible to find and create the</red> workdir <red>folder.</red>'
 
@@ -115,6 +147,7 @@ class TextError(Enum):
         return f'<red>The specified configuration file does not exist:</red> {path}'
 
     @staticmethod
+    @tint
     def config_arg_path_load_error(path: str) -> str:
         return f'<red>Configuration file cannot be read:</red> {path}'
 
@@ -125,3 +158,7 @@ class TextError(Enum):
     @staticmethod
     def index_and_select_at_the_same_time() -> str:
         return '<red>Select one thing</red> --select <red>or</red> --index<red>.</red>'
+
+    @staticmethod
+    def dependency_not_found(dependency: str) -> str:
+        return f'<red>Dependency</red> {dependency} <red>was not found and is required to run this command.</red>'

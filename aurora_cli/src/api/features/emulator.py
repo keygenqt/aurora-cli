@@ -26,45 +26,45 @@ from aurora_cli.src.base.common.vm_features import (
     vm_emulator_screenshot,
     vm_emulator_record_start,
     vm_emulator_record_stop,
-    vm_emulator_record_is_on
+    vm_emulator_is_on_record
 )
 from aurora_cli.src.base.models.emulator_model import EmulatorModel
-from aurora_cli.src.base.output import echo_stdout_json, OutResult
+from aurora_cli.src.base.output import echo_stdout, OutResult
 from aurora_cli.src.base.texts.success import TextSuccess
 
 
 def vm_emulator_start_api(verbose: bool):
     """Start emulator."""
-    echo_stdout_json(vm_emulator_start(), verbose)
+    echo_stdout(vm_emulator_start(), verbose)
 
 
 def vm_emulator_screenshot_api(verbose: bool):
     """Emulator take screenshot."""
-    echo_stdout_json(vm_emulator_screenshot(), verbose)
+    echo_stdout(vm_emulator_screenshot(), verbose)
 
 
 def vm_emulator_record_start_api(verbose: bool):
     """Start recording video from emulator."""
-    echo_stdout_json(vm_emulator_record_start(), verbose)
+    echo_stdout(vm_emulator_record_start(), verbose)
 
 
 def vm_emulator_record_stop_api(verbose: bool):
     """Stop recording video from emulator."""
-    echo_stdout_json(vm_emulator_record_stop(), verbose)
+    echo_stdout(vm_emulator_record_stop(), verbose)
 
 
 def vm_emulator_record_is_on_api(verbose: bool):
     """Check recording video from emulator."""
-    echo_stdout_json(vm_emulator_record_is_on(), verbose)
+    echo_stdout(vm_emulator_is_on_record(), verbose)
 
 
 def ssh_emulator_command_api(execute: str, verbose: bool):
     """Execute the command on the emulator."""
     result = EmulatorModel.get_model_user().get_ssh_client()
     if result.is_error():
-        echo_stdout_json(result, verbose)
+        echo_stdout(result, verbose)
         exit(1)
-    echo_stdout_json(ssh_command(
+    echo_stdout(ssh_command(
         client=result.value,
         execute=execute
     ), verbose)
@@ -79,20 +79,20 @@ def ssh_emulator_run_api(
 
     def echo_stdout_with_check_close(stdout: OutResult | None):
         if stdout and close and not stdout.is_error() and 'nohup:' in stdout.value:
-            echo_stdout_json(OutResult(TextSuccess.ssh_run_package(package)))
+            echo_stdout(OutResult(TextSuccess.ssh_run_package(package)))
         else:
-            echo_stdout_json(stdout)
+            echo_stdout(stdout)
 
     result = EmulatorModel.get_model_user().get_ssh_client()
     if result.is_error():
-        echo_stdout_json(result, verbose)
+        echo_stdout(result, verbose)
         exit(1)
-    echo_stdout_json(ssh_run(
+    echo_stdout(ssh_run(
         client=result.value,
         package=package,
         close=close,
         listen_stdout=lambda stdout: echo_stdout_with_check_close(stdout),
-        listen_stderr=lambda stderr: echo_stdout_json(stderr),
+        listen_stderr=lambda stderr: echo_stdout(stderr),
     ), verbose)
 
 
@@ -100,12 +100,12 @@ def ssh_emulator_upload_api(path: str, verbose: bool):
     """Upload file to ~/Download directory emulator."""
     result = EmulatorModel.get_model_user().get_ssh_client()
     if result.is_error():
-        echo_stdout_json(result, verbose)
+        echo_stdout(result, verbose)
         exit(1)
-    echo_stdout_json(ssh_upload(
+    echo_stdout(ssh_upload(
         client=result.value,
         path=path,
-        listen_progress=lambda stdout: echo_stdout_json(stdout)
+        listen_progress=lambda stdout: echo_stdout(stdout)
     ), verbose)
 
 
@@ -113,13 +113,13 @@ def ssh_emulator_rpm_install_api(path: str, apm: bool, verbose: bool):
     """Install RPM package on emulator."""
     result = EmulatorModel.get_model_root().get_ssh_client()
     if result.is_error():
-        echo_stdout_json(result, verbose)
+        echo_stdout(result, verbose)
         exit(1)
-    echo_stdout_json(ssh_rpm_install(
+    echo_stdout(ssh_rpm_install(
         client=result.value,
         path=path,
         apm=apm,
-        listen_progress=lambda stdout: echo_stdout_json(stdout)
+        listen_progress=lambda stdout: echo_stdout(stdout)
     ), verbose)
 
 
@@ -127,9 +127,9 @@ def ssh_emulator_package_remove_api(package: str, apm: bool, verbose: bool):
     """Remove package from emulator."""
     result = EmulatorModel.get_model_root().get_ssh_client()
     if result.is_error():
-        echo_stdout_json(result, verbose)
+        echo_stdout(result, verbose)
         exit(1)
-    echo_stdout_json(ssh_package_remove(
+    echo_stdout(ssh_package_remove(
         client=result.value,
         package=package,
         apm=apm,

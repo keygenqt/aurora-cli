@@ -78,7 +78,7 @@ class TestGroupEmulatorCLI(unittest.TestCase):
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('recording activated', result.output)
-        self.assertIn('recording is deactivated', result.output)
+        self.assertIn('has stopped', result.output)
 
     def test_emulator_a4_command_execute(self):
         sleep(1)
