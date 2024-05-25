@@ -16,12 +16,10 @@ limitations under the License.
 
 import click
 
-from aurora_cli.src.api.group_api import group_api
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.constants.app import APP_NAME, APP_VERSION, APP_INFO
-from aurora_cli.src.cli.group_abort import abort
-from aurora_cli.src.cli.group_device import group_device
-from aurora_cli.src.cli.group_emulator import group_emulator
+from aurora_cli.src.base.utils.app import app_init_groups, app_crash_out
+from aurora_cli.src.cli.group_abort import clear_after_force_close
 
 
 # @todo
@@ -33,28 +31,19 @@ from aurora_cli.src.cli.group_emulator import group_emulator
 @click.pass_context
 def main(ctx: {}, config: str):
     f"""{APP_INFO}"""
-    ctx.obj = AppConfig.create(config, ctx.invoked_subcommand == 'api')
+    ctx.obj = AppConfig.create(config)
     if not ctx.invoked_subcommand:
         print(ctx.get_help())
 
 
-# noinspection PyTypeChecker
-main.add_command(group_api)
-# noinspection PyTypeChecker
-main.add_command(group_emulator)
-# noinspection PyTypeChecker
-main.add_command(group_device)
-
 if __name__ == '__main__':
     try:
+        app_init_groups(main)
         try:
-            # Run app
             main(standalone_mode=False)
         except click.exceptions.UsageError:
-            # Show error usage
             main()
         except click.exceptions.Abort:
-            # Cleaning up after the application
-            abort(standalone_mode=False)
-    except (Exception,):
-        print(click.style('An unexpected error occurred in the application.', fg='red'))
+            clear_after_force_close()
+    except Exception as e:
+        app_crash_out(e)

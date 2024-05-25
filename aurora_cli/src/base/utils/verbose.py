@@ -14,14 +14,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from dataclasses import dataclass
-from pathlib import Path
+_commands_verbose_save = []
 
 
-# @todo
-@dataclass
-class SignPackageModel:
-    """Class device."""
-    name: str
-    key: Path
-    cert: Path
+def verbose_add_map(command: str, stdout: [], stderr: []):
+    _commands_verbose_save.append({
+        'command': command,
+        'stdout': stdout,
+        'stderr': stderr,
+    })
+
+
+def verbose_seize_map():
+    global _commands_verbose_save
+    data = _commands_verbose_save
+    _commands_verbose_save = []
+    return data

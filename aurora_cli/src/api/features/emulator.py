@@ -29,7 +29,7 @@ from aurora_cli.src.base.common.vm_features import (
     vm_emulator_is_on_record
 )
 from aurora_cli.src.base.models.emulator_model import EmulatorModel
-from aurora_cli.src.base.output import echo_stdout, OutResult
+from aurora_cli.src.base.utils.output import echo_stdout, OutResult
 from aurora_cli.src.base.texts.success import TextSuccess
 
 
@@ -72,13 +72,13 @@ def ssh_emulator_command_api(execute: str, verbose: bool):
 
 def ssh_emulator_run_api(
         package: str,
-        close: bool,
+        nohup: bool,
         verbose: bool
 ):
     """Run package on emulator in container."""
 
     def echo_stdout_with_check_close(stdout: OutResult | None):
-        if stdout and close and not stdout.is_error() and 'nohup:' in stdout.value:
+        if stdout and nohup and not stdout.is_error() and 'nohup:' in stdout.value:
             echo_stdout(OutResult(TextSuccess.ssh_run_package(package)))
         else:
             echo_stdout(stdout)
@@ -90,7 +90,7 @@ def ssh_emulator_run_api(
     echo_stdout(ssh_run(
         client=result.value,
         package=package,
-        close=close,
+        nohup=nohup,
         listen_stdout=lambda stdout: echo_stdout_with_check_close(stdout),
         listen_stderr=lambda stderr: echo_stdout(stderr),
     ), verbose)

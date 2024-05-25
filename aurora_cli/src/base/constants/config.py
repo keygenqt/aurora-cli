@@ -25,23 +25,30 @@ CONFIG_DEFAULT = """## Application configuration file Aurora CLI
 ## Specify an existing directory
 workdir: ~/Aurora
 
-## Type output: short | command | verbose
-output: short
-
 ## Path to sign keys
 ## name - The name you will see in the list
 ## key  - Path to the key.pem file
 ## cert - Path to the cert.pem file
-keys:
-  - name: Public
-    key: ~/.aurora-cli/keys/regular_key.pem
-    cert: ~/.aurora-cli/keys/regular_cert.pem
+##
+## Example:
+## keys:
+##   - name: Public
+##     key: ~/.aurora-cli/keys/regular_key.pem
+##     cert: ~/.aurora-cli/keys/regular_cert.pem
+keys: []
 
 ## Devices list
 ## host     - Device IP WI-FI or cable connection
 ## auth     - SSH password / SSH key path
 ## port     - SSH port
 ## devel-su - Device root password
+##
+## Example:
+## devices:
+##   - host: 192.168.2.15
+##     auth: '00000'
+##     port: 22
+##     devel-su: '00000'
 devices:
   - host: 192.168.2.15
     auth: '00000'

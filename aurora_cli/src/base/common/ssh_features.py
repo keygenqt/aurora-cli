@@ -19,19 +19,22 @@ from typing import Callable
 
 from paramiko.client import SSHClient
 
-from aurora_cli.src.base.helper import convert_relative_path
-from aurora_cli.src.base.output import OutResult, OutResultError, OutResultInfo
-from aurora_cli.src.base.ssh import ssh_exec_command
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
+from aurora_cli.src.base.utils.output import OutResult, OutResultError, OutResultInfo
+from aurora_cli.src.base.utils.path import path_convert_relative_path
+from aurora_cli.src.base.utils.ssh import ssh_exec_command
 
 
 def ssh_command(
         client: SSHClient,
-        execute: str
+        execute: str,
+        close: bool = True
 ) -> OutResult:
     stdout, stderr = ssh_exec_command(client, execute)
+    if close:
+        client.close()
     return OutResult(
         message=TextSuccess.ssh_exec_command_success(
             execute=execute
@@ -46,9 +49,10 @@ def ssh_command(
 def ssh_run(
         client: SSHClient,
         package: str,
-        close: bool,
+        nohup: bool,
         listen_stdout: Callable[[OutResult | None], None],
         listen_stderr: Callable[[OutResult | None], None],
+        close: bool = True
 ) -> OutResult:
     def check_is_error(out: str) -> bool:
         if 'could not locate' in out:
@@ -57,7 +61,7 @@ def ssh_run(
             return True
         return False
 
-    if close:
+    if nohup:
         execute = f'nohup invoker --type=qt5 {package}'
     else:
         execute = f'invoker --type=qt5 {package}'
@@ -72,6 +76,8 @@ def ssh_run(
             None if check_is_error(value) else OutResult(value=value, index=index)
         ),
     )
+    if close:
+        client.close()
 
     if stderr or (stdout and check_is_error(stdout[0])):
         return OutResultError(
@@ -85,6 +91,7 @@ def ssh_upload(
         client: SSHClient,
         path: str,
         listen_progress: Callable[[OutResult], None],
+        close: bool = True
 ) -> OutResult:
     cache_progress = []
 
@@ -97,9 +104,9 @@ def ssh_upload(
                 value=progress
             ))
 
-    file_path = str(convert_relative_path(path))
+    file_path = path_convert_relative_path(path)
 
-    if not os.path.isfile(file_path):
+    if not file_path.is_file():
         return OutResultError(
             message=TextError.ssh_upload_file_not_found(path),
         )
@@ -113,11 +120,13 @@ def ssh_upload(
             remotepath=file_upload,
             callback=lambda transferred, total: call_calculate_progress(transferred, total)
         )
+        if close:
+            client.close()
         return OutResult(
             message=TextSuccess.ssh_uploaded_success(file_upload),
             value={
-                'localpath': file_path,
-                'remotepath': file_upload,
+                'localpath': str(file_path),
+                'remotepath': str(file_upload),
             }
         )
     except Exception as e:
@@ -132,7 +141,8 @@ def ssh_rpm_install(
         path: str,
         apm: bool,
         listen_progress: Callable[[OutResult], None],
-        devel_su: str | None = None
+        devel_su: str | None = None,
+        close: bool = True
 ) -> OutResult:
     def check_is_error(out: []) -> bool:
         for line in out:
@@ -142,7 +152,7 @@ def ssh_rpm_install(
                 return True
         return False
 
-    result = ssh_upload(client, path, listen_progress)
+    result = ssh_upload(client, path, listen_progress, close=False)
     if result.is_error():
         return result
 
@@ -163,6 +173,8 @@ def ssh_rpm_install(
                    f'"{prompt}"')
 
     stdout, stderr = ssh_exec_command(client, execute)
+    if close:
+        client.close()
 
     if check_is_error(stdout) or stderr:
         return OutResultError(
@@ -180,7 +192,8 @@ def ssh_package_remove(
         client: SSHClient,
         package: str,
         apm: bool,
-        devel_su: str | None = None
+        devel_su: str | None = None,
+        close: bool = True
 ) -> OutResult:
     def check_is_error(out: []) -> bool:
         for line in out:
@@ -203,6 +216,8 @@ def ssh_package_remove(
                    f'"{package}"')
 
     stdout, stderr = ssh_exec_command(client, execute)
+    if close:
+        client.close()
 
     if check_is_error(stdout) or stderr:
         return OutResultError(

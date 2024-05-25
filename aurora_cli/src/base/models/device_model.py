@@ -21,10 +21,10 @@ from pathlib import Path
 import click
 from paramiko.client import SSHClient
 
-from aurora_cli.src.base.output import OutResult, OutResultError
-from aurora_cli.src.base.ssh import ssh_client_connect
 from aurora_cli.src.base.texts.error import TextError
-from aurora_cli.src.cli.helper import model_select
+from aurora_cli.src.base.utils.output import OutResult, OutResultError
+from aurora_cli.src.base.utils.prompt import prompt_model_select
+from aurora_cli.src.base.utils.ssh import ssh_client_connect
 
 
 @dataclass
@@ -38,7 +38,7 @@ class DeviceModel:
 
     @staticmethod
     def get_model_select(select: bool, index: int | None) -> OutResult:
-        return model_select(
+        return prompt_model_select(
             models=DeviceModel.get_lists_devices(),
             select=select,
             index=index

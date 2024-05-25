@@ -16,6 +16,7 @@ limitations under the License.
 
 import unittest
 from pathlib import Path
+from time import sleep
 
 from click.testing import CliRunner
 
@@ -25,76 +26,77 @@ from aurora_cli.src.api.group_api import group_api
 # noinspection PyTypeChecker
 class TestGroupDeviceAPI(unittest.TestCase):
     def test_device_a1_device_list(self):
+        sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
-            '--test',
             '--route',
             '/device/list'
         ])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn('192.168.2.15', result.output)
+        self.assertIn('"code": 200', result.output)
 
     def test_device_a2_command_execute(self):
+        sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
-            '--test',
             '--route',
             '/device/ssh/command?host=192.168.2.15&port=22&auth=00000&execute=version'
         ])
         self.assertEqual(result.exit_code, 0)
+        self.assertIn('"code": 200', result.output)
         self.assertIn('Aurora', result.output)
 
     def test_device_a3_command_execute_error(self):
+        sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
-            '--test',
             '--route',
             '/device/ssh/command?host=192.168.2.15&port=22&auth=00000'
         ])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn('is required', result.output)
+        self.assertIn('"code": 500', result.output)
 
     def test_device_a4_command_upload(self):
+        sleep(1)
         runner = CliRunner()
         path = Path.cwd() / 'data' / 'upload.file'
         result = runner.invoke(cli=group_api, args=[
-            '--test',
             '--route',
             f'/device/ssh/upload?host=192.168.2.15&port=22&auth=00000&path={path}'
         ])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn('successfully uploaded', result.output)
+        self.assertIn('"code": 200', result.output)
 
     def test_device_a5_command_install(self):
+        sleep(1)
         runner = CliRunner()
         path = Path.cwd() / 'data' / 'com.keygenqt.trex-0.1.0-1.armv7hl.rpm'
         result = runner.invoke(cli=group_api, args=[
-            '--test',
             '--route',
             f'/device/ssh/package-install?host=192.168.2.15&port=22&auth=00000&devel_su=00000&path={path}'
         ])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn('installed successfully', result.output)
+        self.assertIn('"code": 200', result.output)
 
     def test_device_a6_command_run(self):
+        sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
-            '--test',
             '--route',
-            f'/device/ssh/package-run?host=192.168.2.15&port=22&auth=00000&close=true&package=com.keygenqt.trex'
+            f'/device/ssh/package-run?host=192.168.2.15&port=22&auth=00000&nohup=true&package=com.keygenqt.trex'
         ])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn('run successfully', result.output)
+        self.assertIn('"code": 200', result.output)
 
     def test_device_a7_command_remove(self):
+        sleep(2)
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
-            '--test',
             '--route',
             f'/device/ssh/package-remove?host=192.168.2.15&port=22&auth=00000&devel_su=00000&package=com.keygenqt.trex'
         ])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn('successfully removed', result.output)
+        self.assertIn('"code": 200', result.output)
 
 
 if __name__ == '__main__':

@@ -25,8 +25,9 @@ from aurora_cli.src.base.common.vm_features import (
 )
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.models.emulator_model import EmulatorModel
-from aurora_cli.src.base.output import echo_stdout
 from aurora_cli.src.base.texts.prompt import TextPrompt
+from aurora_cli.src.base.utils.argv import argv_is_test
+from aurora_cli.src.base.utils.output import echo_stdout
 from aurora_cli.src.cli.ssh_commands import (
     ssh_common_command_cli,
     ssh_common_run_cli,
@@ -48,11 +49,10 @@ def _get_emulator_ssh_client(verbose: bool, is_root: bool = False) -> SSHClient:
 
 
 @click.group(name='emulator')
-@click.option('--test', is_flag=True, default=False)
 @click.pass_context
-def group_emulator(ctx: {}, test: bool):
+def group_emulator(ctx: {}):
     """Working with the emulator virtualbox."""
-    if test:
+    if argv_is_test():
         ctx.obj = AppConfig.create_test()
 
 
@@ -113,14 +113,14 @@ def ssh_emulator_upload_cli(path: [], verbose: bool):
 
 @group_emulator.command(name='package-run')
 @click.option('-p', '--package', type=click.STRING, required=True, help='Package name')
-@click.option('-с', '--close', is_flag=True, help='Exit after run')
+@click.option('-n', '--nohup', is_flag=True, help='Exit after run')
 @click.option('-v', '--verbose', is_flag=True, help='Command output')
-def ssh_emulator_run_cli(package: str, close: bool, verbose: bool):
+def ssh_emulator_run_cli(package: str, nohup: bool, verbose: bool):
     """Run package on emulator in container."""
     ssh_common_run_cli(
         client=_get_emulator_ssh_client(verbose),
         package=package,
-        close=close,
+        nohup=nohup,
         verbose=verbose
     )
 

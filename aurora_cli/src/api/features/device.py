@@ -22,7 +22,7 @@ from aurora_cli.src.base.common.ssh_features import (
     ssh_package_remove
 )
 from aurora_cli.src.base.models.device_model import DeviceModel
-from aurora_cli.src.base.output import echo_stdout, OutResult
+from aurora_cli.src.base.utils.output import echo_stdout, OutResult
 from aurora_cli.src.base.texts.success import TextSuccess
 
 
@@ -61,13 +61,13 @@ def ssh_device_run_api(
         port: int,
         auth: str,
         package: str,
-        close: bool,
+        nohup: bool,
         verbose: bool
 ):
     """Run package on device in container."""
 
     def echo_stdout_with_check_close(stdout: OutResult | None):
-        if stdout and close and not stdout.is_error() and 'nohup:' in stdout.value:
+        if stdout and nohup and not stdout.is_error() and 'nohup:' in stdout.value:
             echo_stdout(OutResult(TextSuccess.ssh_run_package(package)))
         else:
             echo_stdout(stdout)
@@ -83,7 +83,7 @@ def ssh_device_run_api(
     echo_stdout(ssh_run(
         client=result.value,
         package=package,
-        close=close,
+        nohup=nohup,
         listen_stdout=lambda stdout: echo_stdout_with_check_close(stdout),
         listen_stderr=lambda stderr: echo_stdout(stderr),
     ), verbose)

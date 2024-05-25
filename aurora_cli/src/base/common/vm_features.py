@@ -17,54 +17,17 @@ import os
 from pathlib import Path
 
 from aurora_cli.src.base.constants.other import VM_MANAGE
-from aurora_cli.src.base.helper import gen_file_name
-from aurora_cli.src.base.output import OutResult, OutResultError, OutResultInfo
-from aurora_cli.src.base.shell import shell_exec_command
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
+from aurora_cli.src.base.utils.convert import convert_video
+from aurora_cli.src.base.utils.dependency import check_dependency, DependencyApps
+from aurora_cli.src.base.utils.output import OutResult, OutResultError, OutResultInfo
+from aurora_cli.src.base.utils.path import path_gen_file_name
+from aurora_cli.src.base.utils.shell import shell_exec_command
 
 
-def _vm_emulator_name() -> OutResult:
-    stdout, stderr = shell_exec_command([
-        VM_MANAGE,
-        'list',
-        'vms',
-    ])
-    if stderr:
-        return OutResultError(TextError.emulator_not_found())
-    for line in stdout:
-        if 'AuroraOS' in line:
-            return OutResult(value=line.split('"')[1])
-    return OutResultError(TextError.emulator_not_found())
-
-
-def _vm_emulator_is_on(emulator_name: str) -> OutResult:
-    stdout, stderr = shell_exec_command([
-        VM_MANAGE,
-        'list',
-        'runningvms',
-    ])
-    for line in stdout:
-        if emulator_name in line:
-            return OutResult()
-    return OutResultError(TextError.emulator_not_found_running())
-
-
-def _vm_emulator_path(emulator_name: str) -> OutResult:
-    stdout, stderr = shell_exec_command([
-        VM_MANAGE,
-        'showvminfo',
-        emulator_name,
-    ])
-    for line in stdout:
-        if 'Snapshot folder:' in line:
-            return OutResult(
-                value=os.path.dirname(line.replace('Snapshot folder:', '').strip())
-            )
-    return OutResultError(TextError.emulator_path_not_found())
-
-
+@check_dependency(DependencyApps.vboxmanage)
 def vm_emulator_start() -> OutResult:
     result_vm_name = _vm_emulator_name()
     if result_vm_name.is_error():
@@ -87,6 +50,7 @@ def vm_emulator_start() -> OutResult:
     return OutResult(TextSuccess.emulator_start_success())
 
 
+@check_dependency(DependencyApps.vboxmanage)
 def vm_emulator_screenshot() -> OutResult:
     result_vm_name = _vm_emulator_name()
     if result_vm_name.is_error():
@@ -100,7 +64,7 @@ def vm_emulator_screenshot() -> OutResult:
     if not screenshots.is_dir():
         screenshots.mkdir(parents=True, exist_ok=True)
 
-    screenshot = str(screenshots / gen_file_name('Screenshot_from_', 'png'))
+    screenshot = str(screenshots / path_gen_file_name('Screenshot_from_', 'png'))
 
     stdout, stderr = shell_exec_command([
         VM_MANAGE,
@@ -118,6 +82,7 @@ def vm_emulator_screenshot() -> OutResult:
     )
 
 
+@check_dependency(DependencyApps.vboxmanage, DependencyApps.ffmpeg)
 def vm_emulator_record_start() -> OutResult:
     result_vm_name = _vm_emulator_name()
     if result_vm_name.is_error():
@@ -143,6 +108,7 @@ def vm_emulator_record_start() -> OutResult:
     return OutResult(TextSuccess.emulator_recording_video_start())
 
 
+@check_dependency(DependencyApps.vboxmanage, DependencyApps.ffmpeg)
 def vm_emulator_record_stop() -> OutResult:
     result_vm_name = _vm_emulator_name()
     if result_vm_name.is_error():
@@ -163,7 +129,7 @@ def vm_emulator_record_stop() -> OutResult:
     e_path = result_vm_path.value
     e_name = result_vm_name.value
     v_path = Path('{e_path}/{e_name}-screen0.webm'.format(e_path=e_path, e_name=e_name))
-    s_path = Path.home() / 'Videos' / gen_file_name('Video_from_', 'mp4')
+    s_path = Path.home() / 'Videos' / path_gen_file_name('Video_from_', 'mp4')
 
     if not v_path.is_file():
         return OutResultError(TextError.emulator_recording_video_file_not_found())
@@ -181,44 +147,14 @@ def vm_emulator_record_stop() -> OutResult:
     if stdout or stderr:
         OutResultError(TextError.emulator_recording_video_stop_error())
 
-    result = vm_emulator_record_video_convert(v_path, s_path)
+    result = convert_video(v_path, s_path)
     if result.is_error():
         return result
 
     return OutResult(TextSuccess.emulator_recording_video_stop_with_save(str(s_path)))
 
 
-def vm_emulator_record_video_convert(v_path: Path, s_path: Path) -> OutResult:
-    def check_is_error(outs: []) -> bool:
-        for out in outs:
-            if 'Unknown-sized element at' in out:
-                return True
-        return False
-
-    stdout, stderr = shell_exec_command([
-        'ffmpeg',
-        '-i',
-        str(v_path),
-        '-c:v',
-        'libx264',
-        '-preset',
-        'slow',
-        '-crf',
-        '22',
-        '-c:a',
-        'copy',
-        '-b:a',
-        '128k',
-        str(s_path),
-    ])
-    if stderr or check_is_error(stdout):
-        return OutResultError(TextError.emulator_recording_video_convert_error())
-    return OutResult(
-        message=TextSuccess.emulator_recording_video_convert(str(s_path)),
-        value=str(s_path)
-    )
-
-
+@check_dependency(DependencyApps.vboxmanage)
 def vm_emulator_is_on_record(emulator_name: str | None = None) -> OutResult:
     if not emulator_name:
         result_vm_name = _vm_emulator_name()
@@ -237,6 +173,7 @@ def vm_emulator_is_on_record(emulator_name: str | None = None) -> OutResult:
     return OutResultError(TextError.emulator_not_running_recording())
 
 
+@check_dependency(DependencyApps.vboxmanage)
 def vm_emulator_ssh_key() -> OutResult:
     result_vm_name = _vm_emulator_name()
     if result_vm_name.is_error():
@@ -259,3 +196,46 @@ def vm_emulator_ssh_key() -> OutResult:
                 )) / 'vmshare' / 'ssh' / 'private_keys' / 'sdk'
             )
     return OutResultError()
+
+
+@check_dependency(DependencyApps.vboxmanage)
+def _vm_emulator_name() -> OutResult:
+    stdout, stderr = shell_exec_command([
+        VM_MANAGE,
+        'list',
+        'vms',
+    ])
+    if stderr:
+        return OutResultError(TextError.emulator_not_found())
+    for line in stdout:
+        if 'AuroraOS' in line:
+            return OutResult(value=line.split('"')[1])
+    return OutResultError(TextError.emulator_not_found())
+
+
+@check_dependency(DependencyApps.vboxmanage)
+def _vm_emulator_is_on(emulator_name: str) -> OutResult:
+    stdout, stderr = shell_exec_command([
+        VM_MANAGE,
+        'list',
+        'runningvms',
+    ])
+    for line in stdout:
+        if emulator_name in line:
+            return OutResult()
+    return OutResultError(TextError.emulator_not_found_running())
+
+
+@check_dependency(DependencyApps.vboxmanage)
+def _vm_emulator_path(emulator_name: str) -> OutResult:
+    stdout, stderr = shell_exec_command([
+        VM_MANAGE,
+        'showvminfo',
+        emulator_name,
+    ])
+    for line in stdout:
+        if 'Snapshot folder:' in line:
+            return OutResult(
+                value=os.path.dirname(line.replace('Snapshot folder:', '').strip())
+            )
+    return OutResultError(TextError.emulator_path_not_found())

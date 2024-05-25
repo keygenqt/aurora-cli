@@ -66,7 +66,7 @@ def search_route_emulator(route: str) -> bool:
         case '/emulator/ssh/package-run':
             ssh_emulator_run_api(
                 package=get_arg_str(route, 'package'),
-                close=get_arg_bool(route, 'close'),
+                nohup=get_arg_bool(route, 'nohup'),
                 verbose=get_arg_bool(route, 'verbose')
             )
         case '/emulator/ssh/package-install':

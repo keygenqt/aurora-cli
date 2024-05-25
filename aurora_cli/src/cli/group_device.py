@@ -13,12 +13,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import sys
 
 import click
 
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.models.device_model import DeviceModel
-from aurora_cli.src.base.output import echo_stdout
+from aurora_cli.src.base.utils.argv import argv_is_test
+from aurora_cli.src.base.utils.output import echo_stdout
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.cli.ssh_commands import (
     ssh_common_command_cli,
@@ -51,11 +53,10 @@ def _get_device_ssh_client(
 
 
 @click.group(name='device')
-@click.option('--test', is_flag=True, default=False)
 @click.pass_context
-def group_device(ctx: {}, test: bool):
+def group_device(ctx: {}):
     """Working with the device."""
-    if test:
+    if argv_is_test():
         ctx.obj = AppConfig.create_test()
 
 
@@ -91,17 +92,17 @@ def ssh_device_upload_cli(path: [], select: bool, index: int, verbose: bool):
 
 @group_device.command(name='package-run')
 @click.option('-p', '--package', type=click.STRING, required=True, help='Package name')
-@click.option('-с', '--close', is_flag=True, help='Exit after run')
+@click.option('-n', '--nohup', is_flag=True, help='Exit after run')
 @click.option('-s', '--select', is_flag=True, help='Select from available')
 @click.option('-i', '--index', type=click.INT, help='Specify index')
 @click.option('-v', '--verbose', is_flag=True, help='Command output')
-def ssh_device_run_cli(package: str, close: bool, select: bool, index: int, verbose: bool):
+def ssh_device_run_cli(package: str, nohup: bool, select: bool, index: int, verbose: bool):
     """Run package on device in container."""
     client, _ = _get_device_ssh_client(select, index, verbose)
     ssh_common_run_cli(
         client=client,
         package=package,
-        close=close,
+        nohup=nohup,
         verbose=verbose
     )
 

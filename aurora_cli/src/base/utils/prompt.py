@@ -16,12 +16,12 @@ limitations under the License.
 
 import click
 
-from aurora_cli.src.base.output import OutResultError, OutResult
+from aurora_cli.src.base.utils.output import OutResultError, OutResult
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.prompt import TextPrompt
 
 
-def model_select(
+def prompt_model_select(
         models: [],
         select: bool,
         index: int | None

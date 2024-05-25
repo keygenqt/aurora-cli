@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-import subprocess
 import unittest
 from pathlib import Path
 from time import sleep
@@ -21,49 +20,32 @@ from time import sleep
 from click.testing import CliRunner
 
 from aurora_cli.src.cli.group_emulator import group_emulator
+from test.set_up.set_up import emulator_off
 
 
 # noinspection PyTypeChecker
 class TestGroupEmulatorCLI(unittest.TestCase):
     @classmethod
-    def emulatorPowerOFF(cls):
-        names = [item.replace('"', '').split(' ')[0] for item in subprocess.run(
-            'VBoxManage list runningvms',
-            shell=True,
-            text=True,
-            capture_output=True
-        ).stdout.split('\n') if item and 'AuroraOS']
-        if names:
-            subprocess.run(
-                f'VBoxManage controlvm "{names[0]}" poweroff',
-                shell=True,
-                text=True,
-                capture_output=True
-            )
-
-    @classmethod
     def setUpClass(cls):
-        cls.emulatorPowerOFF()
+        emulator_off()
 
     @classmethod
     def tearDownClass(cls):
-        cls.emulatorPowerOFF()
+        emulator_off()
 
     def test_emulator_a1_start(self):
-        sleep(5)
+        sleep(8)
         runner = CliRunner()
         result = runner.invoke(cli=group_emulator, args=[
-            '--test',
             'start',
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('started successfully', result.output)
 
     def test_emulator_a2_screenshot(self):
-        sleep(10)
+        sleep(8)
         runner = CliRunner()
         result = runner.invoke(cli=group_emulator, args=[
-            '--test',
             'screenshot',
         ])
         self.assertEqual(result.exit_code, 0)
@@ -73,7 +55,6 @@ class TestGroupEmulatorCLI(unittest.TestCase):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_emulator, input='', args=[
-            '--test',
             'recording',
         ])
         self.assertEqual(result.exit_code, 0)
@@ -84,7 +65,6 @@ class TestGroupEmulatorCLI(unittest.TestCase):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_emulator, args=[
-            '--test',
             'command',
             '--execute', 'version'
         ])
@@ -95,7 +75,6 @@ class TestGroupEmulatorCLI(unittest.TestCase):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_emulator, args=[
-            '--test',
             'command',
             '--execute', 'just my command',
         ])
@@ -106,7 +85,6 @@ class TestGroupEmulatorCLI(unittest.TestCase):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_emulator, args=[
-            '--test',
             'upload',
             '--path', Path.cwd() / 'data' / 'upload.file'
         ])
@@ -117,7 +95,6 @@ class TestGroupEmulatorCLI(unittest.TestCase):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_emulator, args=[
-            '--test',
             'package-install',
             '--path', Path.cwd() / 'data' / 'com.keygenqt.trex-0.1.0-1.x86_64.rpm'
         ])
@@ -128,19 +105,17 @@ class TestGroupEmulatorCLI(unittest.TestCase):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_emulator, args=[
-            '--test',
             'package-run',
             '--package', 'com.keygenqt.trex',
-            '--close'
+            '--nohup'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('run successfully', result.output)
 
     def test_emulator_a9_command_remove(self):
-        sleep(1)
+        sleep(2)
         runner = CliRunner()
         result = runner.invoke(cli=group_emulator, args=[
-            '--test',
             'package-remove',
             '--package', 'com.keygenqt.trex'
         ])
@@ -151,7 +126,6 @@ class TestGroupEmulatorCLI(unittest.TestCase):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_emulator, args=[
-            '--test',
             'package-install',
             '--path', Path.cwd() / 'data' / 'com.keygenqt.trex-0.1.0-1.x86_64.rpm',
             '--apm'
@@ -163,7 +137,6 @@ class TestGroupEmulatorCLI(unittest.TestCase):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_emulator, args=[
-            '--test',
             'package-remove',
             '--package', 'com.keygenqt.trex',
             '--apm'

@@ -16,28 +16,19 @@ limitations under the License.
 
 import subprocess
 
-import click
 from cffi.backend_ctypes import unicode
 
-from aurora_cli.src.base.dependency import check_dependency
-from aurora_cli.src.base.helper import clear_str_line
-from aurora_cli.src.base.output import echo_stdout
 from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.utils.output import echo_stdout, OutResultError
+from aurora_cli.src.base.utils.string import str_clear_line
+from aurora_cli.src.base.utils.verbose import verbose_add_map
 
 
 def shell_exec_command(args: []) -> []:
     if not args:
-        echo_stdout(TextError.shell_exec_command_empty())
+        echo_stdout(OutResultError(TextError.shell_exec_command_empty()))
         exit(1)
-    result = check_dependency(args[0])
-    if result.is_error():
-        echo_stdout(result)
-        exit(1)
-    return _shell_exec_command(args)
 
-
-@click.pass_context
-def _shell_exec_command(ctx: {}, args: []) -> []:
     stdout = []
     stderr = []
 
@@ -58,13 +49,13 @@ def _shell_exec_command(ctx: {}, args: []) -> []:
             for value in iter(lambda: process.stdout.readline(), ""):
                 if not value:
                     break
-                value = clear_str_line(str(unicode(value.rstrip(), "utf-8")))
+                value = str_clear_line(str(unicode(value.rstrip(), "utf-8")))
                 if value:
                     set_out(value)
     except Exception as e:
         set_out(str(e), True)
 
-    ctx.obj.add_verbose_map(
+    verbose_add_map(
         command=' '.join(args),
         stdout=stdout,
         stderr=stderr,

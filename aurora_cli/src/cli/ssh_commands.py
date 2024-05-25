@@ -16,7 +16,6 @@ limitations under the License.
 
 from paramiko.client import SSHClient
 
-from aurora_cli.src.base.alive_bar_percentage import AliveBarPercentage
 from aurora_cli.src.base.common.ssh_features import (
     ssh_command,
     ssh_run,
@@ -24,9 +23,11 @@ from aurora_cli.src.base.common.ssh_features import (
     ssh_rpm_install,
     ssh_package_remove
 )
-from aurora_cli.src.base.output import echo_stdout, OutResult
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
+from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
+from aurora_cli.src.base.utils.argv import argv_is_test
+from aurora_cli.src.base.utils.output import echo_stdout, OutResult
 
 
 def ssh_common_command_cli(
@@ -54,13 +55,13 @@ def ssh_common_command_cli(
 def ssh_common_run_cli(
         client: SSHClient,
         package: str,
-        close: bool,
+        nohup: bool,
         verbose: bool,
 ):
     """Run package in container."""
 
     def echo_stdout_with_check_close(stdout: OutResult | None):
-        if stdout and close and not stdout.is_error() and 'nohup:' in stdout.value:
+        if stdout and nohup and not stdout.is_error() and 'nohup:' in stdout.value:
             echo_stdout(OutResult(TextSuccess.ssh_run_package(package)))
         else:
             echo_stdout(stdout)
@@ -68,7 +69,7 @@ def ssh_common_run_cli(
     echo_stdout(ssh_run(
         client=client,
         package=package,
-        close=close,
+        nohup=nohup,
         listen_stdout=lambda stdout: echo_stdout_with_check_close(stdout),
         listen_stderr=lambda stderr: echo_stdout(stderr)
     ), verbose)
@@ -81,7 +82,8 @@ def ssh_common_upload_cli(
 ):
     """Upload file to ~/Download directory."""
     for file_path in path:
-        echo_stdout(TextInfo.shh_download_start(file_path))
+        if not argv_is_test():
+            echo_stdout(TextInfo.shh_download_start(file_path))
         bar = AliveBarPercentage()
         echo_stdout(ssh_upload(
             client=client,

@@ -14,14 +14,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from dataclasses import dataclass
-from pathlib import Path
+import re
 
 
-# @todo
-@dataclass
-class SignPackageModel:
-    """Class device."""
-    name: str
-    key: Path
-    cert: Path
+def str_clear_line(line: str) -> str:
+    line = line.strip()
+    line = str(re.compile(r'(?:\x1B[@-_]|[\x80-\x9F])[0-?]*[ -/]*[@-~]').sub('', line))
+    # I don't know how to humanely clear a line from this ***
+    line = str(re.sub(r'\u0000|\u001b8|\u001b7', '', line))
+    line = str(re.sub(r'\s+', ' ', line))
+    return line

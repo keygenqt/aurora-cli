@@ -13,20 +13,25 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import subprocess
+
+from aurora_cli.src.base.constants.other import VM_MANAGE
 
 
 def tint(func):
-    def wrapped() -> str:
+    def wrapped(*args, **kwargs) -> str:
         match func.__name__:
             case 'emulator_not_found_running':
-                return tint_emulator_run(func())
+                return tint_emulator_run(func(*args, **kwargs))
+            case 'dependency_not_found':
+                return tint_install_app(func(*args, **kwargs), *args)
             case 'validate_config_devices_not_found' \
                  | 'validate_config_devices' \
                  | 'validate_config_keys_not_found' \
                  | 'validate_config_keys' \
                  | 'validate_config_workdir_not_found' \
                  | 'config_arg_path_load_error':
-                return tint_config_help(func())
+                return tint_config_help(func(*args, **kwargs))
 
     return wrapped
 
@@ -43,3 +48,22 @@ def tint_config_help(text: str):
         text=text,
         tint='<i>Check the application documentation:</i> https://keygenqt.github.io/aurora-cli'
     )
+
+
+def tint_install_app(text: str, *args):
+    try:
+        subprocess.run(['apt', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+        application = args[0]
+        if application == VM_MANAGE:
+            application = 'virtualbox'
+
+        return '{text}\n{tint}'.format(
+            text=text,
+            tint=f'<i>You need to install this application:</i> sudo apt install {application}'
+        )
+    except (Exception,):
+        return '{text}\n{tint}'.format(
+            text=text,
+            tint='<i>You need to install this application.</i>'
+        )

@@ -16,6 +16,8 @@ limitations under the License.
 
 from alive_progress import alive_bar
 
+from aurora_cli.src.base.utils.argv import argv_is_test
+
 
 class AliveBarPercentage:
     def __init__(self) -> None:
@@ -26,11 +28,12 @@ class AliveBarPercentage:
             self,
             percentage: int,
     ) -> None:
-        if not self.alive_bar_instance:
-            self._dispatch_bar()
-        self.bar(percentage * 0.01)
-        if percentage == 100:
-            self._destroy_bar()
+        if not argv_is_test():
+            if not self.alive_bar_instance:
+                self._dispatch_bar()
+            self.bar(percentage * 0.01)
+            if percentage == 100:
+                self._destroy_bar()
 
     def _dispatch_bar(self, title: str | None = "") -> None:
         self.alive_bar_instance = alive_bar(manual=True, title=title)

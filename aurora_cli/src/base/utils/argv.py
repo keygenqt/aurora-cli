@@ -13,15 +13,28 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
-from dataclasses import dataclass
-from pathlib import Path
+import sys
 
 
-# @todo
-@dataclass
-class SignPackageModel:
-    """Class device."""
-    name: str
-    key: Path
-    cert: Path
+def argv_is_api() -> bool:
+    if len(sys.argv) >= 2 and 'api' in sys.argv[1]:
+        return True
+    return False
+
+
+def argv_is_emulator_recording() -> bool:
+    if 'emulator' in sys.argv and 'recording' in sys.argv:
+        return True
+    return False
+
+
+def argv_is_verbose() -> bool:
+    if '-v' in sys.argv or '--verbose' in sys.argv:
+        return True
+    return False
+
+
+def argv_is_test() -> bool:
+    if sys.argv and 'unittest_runner' in sys.argv[0]:
+        return True
+    return False

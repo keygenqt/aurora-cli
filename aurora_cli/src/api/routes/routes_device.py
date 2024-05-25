@@ -53,7 +53,7 @@ def search_route_device(route: str) -> bool:
                 port=get_arg_int(route, 'port'),
                 auth=get_arg_str(route, 'auth'),
                 package=get_arg_str(route, 'package'),
-                close=get_arg_bool(route, 'close'),
+                nohup=get_arg_bool(route, 'nohup'),
                 verbose=get_arg_bool(route, 'verbose')
             )
         case '/device/ssh/package-install':
