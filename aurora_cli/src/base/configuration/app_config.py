@@ -80,6 +80,12 @@ class AppConfig:
             exit(1)
         return AppConfig(loader.get_data())
 
+    def get_localization(self) -> str:
+        if 'localization' in self._data_config.keys() and self._data_config['localization'] == 'ru':
+            return 'ru'
+        else:
+            return 'en'
+
     def get_workdir(self) -> Path | None:
         return Path(self._data_config['workdir'])
 

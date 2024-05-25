@@ -16,15 +16,18 @@ limitations under the License.
 
 from enum import Enum
 
+from aurora_cli.src.base.localization.localization import localization
 from aurora_cli.src.base.utils.path import path_convert_relative_path
 
 
 class TextInfo(Enum):
     @staticmethod
+    @localization
     def command_execute(command: str):
         return f'<blue>Command execute:</blue> `{command}`'
 
     @staticmethod
+    @localization
     def emulator_start_locked():
         return '<blue>The emulator is already running.</blue>'
 

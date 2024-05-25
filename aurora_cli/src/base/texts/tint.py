@@ -32,6 +32,7 @@ def tint(func):
                  | 'validate_config_workdir_not_found' \
                  | 'config_arg_path_load_error':
                 return tint_config_help(func(*args, **kwargs))
+        return func(*args, **kwargs)
 
     return wrapped
 

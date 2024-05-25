@@ -22,9 +22,6 @@ from aurora_cli.src.base.utils.app import app_init_groups, app_crash_out
 from aurora_cli.src.cli.group_abort import clear_after_force_close
 
 
-# @todo
-# tab
-# ru localisation
 @click.group(invoke_without_command=True)
 @click.version_option(version=APP_VERSION, prog_name=APP_NAME)
 @click.option('--config', help='Specify config path.', type=click.STRING, required=False)

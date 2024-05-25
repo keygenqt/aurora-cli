@@ -21,6 +21,10 @@ CONFIG_PATH = '~/.aurora-cli/new_configuration.yaml'  # @todo
 CONFIG_DEFAULT = """## Application configuration file Aurora CLI
 ## Version config: 1.0.0
 
+## Specify your preferred application language
+## en | ru
+localization: en
+
 ## The parameter sets the path to install psdk and search sdk
 ## Specify an existing directory
 workdir: ~/Aurora
