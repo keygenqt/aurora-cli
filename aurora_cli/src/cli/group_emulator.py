@@ -25,6 +25,7 @@ from aurora_cli.src.base.common.vm_features import (
 )
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.models.emulator_model import EmulatorModel
+from aurora_cli.src.base.texts.app_group import TextGroup
 from aurora_cli.src.base.texts.prompt import TextPrompt
 from aurora_cli.src.base.utils.argv import argv_is_test
 from aurora_cli.src.base.utils.output import echo_stdout
@@ -48,10 +49,9 @@ def _get_emulator_ssh_client(verbose: bool, is_root: bool = False) -> SSHClient:
     return result.value
 
 
-@click.group(name='emulator')
+@click.group(name='emulator', help=TextGroup.group_emulator())
 @click.pass_context
 def group_emulator(ctx: {}):
-    """Working with the emulator virtualbox."""
     if argv_is_test():
         ctx.obj = AppConfig.create_test()
 

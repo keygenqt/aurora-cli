@@ -13,17 +13,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
-import click
-
-from aurora_cli.src.base.localization.ru import ru_localization
+from aurora_cli.src.base.localization.ru import ru_click_help, ru_localization, ru_click_usage_error
+from aurora_cli.src.base.utils.app import app_language
+from aurora_cli.src.base.utils.capturing_stderr import CapturingStderr
 
 
 def localization(func):
     def wrapped(*args, **kwargs) -> str:
-        @click.pass_context
-        def wrapped_context(ctx: {}):
-            if ctx.obj.get_localization() == 'ru':
+        def wrapped_context():
+            if app_language() == 'ru':
                 return ru_localization(func.__name__, *args, **kwargs)
 
         value = wrapped_context()
@@ -32,3 +30,18 @@ def localization(func):
         return func(*args, **kwargs)
 
     return wrapped
+
+
+def localization_help(text: str):
+    if app_language() == 'ru':
+        print(ru_click_help(text))
+    else:
+        print(text)
+
+
+def localization_usage_error():
+    def click_localization_usage_error(text: str):
+        if app_language() == 'ru':
+            print(ru_click_usage_error(text))
+
+    return CapturingStderr(callback=click_localization_usage_error)

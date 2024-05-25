@@ -18,8 +18,9 @@ import click
 
 from aurora_cli.src.base.common.vm_features import vm_emulator_record_stop
 from aurora_cli.src.base.configuration.app_config import AppConfig
-from aurora_cli.src.base.utils.app import app_init_groups, app_crash_out
+from aurora_cli.src.base.utils.app import app_crash_out
 from aurora_cli.src.base.utils.argv import argv_is_emulator_recording
+from aurora_cli.src.base.utils.click import click_init_groups
 
 
 # If the application was closed via ctrl+c, you need to end running tasks
@@ -30,7 +31,7 @@ from aurora_cli.src.base.utils.argv import argv_is_emulator_recording
 def clear_after_force_close():
     try:
         try:
-            app_init_groups(abort)
+            click_init_groups(abort)
             abort(standalone_mode=False)
         except click.exceptions.Abort:
             clear_after_force_close()

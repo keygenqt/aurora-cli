@@ -13,22 +13,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-import os
-import traceback
+from typing import Any
 
-import click
-
-from aurora_cli.src.base.utils.argv import argv_is_verbose
-
-
-def app_crash_out(e: Exception):
-    print(click.style('An unexpected error occurred in the application.', fg='red'))
-    if argv_is_verbose():
-        traceback.print_exception(e)
+from aurora_cli.src.api.group_api import group_api
+from aurora_cli.src.cli.group_device import group_device
+from aurora_cli.src.cli.group_emulator import group_emulator
 
 
-def app_language() -> str:
-    if 'ru_RU' in os.getenv("LANG"):
-        return 'ru'
-    else:
-        return 'en'
+# noinspection PyTypeChecker
+def click_init_groups(fun: Any):
+    fun.add_command(group_api)
+    fun.add_command(group_emulator)
+    fun.add_command(group_device)

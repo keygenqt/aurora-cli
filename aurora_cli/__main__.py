@@ -17,29 +17,34 @@ limitations under the License.
 import click
 
 from aurora_cli.src.base.configuration.app_config import AppConfig
-from aurora_cli.src.base.constants.app import APP_NAME, APP_VERSION, APP_INFO
-from aurora_cli.src.base.utils.app import app_init_groups, app_crash_out
+from aurora_cli.src.base.constants.app import APP_NAME, APP_VERSION
+from aurora_cli.src.base.localization.localization import localization_help, localization_usage_error
+from aurora_cli.src.base.texts.app_argument import TextArgument
+from aurora_cli.src.base.texts.app_group import TextGroup
+from aurora_cli.src.base.utils.app import app_crash_out
+from aurora_cli.src.base.utils.click import click_init_groups
 from aurora_cli.src.cli.group_abort import clear_after_force_close
 
 
-@click.group(invoke_without_command=True)
+@click.group(invoke_without_command=True, help=TextGroup.group_main())
 @click.version_option(version=APP_VERSION, prog_name=APP_NAME)
-@click.option('--config', help='Specify config path.', type=click.STRING, required=False)
+@click.option('--config', help=TextArgument.argument_config(), type=click.STRING, required=False)
 @click.pass_context
 def main(ctx: {}, config: str):
-    f"""{APP_INFO}"""
     ctx.obj = AppConfig.create(config)
+
     if not ctx.invoked_subcommand:
-        print(ctx.get_help())
+        localization_help(ctx.get_help())
 
 
 if __name__ == '__main__':
     try:
-        app_init_groups(main)
+        click_init_groups(main)
         try:
             main(standalone_mode=False)
         except click.exceptions.UsageError:
-            main()
+            with localization_usage_error():
+                main()
         except click.exceptions.Abort:
             clear_after_force_close()
     except Exception as e:

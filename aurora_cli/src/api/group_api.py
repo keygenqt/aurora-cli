@@ -20,16 +20,16 @@ import click
 from aurora_cli.src.api.routes.routes_device import search_route_device
 from aurora_cli.src.api.routes.routes_emulator import search_route_emulator
 from aurora_cli.src.base.configuration.app_config import AppConfig
+from aurora_cli.src.base.texts.app_group import TextGroup
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.utils.argv import argv_is_test
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError
 
 
-@click.group(name='api', invoke_without_command=True)
+@click.group(name='api', invoke_without_command=True, help=TextGroup.group_api())
 @click.option('--route', help='Route API', type=click.STRING, required=True)
 @click.pass_context
 def group_api(ctx: {}, route: str):
-    """Application Programming Interface."""
     if argv_is_test():
         sys.argv.append('api')
         ctx.obj = AppConfig.create_test()

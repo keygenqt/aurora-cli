@@ -13,22 +13,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-import os
-import traceback
 
-import click
-
-from aurora_cli.src.base.utils.argv import argv_is_verbose
+from enum import Enum
 
 
-def app_crash_out(e: Exception):
-    print(click.style('An unexpected error occurred in the application.', fg='red'))
-    if argv_is_verbose():
-        traceback.print_exception(e)
-
-
-def app_language() -> str:
-    if 'ru_RU' in os.getenv("LANG"):
-        return 'ru'
-    else:
-        return 'en'
+class TextOptions(Enum):
+    pass

@@ -19,6 +19,7 @@ import click
 
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.models.device_model import DeviceModel
+from aurora_cli.src.base.texts.app_group import TextGroup
 from aurora_cli.src.base.utils.argv import argv_is_test
 from aurora_cli.src.base.utils.output import echo_stdout
 from aurora_cli.src.base.texts.info import TextInfo
@@ -52,10 +53,9 @@ def _get_device_ssh_client(
     return result_client.value, result_model.value.devel_su
 
 
-@click.group(name='device')
+@click.group(name='device', help=TextGroup.group_device())
 @click.pass_context
 def group_device(ctx: {}):
-    """Working with the device."""
     if argv_is_test():
         ctx.obj = AppConfig.create_test()
 

@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
 from pathlib import Path
 from typing import AnyStr
 
@@ -79,12 +78,6 @@ class AppConfig:
                     echo_stdout(output, prefix='- ')
             exit(1)
         return AppConfig(loader.get_data())
-
-    def get_localization(self) -> str:
-        if 'localization' in self._data_config.keys() and self._data_config['localization'] == 'ru':
-            return 'ru'
-        else:
-            return 'en'
 
     def get_workdir(self) -> Path | None:
         return Path(self._data_config['workdir'])
