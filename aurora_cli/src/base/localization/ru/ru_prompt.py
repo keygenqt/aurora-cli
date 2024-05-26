@@ -15,16 +15,12 @@ limitations under the License.
 """
 from enum import Enum
 
-from aurora_cli.src.base.localization.localization import localization
 
-
-class TextPrompt(Enum):
+class TextPromptRu(Enum):
     @staticmethod
-    @localization
     def emulator_recording_video_loading():
-        return 'Press to stop recording'
+        return 'Нажмите, чтобы остановить запись'
 
     @staticmethod
-    @localization
     def select_index():
-        return 'Please enter index'
+        return 'Пожалуйста, введите индекс'

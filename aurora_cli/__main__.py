@@ -22,6 +22,7 @@ from aurora_cli.src.base.localization.localization import localization_help, loc
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_group import TextGroup
 from aurora_cli.src.base.utils.app import app_crash_out
+from aurora_cli.src.base.utils.capturing_stderr import CapturingStderr, CapturingStdout
 from aurora_cli.src.base.utils.click import click_init_groups
 from aurora_cli.src.cli.group_abort import clear_after_force_close
 
@@ -41,9 +42,10 @@ if __name__ == '__main__':
     try:
         click_init_groups(main)
         try:
-            main(standalone_mode=False)
+            with CapturingStdout(arg='--help', callback=localization_help):
+                main(standalone_mode=False)
         except click.exceptions.UsageError:
-            with localization_usage_error():
+            with CapturingStderr(callback=localization_usage_error):
                 main()
         except click.exceptions.Abort:
             clear_after_force_close()

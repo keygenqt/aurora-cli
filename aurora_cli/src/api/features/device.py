@@ -27,7 +27,6 @@ from aurora_cli.src.base.texts.success import TextSuccess
 
 
 def device_list_api(verbose: bool):
-    """Get list devices."""
     devices = DeviceModel.get_lists_devices()
     echo_stdout(OutResult(
         value=[device.to_dict() for device in devices]
@@ -41,7 +40,6 @@ def ssh_device_command_api(
         execute: str,
         verbose: bool
 ):
-    """Execute the command on the device."""
     result = DeviceModel.get_model(
         host=host,
         port=port,
@@ -64,8 +62,6 @@ def ssh_device_run_api(
         nohup: bool,
         verbose: bool
 ):
-    """Run package on device in container."""
-
     def echo_stdout_with_check_close(stdout: OutResult | None):
         if stdout and nohup and not stdout.is_error() and 'nohup:' in stdout.value:
             echo_stdout(OutResult(TextSuccess.ssh_run_package(package)))
@@ -96,7 +92,6 @@ def ssh_device_upload_api(
         path: str,
         verbose: bool
 ):
-    """Upload file to ~/Download directory device."""
     result = DeviceModel.get_model(
         host=host,
         port=port,
@@ -121,7 +116,6 @@ def ssh_device_rpm_install_api(
         apm: bool,
         verbose: bool
 ):
-    """Install RPM package on device."""
     result = DeviceModel.get_model(
         host=host,
         port=port,
@@ -149,7 +143,6 @@ def ssh_device_package_remove_api(
         apm: bool,
         verbose: bool
 ):
-    """Remove package from device."""
     result = DeviceModel.get_model(
         host=host,
         port=port,

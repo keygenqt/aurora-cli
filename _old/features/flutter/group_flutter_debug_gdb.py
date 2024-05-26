@@ -17,7 +17,6 @@ import os
 from pathlib import Path
 
 import click
-
 from aurora_cli.src.features.devices.impl.utils import device_ssh_select, emulator_ssh_select
 from aurora_cli.src.features.flutter.impl.utils import get_spec_keys, GDB_INIT_DATA, GDB_VSCODE_DATA
 from aurora_cli.src.support.conf import Conf
@@ -28,13 +27,15 @@ from aurora_cli.src.support.output import VerboseType, echo_stdout, echo_stderr
 from aurora_cli.src.support.ssh import download_file_sftp, ssh_client_exec_command
 from aurora_cli.src.support.texts import AppTexts
 
+from aurora_cli.src.base.texts.app_argument import TextArgument
+
 
 @click.group(name='gdb', invoke_without_command=True)
 @click.pass_context
 @click.option('-i', '--index', type=click.INT, help='Specify index device')
 @click.option('-p', '--port', type=click.INT, default=20000, help='Specify port for gdb server')
 @click.option('-e', '--emulator', is_flag=True, default=False, help="Run on emulator")
-@click.option('-v', '--verbose', is_flag=True, help='Command output')
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def group_flutter_debug_gdb(ctx: {}, index: int, port: int, emulator: bool, verbose: bool):
     """Project configure and run on device for gdb debug."""
 

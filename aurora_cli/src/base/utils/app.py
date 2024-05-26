@@ -28,6 +28,8 @@ def app_crash_out(e: Exception):
 
 
 def app_language() -> str:
+    # @todo
+    return 'ru'
     if 'ru_RU' in os.getenv("LANG"):
         return 'ru'
     else:

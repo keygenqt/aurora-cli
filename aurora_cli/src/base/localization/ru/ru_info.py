@@ -16,51 +16,42 @@ limitations under the License.
 
 from enum import Enum
 
-from aurora_cli.src.base.localization.localization import localization
 from aurora_cli.src.base.utils.path import path_convert_relative_path
 
 
-class TextInfo(Enum):
+class TextInfoRu(Enum):
     @staticmethod
-    @localization
     def command_execute(command: str):
-        return f'<blue>Command execute:</blue> `{command}`'
+        return f'<blue>Выполнена команда:</blue> `{command}`'
 
     @staticmethod
-    @localization
     def emulator_start_locked():
-        return '<blue>The emulator is already running.</blue>'
+        return '<blue>Эмулятор уже запущен.</blue>'
 
     @staticmethod
-    @localization
     def emulator_recording_video_stop_already():
-        return '<blue>The emulator recording video is already off.</blue>'
+        return '<blue>Эмулятор записи видео уже выключен.</blue>'
 
     @staticmethod
-    @localization
     def shh_download_start(path: str):
         path = path_convert_relative_path(path)
         if path and path.is_file():
-            return f'<blue>Starting file download:</blue> {path}'
+            return f'<blue>Начинаем загрузку файла:</blue> {path}'
 
     @staticmethod
-    @localization
     def shh_download_progress():
-        return '<blue>File download progress in percentage.</blue>'
+        return '<blue>Прогресс загрузки файла в процентах.</blue>'
 
     @staticmethod
-    @localization
     def ssh_install_rpm():
-        return '<blue>Starting install RPM package...</blue>'
+        return '<blue>Начинаем установку пакета RPM...</blue>'
 
     @staticmethod
-    @localization
     def select_array_out(key: str, names: []):
         if names:
-            return (f'<blue>Select</blue> {key} <blue>index:</blue>\n'
+            return (f'<blue>Выберите</blue> {key} <blue>индекс:</blue>\n'
                     + '\n'.join([f'{i + 1}: {n}' for i, n in enumerate(names)]))
 
     @staticmethod
-    @localization
     def create_default_config_file(path: str):
-        return f'<blue>A default configuration file has been created:</blue> {path}'
+        return f'<blue>Был создан файл конфигурации по умолчанию:</blue> {path}'

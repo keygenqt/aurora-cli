@@ -16,61 +16,48 @@ limitations under the License.
 
 from enum import Enum
 
-from aurora_cli.src.base.localization.localization import localization
 
-
-class TextArgument(Enum):
+class TextArgumentRu(Enum):
     @staticmethod
-    @localization
     def argument_config():
-        return 'Specify config path.'
+        return 'Укажите путь конфигурации.'
 
     @staticmethod
-    @localization
     def argument_verbose():
-        return 'Command output.'
+        return 'Подробный вывод.'
 
     @staticmethod
-    @localization
     def argument_execute_device():
-        return 'The command to be executed on the device.'
+        return 'Команда, которая будет выполнена на устройстве.'
 
     @staticmethod
-    @localization
     def argument_execute_emulator():
-        return 'The command to be executed on the emulator.'
+        return 'Команда, которая будет выполнена на эмуляторе.'
 
     @staticmethod
-    @localization
     def argument_select():
-        return 'Select from available.'
+        return 'Выберите из доступных.'
 
     @staticmethod
-    @localization
     def argument_index():
-        return 'Specify index.'
+        return 'Укажите индекс.'
 
     @staticmethod
-    @localization
     def argument_path():
-        return 'Path to file.'
+        return 'Путь к файлу.'
 
     @staticmethod
-    @localization
     def argument_path_rpm():
-        return 'Path to RPM file.'
+        return 'Путь к RPM-файлу.'
 
     @staticmethod
-    @localization
     def argument_package_name():
-        return 'Package name.'
+        return 'Имя пакета.'
 
     @staticmethod
-    @localization
     def argument_apm():
-        return 'Use APM.'
+        return 'Использовать APM.'
 
     @staticmethod
-    @localization
     def argument_exit_after_run():
-        return 'Exit after run.'
+        return 'Выйти после запуска.'

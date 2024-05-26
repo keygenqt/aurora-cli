@@ -16,73 +16,58 @@ limitations under the License.
 
 from enum import Enum
 
-from aurora_cli.src.base.localization.localization import localization
 
-
-class TextSuccess(Enum):
+class TextSuccessRu(Enum):
     @staticmethod
-    @localization
     def emulator_start_success():
-        return '<green>Emulator started successfully.</green>'
+        return '<green>Эмулятор успешно запущен.</green>'
 
     @staticmethod
-    @localization
     def emulator_screenshot_success(path: str):
-        return '<green>Screenshot taken successfully:</green> {}'.format(path)
+        return '<green>Скриншот успешно сделан:</green> {}'.format(path)
 
     @staticmethod
-    @localization
     def emulator_recording_video_start():
-        return '<green>Video recording activated.</green>'
+        return '<green>Запись видео активирована.</green>'
 
     @staticmethod
-    @localization
     def emulator_recording_video_stop_with_save(path: str):
-        return f'<green>Video recording has stopped. File saved:</green> {path}'
+        return f'<green>Запись видео остановлена. Файл сохранен:</green> {path}'
 
     @staticmethod
-    @localization
     def emulator_recording_video_convert(path: str):
-        return '<green>Video record convert successfully:</green> {}'.format(path)
+        return '<green>Видеозапись успешно конвертирована:</green> {}'.format(path)
 
     @staticmethod
-    @localization
     def ssh_exec_command_success(execute: str, stdout: str = None, stderr: str = None):
         stdout = f'\n{stdout}' if stdout else ''
         stderr = f'\n{stderr}' if stderr else ''
-        return f'<green>The command was executed successfully:</green> `{execute}`{stdout}{stderr}'
+        return f'<green>Команда выполнена успешно:</green> `{execute}`{stdout}{stderr}'
 
     @staticmethod
-    @localization
     def ssh_uploaded_success(remote_path: str):
-        return '<green>The file was successfully uploaded:</green> {}'.format(remote_path)
+        return '<green>Файл был успешно загружен:</green> {}'.format(remote_path)
 
     @staticmethod
-    @localization
     def ssh_install_rpm(file_name: str):
-        return f'<green>Package</green> {file_name} <green>was installed successfully.</green>'
+        return f'<green>Пакет</green> {file_name} <green>был успешно установлен.</green>'
 
     @staticmethod
-    @localization
     def ssh_run_package(package: str):
-        return f'<green>Package</green> {package} <green>was run successfully.</green>'
+        return f'<green>Пакет</green> {package} <green>был запущен успешно.</green>'
 
     @staticmethod
-    @localization
     def ssh_remove_rpm():
-        return '<green>Package was successfully removed.</green>'
+        return '<green>Пакет успешно удален.</green>'
 
     @staticmethod
-    @localization
     def validate_config_devices():
-        return '<green>Section</green> devices <green>was validated successfully.</green>'
+        return '<green>Раздел</green> devices <green>прошел валидацию.</green>'
 
     @staticmethod
-    @localization
     def validate_config_keys():
-        return '<green>Section</green> keys <green>was validated successfully.</green>'
+        return '<green>Раздел</green> keys <green>прошел валидацию.</green>'
 
     @staticmethod
-    @localization
     def validate_config_workdir():
-        return '<green>Value</green> workdir <green>was validated successfully.</green>'
+        return '<green>Значение</green> workdir <green>прошло валидацию.</green>'

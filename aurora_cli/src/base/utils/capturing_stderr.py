@@ -19,6 +19,30 @@ import sys
 from typing import Callable
 
 
+class CapturingStdout:
+
+    def __init__(self, arg: str, callback: Callable[[str], None], ):
+        self.is_arg = True if arg in sys.argv else False
+        if self.is_arg:
+            self.callback = callback
+            atexit.register(self.exit_handler)
+
+    def __enter__(self):
+        if self.is_arg:
+            self._stdout = sys.stdout
+            sys.stdout = self._stringio = io.StringIO()
+        return self
+
+    def __exit__(self, *args):
+        if self.is_arg:
+            self.out = '\n'.join(self._stringio.getvalue().splitlines())
+            del self._stringio
+            sys.stdout = self._stdout
+
+    def exit_handler(self):
+        self.callback(self.out)
+
+
 class CapturingStderr:
 
     def __init__(self, callback: Callable[[str], None], ):

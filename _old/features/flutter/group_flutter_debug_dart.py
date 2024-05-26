@@ -18,7 +18,6 @@ from pathlib import Path
 from threading import Timer
 
 import click
-
 from aurora_cli.src.features.devices.impl.utils import device_ssh_select, emulator_ssh_select
 from aurora_cli.src.features.flutter.impl.utils import get_spec_keys, DART_VSCODE_DATA, \
     CUSTOM_DEVICE_CODE_DATA, get_list_flutter_installed, CUSTOM_DEVICE_CODE_DATA_VM
@@ -30,13 +29,15 @@ from aurora_cli.src.support.sdk import find_folder_sdk
 from aurora_cli.src.support.ssh import ssh_client_exec_command
 from aurora_cli.src.support.texts import AppTexts
 
+from aurora_cli.src.base.texts.app_argument import TextArgument
+
 
 @click.group(name='dart', invoke_without_command=True)
 @click.pass_context
 @click.option('-i', '--index', type=click.INT, help='Specify index device')
 @click.option('-e', '--emulator', is_flag=True, default=False, help="Run on emulator")
 @click.option('-y', '--yes', is_flag=True, help='All yes confirm')
-@click.option('-v', '--verbose', is_flag=True, help='Command output')
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def group_flutter_debug_dart(ctx: {}, index: int, emulator: bool, yes: bool, verbose: bool):
     """Project configure and run on device for dart debug or hot reload."""
 

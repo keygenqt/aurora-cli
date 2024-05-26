@@ -14,26 +14,24 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import os
-import shutil
 import time
-from glob import glob
 from pathlib import Path
 
 import click
-from PIL import Image
-
 from aurora_cli.src.features.flutter.impl.utils import get_list_flutter_installed
 from aurora_cli.src.support.conf import URL_CLANG_FORMAT_CONF
 from aurora_cli.src.support.dependency_required import check_dependency_clang_format
-from aurora_cli.src.support.helper import pc_command, prompt_index, get_request, get_path_file, get_format_path
+from aurora_cli.src.support.helper import pc_command, prompt_index, get_request, get_format_path
 from aurora_cli.src.support.output import echo_stderr, echo_stdout, VerboseType
 from aurora_cli.src.support.texts import AppTexts
+
+from aurora_cli.src.base.texts.app_argument import TextArgument
 
 
 @click.group(name='format', invoke_without_command=True)
 @click.pass_context
 @click.option('-p', '--path', type=click.STRING, default=None, required=False, help='Path to project')
-@click.option('-v', '--verbose', is_flag=True, help='Command output')
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def group_flutter_format(ctx: {}, path: str, verbose: bool):
     """Formatting a C++ & Dart code project."""
 

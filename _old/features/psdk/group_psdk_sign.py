@@ -28,7 +28,7 @@ from aurora_cli.src.support.texts import AppTexts
 @click.pass_context
 @click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help='Path to RPM file')
 @click.option('-i', '--index', type=click.INT, help='Specify index')
-@click.option('-v', '--verbose', is_flag=True, help='Command output')
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def psdk_sign(ctx: {}, path: [], index: int, verbose: bool):
     """Sign (with re-sign) RPM package."""
 

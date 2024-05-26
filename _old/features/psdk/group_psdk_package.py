@@ -26,7 +26,7 @@ from aurora_cli.src.support.texts import AppTexts
 @click.group(name='package-install', invoke_without_command=True)
 @click.pass_context
 @click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help='Path to RPM file')
-@click.option('-v', '--verbose', is_flag=True, help='Command output')
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def psdk_package_install(ctx: {}, path: [], verbose: bool):
     """Install RPM packages to target."""
 
@@ -71,7 +71,7 @@ def psdk_package_install(ctx: {}, path: [], verbose: bool):
 @click.group(name='package-remove', invoke_without_command=True)
 @click.pass_context
 @click.option('-p', '--package', multiple=True, type=click.STRING, required=True, help='Package name')
-@click.option('-v', '--verbose', is_flag=True, help='Command output')
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def psdk_package_remove(ctx: {}, package: [], verbose: bool):
     """Remove RPM packages from target."""
 
@@ -108,7 +108,7 @@ def psdk_package_remove(ctx: {}, package: [], verbose: bool):
 @click.group(name='package-search', invoke_without_command=True)
 @click.pass_context
 @click.option('-p', '--package', multiple=True, type=click.STRING, required=True, help='Package name')
-@click.option('-v', '--verbose', is_flag=True, help='Command output')
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def psdk_package_search(ctx: {}, package: [], verbose: bool):
     """Search installed RPM packages in target."""
 

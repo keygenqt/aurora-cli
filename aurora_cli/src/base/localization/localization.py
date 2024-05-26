@@ -13,9 +13,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-from aurora_cli.src.base.localization.ru import ru_click_help, ru_localization, ru_click_usage_error
+from aurora_cli.src.base.localization.ru.ru import ru_localization, ru_click_help, ru_click_usage_error, ru_abort
 from aurora_cli.src.base.utils.app import app_language
-from aurora_cli.src.base.utils.capturing_stderr import CapturingStderr
 
 
 def localization(func):
@@ -24,24 +23,37 @@ def localization(func):
             if app_language() == 'ru':
                 return ru_localization(func.__name__, *args, **kwargs)
 
+        orig_value = func(*args, **kwargs)
         value = wrapped_context()
         if value:
-            return value
-        return func(*args, **kwargs)
+            hint = ''
+            if '<hint>' in orig_value:
+                hint = f'''\n<hint>{orig_value.split('<hint>')[1]}'''
+            return f'{value}{hint}'
+        return orig_value
 
     return wrapped
 
 
 def localization_help(text: str):
+    text = text.strip()
     if app_language() == 'ru':
         print(ru_click_help(text))
     else:
         print(text)
 
 
-def localization_usage_error():
-    def click_localization_usage_error(text: str):
-        if app_language() == 'ru':
-            print(ru_click_usage_error(text))
+def localization_usage_error(text: str):
+    text = text.strip()
+    if app_language() == 'ru':
+        print(ru_click_usage_error(text))
+    else:
+        print(text)
 
-    return CapturingStderr(callback=click_localization_usage_error)
+
+def localization_abort(text: str):
+    text = text.strip()
+    if app_language() == 'ru':
+        print(ru_abort(text))
+    else:
+        print(text)

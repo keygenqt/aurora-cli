@@ -33,7 +33,7 @@ from aurora_cli.src.support.texts import AppTexts
     'antivirus',
     'auth',
 ], case_sensitive=False), help='Select profile')
-@click.option('-v', '--verbose', is_flag=True, help='Command output')
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def psdk_validate(ctx: {}, path: [], profile, verbose: bool):
     """Validate RPM packages."""
 

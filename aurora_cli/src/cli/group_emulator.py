@@ -25,11 +25,13 @@ from aurora_cli.src.base.common.vm_features import (
 )
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.models.emulator_model import EmulatorModel
+from aurora_cli.src.base.texts.app_argument import TextArgument
+from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
 from aurora_cli.src.base.texts.prompt import TextPrompt
 from aurora_cli.src.base.utils.argv import argv_is_test
 from aurora_cli.src.base.utils.output import echo_stdout
-from aurora_cli.src.cli.ssh_commands import (
+from aurora_cli.src.cli.impl.ssh_commands import (
     ssh_common_command_cli,
     ssh_common_run_cli,
     ssh_common_upload_cli,
@@ -56,24 +58,21 @@ def group_emulator(ctx: {}):
         ctx.obj = AppConfig.create_test()
 
 
-@group_emulator.command(name='start')
-@click.option('-v', '--verbose', is_flag=True, help='Command output')
+@group_emulator.command(name='start', help=TextCommand.command_emulator_start())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def vm_emulator_start_cli(verbose: bool):
-    """Start emulator."""
     echo_stdout(vm_emulator_start(), verbose)
 
 
-@group_emulator.command(name='screenshot')
-@click.option('-v', '--verbose', is_flag=True, help='Command output')
+@group_emulator.command(name='screenshot', help=TextCommand.command_emulator_screenshot())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def vm_emulator_screenshot_cli(verbose: bool):
-    """Emulator take screenshot."""
     echo_stdout(vm_emulator_screenshot(), verbose)
 
 
-@group_emulator.command(name='recording')
-@click.option('-v', '--verbose', is_flag=True, help='Command output')
+@group_emulator.command(name='recording', help=TextCommand.command_emulator_recording())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def vm_emulator_record_cli(verbose: bool):
-    """Recording video from emulator."""
     result = vm_emulator_record_start()
     echo_stdout(result, verbose)
     if result.is_error():
@@ -87,11 +86,10 @@ def vm_emulator_record_cli(verbose: bool):
     echo_stdout(vm_emulator_record_stop(), verbose)
 
 
-@group_emulator.command(name='command')
-@click.option('-e', '--execute', type=click.STRING, required=True, help='The command to be executed on the emulator')
-@click.option('-v', '--verbose', is_flag=True, help='Command output')
+@group_emulator.command(name='command', help=TextCommand.command_emulator_command())
+@click.option('-e', '--execute', type=click.STRING, required=True, help=TextArgument.argument_execute_emulator())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def ssh_emulator_command_cli(execute: str, verbose: bool):
-    """Execute the command on the emulator."""
     ssh_common_command_cli(
         client=_get_emulator_ssh_client(verbose),
         execute=execute,
@@ -99,11 +97,10 @@ def ssh_emulator_command_cli(execute: str, verbose: bool):
     )
 
 
-@group_emulator.command(name='upload')
-@click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help='Path to file')
-@click.option('-v', '--verbose', is_flag=True, help='Command output')
+@group_emulator.command(name='upload', help=TextCommand.command_emulator_upload())
+@click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help=TextArgument.argument_path())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def ssh_emulator_upload_cli(path: [], verbose: bool):
-    """Upload file to ~/Download directory emulator."""
     ssh_common_upload_cli(
         client=_get_emulator_ssh_client(verbose),
         path=path,
@@ -111,12 +108,11 @@ def ssh_emulator_upload_cli(path: [], verbose: bool):
     )
 
 
-@group_emulator.command(name='package-run')
-@click.option('-p', '--package', type=click.STRING, required=True, help='Package name')
-@click.option('-n', '--nohup', is_flag=True, help='Exit after run')
-@click.option('-v', '--verbose', is_flag=True, help='Command output')
+@group_emulator.command(name='package-run', help=TextCommand.command_emulator_package_run())
+@click.option('-p', '--package', type=click.STRING, required=True, help=TextArgument.argument_package_name())
+@click.option('-n', '--nohup', is_flag=True, help=TextArgument.argument_exit_after_run())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def ssh_emulator_run_cli(package: str, nohup: bool, verbose: bool):
-    """Run package on emulator in container."""
     ssh_common_run_cli(
         client=_get_emulator_ssh_client(verbose),
         package=package,
@@ -125,12 +121,11 @@ def ssh_emulator_run_cli(package: str, nohup: bool, verbose: bool):
     )
 
 
-@group_emulator.command(name='package-install')
-@click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help='Path to RPM file')
-@click.option('-a', '--apm', is_flag=True, help='Use new install APM')
-@click.option('-v', '--verbose', is_flag=True, help='Command output')
+@group_emulator.command(name='package-install', help=TextCommand.command_emulator_package_install())
+@click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help=TextArgument.argument_path_rpm())
+@click.option('-a', '--apm', is_flag=True, help=TextArgument.argument_apm())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def ssh_emulator_install_cli(path: [], apm: bool, verbose: bool):
-    """Install RPM package on emulator."""
     ssh_common_install_cli(
         client=_get_emulator_ssh_client(verbose, True),
         path=path,
@@ -139,12 +134,11 @@ def ssh_emulator_install_cli(path: [], apm: bool, verbose: bool):
     )
 
 
-@group_emulator.command(name='package-remove')
-@click.option('-p', '--package', type=click.STRING, required=True, help='Package name')
-@click.option('-a', '--apm', is_flag=True, help='Use new install APM')
-@click.option('-v', '--verbose', is_flag=True, help='Command output')
+@group_emulator.command(name='package-remove', help=TextCommand.command_emulator_package_remove())
+@click.option('-p', '--package', type=click.STRING, required=True, help=TextArgument.argument_package_name())
+@click.option('-a', '--apm', is_flag=True, help=TextArgument.argument_apm())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def ssh_emulator_remove_cli(package: str, apm: bool, verbose: bool):
-    """Install RPM package on emulator."""
     ssh_common_remove_cli(
         client=_get_emulator_ssh_client(verbose, True),
         package=package,

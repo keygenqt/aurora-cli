@@ -16,71 +16,56 @@ limitations under the License.
 
 from enum import Enum
 
-from aurora_cli.src.base.localization.localization import localization
 
-
-class TextCommand(Enum):
+class TextCommandRu(Enum):
     @staticmethod
-    @localization
     def command_device_command():
-        return 'Execute the command on the device.'
+        return 'Выполните команду на устройстве.'
 
     @staticmethod
-    @localization
     def command_device_upload():
-        return 'Upload file to ~/Download directory device.'
+        return 'Загрузите файл в каталог ~/Download устройства.'
 
     @staticmethod
-    @localization
     def command_device_package_run():
-        return 'Run package on device in container.'
+        return 'Запустите пакет на устройстве в контейнере.'
 
     @staticmethod
-    @localization
     def command_device_package_install():
-        return 'Install RPM package on device.'
+        return 'Установите пакет RPM на устройство.'
 
     @staticmethod
-    @localization
     def command_device_package_remove():
-        return 'Remove RPM package from device.'
+        return 'Удалите пакет RPM с устройства.'
 
     @staticmethod
-    @localization
     def command_emulator_start():
-        return 'Start emulator.'
+        return 'Запустите эмулятор.'
 
     @staticmethod
-    @localization
     def command_emulator_screenshot():
-        return 'Emulator take screenshot.'
+        return 'Сделать скриншот эмулятора.'
 
     @staticmethod
-    @localization
     def command_emulator_recording():
-        return 'Recording video from emulator.'
+        return 'Запись видео с эмулятора.'
 
     @staticmethod
-    @localization
     def command_emulator_command():
-        return 'Execute the command on the emulator.'
+        return 'Выполните команду на эмуляторе.'
 
     @staticmethod
-    @localization
     def command_emulator_upload():
-        return 'Upload file to ~/Download directory emulator.'
+        return 'Загрузите файл на эмулятор в каталог ~/Download.'
 
     @staticmethod
-    @localization
     def command_emulator_package_run():
-        return 'Run package on emulator in container.'
+        return 'Запустите пакет на эмуляторе в контейнере.'
 
     @staticmethod
-    @localization
     def command_emulator_package_install():
-        return 'Install RPM package on emulator.'
+        return 'Установите пакет RPM на эмулятор.'
 
     @staticmethod
-    @localization
     def command_emulator_package_remove():
-        return 'Remove RPM package from emulator.'
+        return 'Удалите пакет RPM с эмулятора.'

@@ -13,17 +13,18 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-import sys
 
 import click
 
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.models.device_model import DeviceModel
+from aurora_cli.src.base.texts.app_argument import TextArgument
+from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
+from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.utils.argv import argv_is_test
 from aurora_cli.src.base.utils.output import echo_stdout
-from aurora_cli.src.base.texts.info import TextInfo
-from aurora_cli.src.cli.ssh_commands import (
+from aurora_cli.src.cli.impl.ssh_commands import (
     ssh_common_command_cli,
     ssh_common_run_cli,
     ssh_common_upload_cli,
@@ -60,13 +61,12 @@ def group_device(ctx: {}):
         ctx.obj = AppConfig.create_test()
 
 
-@group_device.command(name='command')
-@click.option('-e', '--execute', type=click.STRING, required=True, help='The command to be executed on the device')
-@click.option('-s', '--select', is_flag=True, help='Select from available')
-@click.option('-i', '--index', type=click.INT, default=None, help='Specify index')
-@click.option('-v', '--verbose', is_flag=True, help='Command output')
+@group_device.command(name='command', help=TextCommand.command_device_command())
+@click.option('-e', '--execute', type=click.STRING, required=True, help=TextArgument.argument_execute_device())
+@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
+@click.option('-i', '--index', type=click.INT, default=None, help=TextArgument.argument_index())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def ssh_device_command_cli(execute: str, select: bool, index: int | None, verbose: bool):
-    """Execute the command on the device."""
     client, _ = _get_device_ssh_client(select, index, verbose)
     ssh_common_command_cli(
         client=client,
@@ -75,13 +75,12 @@ def ssh_device_command_cli(execute: str, select: bool, index: int | None, verbos
     )
 
 
-@group_device.command(name='upload')
-@click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help='Path to file')
-@click.option('-s', '--select', is_flag=True, help='Select from available')
-@click.option('-i', '--index', type=click.INT, help='Specify index')
-@click.option('-v', '--verbose', is_flag=True, help='Command output')
+@group_device.command(name='upload', help=TextCommand.command_device_upload())
+@click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help=TextArgument.argument_path())
+@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
+@click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def ssh_device_upload_cli(path: [], select: bool, index: int, verbose: bool):
-    """Upload file to ~/Download directory device."""
     client, _ = _get_device_ssh_client(select, index, verbose)
     ssh_common_upload_cli(
         client=client,
@@ -90,14 +89,13 @@ def ssh_device_upload_cli(path: [], select: bool, index: int, verbose: bool):
     )
 
 
-@group_device.command(name='package-run')
-@click.option('-p', '--package', type=click.STRING, required=True, help='Package name')
-@click.option('-n', '--nohup', is_flag=True, help='Exit after run')
-@click.option('-s', '--select', is_flag=True, help='Select from available')
-@click.option('-i', '--index', type=click.INT, help='Specify index')
-@click.option('-v', '--verbose', is_flag=True, help='Command output')
+@group_device.command(name='package-run', help=TextCommand.command_device_package_run())
+@click.option('-p', '--package', type=click.STRING, required=True, help=TextArgument.argument_package_name())
+@click.option('-n', '--nohup', is_flag=True, help=TextArgument.argument_exit_after_run())
+@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
+@click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def ssh_device_run_cli(package: str, nohup: bool, select: bool, index: int, verbose: bool):
-    """Run package on device in container."""
     client, _ = _get_device_ssh_client(select, index, verbose)
     ssh_common_run_cli(
         client=client,
@@ -107,14 +105,13 @@ def ssh_device_run_cli(package: str, nohup: bool, select: bool, index: int, verb
     )
 
 
-@group_device.command(name='package-install')
-@click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help='Path to RPM file')
-@click.option('-a', '--apm', is_flag=True, help='Use new install APM')
-@click.option('-s', '--select', is_flag=True, help='Select from available')
-@click.option('-i', '--index', type=click.INT, help='Specify index')
-@click.option('-v', '--verbose', is_flag=True, help='Command output')
+@group_device.command(name='package-install', help=TextCommand.command_device_package_install())
+@click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help=TextArgument.argument_path_rpm())
+@click.option('-a', '--apm', is_flag=True, help=TextArgument.argument_apm())
+@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
+@click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def ssh_device_install_cli(path: [], apm: bool, select: bool, index: int, verbose: bool):
-    """Install RPM package on device."""
     client, devel_su = _get_device_ssh_client(select, index, verbose)
     ssh_common_install_cli(
         client=client,
@@ -125,14 +122,13 @@ def ssh_device_install_cli(path: [], apm: bool, select: bool, index: int, verbos
     )
 
 
-@group_device.command(name='package-remove')
-@click.option('-p', '--package', type=click.STRING, required=True, help='Package name')
-@click.option('-a', '--apm', is_flag=True, help='Use new install APM')
-@click.option('-s', '--select', is_flag=True, help='Select from available')
-@click.option('-i', '--index', type=click.INT, help='Specify index')
-@click.option('-v', '--verbose', is_flag=True, help='Command output')
+@group_device.command(name='package-remove', help=TextCommand.command_device_package_remove())
+@click.option('-p', '--package', type=click.STRING, required=True, help=TextArgument.argument_package_name())
+@click.option('-a', '--apm', is_flag=True, help=TextArgument.argument_apm())
+@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
+@click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def ssh_device_remove_cli(package: str, apm: bool, select: bool, index: int, verbose: bool):
-    """Install RPM package on device."""
     client, devel_su = _get_device_ssh_client(select, index, verbose)
     ssh_common_remove_cli(
         client=client,

@@ -36,6 +36,7 @@ class EchoTextColors(Enum):
     cyan = 'cyan'
     white = 'white'
     reset = 'reset'
+    hint = 'hint'
 
 
 # Colorize text clear
@@ -83,6 +84,6 @@ def text_colorize(text: str) -> str:
         for item in soup.findAll(tag.value):
             text = text.replace(
                 '<{}>{}</{}>'.format(tag.value, item.text, tag.value),
-                click.style(item.text, fg=tag.value))
+                click.style(item.text, fg='reset' if tag == EchoTextColors.hint else tag.value))
 
     return click.style(text, fg='reset')

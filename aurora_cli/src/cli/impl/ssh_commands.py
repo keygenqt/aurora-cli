@@ -35,7 +35,6 @@ def ssh_common_command_cli(
         execute: str,
         verbose: bool
 ):
-    """Execute the command."""
     result = ssh_command(
         client=client,
         execute=execute
@@ -58,8 +57,6 @@ def ssh_common_run_cli(
         nohup: bool,
         verbose: bool,
 ):
-    """Run package in container."""
-
     def echo_stdout_with_check_close(stdout: OutResult | None):
         if stdout and nohup and not stdout.is_error() and 'nohup:' in stdout.value:
             echo_stdout(OutResult(TextSuccess.ssh_run_package(package)))
@@ -80,7 +77,6 @@ def ssh_common_upload_cli(
         path: [],
         verbose: bool
 ):
-    """Upload file to ~/Download directory."""
     for file_path in path:
         if not argv_is_test():
             echo_stdout(TextInfo.shh_download_start(file_path))
@@ -101,8 +97,6 @@ def ssh_common_install_cli(
         verbose: bool,
         devel_su: str | None = None
 ):
-    """Install RPM package on."""
-
     def bar_update(ab: AliveBarPercentage, percent: int):
         ab.update(percent)
         if percent == 100:
@@ -129,7 +123,6 @@ def ssh_common_remove_cli(
         verbose: bool,
         devel_su: str | None = None
 ):
-    """Install RPM package."""
     echo_stdout(ssh_package_remove(
         client=client,
         package=package,
