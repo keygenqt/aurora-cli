@@ -34,6 +34,21 @@ This is a third party tool written by enthusiasts!'''
 
     @staticmethod
     @localization
+    def group_api():
+        return 'Application Programming Interface.'
+
+    @staticmethod
+    @localization
+    def group_build():
+        return 'Building Qt & Flutter applications.'
+
+    @staticmethod
+    @localization
+    def group_debug():
+        return 'Debugging Qt & Flutter applications.'
+
+    @staticmethod
+    @localization
     def group_device():
         return 'Working with the device.'
 
@@ -44,5 +59,20 @@ This is a third party tool written by enthusiasts!'''
 
     @staticmethod
     @localization
-    def group_api():
-        return 'Application Programming Interface.'
+    def group_flutter():
+        return 'Working with Flutter for Aurora OS.'
+
+    @staticmethod
+    @localization
+    def group_psdk():
+        return 'Working with Platform Aurora SDK.'
+
+    @staticmethod
+    @localization
+    def group_sdk():
+        return 'Working with Aurora SDK.'
+
+    @staticmethod
+    @localization
+    def group_sundry():
+        return 'Additional functionality.'

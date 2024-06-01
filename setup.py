@@ -28,7 +28,7 @@ limitations under the License.
 
 setuptools.setup(
     name='aurora-cli',
-    version='2.7.0.0',
+    version='3.0.0.0',
     author='Vitaliy Zarubin',
     author_email='keygenqt@gmail.com',
     description='An application that simplifies the life of an application developer for the Aurora OS.',
@@ -49,6 +49,7 @@ setuptools.setup(
         'beautifulsoup4>=4.12.3',
         'weasyprint>=61.1',
         'pillow>=10.2.0',
+        'diskcache>=5.6.3',
     ],
     python_requires='>=3.8.2',
     entry_points={

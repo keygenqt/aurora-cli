@@ -20,7 +20,7 @@ from enum import Enum
 class TextArgumentRu(Enum):
     @staticmethod
     def argument_config():
-        return 'Укажите путь конфигурации.'
+        return 'Указать путь конфигурации.'
 
     @staticmethod
     def argument_verbose():
@@ -61,3 +61,27 @@ class TextArgumentRu(Enum):
     @staticmethod
     def argument_exit_after_run():
         return 'Выйти после запуска.'
+
+    @staticmethod
+    def argument_latest_version():
+        return 'Выберите последнюю версию.'
+
+    @staticmethod
+    def argument_sdk_installer_type():
+        return 'Загрузите установщик offline типа (online = по умолчанию).'
+
+    @staticmethod
+    def argument_validate_profile():
+        return 'Выберите профиль.'
+
+    @staticmethod
+    def argument_path_to_project():
+        return 'Путь к проекту. По умолчанию текущая директория.'
+
+    @staticmethod
+    def argument_path_to_image():
+        return 'Путь к изображению.'
+
+    @staticmethod
+    def argument_clear_cache():
+        return 'Очистить кэшированные данные.'

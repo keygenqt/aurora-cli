@@ -21,13 +21,25 @@ class TextGroupRu(Enum):
     @staticmethod
     def group_main():
         return '''Приложение позволяет устанавливать инструменты для работы с ОС Аврора и упрощает работу с ними.
-Более подробную информацию об инструментах можно найти на странице документации:
+Более подробную информацию об инструменте можно найти в соответствующей документации:
 
 Flutter SDK  https://omprussia.gitlab.io/flutter/flutter
 Aurora SDK   https://developer.auroraos.ru/doc/software_development/sdk
 Platform SDK https://developer.auroraos.ru/doc/software_development/psdk
 
 Это сторонний инструмент, написанный энтузиастами!'''
+
+    @staticmethod
+    def group_api():
+        return 'Программный интерфейс для приложений.'
+
+    @staticmethod
+    def group_build():
+        return 'Сборка приложений Qt и Flutter.'
+
+    @staticmethod
+    def group_debug():
+        return 'Отладка приложений Qt и Flutter.'
 
     @staticmethod
     def group_device():
@@ -38,5 +50,17 @@ Platform SDK https://developer.auroraos.ru/doc/software_development/psdk
         return 'Работа с эмулятором в virtualbox.'
 
     @staticmethod
-    def group_api():
-        return 'Программный интерфейс для приложений.'
+    def group_flutter():
+        return 'Работа с Flutter для ОС Aurora.'
+
+    @staticmethod
+    def group_psdk():
+        return 'Работа с Аврора Platform SDK.'
+
+    @staticmethod
+    def group_sdk():
+        return 'Работа с Аврора SDK.'
+
+    @staticmethod
+    def group_sundry():
+        return 'Дополнительный функционал.'

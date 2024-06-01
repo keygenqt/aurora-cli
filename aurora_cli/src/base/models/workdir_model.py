@@ -17,11 +17,23 @@ limitations under the License.
 from dataclasses import dataclass
 from pathlib import Path
 
+import click
 
-# @todo
+from aurora_cli.src.base.utils.path import path_convert_relative
+
+
 @dataclass
-class SignPackageModel:
-    """Class device."""
-    name: str
-    key: Path
-    cert: Path
+class WorkdirModel:
+    """Class path workdir for search sdk & psdk."""
+    path: Path
+
+    @staticmethod
+    def get_model(path: str | None):
+        if not path:
+            path = '~/'
+        return WorkdirModel(path_convert_relative(path))
+
+    @staticmethod
+    @click.pass_context
+    def get_workdir(ctx: {}) -> Path:
+        return WorkdirModel.get_model(ctx.obj.get_workdir()).path

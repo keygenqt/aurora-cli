@@ -20,7 +20,7 @@ from yaml import load, Loader
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.output import OutResult, OutResultError
-from aurora_cli.src.base.utils.path import path_convert_relative_path
+from aurora_cli.src.base.utils.path import path_convert_relative
 
 
 class ConfigLoader:
@@ -50,7 +50,7 @@ class ConfigLoader:
         if self._loader is None or 'workdir' not in self._loader.keys():
             return OutResultError(TextError.validate_config_workdir_not_found())
         # Check value
-        path = path_convert_relative_path(self._loader['workdir'])
+        path = path_convert_relative(self._loader['workdir'])
         path.mkdir(parents=True, exist_ok=True)
         if not path.is_dir():
             return OutResultError(TextError.validate_config_workdir_error_create(self._loader['workdir']))
@@ -67,9 +67,9 @@ class ConfigLoader:
                 return OutResultError(TextError.validate_config_keys())
         # Check files
         for item in self._loader['keys']:
-            if not path_convert_relative_path(item['key']).is_file():
+            if not path_convert_relative(item['key']).is_file():
                 return OutResultError(TextError.validate_config_key_not_found(item['key']))
-            if not path_convert_relative_path(item['cert']).is_file():
+            if not path_convert_relative(item['cert']).is_file():
                 return OutResultError(TextError.validate_config_cert_not_found(item['cert']))
         return OutResult(TextSuccess.validate_config_keys())
 

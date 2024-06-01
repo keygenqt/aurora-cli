@@ -34,7 +34,6 @@ class EchoJsonCode(Enum):
 
 @dataclass
 class OutResult:
-    """Class out data."""
     message: str = None
     value: any = None
     index: int = None
@@ -58,13 +57,11 @@ class OutResult:
 
 @dataclass
 class OutResultError(OutResult):
-    """Class out data EchoJsonCode.Bad_Request."""
     code: EchoJsonCode = EchoJsonCode.error
 
 
 @dataclass
 class OutResultInfo(OutResult):
-    """Class out data EchoJsonCode.Not_Found."""
     code: EchoJsonCode = EchoJsonCode.info
 
 
@@ -114,4 +111,4 @@ def _echo_stdout_json(
         data = out.to_json()
         if verbose:
             data['verbose'] = verbose_seize_map()
-        click.echo(json.dumps(data, indent=2))
+        click.echo(json.dumps(data, indent=2, ensure_ascii=False))

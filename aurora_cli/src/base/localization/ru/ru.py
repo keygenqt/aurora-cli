@@ -28,7 +28,7 @@ def ru_localization(key_fun: str, *args, **kwargs):
     for cls in ru_cls:
         func = _ru_search(cls, key_fun)
         if func:
-            return func(*args, *kwargs)
+            return func(*args, **kwargs)
     return None
 
 

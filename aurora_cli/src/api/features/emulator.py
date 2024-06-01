@@ -25,8 +25,7 @@ from aurora_cli.src.base.common.vm_features import (
     vm_emulator_start,
     vm_emulator_screenshot,
     vm_emulator_record_start,
-    vm_emulator_record_stop,
-    vm_emulator_is_on_record
+    vm_emulator_record_stop
 )
 from aurora_cli.src.base.models.emulator_model import EmulatorModel
 from aurora_cli.src.base.texts.success import TextSuccess
@@ -47,10 +46,6 @@ def vm_emulator_record_start_api(verbose: bool):
 
 def vm_emulator_record_stop_api(verbose: bool):
     echo_stdout(vm_emulator_record_stop(), verbose)
-
-
-def vm_emulator_record_is_on_api(verbose: bool):
-    echo_stdout(vm_emulator_is_on_record(), verbose)
 
 
 def ssh_emulator_command_api(execute: str, verbose: bool):

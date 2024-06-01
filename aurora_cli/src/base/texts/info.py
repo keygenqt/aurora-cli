@@ -17,7 +17,7 @@ limitations under the License.
 from enum import Enum
 
 from aurora_cli.src.base.localization.localization import localization
-from aurora_cli.src.base.utils.path import path_convert_relative_path
+from aurora_cli.src.base.utils.path import path_convert_relative
 
 
 class TextInfo(Enum):
@@ -39,7 +39,7 @@ class TextInfo(Enum):
     @staticmethod
     @localization
     def shh_download_start(path: str):
-        path = path_convert_relative_path(path)
+        path = path_convert_relative(path)
         if path and path.is_file():
             return f'<blue>Starting file download:</blue> {path}'
 
@@ -64,3 +64,43 @@ class TextInfo(Enum):
     @localization
     def create_default_config_file(path: str):
         return f'<blue>A default configuration file has been created:</blue> {path}'
+
+    @staticmethod
+    @localization
+    def available_versions_sdk(versions: []):
+        return '<blue>Available versions Aurora SDK:</blue>\n{}'.format('\n'.join(versions))
+
+    @staticmethod
+    @localization
+    def available_versions_psdk(versions: []):
+        return '<blue>Available versions Aurora Platform SDK:</blue>\n{}'.format('\n'.join(versions))
+
+    @staticmethod
+    @localization
+    def available_versions_flutter(versions: []):
+        return '<blue>Available versions Flutter for Aurora OS:</blue>\n{}'.format('\n'.join(versions))
+
+    @staticmethod
+    @localization
+    def available_versions_plugins(versions: []):
+        return '<blue>Available versions Flutter Plugins for Aurora OS:</blue>\n{}'.format('\n'.join(versions))
+
+    @staticmethod
+    @localization
+    def installed_versions_sdk(versions: []):
+        return '<blue>Installed version Aurora SDK:</blue>\n{}'.format('\n'.join(versions))
+
+    @staticmethod
+    @localization
+    def installed_versions_psdk(versions: []):
+        return '<blue>Installed versions Aurora Platform SDK:</blue>\n{}'.format('\n'.join(versions))
+
+    @staticmethod
+    @localization
+    def installed_versions_flutter(versions: []):
+        return '<blue>Installed versions Flutter for Aurora OS:</blue>\n{}'.format('\n'.join(versions))
+
+    @staticmethod
+    @localization
+    def cache_clear():
+        return '<blue>The application cache has been cleared.</blue>'

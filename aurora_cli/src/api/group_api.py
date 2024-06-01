@@ -19,6 +19,9 @@ import click
 
 from aurora_cli.src.api.routes.routes_device import search_route_device
 from aurora_cli.src.api.routes.routes_emulator import search_route_emulator
+from aurora_cli.src.api.routes.routes_flutter import search_route_flutter
+from aurora_cli.src.api.routes.routes_psdk import search_route_psdk
+from aurora_cli.src.api.routes.routes_sdk import search_route_sdk
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.texts.app_group import TextGroup
 from aurora_cli.src.base.texts.error import TextError
@@ -34,9 +37,15 @@ def group_api(ctx: {}, route: str):
         sys.argv.append('api')
         ctx.obj = AppConfig.create_test()
     try:
+        if search_route_device(route):
+            return
         if search_route_emulator(route):
             return
-        if search_route_device(route):
+        if search_route_flutter(route):
+            return
+        if search_route_psdk(route):
+            return
+        if search_route_sdk(route):
             return
         echo_stdout(OutResultError(TextError.route_not_found()))
     except Exception as e:

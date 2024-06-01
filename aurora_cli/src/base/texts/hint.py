@@ -25,6 +25,15 @@ class Hint(Enum):
     install_app = 'install_app'
     not_install_emulator = 'not_install_emulator'
     emulator_recording_on = 'emulator_recording_on'
+    route_error_hint = 'route_error_hint'
+    documentation_link = 'documentation_link'
+    device_config = 'device_config'
+    flutter_documentation_link = 'flutter_documentation_link'
+    psdk_documentation_link = 'psdk_documentation_link'
+    sdk_documentation_link = 'sdk_documentation_link'
+    flutter_install = 'flutter_install'
+    psdk_install = 'psdk_install'
+    sdk_install = 'sdk_install'
 
 
 def hint(*hints: Hint):
@@ -68,3 +77,52 @@ class TextHint(Enum):
     @localization
     def emulator_recording_on():
         return '<i>You can disable recording in the VirtualBox window; you can see a rotating icon at the bottom.</i>'
+
+    @staticmethod
+    @localization
+    def route_error_hint():
+        return '<i>The application has an API for use in other applications, and a CLI is provided for people.</i>'
+
+    @staticmethod
+    @localization
+    def documentation_link():
+        return ('<i>More details can be found in the application documentation:</i> '
+                'https://keygenqt.github.io/aurora-cli')
+
+    @staticmethod
+    @localization
+    def device_config():
+        return '<i>You may have incorrectly configured device parameters in the configuration file.</i>'
+
+    @staticmethod
+    @localization
+    def flutter_documentation_link():
+        return ('<i>More details can be found in the Flutter documentation:</i> '
+                'https://omprussia.gitlab.io/flutter/flutter')
+
+    @staticmethod
+    @localization
+    def psdk_documentation_link():
+        return ('<i>More details can be found in the Aurora Platform SDK documentation:</i> '
+                'https://developer.auroraos.ru/doc/software_development/psdk')
+
+    @staticmethod
+    @localization
+    def sdk_documentation_link():
+        return ('<i>More details can be found in the Aurora SDK documentation:</i> '
+                'https://developer.auroraos.ru/doc/software_development/sdk')
+
+    @staticmethod
+    @localization
+    def flutter_install():
+        return '<i>You can install the Flutter with the following command:</i> aurora-cli flutter install'
+
+    @staticmethod
+    @localization
+    def psdk_install():
+        return '<i>You can install the Aurora Platform SDK with the following command:</i> aurora-cli psdk install'
+
+    @staticmethod
+    @localization
+    def sdk_install():
+        return '<i>You can install the Aurora SDK with the following command:</i> aurora-cli sdk install'

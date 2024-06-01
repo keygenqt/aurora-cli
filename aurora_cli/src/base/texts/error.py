@@ -50,6 +50,7 @@ class TextError(Enum):
 
     @staticmethod
     @localization
+    @hint(Hint.route_error_hint, Hint.documentation_link)
     def route_not_found():
         return '<red>Route not found.</red>'
 
@@ -96,6 +97,7 @@ class TextError(Enum):
 
     @staticmethod
     @localization
+    @hint(Hint.device_config, Hint.documentation_link)
     def ssh_connect_device_error():
         return '<red>Error connecting to device via SSH.</red>'
 
@@ -126,6 +128,7 @@ class TextError(Enum):
 
     @staticmethod
     @localization
+    @hint(Hint.documentation_link)
     def validate_config_error():
         return '<red>The configuration file failed verification.</red>'
 
@@ -194,3 +197,41 @@ class TextError(Enum):
     @hint(Hint.install_app)
     def dependency_not_found(dependency: str):
         return f'<red>Dependency</red> {dependency} <red>was not found and is required to run this command.</red>'
+
+    @staticmethod
+    @localization
+    def request_error():
+        return '<red>Internet connection error. Check the connection.</red>'
+
+    @staticmethod
+    @localization
+    def request_empty_error():
+        return '<red>The request returned an empty result. An error has occurred...</red>'
+
+    @staticmethod
+    @localization
+    def just_empty_error():
+        return '<yellow>Nothing found.</yellow>'
+
+    @staticmethod
+    @localization
+    def config_value_empty_error():
+        return '<yellow>No items found to select, check the configuration file.</yellow>'
+
+    @staticmethod
+    @localization
+    @hint(Hint.flutter_install, Hint.flutter_documentation_link)
+    def flutter_not_found_error():
+        return '<red>Not found: Flutter SDK.</red>'
+
+    @staticmethod
+    @localization
+    @hint(Hint.psdk_install, Hint.psdk_documentation_link)
+    def psdk_not_found_error():
+        return '<red>Not found: Aurora Platform SDK.</red>'
+
+    @staticmethod
+    @localization
+    @hint(Hint.sdk_install, Hint.sdk_documentation_link)
+    def sdk_not_found_error():
+        return '<red>Not found: Aurora SDK.</red>'

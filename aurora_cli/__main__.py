@@ -21,18 +21,27 @@ from aurora_cli.src.base.constants.app import APP_NAME, APP_VERSION
 from aurora_cli.src.base.localization.localization import localization_help, localization_usage_error
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_group import TextGroup
+from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.utils.app import app_crash_out
-from aurora_cli.src.base.utils.capturing_stderr import CapturingStderr, CapturingStdout
+from aurora_cli.src.base.utils.capturing_std import CapturingStderr, CapturingStdout
 from aurora_cli.src.base.utils.click import click_init_groups
+from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
+from aurora_cli.src.base.utils.output import echo_stdout
 from aurora_cli.src.cli.group_abort import clear_after_force_close
 
 
 @click.group(invoke_without_command=True, help=TextGroup.group_main())
 @click.version_option(version=APP_VERSION, prog_name=APP_NAME)
 @click.option('--config', help=TextArgument.argument_config(), type=click.STRING, required=False)
+@click.option('--clear-cache', is_flag=True, help=TextArgument.argument_clear_cache())
 @click.pass_context
-def main(ctx: {}, config: str):
+def main(ctx: {}, config: str, clear_cache: bool):
     ctx.obj = AppConfig.create(config)
+
+    if clear_cache:
+        disk_cache_clear()
+        echo_stdout(TextInfo.cache_clear())
+        exit(0)
 
     if not ctx.invoked_subcommand:
         localization_help(ctx.get_help())

@@ -14,16 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-# Data versions
 APP_NAME = 'aurora-cli'
+
 APP_VERSION = '3.0.0'
 
-# Temp folder
 PATH_TEMP = '~/.aurora-cli/temp'
-
-# Public key pairs
-URL_KEY = 'https://developer.auroraos.ru/static/regular_key.pem'
-URL_CERT = 'https://developer.auroraos.ru/static/regular_cert.pem'
-
-# Configuration file clang-format
-URL_CLANG_FORMAT_CONF = 'https://gitlab.com/omprussia/flutter/flutter/-/raw/stable/.clang-format'

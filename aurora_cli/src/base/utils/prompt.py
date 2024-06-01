@@ -16,12 +16,14 @@ limitations under the License.
 
 import click
 
-from aurora_cli.src.base.utils.output import OutResultError, OutResult
 from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.prompt import TextPrompt
+from aurora_cli.src.base.utils.output import OutResultError, OutResult, echo_stdout
 
 
 def prompt_model_select(
+        name: str,
         models: [],
         select: bool,
         index: int | None
@@ -34,7 +36,7 @@ def prompt_model_select(
         return OutResultError(TextError.index_and_select_at_the_same_time())
     # If empty
     if len(models) == 0:
-        return OutResultError(TextError.validate_config_devices_not_found())
+        return OutResultError(TextError.config_value_empty_error())
     # If select index
     if index is not None:
         if has_index(index - 1, models):
@@ -43,7 +45,11 @@ def prompt_model_select(
     # If not prompt select fist
     if not select:
         return OutResult(value=models[0])
+    # If one item
+    if len(models) == 1:
+        return OutResult(value=models[0])
     # Prompt
+    echo_stdout(TextInfo.select_array_out(name, models))
     index = click.prompt(TextPrompt.select_index(), type=int)
     # Check index
     if has_index(index - 1, models):

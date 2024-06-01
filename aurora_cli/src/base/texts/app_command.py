@@ -22,6 +22,26 @@ from aurora_cli.src.base.localization.localization import localization
 class TextCommand(Enum):
     @staticmethod
     @localization
+    def command_build_flutter():
+        return 'Building Flutter project for Aurora OS.'
+
+    @staticmethod
+    @localization
+    def command_build_qt():
+        return 'Building Qt project for Aurora OS.'
+
+    @staticmethod
+    @localization
+    def command_debug_dart():
+        return 'Debugging Dart for Aurora OS.'
+
+    @staticmethod
+    @localization
+    def command_debug_gdb():
+        return 'Debugging GDB for Aurora OS.'
+
+    @staticmethod
+    @localization
     def command_device_command():
         return 'Execute the command on the device.'
 
@@ -84,3 +104,128 @@ class TextCommand(Enum):
     @localization
     def command_emulator_package_remove():
         return 'Remove RPM package from emulator.'
+
+    @staticmethod
+    @localization
+    def command_flutter_available():
+        return 'Get available version Flutter for Aurora OS.'
+
+    @staticmethod
+    @localization
+    def command_flutter_installed():
+        return 'Get version installed Flutter for Aurora OS.'
+
+    @staticmethod
+    @localization
+    def command_flutter_install():
+        return 'Download and install Flutter for Aurora OS.'
+
+    @staticmethod
+    @localization
+    def command_flutter_remove():
+        return 'Remove Flutter for Aurora OS.'
+
+    @staticmethod
+    @localization
+    def command_flutter_plugins_report():
+        return 'Compile a report on platform-dependent plugins of the Flutter project.'
+
+    @staticmethod
+    @localization
+    def command_psdk_available():
+        return 'Get available version Aurora Platform SDK.'
+
+    @staticmethod
+    @localization
+    def command_psdk_installed():
+        return 'Get installed list Aurora Platform SDK.'
+
+    @staticmethod
+    @localization
+    def command_psdk_install():
+        return 'Download and install Aurora Platform SDK.'
+
+    @staticmethod
+    @localization
+    def command_psdk_remove():
+        return 'Remove Aurora Platform SDK.'
+
+    @staticmethod
+    @localization
+    def command_psdk_clear():
+        return 'Remove snapshots targets.'
+
+    @staticmethod
+    @localization
+    def command_psdk_package_search():
+        return 'Search installed package in target.'
+
+    @staticmethod
+    @localization
+    def command_psdk_package_install():
+        return 'Install RPM packages to target.'
+
+    @staticmethod
+    @localization
+    def command_psdk_package_remove():
+        return 'Remove package from target.'
+
+    @staticmethod
+    @localization
+    def command_psdk_sign():
+        return 'Sign (with re-sign) RPM package.'
+
+    @staticmethod
+    @localization
+    def command_psdk_sudoers_add():
+        return 'Add sudoers permissions Aurora Platform SDK.'
+
+    @staticmethod
+    @localization
+    def command_psdk_sudoers_remove():
+        return 'Remove sudoers permissions Aurora Platform SDK.'
+
+    @staticmethod
+    @localization
+    def command_psdk_targets():
+        return 'Get list targets Aurora Platform SDK.'
+
+    @staticmethod
+    @localization
+    def command_psdk_validate():
+        return 'Validate RPM packages.'
+
+    @staticmethod
+    @localization
+    def command_sdk_available():
+        return 'Get available version Aurora SDK.'
+
+    @staticmethod
+    @localization
+    def command_sdk_installed():
+        return 'Get version installed Aurora SDK.'
+
+    @staticmethod
+    @localization
+    def command_sdk_install():
+        return 'Download and run install Aurora SDK.'
+
+    @staticmethod
+    @localization
+    def command_sdk_tool():
+        return 'Run maintenance tool (remove, update).'
+
+    @staticmethod
+    @localization
+    def command_sundry_format_dart():
+        return 'Formatting the Dart project according to the terms of the Flutter for Aurora OS.'
+
+    @staticmethod
+    @localization
+    def command_sundry_format_clang():
+        return 'Formatting the С++ project according to the terms of the Flutter for Aurora OS.'
+
+    @staticmethod
+    @localization
+    def command_sundry_image_sizes():
+        return 'Gen multiple size icons for application.'

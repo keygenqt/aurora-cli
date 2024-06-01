@@ -40,11 +40,17 @@ from aurora_cli.src.cli.impl.ssh_commands import (
 )
 
 
-def _get_emulator_ssh_client(verbose: bool, is_root: bool = False) -> SSHClient:
+def _get_emulator_model(
+        is_root: bool
+) -> EmulatorModel:
     if is_root:
-        result = EmulatorModel.get_model_root().get_ssh_client()
+        return EmulatorModel.get_model_root()
     else:
-        result = EmulatorModel.get_model_user().get_ssh_client()
+        return EmulatorModel.get_model_user()
+
+
+def _get_emulator_ssh_client(verbose: bool, is_root: bool = False) -> SSHClient:
+    result = _get_emulator_model(is_root).get_ssh_client()
     if result.is_error():
         echo_stdout(result, verbose)
         exit(1)

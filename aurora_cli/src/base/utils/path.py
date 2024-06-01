@@ -27,7 +27,7 @@ def path_gen_file_name(before: str, extension: str) -> str:
     )
 
 
-def path_convert_relative_path(path: str | None) -> Path | None:
+def path_convert_relative(path: str | None) -> Path | None:
     if path is None:
         return None
     if path.startswith('~/'):

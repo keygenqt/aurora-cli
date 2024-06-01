@@ -25,6 +25,7 @@ from aurora_cli.src.base.utils.string import str_clear_line
 from aurora_cli.src.base.utils.verbose import verbose_add_map
 
 
+@check_dependency(DependencyApps.ssh)
 def ssh_client_connect(
         host: str,
         username: str,

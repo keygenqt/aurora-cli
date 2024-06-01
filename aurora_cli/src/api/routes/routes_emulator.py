@@ -13,13 +13,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
 from aurora_cli.src.api.features.emulator import (
     vm_emulator_start_api,
     vm_emulator_screenshot_api,
     vm_emulator_record_start_api,
     vm_emulator_record_stop_api,
-    vm_emulator_record_is_on_api,
     ssh_emulator_command_api,
     ssh_emulator_run_api,
     ssh_emulator_rpm_install_api,
@@ -31,7 +29,6 @@ from aurora_cli.src.api.routes.helper_route import get_route_root, get_arg_bool,
 
 def search_route_emulator(route: str) -> bool:
     match get_route_root(route):
-        # Emulator vm
         case '/emulator/vm/start':
             vm_emulator_start_api(
                 verbose=get_arg_bool(route, 'verbose')
@@ -48,11 +45,6 @@ def search_route_emulator(route: str) -> bool:
             vm_emulator_record_stop_api(
                 verbose=get_arg_bool(route, 'verbose')
             )
-        case '/emulator/vm/recording/is-on':
-            vm_emulator_record_is_on_api(
-                verbose=get_arg_bool(route, 'verbose')
-            )
-        # Emulator ssh
         case '/emulator/ssh/command':
             ssh_emulator_command_api(
                 execute=get_arg_str(route, 'execute'),

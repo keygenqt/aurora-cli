@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
 import os
 from dataclasses import dataclass
 from pathlib import Path
@@ -39,25 +38,28 @@ class DeviceModel:
     @staticmethod
     def get_model_select(select: bool, index: int | None) -> OutResult:
         return prompt_model_select(
-            models=DeviceModel.get_lists_devices(),
+            name='device',
+            models=[model.host for model in DeviceModel.get_lists_devices()],
             select=select,
             index=index
         )
 
     @staticmethod
-    def get_model(host: str, port: int, auth: str, devel_su: str = None):
-        if os.path.isfile(auth):
-            auth = Path(auth)
+    def get_model(host: str, port: int, auth: str | Path, devel_su: str = None):
+        if os.path.isfile(str(auth)):
+            auth = Path(str(auth))
         return DeviceModel(host, port, auth, devel_su)
+
+    @staticmethod
+    def get_model_by_host(host: str):
+        models = DeviceModel.get_lists_devices()
+        list_index = [model.host for model in DeviceModel.get_lists_devices()].index(host)
+        return models[list_index]
 
     @staticmethod
     @click.pass_context
     def get_lists_devices(ctx: {}) -> []:
         return ctx.obj.get_devices()
-
-    @staticmethod
-    def get_names_devices() -> []:
-        return [obj.host for obj in DeviceModel.get_lists_devices()]
 
     def get_ssh_client(self) -> SSHClient | OutResult:
         client = ssh_client_connect(

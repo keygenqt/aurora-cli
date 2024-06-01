@@ -13,45 +13,118 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
+import os
 from dataclasses import dataclass
+from pathlib import Path
 
 from paramiko.client import SSHClient
 
-from aurora_cli.src.base.common.vm_features import vm_emulator_ssh_key
-from aurora_cli.src.base.utils.output import OutResult, OutResultError
-from aurora_cli.src.base.utils.ssh import ssh_client_connect
+from aurora_cli.src.base.constants.other import VM_MANAGE
 from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.utils.dependency import check_dependency, DependencyApps
+from aurora_cli.src.base.utils.disk_cache import disk_cache
+from aurora_cli.src.base.utils.output import OutResult, OutResultError, echo_stdout
+from aurora_cli.src.base.utils.shell import shell_exec_command
+from aurora_cli.src.base.utils.ssh import ssh_client_connect
 
 
 @dataclass
 class EmulatorModel:
     """Class emulator."""
+    name: str
+    path: Path
+    is_on: bool
+    is_record: bool
     host: str = 'localhost'
     user: str = 'defaultuser'
     port: int = 2223
 
     @staticmethod
     def get_model_user():
-        return EmulatorModel()
+        name, path, is_on, is_record = EmulatorModel._get_arg()
+        return EmulatorModel(name, path, is_on, is_record)
 
     @staticmethod
     def get_model_root():
-        return EmulatorModel(user='root')
+        name, path, is_on, is_record = EmulatorModel._get_arg()
+        return EmulatorModel(name, path, is_on, is_record, user='root')
+
+    @staticmethod
+    def _get_arg():
+        name = EmulatorModel._vm_emulator_name()
+        info = EmulatorModel._vm_emulator_info(name)
+        if not name or not info['info_path']:
+            echo_stdout(OutResultError(TextError.emulator_not_found()))
+            exit(1)
+        return name, info['info_path'], EmulatorModel._vm_emulator_is_on(name), info['is_record']
+
+    def emulator_ssh_key(self) -> Path | None:
+        return self.path.parent.parent.parent / 'vmshare' / 'ssh' / 'private_keys' / 'sdk'
 
     def get_ssh_client(self) -> SSHClient | OutResult:
-        # Get path to key
-        result = vm_emulator_ssh_key()
-        if result.is_error():
-            return result
-        # Get ssh client
+        if not self.is_on:
+            return OutResultError(TextError.emulator_not_found_running())
         client = ssh_client_connect(
             self.host,
             self.user,
             self.port,
-            result.value
+            self.emulator_ssh_key()
         )
         if not client:
             return OutResultError(TextError.ssh_connect_emulator_error())
         else:
             return OutResult(value=client)
+
+    @staticmethod
+    @check_dependency(DependencyApps.vboxmanage)
+    @disk_cache()
+    def _vm_emulator_name() -> str | None:
+        stdout, stderr = shell_exec_command([
+            VM_MANAGE,
+            'list',
+            'vms',
+        ])
+        if stderr:
+            return None
+        for line in stdout:
+            if 'AuroraOS' in line:
+                return line.split('"')[1]
+        return None
+
+    @staticmethod
+    @check_dependency(DependencyApps.vboxmanage)
+    def _vm_emulator_is_on(emulator_name: str | None) -> bool:
+        if not emulator_name:
+            return False
+        stdout, stderr = shell_exec_command([
+            VM_MANAGE,
+            'list',
+            'runningvms',
+        ])
+        for line in stdout:
+            if emulator_name in line:
+                return True
+        return False
+
+    @staticmethod
+    @check_dependency(DependencyApps.vboxmanage)
+    def _vm_emulator_info(emulator_name: str) -> {}:
+        info_path = None
+        is_record = False
+
+        if not emulator_name:
+            return None
+        stdout, stderr = shell_exec_command([
+            VM_MANAGE,
+            'showvminfo',
+            emulator_name,
+        ])
+        for line in stdout:
+            if 'Snapshot folder:' in line:
+                info_path = Path(os.path.dirname(line.replace('Snapshot folder:', '').strip()))
+            if 'Recording enabled:' in line and 'yes' in line:
+                is_record = True
+        return {
+            'info_path': info_path,
+            'is_record': is_record,
+        }

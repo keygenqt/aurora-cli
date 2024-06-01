@@ -19,12 +19,12 @@ from typing import AnyStr
 from aurora_cli.src.base.configuration.loader_config import ConfigLoader
 from aurora_cli.src.base.constants.config import CONFIG_DEFAULT, CONFIG_PATH
 from aurora_cli.src.base.models.device_model import DeviceModel
-from aurora_cli.src.base.models.sign_package_model import SignPackageModel
+from aurora_cli.src.base.models.sign_model import SignModel
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.utils.argv import argv_is_api
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResult
-from aurora_cli.src.base.utils.path import path_convert_relative_path
+from aurora_cli.src.base.utils.path import path_convert_relative
 
 
 class AppConfig:
@@ -37,8 +37,8 @@ class AppConfig:
 
     @staticmethod
     def create(path: str | None):
-        arg_path = path_convert_relative_path(path)
-        default_path = path_convert_relative_path(CONFIG_PATH)
+        arg_path = path_convert_relative(path)
+        default_path = path_convert_relative(CONFIG_PATH)
         try:
             def load_file_config(config_path: Path) -> AnyStr:
                 with open(config_path, 'rb') as file_config:
@@ -79,13 +79,13 @@ class AppConfig:
             exit(1)
         return AppConfig(loader.get_data())
 
-    def get_workdir(self) -> Path | None:
-        return Path(self._data_config['workdir'])
+    def get_workdir(self) -> str | None:
+        return self._data_config['workdir']
 
     def get_keys(self) -> []:
         keys = []
         for item in self._data_config['keys']:
-            keys.append(SignPackageModel(
+            keys.append(SignModel(
                 name=item['name'],
                 key=Path(item['key']),
                 cert=Path(item['cert']),
@@ -95,7 +95,7 @@ class AppConfig:
     def get_devices(self) -> []:
         devices = []
         for item in self._data_config['devices']:
-            path_file = path_convert_relative_path(item['auth'])
+            path_file = path_convert_relative(item['auth'])
             if path_file and path_file.is_file():
                 item['auth'] = path_file
             devices.append(DeviceModel(

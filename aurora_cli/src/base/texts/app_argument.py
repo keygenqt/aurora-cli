@@ -74,3 +74,33 @@ class TextArgument(Enum):
     @localization
     def argument_exit_after_run():
         return 'Exit after run.'
+
+    @staticmethod
+    @localization
+    def argument_latest_version():
+        return 'Select latest version.'
+
+    @staticmethod
+    @localization
+    def argument_sdk_installer_type():
+        return 'Download offline type installer (online = default).'
+
+    @staticmethod
+    @localization
+    def argument_validate_profile():
+        return 'Select profile.'
+
+    @staticmethod
+    @localization
+    def argument_path_to_project():
+        return 'Path to project. The default is the current directory.'
+
+    @staticmethod
+    @localization
+    def argument_path_to_image():
+        return 'Path to image.'
+
+    @staticmethod
+    @localization
+    def argument_clear_cache():
+        return 'Clear cached data.'

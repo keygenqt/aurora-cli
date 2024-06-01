@@ -27,8 +27,9 @@ def localization(func):
         value = wrapped_context()
         if value:
             hint = ''
+            hints = '<hint>'.join(orig_value.split('<hint>')[1:])
             if '<hint>' in orig_value:
-                hint = f'''\n<hint>{orig_value.split('<hint>')[1]}'''
+                hint = f'''\n<hint>{hints}'''
             return f'{value}{hint}'
         return orig_value
 

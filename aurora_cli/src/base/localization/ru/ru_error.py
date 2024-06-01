@@ -52,7 +52,7 @@ class TextErrorRu(Enum):
 
     @staticmethod
     def emulator_not_running_recording():
-        return '<red>Не удалось запустить видео запись.</red>'
+        return '<red>Не удалось запустить запись видео.</red>'
 
     @staticmethod
     def emulator_recording_video_start_error():
@@ -64,7 +64,7 @@ class TextErrorRu(Enum):
 
     @staticmethod
     def emulator_recording_video_file_not_found():
-        return '<red>Не удалось найти видеозапись.</red>'
+        return '<red>Не удалось найти файл видеозаписи.</red>'
 
     @staticmethod
     def emulator_recording_video_convert_error():
@@ -153,3 +153,31 @@ class TextErrorRu(Enum):
     @staticmethod
     def dependency_not_found(dependency: str):
         return f'<red>Зависимость</red> {dependency} <red>не найдена и необходима для запуска этой команды.</red>'
+
+    @staticmethod
+    def request_error():
+        return '<red>Ошибка подключения к интернету. Проверьте соединение.</red>'
+
+    @staticmethod
+    def request_empty_error():
+        return '<red>Запрос дал пустой результат. Произошла ошибка...</red>'
+
+    @staticmethod
+    def just_empty_error():
+        return '<yellow>Ничего не найдено.</yellow>'
+
+    @staticmethod
+    def config_value_empty_error():
+        return '<yellow>Не найдены элементы для выбора, проверьте конфигурационный файл.</yellow>'
+
+    @staticmethod
+    def flutter_not_found_error():
+        return '<red>Не найдено: Flutter SDK.</red>'
+
+    @staticmethod
+    def sdk_not_found_error():
+        return '<red>Не найдено: Аврора SDK.</red>'
+
+    @staticmethod
+    def psdk_not_found_error():
+        return '<red>Не найдено: Аврора Platform SDK.</red>'

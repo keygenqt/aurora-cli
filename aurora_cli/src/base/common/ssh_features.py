@@ -22,7 +22,7 @@ from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.output import OutResult, OutResultError, OutResultInfo
-from aurora_cli.src.base.utils.path import path_convert_relative_path
+from aurora_cli.src.base.utils.path import path_convert_relative
 from aurora_cli.src.base.utils.ssh import ssh_exec_command
 
 
@@ -103,7 +103,7 @@ def ssh_upload(
                 value=progress
             ))
 
-    file_path = path_convert_relative_path(path)
+    file_path = path_convert_relative(path)
 
     if not file_path.is_file():
         return OutResultError(

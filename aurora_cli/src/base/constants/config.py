@@ -14,8 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
+APP_FOLDER = '~/.aurora-cli'
+
 # Default path config
-CONFIG_PATH = '~/.aurora-cli/new_configuration.yaml'  # @todo
+CONFIG_PATH = f'{APP_FOLDER}/new_configuration.yaml'  # @todo
 
 # Default config
 CONFIG_DEFAULT = """## Application configuration file Aurora CLI
