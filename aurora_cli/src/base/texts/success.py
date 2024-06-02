@@ -86,3 +86,8 @@ class TextSuccess(Enum):
     @localization
     def validate_config_workdir():
         return '<green>Value</green> workdir <green>was validated successfully.</green>'
+
+    @staticmethod
+    @localization
+    def shell_run_app_success(name: str):
+        return f'<green>Application launched successfully:</green> {name}'

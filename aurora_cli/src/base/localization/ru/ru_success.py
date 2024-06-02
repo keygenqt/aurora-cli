@@ -71,3 +71,7 @@ class TextSuccessRu(Enum):
     @staticmethod
     def validate_config_workdir():
         return '<green>Значение</green> workdir <green>прошло валидацию.</green>'
+
+    @staticmethod
+    def shell_run_app_success(name: str):
+        return f'<green>Приложение запущено успешно:</green> {name}'

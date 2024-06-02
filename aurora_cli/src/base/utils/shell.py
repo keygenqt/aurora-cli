@@ -13,8 +13,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
+import os
+import shlex
+import stat
 import subprocess
+from pathlib import Path
 
 from cffi.backend_ctypes import unicode
 
@@ -62,3 +65,23 @@ def shell_exec_command(args: []) -> []:
     )
 
     return stdout, stderr
+
+
+def shell_exec_app(path: Path) -> bool:
+    os.chmod(str(path), os.stat(path).st_mode | stat.S_IEXEC)
+    cmds = shlex.split(str(path))
+    try:
+        subprocess.Popen(cmds, start_new_session=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        verbose_add_map(
+            command=' '.join(cmds),
+            stdout=[],
+            stderr=[],
+        )
+        return True
+    except Exception as e:
+        verbose_add_map(
+            command=' '.join(cmds),
+            stdout=[],
+            stderr=[str(e)],
+        )
+        return False

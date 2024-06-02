@@ -235,3 +235,8 @@ class TextError(Enum):
     @hint(Hint.sdk_install, Hint.sdk_documentation_link)
     def sdk_not_found_error():
         return '<red>Not found: Aurora SDK.</red>'
+
+    @staticmethod
+    @localization
+    def shell_run_app_error(name: str):
+        return f'<red>Application failed to start:</red> {name}'

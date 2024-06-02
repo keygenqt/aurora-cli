@@ -57,5 +57,5 @@ class SdkModel:
             return []
         return search_installed_sdk().value[key]
 
-    def get_tool_path(self) -> str:
-        return str(self.tool)
+    def get_tool_path(self) -> Path:
+        return self.tool

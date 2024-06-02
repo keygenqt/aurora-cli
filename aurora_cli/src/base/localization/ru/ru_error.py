@@ -181,3 +181,7 @@ class TextErrorRu(Enum):
     @staticmethod
     def psdk_not_found_error():
         return '<red>Не найдено: Аврора Platform SDK.</red>'
+
+    @staticmethod
+    def shell_run_app_error(name: str):
+        return f'<red>Не удалось запустить приложение:</red> {name}'

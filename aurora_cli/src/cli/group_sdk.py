@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+
 import click
 
 from aurora_cli.src.base.common.request_features import get_versions_sdk
@@ -22,8 +23,11 @@ from aurora_cli.src.base.models.sdk_model import SdkModel
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
+from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.argv import argv_is_test
 from aurora_cli.src.base.utils.output import echo_stdout
+from aurora_cli.src.base.utils.shell import shell_exec_app
 
 
 def _get_sdk_model(
@@ -69,4 +73,7 @@ def install(latest: bool, offline: bool, verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def tool(verbose: bool):
     result = _get_sdk_model(False, None, verbose)
-    print(result)
+    if shell_exec_app(result.get_tool_path()):
+        echo_stdout(TextSuccess.shell_run_app_success(result.get_tool_path().name), verbose)
+    else:
+        echo_stdout(TextError.shell_run_app_error(result.get_tool_path().name), verbose)
