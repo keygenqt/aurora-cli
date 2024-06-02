@@ -21,8 +21,9 @@ from aurora_cli.src.base.models.device_model import DeviceModel
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
+from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.utils.argv import argv_is_test
-from aurora_cli.src.base.utils.output import echo_stdout
+from aurora_cli.src.base.utils.output import echo_stdout, OutResultError
 from aurora_cli.src.cli.impl.ssh_commands import (
     ssh_common_command_cli,
     ssh_common_upload_cli,
@@ -41,7 +42,11 @@ def _get_device_model(
     if result_model.is_error():
         echo_stdout(result_model, verbose)
         exit(1)
-    return DeviceModel.get_model_by_host(result_model.value)
+    model = DeviceModel.get_model_by_host(result_model.value)
+    if not model:
+        echo_stdout(OutResultError(TextError.device_not_found_error(result_model.value)), verbose)
+        exit(1)
+    return model
 
 
 def _get_device_ssh_client(

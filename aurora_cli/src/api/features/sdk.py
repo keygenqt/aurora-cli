@@ -15,7 +15,11 @@ limitations under the License.
 """
 from aurora_cli.src.base.common.request_features import get_versions_sdk
 from aurora_cli.src.base.common.search_features import search_installed_sdk
-from aurora_cli.src.base.utils.output import echo_stdout, OutResult
+from aurora_cli.src.base.models.sdk_model import SdkModel
+from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.texts.success import TextSuccess
+from aurora_cli.src.base.utils.output import echo_stdout, OutResult, OutResultError
+from aurora_cli.src.base.utils.shell import shell_exec_app
 
 
 def sdk_available_api(verbose: bool):
@@ -38,3 +42,15 @@ def sdk_installed_api(verbose: bool):
         message=versions[0],
         value=versions[1:] if len(versions) > 1 else []
     ), verbose)
+
+
+def sdk_tool_api(version: str, verbose: bool):
+    model = SdkModel.get_model_by_version(version)
+    if not model:
+        echo_stdout(OutResultError(TextError.sdk_not_found_error()), verbose)
+        exit(0)
+    tool = model.get_tool_path()
+    if shell_exec_app(tool):
+        echo_stdout(OutResult(TextSuccess.shell_run_app_success(tool.name)), verbose)
+    else:
+        echo_stdout(OutResultError(TextError.shell_run_app_error(tool.name)), verbose)

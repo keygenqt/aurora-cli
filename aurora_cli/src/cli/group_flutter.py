@@ -22,8 +22,9 @@ from aurora_cli.src.base.models.flutter_model import FlutterModel
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
+from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.utils.argv import argv_is_test
-from aurora_cli.src.base.utils.output import echo_stdout
+from aurora_cli.src.base.utils.output import echo_stdout, OutResultError
 
 
 def _get_flutter_model(
@@ -35,7 +36,11 @@ def _get_flutter_model(
     if result_model.is_error():
         echo_stdout(result_model, verbose)
         exit(1)
-    return FlutterModel.get_model_by_version(result_model.value)
+    model = FlutterModel.get_model_by_version(result_model.value)
+    if not model:
+        echo_stdout(OutResultError(TextError.flutter_not_found_error()), verbose)
+        exit(0)
+    return model
 
 
 @click.group(name='flutter', help=TextGroup.group_flutter())

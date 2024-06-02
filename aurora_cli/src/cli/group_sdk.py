@@ -26,7 +26,7 @@ from aurora_cli.src.base.texts.app_group import TextGroup
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.argv import argv_is_test
-from aurora_cli.src.base.utils.output import echo_stdout
+from aurora_cli.src.base.utils.output import echo_stdout, OutResultError
 from aurora_cli.src.base.utils.shell import shell_exec_app
 
 
@@ -39,7 +39,11 @@ def _get_sdk_model(
     if result_model.is_error():
         echo_stdout(result_model, verbose)
         exit(1)
-    return SdkModel.get_model_by_version(result_model.value)
+    model = SdkModel.get_model_by_version(result_model.value)
+    if not model:
+        echo_stdout(OutResultError(TextError.sdk_not_found_error()), verbose)
+        exit(0)
+    return model
 
 
 @click.group(name='sdk', help=TextGroup.group_sdk())

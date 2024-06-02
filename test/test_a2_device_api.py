@@ -40,7 +40,7 @@ class TestGroupDeviceAPI(unittest.TestCase):
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            '/device/ssh/command?host=192.168.2.15&port=22&auth=00000&execute=version'
+            '/device/ssh/command?host=192.168.2.15&execute=version'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
@@ -51,7 +51,7 @@ class TestGroupDeviceAPI(unittest.TestCase):
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            '/device/ssh/command?host=192.168.2.15&port=22&auth=00000'
+            '/device/ssh/command?host=192.168.2.15'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 500', result.output)
@@ -62,7 +62,7 @@ class TestGroupDeviceAPI(unittest.TestCase):
         path = Path.cwd() / 'data' / 'upload.file'
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            f'/device/ssh/upload?host=192.168.2.15&port=22&auth=00000&path={path}'
+            f'/device/ssh/upload?host=192.168.2.15&path={path}'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
@@ -73,7 +73,7 @@ class TestGroupDeviceAPI(unittest.TestCase):
         path = Path.cwd() / 'data' / 'com.keygenqt.trex-0.1.0-1.armv7hl.rpm'
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            f'/device/ssh/package-install?host=192.168.2.15&port=22&auth=00000&devel_su=00000&path={path}'
+            f'/device/ssh/package-install?host=192.168.2.15&devel_su=00000&path={path}'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
@@ -83,7 +83,7 @@ class TestGroupDeviceAPI(unittest.TestCase):
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            f'/device/ssh/package-run?host=192.168.2.15&port=22&auth=00000&nohup=true&package=com.keygenqt.trex'
+            f'/device/ssh/package-run?host=192.168.2.15&nohup=true&package=com.keygenqt.trex'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
@@ -93,7 +93,7 @@ class TestGroupDeviceAPI(unittest.TestCase):
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            f'/device/ssh/package-remove?host=192.168.2.15&port=22&auth=00000&devel_su=00000&package=com.keygenqt.trex'
+            f'/device/ssh/package-remove?host=192.168.2.15&devel_su=00000&package=com.keygenqt.trex'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)

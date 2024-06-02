@@ -23,8 +23,9 @@ from aurora_cli.src.base.models.sign_model import SignModel
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
+from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.utils.argv import argv_is_test
-from aurora_cli.src.base.utils.output import echo_stdout
+from aurora_cli.src.base.utils.output import echo_stdout, OutResultError
 
 
 def _get_psdk_model(
@@ -36,7 +37,11 @@ def _get_psdk_model(
     if result_model.is_error():
         echo_stdout(result_model, verbose)
         exit(1)
-    return PsdkModel.get_model_by_version(result_model.value)
+    model = PsdkModel.get_model_by_version(result_model.value)
+    if not model:
+        echo_stdout(OutResultError(TextError.psdk_not_found_error()), verbose)
+        exit(0)
+    return model
 
 
 def _get_sign_model(
@@ -48,7 +53,11 @@ def _get_sign_model(
     if result_model.is_error():
         echo_stdout(result_model, verbose)
         exit(1)
-    return SignModel.get_model_by_name(result_model.value)
+    model = SignModel.get_model_by_name(result_model.value)
+    if not model:
+        echo_stdout(OutResultError(TextError.sign_not_found_error(result_model.value)), verbose)
+        exit(0)
+    return model
 
 
 @click.group(name='psdk', help=TextGroup.group_psdk())

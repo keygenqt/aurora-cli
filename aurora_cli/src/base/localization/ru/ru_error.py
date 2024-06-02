@@ -175,12 +175,20 @@ class TextErrorRu(Enum):
         return '<red>Не найдено: Flutter SDK.</red>'
 
     @staticmethod
+    def psdk_not_found_error():
+        return '<red>Не найдено: Аврора Platform SDK.</red>'
+
+    @staticmethod
     def sdk_not_found_error():
         return '<red>Не найдено: Аврора SDK.</red>'
 
     @staticmethod
-    def psdk_not_found_error():
-        return '<red>Не найдено: Аврора Platform SDK.</red>'
+    def device_not_found_error(host: str):
+        return f'<red>Не найдено: Устройство. Host: </red> {host}'
+
+    @staticmethod
+    def sign_not_found_error(name: str):
+        return f'<red>Не найдено: Ключи подписи. Название: </red> {name}'
 
     @staticmethod
     def shell_run_app_error(name: str):

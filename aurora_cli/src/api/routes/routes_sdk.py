@@ -15,9 +15,10 @@ limitations under the License.
 """
 from aurora_cli.src.api.features.sdk import (
     sdk_available_api,
-    sdk_installed_api
+    sdk_installed_api,
+    sdk_tool_api,
 )
-from aurora_cli.src.api.routes.helper_route import get_route_root, get_arg_bool
+from aurora_cli.src.api.routes.helper_route import get_route_root, get_arg_bool, get_arg_str
 
 
 def search_route_sdk(route: str) -> bool:
@@ -28,6 +29,11 @@ def search_route_sdk(route: str) -> bool:
             )
         case '/sdk/installed':
             sdk_installed_api(
+                verbose=get_arg_bool(route, 'verbose')
+            )
+        case '/sdk/tool':
+            sdk_tool_api(
+                version=get_arg_str(route, 'version'),
                 verbose=get_arg_bool(route, 'verbose')
             )
         case _:

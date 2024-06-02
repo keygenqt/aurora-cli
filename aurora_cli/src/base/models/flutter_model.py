@@ -39,10 +39,13 @@ class FlutterModel:
 
     @staticmethod
     def get_model_by_version(version: str):
-        list_index = FlutterModel.get_versions_flutter().index(version)
-        path_flutter = FlutterModel.get_tools_flutter()[list_index]
-        path_dart = FlutterModel.get_tools_dart()[list_index]
-        return FlutterModel(path_flutter, path_dart)
+        try:
+            list_index = FlutterModel.get_versions_flutter().index(version)
+            path_flutter = FlutterModel.get_tools_flutter()[list_index]
+            path_dart = FlutterModel.get_tools_dart()[list_index]
+            return FlutterModel(path_flutter, path_dart)
+        except (Exception,):
+            return None
 
     @staticmethod
     def get_versions_flutter() -> []:

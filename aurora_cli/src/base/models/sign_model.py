@@ -45,9 +45,12 @@ class SignModel:
 
     @staticmethod
     def get_model_by_name(host: str):
-        models = SignModel.get_lists_keys()
-        list_index = [model.name for model in SignModel.get_lists_keys()].index(host)
-        return models[list_index]
+        try:
+            models = SignModel.get_lists_keys()
+            list_index = [model.name for model in SignModel.get_lists_keys()].index(host)
+            return models[list_index]
+        except (Exception,):
+            return None
 
     @staticmethod
     @click.pass_context

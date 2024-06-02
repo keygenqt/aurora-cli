@@ -38,9 +38,12 @@ class SdkModel:
 
     @staticmethod
     def get_model_by_version(version: str):
-        list_index = SdkModel.get_versions_sdk().index(version)
-        path_tool = SdkModel.get_tools_sdk()[list_index]
-        return SdkModel(path_tool)
+        try:
+            list_index = SdkModel.get_versions_sdk().index(version)
+            path_tool = SdkModel.get_tools_sdk()[list_index]
+            return SdkModel(path_tool)
+        except (Exception,):
+            return None
 
     @staticmethod
     def get_versions_sdk() -> []:

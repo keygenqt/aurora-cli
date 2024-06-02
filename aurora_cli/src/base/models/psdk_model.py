@@ -38,9 +38,12 @@ class PsdkModel:
 
     @staticmethod
     def get_model_by_version(version: str):
-        list_index = PsdkModel.get_versions_psdk().index(version)
-        path_tool = PsdkModel.get_tools_psdk()[list_index]
-        return PsdkModel(path_tool)
+        try:
+            list_index = PsdkModel.get_versions_psdk().index(version)
+            path_tool = PsdkModel.get_tools_psdk()[list_index]
+            return PsdkModel(path_tool)
+        except (Exception,):
+            return None
 
     @staticmethod
     def get_versions_psdk() -> []:

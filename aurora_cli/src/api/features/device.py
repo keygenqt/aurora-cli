@@ -22,8 +22,9 @@ from aurora_cli.src.base.common.ssh_features import (
     ssh_package_remove
 )
 from aurora_cli.src.base.models.device_model import DeviceModel
-from aurora_cli.src.base.utils.output import echo_stdout, OutResult
+from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.success import TextSuccess
+from aurora_cli.src.base.utils.output import echo_stdout, OutResult, OutResultError
 
 
 def device_list_api(verbose: bool):
@@ -35,16 +36,14 @@ def device_list_api(verbose: bool):
 
 def ssh_device_command_api(
         host: str,
-        port: int,
-        auth: str,
         execute: str,
         verbose: bool
 ):
-    result = DeviceModel.get_model(
-        host=host,
-        port=port,
-        auth=auth,
-    ).get_ssh_client()
+    model = DeviceModel.get_model_by_host(host)
+    if not model:
+        echo_stdout(OutResultError(TextError.device_not_found_error(host)), verbose)
+        exit(1)
+    result = model.get_ssh_client()
     if result.is_error():
         echo_stdout(result, verbose)
         exit(1)
@@ -56,8 +55,6 @@ def ssh_device_command_api(
 
 def ssh_device_run_api(
         host: str,
-        port: int,
-        auth: str,
         package: str,
         nohup: bool,
         verbose: bool
@@ -68,11 +65,11 @@ def ssh_device_run_api(
         else:
             echo_stdout(stdout)
 
-    result = DeviceModel.get_model(
-        host=host,
-        port=port,
-        auth=auth,
-    ).get_ssh_client()
+    model = DeviceModel.get_model_by_host(host)
+    if not model:
+        echo_stdout(OutResultError(TextError.device_not_found_error(host)), verbose)
+        exit(1)
+    result = model.get_ssh_client()
     if result.is_error():
         echo_stdout(result, verbose)
         exit(1)
@@ -87,16 +84,14 @@ def ssh_device_run_api(
 
 def ssh_device_upload_api(
         host: str,
-        port: int,
-        auth: str,
         path: str,
         verbose: bool
 ):
-    result = DeviceModel.get_model(
-        host=host,
-        port=port,
-        auth=auth,
-    ).get_ssh_client()
+    model = DeviceModel.get_model_by_host(host)
+    if not model:
+        echo_stdout(OutResultError(TextError.device_not_found_error(host)), verbose)
+        exit(1)
+    result = model.get_ssh_client()
     if result.is_error():
         echo_stdout(result, verbose)
         exit(1)
@@ -109,19 +104,15 @@ def ssh_device_upload_api(
 
 def ssh_device_rpm_install_api(
         host: str,
-        port: int,
-        auth: str,
-        devel_su: str,
         path: str,
         apm: bool,
         verbose: bool
 ):
-    result = DeviceModel.get_model(
-        host=host,
-        port=port,
-        auth=auth,
-        devel_su=devel_su,
-    ).get_ssh_client()
+    model = DeviceModel.get_model_by_host(host)
+    if not model:
+        echo_stdout(OutResultError(TextError.device_not_found_error(host)), verbose)
+        exit(1)
+    result = model.get_ssh_client()
     if result.is_error():
         echo_stdout(result, verbose)
         exit(1)
@@ -130,25 +121,21 @@ def ssh_device_rpm_install_api(
         path=path,
         apm=apm,
         listen_progress=lambda stdout: echo_stdout(stdout),
-        devel_su=devel_su
+        devel_su=model.devel_su
     ), verbose)
 
 
 def ssh_device_package_remove_api(
         host: str,
-        port: int,
-        auth: str,
-        devel_su: str,
         package: str,
         apm: bool,
         verbose: bool
 ):
-    result = DeviceModel.get_model(
-        host=host,
-        port=port,
-        auth=auth,
-        devel_su=devel_su,
-    ).get_ssh_client()
+    model = DeviceModel.get_model_by_host(host)
+    if not model:
+        echo_stdout(OutResultError(TextError.device_not_found_error(host)), verbose)
+        exit(1)
+    result = model.get_ssh_client()
     if result.is_error():
         echo_stdout(result, verbose)
         exit(1)
@@ -156,5 +143,5 @@ def ssh_device_package_remove_api(
         client=result.value,
         package=package,
         apm=apm,
-        devel_su=devel_su
+        devel_su=model.devel_su
     ), verbose)

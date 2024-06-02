@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-import os
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -45,16 +44,13 @@ class DeviceModel:
         )
 
     @staticmethod
-    def get_model(host: str, port: int, auth: str | Path, devel_su: str = None):
-        if os.path.isfile(str(auth)):
-            auth = Path(str(auth))
-        return DeviceModel(host, port, auth, devel_su)
-
-    @staticmethod
     def get_model_by_host(host: str):
-        models = DeviceModel.get_lists_devices()
-        list_index = [model.host for model in DeviceModel.get_lists_devices()].index(host)
-        return models[list_index]
+        try:
+            models = DeviceModel.get_lists_devices()
+            list_index = [model.host for model in DeviceModel.get_lists_devices()].index(host)
+            return models[list_index]
+        except (Exception,):
+            return None
 
     @staticmethod
     @click.pass_context

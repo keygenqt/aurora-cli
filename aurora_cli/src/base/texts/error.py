@@ -238,5 +238,15 @@ class TextError(Enum):
 
     @staticmethod
     @localization
+    def device_not_found_error(host: str):
+        return f'<red>Not found: Device. Host: </red> {host}'
+
+    @staticmethod
+    @localization
+    def sign_not_found_error(name: str):
+        return f'<red>Not found: Sign keys. Name: </red> {name}'
+
+    @staticmethod
+    @localization
     def shell_run_app_error(name: str):
         return f'<red>Application failed to start:</red> {name}'
