@@ -75,3 +75,7 @@ class TextHintRU(Enum):
     @staticmethod
     def sdk_install():
         return '<i>Вы можете установить Aurora SDK с помощью следующей команды:</i> aurora-cli sdk install'
+
+    @staticmethod
+    def sdk_reinstall():
+        return '<i>Если вы хотите установить новую версию, нужно удалять старую:</i> aurora-cli sdk tool'

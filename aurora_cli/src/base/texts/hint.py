@@ -34,6 +34,7 @@ class Hint(Enum):
     flutter_install = 'flutter_install'
     psdk_install = 'psdk_install'
     sdk_install = 'sdk_install'
+    sdk_reinstall = 'sdk_reinstall'
 
 
 def hint(*hints: Hint):
@@ -126,3 +127,8 @@ class TextHint(Enum):
     @localization
     def sdk_install():
         return '<i>You can install the Aurora SDK with the following command:</i> aurora-cli sdk install'
+
+    @staticmethod
+    @localization
+    def sdk_reinstall():
+        return '<i>If you want to install a new version, you need to remove the old one:</i> aurora-cli sdk tool'

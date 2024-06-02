@@ -66,10 +66,14 @@ def installed(verbose: bool):
 
 
 @group_sdk.command(help=TextCommand.command_sdk_install())
-@click.option('-l', '--latest', is_flag=True, help=TextArgument.argument_latest_version())
 @click.option('-l', '--offline', is_flag=True, help=TextArgument.argument_sdk_installer_type())
+@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def install(latest: bool, offline: bool, verbose: bool):
+def install(offline: bool, select: bool, verbose: bool):
+    if SdkModel.get_versions_sdk():
+        echo_stdout(TextError.sdk_already_installed_error(), verbose)
+        exit(1)
+
     print('Coming soon')
 
 

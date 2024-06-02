@@ -183,6 +183,10 @@ class TextErrorRu(Enum):
         return '<red>Не найдено: Аврора SDK.</red>'
 
     @staticmethod
+    def sdk_already_installed_error():
+        return '<red>Аврора SDK уже установлено.</red>'
+
+    @staticmethod
     def device_not_found_error(host: str):
         return f'<red>Не найдено: Устройство. Host: </red> {host}'
 

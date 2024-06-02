@@ -238,6 +238,12 @@ class TextError(Enum):
 
     @staticmethod
     @localization
+    @hint(Hint.sdk_reinstall)
+    def sdk_already_installed_error():
+        return '<red>Aurora SDK already installed.</red>'
+
+    @staticmethod
+    @localization
     def device_not_found_error(host: str):
         return f'<red>Not found: Device. Host: </red> {host}'
 
