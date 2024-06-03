@@ -37,3 +37,16 @@ def path_convert_relative(path: str | None) -> Path | None:
     if path.startswith('../'):
         path = '{}/{}'.format(os.getcwd(), path)
     return Path(path)
+
+
+def path_get_download_folder() -> Path:
+    default = Path.home() / "Downloads"
+    check_folder = [
+        Path.home() / "Загрузки",
+        default
+    ]
+    for item in check_folder:
+        if item.is_dir():
+            return item
+    default.mkdir(parents=True, exist_ok=True)
+    return default

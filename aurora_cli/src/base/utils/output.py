@@ -40,7 +40,7 @@ class OutResult:
     code: EchoJsonCode = EchoJsonCode.success
 
     def is_error(self):
-        return self.code != EchoJsonCode.success
+        return self.code == EchoJsonCode.error
 
     def to_json(self):
         data = {

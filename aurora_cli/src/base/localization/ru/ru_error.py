@@ -197,3 +197,11 @@ class TextErrorRu(Enum):
     @staticmethod
     def shell_run_app_error(name: str):
         return f'<red>Не удалось запустить приложение:</red> {name}'
+
+    @staticmethod
+    def download_error():
+        return '<red>Скачивание завершилось с ошибкой.</red>'
+
+    @staticmethod
+    def start_download_error():
+        return '<red>Не удалось начать скачивание.</red>'

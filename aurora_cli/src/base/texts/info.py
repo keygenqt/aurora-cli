@@ -45,7 +45,12 @@ class TextInfo(Enum):
 
     @staticmethod
     @localization
-    def shh_download_progress():
+    def shh_upload_progress():
+        return '<blue>File upload progress in percentage.</blue>'
+
+    @staticmethod
+    @localization
+    def download_progress():
         return '<blue>File download progress in percentage.</blue>'
 
     @staticmethod

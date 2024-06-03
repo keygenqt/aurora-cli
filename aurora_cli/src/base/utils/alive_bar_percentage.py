@@ -24,6 +24,10 @@ class AliveBarPercentage:
         super().__init__()
         self.alive_bar_instance = None
 
+    def stop(self):
+        if self.alive_bar_instance:
+            self._destroy_bar()
+
     def update(
             self,
             percentage: int,
@@ -36,8 +40,9 @@ class AliveBarPercentage:
                 self._destroy_bar()
 
     def _dispatch_bar(self, title: str | None = "") -> None:
-        self.alive_bar_instance = alive_bar(manual=True, title=title)
+        self.alive_bar_instance = alive_bar(manual=True, title=title, stats='({eta})')
         self.bar = self.alive_bar_instance.__enter__()
 
     def _destroy_bar(self) -> None:
         self.alive_bar_instance.__exit__(None, None, None)
+        self.alive_bar_instance = None

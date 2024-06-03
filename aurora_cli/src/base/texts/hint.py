@@ -35,6 +35,7 @@ class Hint(Enum):
     psdk_install = 'psdk_install'
     sdk_install = 'sdk_install'
     sdk_reinstall = 'sdk_reinstall'
+    hint_download_error = 'hint_download_error'
 
 
 def hint(*hints: Hint):
@@ -48,7 +49,7 @@ def hint(*hints: Hint):
                         hint_fun = getattr(TextHint, key_fun)
                         value = '{text}\n<hint>{hint}</hint>'.format(
                             text=value,
-                            hint=hint_fun(*args, **kwargs)
+                            hint=hint_fun()
                         )
             return value
 
@@ -65,9 +66,8 @@ class TextHint(Enum):
 
     @staticmethod
     @localization
-    def install_app(*args):
-        application = 'virtualbox' if args[0] == VM_MANAGE else args[0]
-        return f'<i>You need to install this application:</i> sudo apt install {application}'
+    def install_app():
+        return f'<i>You need to install application.</i>'
 
     @staticmethod
     @localization
@@ -132,3 +132,8 @@ class TextHint(Enum):
     @localization
     def sdk_reinstall():
         return '<i>If you want to install a new version, you need to remove the old one:</i> aurora-cli sdk tool'
+
+    @staticmethod
+    @localization
+    def hint_download_error():
+        return '<i>Check your internet connection or try again later.</i>'

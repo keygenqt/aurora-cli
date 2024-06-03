@@ -15,8 +15,6 @@ limitations under the License.
 """
 from enum import Enum
 
-from aurora_cli.src.base.constants.other import VM_MANAGE
-
 
 class TextHintRU(Enum):
     @staticmethod
@@ -24,9 +22,8 @@ class TextHintRU(Enum):
         return '<i>Запустить эмулятор можно следующей командой:</i> aurora-cli emulator start'
 
     @staticmethod
-    def install_app(*args):
-        application = 'virtualbox' if args[0] == VM_MANAGE else args[0]
-        return f'<i>Вам необходимо установить это приложение:</i> sudo apt install {application}'
+    def install_app():
+        return f'<i>Вам необходимо установить приложение.</i>'
 
     @staticmethod
     def not_install_emulator():
@@ -79,3 +76,7 @@ class TextHintRU(Enum):
     @staticmethod
     def sdk_reinstall():
         return '<i>Если вы хотите установить новую версию, нужно удалять старую:</i> aurora-cli sdk tool'
+
+    @staticmethod
+    def hint_download_error():
+        return '<i>Проверьте соединение с интернет или просто попробуйте позже.</i>'

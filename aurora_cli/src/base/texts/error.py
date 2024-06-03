@@ -256,3 +256,15 @@ class TextError(Enum):
     @localization
     def shell_run_app_error(name: str):
         return f'<red>Application failed to start:</red> {name}'
+
+    @staticmethod
+    @localization
+    @hint(Hint.hint_download_error)
+    def download_error():
+        return f'<red>The download completed with an error.</red>'
+
+    @staticmethod
+    @localization
+    @hint(Hint.hint_download_error)
+    def start_download_error():
+        return '<red>Failed to start downloading.</red>'

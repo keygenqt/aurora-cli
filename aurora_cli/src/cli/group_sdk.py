@@ -25,8 +25,10 @@ from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.success import TextSuccess
+from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
 from aurora_cli.src.base.utils.argv import argv_is_test
-from aurora_cli.src.base.utils.output import echo_stdout, OutResultError
+from aurora_cli.src.base.utils.download import downloads
+from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResult
 from aurora_cli.src.base.utils.shell import shell_exec_app
 
 
@@ -70,11 +72,24 @@ def installed(verbose: bool):
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def install(offline: bool, select: bool, verbose: bool):
-    if SdkModel.get_versions_sdk():
-        echo_stdout(TextError.sdk_already_installed_error(), verbose)
-        exit(1)
+    # if SdkModel.get_versions_sdk():
+    #     echo_stdout(TextError.sdk_already_installed_error(), verbose)
+    #     exit(1)
 
-    print('Coming soon')
+    def bar_update(ab: AliveBarPercentage, result: OutResult):
+        if result.is_error():
+            ab.stop()
+            echo_stdout(result)
+        else:
+            ab.update(result.value)
+
+    bar = AliveBarPercentage()
+    downloads(urls=[
+        'https://sdk-repo.omprussia.ru/sdk/installers/5.1.0/5.1.0.100-release/PlatformSDK/Aurora_OS-5.1.0.100-base-Aurora_SDK_Target-aarch64.tar.7z',
+        'https://sdk-repo.omprussia.ru/sdk/installers/5.1.0/5.1.0.100-release/PlatformSDK/Aurora_OS-5.1.0.100-base-Aurora_SDK_Target-armv7hl.tar.7z',
+    ],
+        listen_progress=lambda stdout: bar_update(bar, stdout)
+    )
 
 
 @group_sdk.command(help=TextCommand.command_sdk_tool())

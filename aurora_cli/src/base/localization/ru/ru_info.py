@@ -39,12 +39,16 @@ class TextInfoRu(Enum):
             return f'<blue>Начинаем загрузку файла:</blue> {path}'
 
     @staticmethod
-    def shh_download_progress():
+    def shh_upload_progress():
         return '<blue>Прогресс загрузки файла в процентах.</blue>'
 
     @staticmethod
     def ssh_install_rpm():
         return '<blue>Начинаем установку пакета RPM...</blue>'
+
+    @staticmethod
+    def download_progress():
+        return '<blue>Прогресс загрузки файла в процентах.</blue>'
 
     @staticmethod
     def select_array_out(key: str, names: []):

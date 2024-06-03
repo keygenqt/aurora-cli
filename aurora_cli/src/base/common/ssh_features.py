@@ -99,7 +99,7 @@ def ssh_upload(
         if progress not in cache_progress:
             cache_progress.append(progress)
             listen_progress(OutResultInfo(
-                message=TextInfo.shh_download_progress(),
+                message=TextInfo.shh_upload_progress(),
                 value=progress
             ))
 
