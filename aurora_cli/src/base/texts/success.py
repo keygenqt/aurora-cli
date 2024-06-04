@@ -91,3 +91,13 @@ class TextSuccess(Enum):
     @localization
     def shell_run_app_success(name: str):
         return f'<green>Application launched successfully:</green> {name}'
+
+    @staticmethod
+    @localization
+    def check_url_download_success():
+        return '<green>The file is ready for download.</green>'
+
+    @staticmethod
+    @localization
+    def download_success():
+        return '<green>The files were downloaded successfully.</green>'

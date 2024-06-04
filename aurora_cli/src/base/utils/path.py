@@ -16,6 +16,7 @@ limitations under the License.
 
 import os
 from datetime import datetime
+from os.path import basename
 from pathlib import Path
 
 
@@ -37,6 +38,10 @@ def path_convert_relative(path: str | None) -> Path | None:
     if path.startswith('../'):
         path = '{}/{}'.format(os.getcwd(), path)
     return Path(path)
+
+
+def path_get_download_path(url: str) -> Path:
+    return path_get_download_folder() / basename(url)
 
 
 def path_get_download_folder() -> Path:

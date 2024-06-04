@@ -91,3 +91,7 @@ class TextInfoRu(Enum):
     @staticmethod
     def cache_clear():
         return '<blue>Кеш приложения был очищен.</blue>'
+
+    @staticmethod
+    def check_url_download_exist(path: str):
+        return f'<blue>Файл скачиваться не будет, уже существует:</blue> {path}'

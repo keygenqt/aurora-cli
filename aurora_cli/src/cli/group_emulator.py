@@ -29,6 +29,7 @@ from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
 from aurora_cli.src.base.texts.prompt import TextPrompt
+from aurora_cli.src.base.utils.abort import abort_catch, abort_text_start, abort_text_end
 from aurora_cli.src.base.utils.argv import argv_is_test
 from aurora_cli.src.base.utils.output import echo_stdout
 from aurora_cli.src.cli.impl.ssh_commands import (
@@ -83,6 +84,15 @@ def vm_emulator_record_cli(verbose: bool):
     echo_stdout(result, verbose)
     if result.is_error():
         exit(1)
+
+    def stop_record_and_exit():
+        print('')
+        abort_text_start()
+        vm_emulator_record_stop()
+        abort_text_end()
+        exit(0)
+
+    abort_catch(lambda: stop_record_and_exit())
     click.prompt(
         text=TextPrompt.emulator_recording_video_loading(),
         prompt_suffix='',

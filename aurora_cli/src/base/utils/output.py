@@ -42,6 +42,9 @@ class OutResult:
     def is_error(self):
         return self.code == EchoJsonCode.error
 
+    def is_info(self):
+        return self.code == EchoJsonCode.info
+
     def to_json(self):
         data = {
             'code': self.code.value

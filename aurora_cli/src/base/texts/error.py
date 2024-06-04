@@ -261,10 +261,38 @@ class TextError(Enum):
     @localization
     @hint(Hint.hint_download_error)
     def download_error():
-        return f'<red>The download completed with an error.</red>'
+        return '<red>The download completed with an error.</red>'
 
     @staticmethod
     @localization
     @hint(Hint.hint_download_error)
     def start_download_error():
         return '<red>Failed to start downloading.</red>'
+
+    @staticmethod
+    @localization
+    def abort_download_error():
+        return '<red>Download interrupted.</red>'
+
+    @staticmethod
+    @localization
+    @hint(Hint.hint_check_download_error)
+    def check_url_download_error(url: str):
+        return f'<red>Failed to get file information by URL:</red> {url}'
+
+    @staticmethod
+    @localization
+    @hint(Hint.hint_check_download_error)
+    def check_url_download_dir_error(path: str):
+        return f'<red>The name in the destination folder is already taken:</red> {path}'
+
+    @staticmethod
+    @localization
+    @hint(Hint.hint_check_download_error)
+    def check_url_download_exist_error(path: str):
+        return f'<red>An unknown file with the same name was found:</red> {path}'
+
+    @staticmethod
+    @localization
+    def get_install_info_error():
+        return '<red>Failed to obtain installation files information.</red>'

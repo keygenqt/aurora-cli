@@ -15,6 +15,7 @@ limitations under the License.
 """
 import os
 import shlex
+import signal
 import stat
 import subprocess
 from pathlib import Path
@@ -35,6 +36,10 @@ def shell_exec_command(args: []) -> []:
     stdout = []
     stderr = []
 
+    # Ignore ctrl-c
+    def exec_fn():
+        signal.signal(signal.SIGINT, signal.SIG_IGN)
+
     def check_is_error(out: str) -> bool:
         if 'error' in out:
             return True
@@ -48,7 +53,7 @@ def shell_exec_command(args: []) -> []:
             stdout.append(out)
 
     try:
-        with subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT) as process:
+        with subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, preexec_fn=exec_fn) as process:
             for value in iter(lambda: process.stdout.readline(), ""):
                 if not value:
                     break

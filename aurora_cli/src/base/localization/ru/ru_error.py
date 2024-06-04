@@ -205,3 +205,23 @@ class TextErrorRu(Enum):
     @staticmethod
     def start_download_error():
         return '<red>Не удалось начать скачивание.</red>'
+
+    @staticmethod
+    def abort_download_error():
+        return '<red>Загрузка прервана.</red>'
+
+    @staticmethod
+    def check_url_download_error(url: str):
+        return f'<red>Не удалось получить информацию о файле по URL:</red> {url}'
+
+    @staticmethod
+    def check_url_download_dir_error(path: str):
+        return f'<red>В папке назначения имя уж занято:</red> {path}'
+
+    @staticmethod
+    def check_url_download_exist_error(path: str):
+        return f'<red>Найден неизвестный файл с таким же названием:</red> {path}'
+
+    @staticmethod
+    def get_install_info_error():
+        return '<red>Не удалось получить информацию об установочных файлах.</red>'

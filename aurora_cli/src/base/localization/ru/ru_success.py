@@ -75,3 +75,11 @@ class TextSuccessRu(Enum):
     @staticmethod
     def shell_run_app_success(name: str):
         return f'<green>Приложение запущено успешно:</green> {name}'
+
+    @staticmethod
+    def check_url_download_success():
+        return '<green>Файл готов к скачиванию.</green>'
+
+    @staticmethod
+    def download_success():
+        return '<green>Файлы скачаны успешно.</green>'

@@ -36,6 +36,7 @@ class Hint(Enum):
     sdk_install = 'sdk_install'
     sdk_reinstall = 'sdk_reinstall'
     hint_download_error = 'hint_download_error'
+    hint_check_download_error = 'hint_check_download_error'
 
 
 def hint(*hints: Hint):
@@ -137,3 +138,8 @@ class TextHint(Enum):
     @localization
     def hint_download_error():
         return '<i>Check your internet connection or try again later.</i>'
+
+    @staticmethod
+    @localization
+    def hint_check_download_error():
+        return '<i>The download will not start until all errors are resolved.</i>'

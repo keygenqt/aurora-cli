@@ -18,16 +18,19 @@ import click
 
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.constants.app import APP_NAME, APP_VERSION
-from aurora_cli.src.base.localization.localization import localization_help, localization_usage_error
+from aurora_cli.src.base.localization.localization import (
+    localization_help,
+    localization_usage_error
+)
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_group import TextGroup
 from aurora_cli.src.base.texts.info import TextInfo
+from aurora_cli.src.base.utils.abort import abort_text_end, abort_text_start
 from aurora_cli.src.base.utils.app import app_crash_out
 from aurora_cli.src.base.utils.capturing_std import CapturingStderr, CapturingStdout
 from aurora_cli.src.base.utils.click import click_init_groups
 from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
 from aurora_cli.src.base.utils.output import echo_stdout
-from aurora_cli.src.cli.group_abort import clear_after_force_close
 
 
 @click.group(invoke_without_command=True, help=TextGroup.group_main())
@@ -57,6 +60,7 @@ if __name__ == '__main__':
             with CapturingStderr(callback=localization_usage_error):
                 main()
         except click.exceptions.Abort:
-            clear_after_force_close()
+            abort_text_start()
+            abort_text_end()
     except Exception as e:
         app_crash_out(e)

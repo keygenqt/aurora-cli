@@ -109,3 +109,8 @@ class TextInfo(Enum):
     @localization
     def cache_clear():
         return '<blue>The application cache has been cleared.</blue>'
+
+    @staticmethod
+    @localization
+    def check_url_download_exist(path: str):
+        return f'<blue>The file will not be downloaded, it already exists:</blue> {path}'

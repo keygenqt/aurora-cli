@@ -80,3 +80,7 @@ class TextHintRU(Enum):
     @staticmethod
     def hint_download_error():
         return '<i>Проверьте соединение с интернет или просто попробуйте позже.</i>'
+
+    @staticmethod
+    def hint_check_download_error():
+        return '<i>Скачивание не начнется пока не будут устранены все ошибки.</i>'

@@ -16,10 +16,19 @@ limitations under the License.
 
 import click
 
+from aurora_cli.src.base.common.request_features import get_versions_from_repo
+from aurora_cli.src.base.constants.url import URL_AURORA_REPO_VERSIONS, URL_AURORA_REPO_SDK
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.prompt import TextPrompt
 from aurora_cli.src.base.utils.output import OutResultError, OutResult, echo_stdout
+
+
+def prompt_sdk_select(select: bool):
+    versions = get_versions_from_repo(URL_AURORA_REPO_VERSIONS)
+    return URL_AURORA_REPO_SDK.format(
+        version=prompt_model_select('sdk', versions, select, None).value
+    )
 
 
 def prompt_model_select(
