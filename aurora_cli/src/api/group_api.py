@@ -38,7 +38,9 @@ def group_api(ctx: {}, route: str):
         sys.argv.append('api')
         ctx.obj = AppConfig.create_test()
     try:
+        # common value
         verbose = get_arg_bool(route, 'verbose')
+        # search route
         if search_route_device(route, verbose):
             return
         if search_route_emulator(route, verbose):
