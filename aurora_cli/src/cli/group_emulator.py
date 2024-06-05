@@ -37,13 +37,14 @@ from aurora_cli.src.base.utils.abort import abort_catch, abort_text_start, abort
 from aurora_cli.src.base.utils.argv import argv_is_test
 
 
-def _get_model(
-        is_root: bool = False
+def _select_model(
+        verbose: bool,
+        is_root: bool = False,
 ) -> EmulatorModel:
     if is_root:
-        return EmulatorModel.get_model_root()
+        return EmulatorModel.get_model_root(verbose)
     else:
-        return EmulatorModel.get_model_user()
+        return EmulatorModel.get_model_user(verbose)
 
 
 @click.group(name='emulator', help=TextGroup.group_emulator())
@@ -56,24 +57,24 @@ def group_emulator(ctx: {}):
 @group_emulator.command(name='start', help=TextCommand.command_emulator_start())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def start(verbose: bool):
-    emulator_start_common(_get_model(), verbose)
+    emulator_start_common(_select_model(verbose), verbose)
 
 
 @group_emulator.command(name='screenshot', help=TextCommand.command_emulator_screenshot())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def screenshot(verbose: bool):
-    emulator_screenshot_common(_get_model(), verbose)
+    emulator_screenshot_common(_select_model(verbose), verbose)
 
 
 @group_emulator.command(name='recording', help=TextCommand.command_emulator_recording())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def recording(verbose: bool):
-    emulator_recording_start_common(_get_model(), verbose)
+    emulator_recording_start_common(_select_model(verbose), verbose)
 
     def stop_record_and_exit():
         print('')
         abort_text_start()
-        emulator_recording_stop_common(_get_model(), verbose)
+        emulator_recording_stop_common(_select_model(verbose), verbose)
         abort_text_end()
         exit(0)
 
@@ -85,28 +86,28 @@ def recording(verbose: bool):
         default='Enter',
         hide_input=True
     )
-    emulator_recording_stop_common(_get_model(), verbose)
+    emulator_recording_stop_common(_select_model(verbose), verbose)
 
 
 @group_emulator.command(name='command', help=TextCommand.command_emulator_command())
 @click.option('-e', '--execute', type=click.STRING, required=True, help=TextArgument.argument_execute_emulator())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def command(execute: str, verbose: bool):
-    emulator_command_common(_get_model(), execute, verbose)
+    emulator_command_common(_select_model(verbose), execute, verbose)
 
 
 @group_emulator.command(name='upload', help=TextCommand.command_emulator_upload())
 @click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help=TextArgument.argument_path())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def upload(path: [], verbose: bool):
-    emulator_upload_common(_get_model(), path, verbose)
+    emulator_upload_common(_select_model(verbose), path, verbose)
 
 
 @group_emulator.command(name='package-run', help=TextCommand.command_emulator_package_run())
 @click.option('-p', '--package', type=click.STRING, required=True, help=TextArgument.argument_package_name())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_run(package: str, verbose: bool):
-    emulator_package_run_common(_get_model(), package, verbose)
+    emulator_package_run_common(_select_model(verbose), package, verbose)
 
 
 @group_emulator.command(name='package-install', help=TextCommand.command_emulator_package_install())
@@ -114,7 +115,7 @@ def package_run(package: str, verbose: bool):
 @click.option('-a', '--apm', is_flag=True, help=TextArgument.argument_apm())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_install(path: [], apm: bool, verbose: bool):
-    emulator_package_install_common(_get_model(True), path, apm, verbose)
+    emulator_package_install_common(_select_model(verbose, True), path, apm, verbose)
 
 
 @group_emulator.command(name='package-remove', help=TextCommand.command_emulator_package_remove())
@@ -122,4 +123,4 @@ def package_install(path: [], apm: bool, verbose: bool):
 @click.option('-a', '--apm', is_flag=True, help=TextArgument.argument_apm())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_remove(package: str, apm: bool, verbose: bool):
-    emulator_package_remove_common(_get_model(True), package, apm, verbose)
+    emulator_package_remove_common(_select_model(verbose, True), package, apm, verbose)

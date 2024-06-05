@@ -22,12 +22,11 @@ from aurora_cli.src.base.models.sign_model import SignModel
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
-from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.utils.argv import argv_is_test
-from aurora_cli.src.base.utils.output import echo_stdout, OutResultError
+from aurora_cli.src.base.utils.output import echo_stdout
 
 
-def _get_psdk_model(
+def _select_model_psdk(
         select: bool,
         index: int | None,
         verbose: bool
@@ -36,14 +35,10 @@ def _get_psdk_model(
     if result_model.is_error():
         echo_stdout(result_model, verbose)
         exit(1)
-    model = PsdkModel.get_model_by_version(result_model.value)
-    if not model:
-        echo_stdout(OutResultError(TextError.psdk_not_found_error()), verbose)
-        exit(0)
-    return model
+    return PsdkModel.get_model_by_version(result_model.value, verbose)
 
 
-def _get_sign_model(
+def _select_model_sign(
         select: bool,
         index: int | None,
         verbose: bool
@@ -52,11 +47,7 @@ def _get_sign_model(
     if result_model.is_error():
         echo_stdout(result_model, verbose)
         exit(1)
-    model = SignModel.get_model_by_name(result_model.value)
-    if not model:
-        echo_stdout(OutResultError(TextError.sign_not_found_error(result_model.value)), verbose)
-        exit(0)
-    return model
+    return SignModel.get_model_by_name(result_model.value, verbose)
 
 
 @click.group(name='psdk', help=TextGroup.group_psdk())
@@ -105,7 +96,7 @@ def clear(select: bool, index: int, verbose: bool):
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_search(package: str, select: bool, index: int, verbose: bool):
-    result = _get_psdk_model(select, index, verbose)
+    result = _select_model_psdk(select, index, verbose)
     print(result)
 
 
@@ -133,7 +124,7 @@ def package_remove(package: str, select: bool, index: int, verbose: bool):
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def sign(path: [], select: bool, index: int, verbose: bool):
-    result = _get_sign_model(select, index, verbose)
+    result = _select_model_sign(select, index, verbose)
     print(result)
 
 

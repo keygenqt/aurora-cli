@@ -27,12 +27,11 @@ from aurora_cli.src.base.models.device_model import DeviceModel
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
-from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.utils.argv import argv_is_test
-from aurora_cli.src.base.utils.output import echo_stdout, OutResultError
+from aurora_cli.src.base.utils.output import echo_stdout
 
 
-def _get_device_model(
+def _select_model(
         select: bool,
         index: int | None,
         verbose: bool
@@ -41,11 +40,7 @@ def _get_device_model(
     if result_model.is_error():
         echo_stdout(result_model, verbose)
         exit(1)
-    model = DeviceModel.get_model_by_host(result_model.value)
-    if not model:
-        echo_stdout(OutResultError(TextError.device_not_found_error(result_model.value)), verbose)
-        exit(1)
-    return model
+    return DeviceModel.get_model_by_host(result_model.value, verbose)
 
 
 @click.group(name='device', help=TextGroup.group_device())
@@ -62,7 +57,7 @@ def group_device(ctx: {}):
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def command(execute: str, select: bool, index: int | None, verbose: bool):
     device_command_common(
-        model=_get_device_model(select, index, verbose),
+        model=_select_model(select, index, verbose),
         execute=execute,
         verbose=verbose
     )
@@ -75,7 +70,7 @@ def command(execute: str, select: bool, index: int | None, verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def upload(path: [], select: bool, index: int, verbose: bool):
     device_upload_common(
-        model=_get_device_model(select, index, verbose),
+        model=_select_model(select, index, verbose),
         path=path,
         verbose=verbose
     )
@@ -88,7 +83,7 @@ def upload(path: [], select: bool, index: int, verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_run(package: str, select: bool, index: int, verbose: bool):
     device_package_run_common(
-        model=_get_device_model(select, index, verbose),
+        model=_select_model(select, index, verbose),
         package=package,
         verbose=verbose
     )
@@ -102,7 +97,7 @@ def package_run(package: str, select: bool, index: int, verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_install(path: [], apm: bool, select: bool, index: int, verbose: bool):
     device_package_install_common(
-        model=_get_device_model(select, index, verbose),
+        model=_select_model(select, index, verbose),
         path=path,
         apm=apm,
         verbose=verbose,
@@ -117,7 +112,7 @@ def package_install(path: [], apm: bool, select: bool, index: int, verbose: bool
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_remove(package: str, apm: bool, select: bool, index: int, verbose: bool):
     device_package_remove_common(
-        model=_get_device_model(select, index, verbose),
+        model=_select_model(select, index, verbose),
         package=package,
         apm=apm,
         verbose=verbose,

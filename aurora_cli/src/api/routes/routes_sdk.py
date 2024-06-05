@@ -15,29 +15,27 @@ limitations under the License.
 """
 from aurora_cli.src.base.common.groups.sdk_features import sdk_available_common, sdk_installed_common, \
     sdk_install_common, sdk_tool_common
+from aurora_cli.src.base.models.sdk_model import SdkModel
 from aurora_cli.src.base.utils.route import get_route_root, get_arg_bool, get_arg_str
 
 
-def search_route_sdk(route: str) -> bool:
+def search_route_sdk(route: str, verbose: bool) -> bool:
     match get_route_root(route):
         case '/sdk/available':
-            sdk_available_common(
-                verbose=get_arg_bool(route, 'verbose')
-            )
+            sdk_available_common(verbose)
         case '/sdk/installed':
-            sdk_installed_common(
-                verbose=get_arg_bool(route, 'verbose')
-            )
+            sdk_installed_common(verbose)
         case '/sdk/install':
             sdk_install_common(
                 version=get_arg_str(route, 'version'),
                 offline=get_arg_bool(route, 'offline'),
-                verbose=get_arg_bool(route, 'verbose'),
+                verbose=verbose,
                 is_bar=False
             )
         case '/sdk/tool':
             sdk_tool_common(
-                verbose=get_arg_bool(route, 'verbose')
+                model=SdkModel.get_model(verbose),
+                verbose=verbose
             )
         case _:
             return False

@@ -22,6 +22,7 @@ from aurora_cli.src.base.common.features.ssh_features import (
     ssh_rpm_install,
     ssh_package_remove
 )
+from aurora_cli.src.base.interface.model_client import ModelClient
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
@@ -29,11 +30,20 @@ from aurora_cli.src.base.utils.argv import argv_is_test, argv_is_api
 from aurora_cli.src.base.utils.output import echo_stdout, OutResult
 
 
+def _get_ssh_client(model: ModelClient, verbose: bool) -> SSHClient:
+    result = model.get_ssh_client()
+    if result.is_error():
+        echo_stdout(result, verbose)
+        exit(1)
+    return result.value
+
+
 def ssh_command_common(
-        client: SSHClient,
+        model: ModelClient,
         execute: str,
         verbose: bool
 ):
+    client = _get_ssh_client(model, verbose)
     result = ssh_command(
         client=client,
         execute=execute
@@ -52,10 +62,12 @@ def ssh_command_common(
 
 
 def ssh_upload_common(
-        client: SSHClient,
+        model: ModelClient,
         path: [],
         verbose: bool
 ):
+    client = _get_ssh_client(model, verbose)
+
     def state_update(ab: AliveBarPercentage, percent: int):
         if argv_is_api():
             echo_stdout(OutResult(TextInfo.shh_upload_progress(), value=percent))
@@ -69,17 +81,23 @@ def ssh_upload_common(
         echo_stdout(ssh_upload(
             client=client,
             path=file_path,
-            listen_progress=lambda stdout: state_update(bar, stdout.value)
+            listen_progress=lambda stdout: state_update(bar, stdout.value),
+            close=False
         ))
+
+    client.close()
+
     if verbose:
         echo_stdout(OutResult(), verbose)
 
 
 def ssh_run_common(
-        client: SSHClient,
+        model: ModelClient,
         package: str,
         verbose: bool,
 ):
+    client = _get_ssh_client(model, verbose)
+
     def echo_stdout_with_check_close(stdout: OutResult | None):
         echo_stdout(stdout)
 
@@ -94,12 +112,14 @@ def ssh_run_common(
 
 
 def ssh_install_common(
-        client: SSHClient,
+        model: ModelClient,
         path: [],
         apm: bool,
         verbose: bool,
         devel_su: str | None = None
 ):
+    client = _get_ssh_client(model, verbose)
+
     def state_update(ab: AliveBarPercentage, percent: int):
         if argv_is_api():
             echo_stdout(OutResult(TextInfo.shh_upload_progress(), value=percent))
@@ -116,19 +136,25 @@ def ssh_install_common(
             path=file_path,
             apm=apm,
             listen_progress=lambda stdout: state_update(bar, stdout.value),
-            devel_su=devel_su
+            devel_su=devel_su,
+            close=False
         ))
+
+    client.close()
+
     if verbose:
         echo_stdout(OutResult(), verbose)
 
 
 def ssh_remove_common(
-        client: SSHClient,
+        model: ModelClient,
         package: str,
         apm: bool,
         verbose: bool,
         devel_su: str | None = None
 ):
+    client = _get_ssh_client(model, verbose)
+
     echo_stdout(ssh_package_remove(
         client=client,
         package=package,

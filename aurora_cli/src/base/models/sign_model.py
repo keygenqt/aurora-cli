@@ -18,7 +18,8 @@ from pathlib import Path
 
 import click
 
-from aurora_cli.src.base.utils.output import OutResult
+from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.utils.output import OutResult, echo_stdout, OutResultError
 from aurora_cli.src.base.utils.prompt import prompt_model_select
 
 
@@ -43,13 +44,14 @@ class SignModel:
         return SignModel(name, key, cert)
 
     @staticmethod
-    def get_model_by_name(host: str):
+    def get_model_by_name(name: str, verbose: bool):
         try:
             models = SignModel.get_lists_keys()
-            list_index = [model.name for model in SignModel.get_lists_keys()].index(host)
+            list_index = [model.name for model in SignModel.get_lists_keys()].index(name)
             return models[list_index]
         except (Exception,):
-            return None
+            echo_stdout(OutResultError(TextError.sign_not_found_error(name)), verbose)
+            exit(0)
 
     @staticmethod
     @click.pass_context

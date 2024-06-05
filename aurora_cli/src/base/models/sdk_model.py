@@ -17,8 +17,8 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from aurora_cli.src.base.common.features.search_installed import search_installed_sdk
-from aurora_cli.src.base.utils.output import OutResult
-from aurora_cli.src.base.utils.prompt import prompt_model_select
+from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.utils.output import echo_stdout, OutResultError
 
 
 @dataclass
@@ -27,22 +27,22 @@ class SdkModel:
     tool: Path
 
     @staticmethod
-    def get_model_select(select: bool, index: int | None) -> OutResult:
-        return prompt_model_select(
-            name='sdk',
-            models=SdkModel.get_versions_sdk(),
-            select=select,
-            index=index
-        )
+    def get_model(verbose: bool):
+        versions = SdkModel.get_versions_sdk()
+        if not versions:
+            echo_stdout(OutResultError(TextError.sdk_not_found_error()), verbose)
+            exit(1)
+        return SdkModel.get_model_by_version(versions[0], verbose)
 
     @staticmethod
-    def get_model_by_version(version: str):
+    def get_model_by_version(version: str, verbose: bool):
         try:
             list_index = SdkModel.get_versions_sdk().index(version)
             path_tool = SdkModel.get_tools_sdk()[list_index]
             return SdkModel(Path(path_tool))
         except (Exception,):
-            return None
+            echo_stdout(OutResultError(TextError.sdk_not_found_error()), verbose)
+            exit(1)
 
     @staticmethod
     def get_versions_sdk() -> []:

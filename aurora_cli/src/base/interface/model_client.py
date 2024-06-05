@@ -13,19 +13,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-from aurora_cli.src.base.common.groups.flutter_features import (
-    flutter_available_common,
-    flutter_installed_common
-)
-from aurora_cli.src.base.utils.route import get_route_root, get_arg_bool
+from abc import abstractmethod
 
 
-def search_route_flutter(route: str, verbose: bool) -> bool:
-    match get_route_root(route):
-        case '/flutter/available':
-            flutter_available_common(verbose)
-        case '/flutter/installed':
-            flutter_installed_common(verbose)
-        case _:
-            return False
-    return True
+# Interface for model classes
+class ModelClient:
+    @abstractmethod
+    def get_ssh_client(self):
+        pass

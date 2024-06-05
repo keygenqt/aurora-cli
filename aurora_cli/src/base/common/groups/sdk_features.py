@@ -70,16 +70,7 @@ def sdk_install_common(
         echo_stdout(OutResultError(TextError.shell_run_app_error(run.name)), verbose)
 
 
-def sdk_tool_common(verbose: bool):
-    result = search_installed_sdk()
-    if result.is_error():
-        echo_stdout(result, verbose)
-        exit(1)
-
-    model = SdkModel.get_model_by_version(result.value['versions'][0])
-    if not model:
-        echo_stdout(OutResultError(TextError.sdk_not_found_error()), verbose)
-        exit(0)
+def sdk_tool_common(model: SdkModel, verbose: bool):
     tool = model.get_tool_path()
     if shell_exec_app(tool):
         echo_stdout(OutResult(TextSuccess.shell_run_app_success(tool.name)), verbose)

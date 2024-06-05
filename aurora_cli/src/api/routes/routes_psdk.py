@@ -14,19 +14,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 from aurora_cli.src.base.common.groups.psdk_features import psdk_installed_common, psdk_available_common
-from aurora_cli.src.base.utils.route import get_route_root, get_arg_bool
+from aurora_cli.src.base.utils.route import get_route_root
 
 
-def search_route_psdk(route: str) -> bool:
+def search_route_psdk(route: str, verbose: bool) -> bool:
     match get_route_root(route):
         case '/psdk/available':
-            psdk_available_common(
-                verbose=get_arg_bool(route, 'verbose')
-            )
+            psdk_available_common(verbose)
         case '/psdk/installed':
-            psdk_installed_common(
-                verbose=get_arg_bool(route, 'verbose')
-            )
+            psdk_installed_common(verbose)
         case _:
             return False
     return True

@@ -15,8 +15,13 @@ limitations under the License.
 """
 from pathlib import Path
 
-from paramiko.client import SSHClient
-
+from aurora_cli.src.base.common.groups.impl.ssh_commands import (
+    ssh_command_common,
+    ssh_run_common,
+    ssh_upload_common,
+    ssh_install_common,
+    ssh_remove_common
+)
 from aurora_cli.src.base.constants.other import VM_MANAGE
 from aurora_cli.src.base.models.emulator_model import EmulatorModel
 from aurora_cli.src.base.texts.error import TextError
@@ -27,16 +32,6 @@ from aurora_cli.src.base.utils.dependency import check_dependency, DependencyApp
 from aurora_cli.src.base.utils.output import OutResult, OutResultError, OutResultInfo, echo_stdout
 from aurora_cli.src.base.utils.path import path_gen_file_name
 from aurora_cli.src.base.utils.shell import shell_exec_command
-from aurora_cli.src.cli.impl.ssh_commands import ssh_command_common, ssh_run_common, ssh_upload_common, \
-    ssh_install_common, ssh_remove_common
-
-
-def _get_ssh_client(model: EmulatorModel, verbose: bool) -> SSHClient:
-    result = model.get_ssh_client()
-    if result.is_error():
-        echo_stdout(result, verbose)
-        exit(1)
-    return result.value
 
 
 def _check_is_not_run(model: EmulatorModel, verbose: bool):
@@ -156,11 +151,7 @@ def emulator_command_common(
         verbose: bool
 ):
     _check_is_not_run(model, verbose)
-    ssh_command_common(
-        client=_get_ssh_client(model, verbose),
-        execute=execute,
-        verbose=verbose
-    )
+    ssh_command_common(model, execute, verbose)
 
 
 def emulator_upload_common(
@@ -169,11 +160,7 @@ def emulator_upload_common(
         verbose: bool
 ):
     _check_is_not_run(model, verbose)
-    ssh_upload_common(
-        client=_get_ssh_client(model, verbose),
-        path=path,
-        verbose=verbose
-    )
+    ssh_upload_common(model, path, verbose)
 
 
 def emulator_package_run_common(
@@ -182,11 +169,7 @@ def emulator_package_run_common(
         verbose: bool
 ):
     _check_is_not_run(model, verbose)
-    ssh_run_common(
-        client=_get_ssh_client(model, verbose),
-        package=package,
-        verbose=verbose
-    )
+    ssh_run_common(model, package, verbose)
 
 
 def emulator_package_install_common(
@@ -196,12 +179,7 @@ def emulator_package_install_common(
         verbose: bool
 ):
     _check_is_not_run(model, verbose)
-    ssh_install_common(
-        client=_get_ssh_client(model, verbose),
-        path=path,
-        apm=apm,
-        verbose=verbose
-    )
+    ssh_install_common(model, path, apm, verbose)
 
 
 def emulator_package_remove_common(
@@ -211,9 +189,4 @@ def emulator_package_remove_common(
         verbose: bool
 ):
     _check_is_not_run(model, verbose)
-    ssh_remove_common(
-        client=_get_ssh_client(model, verbose),
-        package=package,
-        apm=apm,
-        verbose=verbose
-    )
+    ssh_remove_common(model, package, apm, verbose)

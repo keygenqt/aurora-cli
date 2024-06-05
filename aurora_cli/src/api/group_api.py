@@ -27,6 +27,7 @@ from aurora_cli.src.base.texts.app_group import TextGroup
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.utils.argv import argv_is_test
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError
+from aurora_cli.src.base.utils.route import get_arg_bool
 
 
 @click.group(name='api', invoke_without_command=True, help=TextGroup.group_api())
@@ -37,15 +38,16 @@ def group_api(ctx: {}, route: str):
         sys.argv.append('api')
         ctx.obj = AppConfig.create_test()
     try:
-        if search_route_device(route):
+        verbose = get_arg_bool(route, 'verbose')
+        if search_route_device(route, verbose):
             return
-        if search_route_emulator(route):
+        if search_route_emulator(route, verbose):
             return
-        if search_route_flutter(route):
+        if search_route_flutter(route, verbose):
             return
-        if search_route_psdk(route):
+        if search_route_psdk(route, verbose):
             return
-        if search_route_sdk(route):
+        if search_route_sdk(route, verbose):
             return
         echo_stdout(OutResultError(TextError.route_not_found()))
     except Exception as e:

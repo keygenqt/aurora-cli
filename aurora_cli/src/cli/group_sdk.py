@@ -70,4 +70,4 @@ def install(offline: bool, select: bool, verbose: bool):
 @group_sdk.command(help=TextCommand.command_sdk_tool())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def tool(verbose: bool):
-    sdk_tool_common(verbose)
+    sdk_tool_common(SdkModel.get_model(verbose), verbose)

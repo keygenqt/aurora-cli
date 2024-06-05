@@ -20,6 +20,7 @@ from pathlib import Path
 from paramiko.client import SSHClient
 
 from aurora_cli.src.base.constants.other import VM_MANAGE
+from aurora_cli.src.base.interface.model_client import ModelClient
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.utils.dependency import check_dependency, DependencyApps
 from aurora_cli.src.base.utils.output import OutResult, OutResultError, echo_stdout
@@ -28,7 +29,7 @@ from aurora_cli.src.base.utils.ssh import ssh_client_connect
 
 
 @dataclass
-class EmulatorModel:
+class EmulatorModel(ModelClient):
     """Class emulator."""
     name: str
     path: Path
@@ -39,21 +40,21 @@ class EmulatorModel:
     port: int = 2223
 
     @staticmethod
-    def get_model_user():
-        name, path, is_on, is_record = EmulatorModel._get_arg()
+    def get_model_user(verbose: bool):
+        name, path, is_on, is_record = EmulatorModel._get_arg(verbose)
         return EmulatorModel(name, path, is_on, is_record)
 
     @staticmethod
-    def get_model_root():
-        name, path, is_on, is_record = EmulatorModel._get_arg()
+    def get_model_root(verbose: bool):
+        name, path, is_on, is_record = EmulatorModel._get_arg(verbose)
         return EmulatorModel(name, path, is_on, is_record, user='root')
 
     @staticmethod
-    def _get_arg():
+    def _get_arg(verbose: bool):
         name = EmulatorModel._vm_emulator_name()
         info = EmulatorModel._vm_emulator_info(name)
         if not name or not info['info_path']:
-            echo_stdout(OutResultError(TextError.emulator_not_found()))
+            echo_stdout(OutResultError(TextError.emulator_not_found()), verbose)
             exit(1)
         return name, info['info_path'], EmulatorModel._vm_emulator_is_on(name), info['is_record']
 
