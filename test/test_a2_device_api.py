@@ -66,6 +66,7 @@ class TestGroupDeviceAPI(unittest.TestCase):
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
+        self.assertIn('successfully', result.output)
 
     def test_device_a5_command_install(self):
         sleep(1)
@@ -73,30 +74,22 @@ class TestGroupDeviceAPI(unittest.TestCase):
         path = Path.cwd() / 'data' / 'com.keygenqt.trex-0.1.0-1.armv7hl.rpm'
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            f'/device/ssh/package-install?host=192.168.2.15&devel_su=00000&path={path}'
+            f'/device/ssh/package-install?host=192.168.2.15&path={path}&apm=true'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
+        self.assertIn('successfully', result.output)
 
-    def test_device_a6_command_run(self):
-        sleep(1)
-        runner = CliRunner()
-        result = runner.invoke(cli=group_api, args=[
-            '--route',
-            f'/device/ssh/package-run?host=192.168.2.15&nohup=true&package=com.keygenqt.trex'
-        ])
-        self.assertEqual(result.exit_code, 0)
-        self.assertIn('"code": 200', result.output)
-
-    def test_device_a7_command_remove(self):
+    def test_device_a6_command_remove(self):
         sleep(2)
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            f'/device/ssh/package-remove?host=192.168.2.15&devel_su=00000&package=com.keygenqt.trex'
+            f'/device/ssh/package-remove?host=192.168.2.15&package=com.keygenqt.trex&apm=true'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
+        self.assertIn('successfully', result.output)
 
 
 if __name__ == '__main__':

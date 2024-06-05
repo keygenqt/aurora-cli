@@ -48,7 +48,6 @@ def ssh_command(
 def ssh_run(
         client: SSHClient,
         package: str,
-        nohup: bool,
         listen_stdout: Callable[[OutResult | None], None],
         listen_stderr: Callable[[OutResult | None], None],
         close: bool = True
@@ -60,14 +59,9 @@ def ssh_run(
             return True
         return False
 
-    if nohup:
-        execute = f'nohup invoker --type=qt5 {package}'
-    else:
-        execute = f'invoker --type=qt5 {package}'
-
     stdout, stderr = ssh_exec_command(
         client=client,
-        execute=execute,
+        execute=f'invoker --type=qt5 {package}',
         listen_stdout=lambda value, index: listen_stdout(
             None if check_is_error(value) else OutResult(value=value, index=index)
         ),
@@ -75,6 +69,7 @@ def ssh_run(
             None if check_is_error(value) else OutResult(value=value, index=index)
         ),
     )
+
     if close:
         client.close()
 
@@ -83,7 +78,7 @@ def ssh_run(
             message=TextError.ssh_run_application_error(package),
             value=stdout + stderr
         )
-    return OutResult()
+    return OutResult(TextSuccess.ssh_run_package(package))
 
 
 def ssh_upload(
@@ -212,9 +207,15 @@ def ssh_package_remove(
                    f'--dest ru.omp.APM '
                    f'--object-path /ru/omp/APM '
                    f'--method ru.omp.APM.Remove '
-                   f'"{package}"')
+                   f'"{package}" ')
 
     stdout, stderr = ssh_exec_command(client, execute)
+
+    if stdout and 'Invalid arguments' in stdout[0]:
+        prompt = "{'ShowPrompt': <false>}"
+        execute += f'"{prompt}"'
+        stdout, stderr = ssh_exec_command(client, execute)
+
     if close:
         client.close()
 

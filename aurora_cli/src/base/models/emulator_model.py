@@ -22,7 +22,6 @@ from paramiko.client import SSHClient
 from aurora_cli.src.base.constants.other import VM_MANAGE
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.utils.dependency import check_dependency, DependencyApps
-from aurora_cli.src.base.utils.disk_cache import disk_cache
 from aurora_cli.src.base.utils.output import OutResult, OutResultError, echo_stdout
 from aurora_cli.src.base.utils.shell import shell_exec_command
 from aurora_cli.src.base.utils.ssh import ssh_client_connect
@@ -77,7 +76,6 @@ class EmulatorModel:
 
     @staticmethod
     @check_dependency(DependencyApps.vboxmanage)
-    @disk_cache()
     def _vm_emulator_name() -> str | None:
         stdout, stderr = shell_exec_command([
             VM_MANAGE,

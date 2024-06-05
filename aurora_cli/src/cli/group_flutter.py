@@ -15,8 +15,7 @@ limitations under the License.
 """
 import click
 
-from aurora_cli.src.base.common.request_features import get_versions_flutter
-from aurora_cli.src.base.common.search_features import search_installed_flutter
+from aurora_cli.src.base.common.groups.flutter_features import flutter_available_common, flutter_installed_common
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.models.flutter_model import FlutterModel
 from aurora_cli.src.base.texts.app_argument import TextArgument
@@ -50,33 +49,33 @@ def group_flutter(ctx: {}):
         ctx.obj = AppConfig.create_test()
 
 
-@group_flutter.command(help=TextCommand.command_flutter_available())
+@group_flutter.command(name='available', help=TextCommand.command_flutter_available())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def available(verbose: bool):
-    echo_stdout(get_versions_flutter(), verbose)
+    flutter_available_common(verbose)
 
 
-@group_flutter.command(help=TextCommand.command_flutter_installed())
+@group_flutter.command(name='installed', help=TextCommand.command_flutter_installed())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def installed(verbose: bool):
-    echo_stdout(search_installed_flutter(), verbose)
+    flutter_installed_common(verbose)
 
 
-@group_flutter.command(help=TextCommand.command_flutter_install())
+@group_flutter.command(name='install', help=TextCommand.command_flutter_install())
 @click.option('-l', '--latest', is_flag=True, help=TextArgument.argument_latest_version())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def install(latest: bool, verbose: bool):
     print('Coming soon')
 
 
-@group_flutter.command(help=TextCommand.command_flutter_remove())
+@group_flutter.command(name='remove', help=TextCommand.command_flutter_remove())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def remove(verbose: bool):
     result = _get_flutter_model(True, None, verbose)
     print(result)
 
 
-@group_flutter.command(help=TextCommand.command_flutter_plugins_report())
+@group_flutter.command(name='plugins-report', help=TextCommand.command_flutter_plugins_report())
 @click.option('-p', '--path', type=click.STRING, default=None, required=False,
               help=TextArgument.argument_path_to_project())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())

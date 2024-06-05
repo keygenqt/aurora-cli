@@ -101,18 +101,7 @@ class TestGroupEmulatorCLI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('installed successfully', result.output)
 
-    def test_emulator_a8_command_run(self):
-        sleep(1)
-        runner = CliRunner()
-        result = runner.invoke(cli=group_emulator, args=[
-            'package-run',
-            '--package', 'com.keygenqt.trex',
-            '--nohup'
-        ])
-        self.assertEqual(result.exit_code, 0)
-        self.assertIn('run successfully', result.output)
-
-    def test_emulator_a9_command_remove(self):
+    def test_emulator_a8_command_remove(self):
         sleep(2)
         runner = CliRunner()
         result = runner.invoke(cli=group_emulator, args=[
@@ -122,7 +111,7 @@ class TestGroupEmulatorCLI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('successfully removed', result.output)
 
-    def test_emulator_b1_command_install_apm(self):
+    def test_emulator_a9_command_install_apm(self):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_emulator, args=[
@@ -133,7 +122,7 @@ class TestGroupEmulatorCLI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('installed successfully', result.output)
 
-    def test_emulator_b2_command_remove_apm(self):
+    def test_emulator_b1_command_remove_apm(self):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_emulator, args=[

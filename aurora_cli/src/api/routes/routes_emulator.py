@@ -13,62 +13,71 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-from aurora_cli.src.api.features.emulator import (
-    vm_emulator_start_api,
-    vm_emulator_screenshot_api,
-    vm_emulator_record_start_api,
-    vm_emulator_record_stop_api,
-    ssh_emulator_command_api,
-    ssh_emulator_run_api,
-    ssh_emulator_rpm_install_api,
-    ssh_emulator_upload_api,
-    ssh_emulator_package_remove_api,
+from aurora_cli.src.base.common.groups.emulator_features import (
+    emulator_start_common,
+    emulator_recording_start_common,
+    emulator_recording_stop_common,
+    emulator_command_common,
+    emulator_upload_common,
+    emulator_package_run_common,
+    emulator_package_install_common,
+    emulator_package_remove_common,
+    emulator_screenshot_common
 )
-from aurora_cli.src.api.routes.helper_route import get_route_root, get_arg_bool, get_arg_str
+from aurora_cli.src.base.models.emulator_model import EmulatorModel
+from aurora_cli.src.base.utils.route import get_route_root, get_arg_bool, get_arg_str
 
 
 def search_route_emulator(route: str) -> bool:
     match get_route_root(route):
         case '/emulator/vm/start':
-            vm_emulator_start_api(
+            emulator_start_common(
+                model=EmulatorModel.get_model_user(),
                 verbose=get_arg_bool(route, 'verbose')
             )
         case '/emulator/vm/screenshot':
-            vm_emulator_screenshot_api(
+            emulator_screenshot_common(
+                model=EmulatorModel.get_model_user(),
                 verbose=get_arg_bool(route, 'verbose')
             )
         case '/emulator/vm/recording/start':
-            vm_emulator_record_start_api(
+            emulator_recording_start_common(
+                model=EmulatorModel.get_model_user(),
                 verbose=get_arg_bool(route, 'verbose')
             )
         case '/emulator/vm/recording/stop':
-            vm_emulator_record_stop_api(
+            emulator_recording_stop_common(
+                model=EmulatorModel.get_model_user(),
                 verbose=get_arg_bool(route, 'verbose')
             )
         case '/emulator/ssh/command':
-            ssh_emulator_command_api(
+            emulator_command_common(
+                model=EmulatorModel.get_model_user(),
                 execute=get_arg_str(route, 'execute'),
                 verbose=get_arg_bool(route, 'verbose')
             )
         case '/emulator/ssh/upload':
-            ssh_emulator_upload_api(
-                path=get_arg_str(route, 'path'),
+            emulator_upload_common(
+                model=EmulatorModel.get_model_user(),
+                path=[get_arg_str(route, 'path')],
                 verbose=get_arg_bool(route, 'verbose')
             )
         case '/emulator/ssh/package-run':
-            ssh_emulator_run_api(
+            emulator_package_run_common(
+                model=EmulatorModel.get_model_user(),
                 package=get_arg_str(route, 'package'),
-                nohup=get_arg_bool(route, 'nohup'),
                 verbose=get_arg_bool(route, 'verbose')
             )
         case '/emulator/ssh/package-install':
-            ssh_emulator_rpm_install_api(
-                path=get_arg_str(route, 'path'),
+            emulator_package_install_common(
+                model=EmulatorModel.get_model_root(),
+                path=[get_arg_str(route, 'path')],
                 apm=get_arg_bool(route, 'apm'),
                 verbose=get_arg_bool(route, 'verbose')
             )
         case '/emulator/ssh/package-remove':
-            ssh_emulator_package_remove_api(
+            emulator_package_remove_common(
+                model=EmulatorModel.get_model_root(),
                 package=get_arg_str(route, 'package'),
                 apm=get_arg_bool(route, 'apm'),
                 verbose=get_arg_bool(route, 'verbose')

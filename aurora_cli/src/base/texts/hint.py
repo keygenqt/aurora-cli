@@ -16,7 +16,6 @@ limitations under the License.
 import functools
 from enum import Enum
 
-from aurora_cli.src.base.constants.other import VM_MANAGE
 from aurora_cli.src.base.localization.localization import localization
 
 

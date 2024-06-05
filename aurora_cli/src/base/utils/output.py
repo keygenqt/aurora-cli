@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
 import json
 from dataclasses import dataclass
 from enum import Enum
@@ -51,9 +50,9 @@ class OutResult:
         }
         if self.message:
             data['message'] = text_colorize_clear(self.message)
-        if self.value:
+        if self.value or self.value == 0:
             data['value'] = self.value
-        if self.index:
+        if self.index or self.index == 0:
             data['index'] = self.index
         return data
 

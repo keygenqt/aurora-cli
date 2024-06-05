@@ -13,9 +13,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
 import click
 
+from aurora_cli.src.base.common.groups.device_features import (
+    device_command_common,
+    device_upload_common,
+    device_package_run_common,
+    device_package_install_common,
+    device_package_remove_common
+)
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.models.device_model import DeviceModel
 from aurora_cli.src.base.texts.app_argument import TextArgument
@@ -24,13 +30,6 @@ from aurora_cli.src.base.texts.app_group import TextGroup
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.utils.argv import argv_is_test
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError
-from aurora_cli.src.cli.impl.ssh_commands import (
-    ssh_common_command_cli,
-    ssh_common_upload_cli,
-    ssh_common_run_cli,
-    ssh_common_install_cli,
-    ssh_common_remove_cli
-)
 
 
 def _get_device_model(
@@ -49,19 +48,6 @@ def _get_device_model(
     return model
 
 
-def _get_device_ssh_client(
-        select: bool,
-        index: int | None,
-        verbose: bool
-):
-    model = _get_device_model(select, index, verbose)
-    result = model.get_ssh_client()
-    if result.is_error():
-        echo_stdout(result, verbose)
-        exit(1)
-    return result.value, model.devel_su
-
-
 @click.group(name='device', help=TextGroup.group_device())
 @click.pass_context
 def group_device(ctx: {}):
@@ -74,10 +60,9 @@ def group_device(ctx: {}):
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, default=None, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def ssh_device_command_cli(execute: str, select: bool, index: int | None, verbose: bool):
-    client, _ = _get_device_ssh_client(select, index, verbose)
-    ssh_common_command_cli(
-        client=client,
+def command(execute: str, select: bool, index: int | None, verbose: bool):
+    device_command_common(
+        model=_get_device_model(select, index, verbose),
         execute=execute,
         verbose=verbose
     )
@@ -88,10 +73,9 @@ def ssh_device_command_cli(execute: str, select: bool, index: int | None, verbos
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def ssh_device_upload_cli(path: [], select: bool, index: int, verbose: bool):
-    client, _ = _get_device_ssh_client(select, index, verbose)
-    ssh_common_upload_cli(
-        client=client,
+def upload(path: [], select: bool, index: int, verbose: bool):
+    device_upload_common(
+        model=_get_device_model(select, index, verbose),
         path=path,
         verbose=verbose
     )
@@ -99,16 +83,13 @@ def ssh_device_upload_cli(path: [], select: bool, index: int, verbose: bool):
 
 @group_device.command(name='package-run', help=TextCommand.command_device_package_run())
 @click.option('-p', '--package', type=click.STRING, required=True, help=TextArgument.argument_package_name())
-@click.option('-n', '--nohup', is_flag=True, help=TextArgument.argument_exit_after_run())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def ssh_device_run_cli(package: str, nohup: bool, select: bool, index: int, verbose: bool):
-    client, _ = _get_device_ssh_client(select, index, verbose)
-    ssh_common_run_cli(
-        client=client,
+def package_run(package: str, select: bool, index: int, verbose: bool):
+    device_package_run_common(
+        model=_get_device_model(select, index, verbose),
         package=package,
-        nohup=nohup,
         verbose=verbose
     )
 
@@ -119,14 +100,12 @@ def ssh_device_run_cli(package: str, nohup: bool, select: bool, index: int, verb
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def ssh_device_install_cli(path: [], apm: bool, select: bool, index: int, verbose: bool):
-    client, devel_su = _get_device_ssh_client(select, index, verbose)
-    ssh_common_install_cli(
-        client=client,
+def package_install(path: [], apm: bool, select: bool, index: int, verbose: bool):
+    device_package_install_common(
+        model=_get_device_model(select, index, verbose),
         path=path,
         apm=apm,
         verbose=verbose,
-        devel_su=devel_su
     )
 
 
@@ -136,12 +115,10 @@ def ssh_device_install_cli(path: [], apm: bool, select: bool, index: int, verbos
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def ssh_device_remove_cli(package: str, apm: bool, select: bool, index: int, verbose: bool):
-    client, devel_su = _get_device_ssh_client(select, index, verbose)
-    ssh_common_remove_cli(
-        client=client,
+def package_remove(package: str, apm: bool, select: bool, index: int, verbose: bool):
+    device_package_remove_common(
+        model=_get_device_model(select, index, verbose),
         package=package,
         apm=apm,
         verbose=verbose,
-        devel_su=devel_su
     )

@@ -13,53 +13,47 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
-from aurora_cli.src.api.features.device import (
-    device_list_api,
-    ssh_device_command_api,
-    ssh_device_run_api,
-    ssh_device_rpm_install_api,
-    ssh_device_upload_api,
-    ssh_device_package_remove_api,
-)
-from aurora_cli.src.api.routes.helper_route import get_route_root, get_arg_bool, get_arg_str
+from aurora_cli.src.base.common.groups.device_features import device_command_common, device_upload_common, \
+    device_package_run_common, device_package_install_common, device_package_remove_common
+from aurora_cli.src.base.models.device_model import DeviceModel
+from aurora_cli.src.base.utils.output import echo_stdout, OutResult
+from aurora_cli.src.base.utils.route import get_route_root, get_arg_bool, get_arg_str
 
 
 def search_route_device(route: str) -> bool:
     match get_route_root(route):
         case '/device/list':
-            device_list_api(
-                verbose=get_arg_bool(route, 'verbose')
-            )
+            echo_stdout(OutResult(
+                value=[device.to_dict() for device in DeviceModel.get_lists_devices()]
+            ), get_arg_bool(route, 'verbose'))
         case '/device/ssh/command':
-            ssh_device_command_api(
-                host=get_arg_str(route, 'host'),
+            device_command_common(
+                model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
                 execute=get_arg_str(route, 'execute'),
                 verbose=get_arg_bool(route, 'verbose')
             )
         case '/device/ssh/upload':
-            ssh_device_upload_api(
-                host=get_arg_str(route, 'host'),
-                path=get_arg_str(route, 'path'),
+            device_upload_common(
+                model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
+                path=[get_arg_str(route, 'path')],
                 verbose=get_arg_bool(route, 'verbose')
             )
         case '/device/ssh/package-run':
-            ssh_device_run_api(
-                host=get_arg_str(route, 'host'),
+            device_package_run_common(
+                model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
                 package=get_arg_str(route, 'package'),
-                nohup=get_arg_bool(route, 'nohup'),
                 verbose=get_arg_bool(route, 'verbose')
             )
         case '/device/ssh/package-install':
-            ssh_device_rpm_install_api(
-                host=get_arg_str(route, 'host'),
-                path=get_arg_str(route, 'path'),
+            device_package_install_common(
+                model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
+                path=[get_arg_str(route, 'path')],
                 apm=get_arg_bool(route, 'apm'),
                 verbose=get_arg_bool(route, 'verbose')
             )
         case '/device/ssh/package-remove':
-            ssh_device_package_remove_api(
-                host=get_arg_str(route, 'host'),
+            device_package_remove_common(
+                model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
                 package=get_arg_str(route, 'package'),
                 apm=get_arg_bool(route, 'apm'),
                 verbose=get_arg_bool(route, 'verbose')

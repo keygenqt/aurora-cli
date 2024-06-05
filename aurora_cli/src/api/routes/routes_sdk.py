@@ -13,27 +13,30 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-from aurora_cli.src.api.features.sdk import (
-    sdk_available_api,
-    sdk_installed_api,
-    sdk_tool_api,
-)
-from aurora_cli.src.api.routes.helper_route import get_route_root, get_arg_bool, get_arg_str
+from aurora_cli.src.base.common.groups.sdk_features import sdk_available_common, sdk_installed_common, \
+    sdk_install_common, sdk_tool_common
+from aurora_cli.src.base.utils.route import get_route_root, get_arg_bool, get_arg_str
 
 
 def search_route_sdk(route: str) -> bool:
     match get_route_root(route):
         case '/sdk/available':
-            sdk_available_api(
+            sdk_available_common(
                 verbose=get_arg_bool(route, 'verbose')
             )
         case '/sdk/installed':
-            sdk_installed_api(
+            sdk_installed_common(
                 verbose=get_arg_bool(route, 'verbose')
             )
-        case '/sdk/tool':
-            sdk_tool_api(
+        case '/sdk/install':
+            sdk_install_common(
                 version=get_arg_str(route, 'version'),
+                offline=get_arg_bool(route, 'offline'),
+                verbose=get_arg_bool(route, 'verbose'),
+                is_bar=False
+            )
+        case '/sdk/tool':
+            sdk_tool_common(
                 verbose=get_arg_bool(route, 'verbose')
             )
         case _:

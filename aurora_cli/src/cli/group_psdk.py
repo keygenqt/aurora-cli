@@ -15,8 +15,7 @@ limitations under the License.
 """
 import click
 
-from aurora_cli.src.base.common.request_features import get_versions_psdk
-from aurora_cli.src.base.common.search_features import search_installed_psdk
+from aurora_cli.src.base.common.groups.psdk_features import psdk_available_common, psdk_installed_common
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.models.psdk_model import PsdkModel
 from aurora_cli.src.base.models.sign_model import SignModel
@@ -67,32 +66,32 @@ def group_psdk(ctx: {}):
         ctx.obj = AppConfig.create_test()
 
 
-@group_psdk.command(help=TextCommand.command_psdk_available())
+@group_psdk.command(name='available', help=TextCommand.command_psdk_available())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def available(verbose: bool):
-    echo_stdout(get_versions_psdk(), verbose)
+    psdk_available_common(verbose)
 
 
-@group_psdk.command(help=TextCommand.command_psdk_installed())
+@group_psdk.command(name='installed', help=TextCommand.command_psdk_installed())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def installed(verbose: bool):
-    echo_stdout(search_installed_psdk(), verbose)
+    psdk_installed_common(verbose)
 
 
-@group_psdk.command(help=TextCommand.command_psdk_install())
+@group_psdk.command(name='install', help=TextCommand.command_psdk_install())
 @click.option('-l', '--latest', is_flag=True, help=TextArgument.argument_latest_version())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def install(latest: bool, verbose: bool):
     print('Coming soon')
 
 
-@group_psdk.command(help=TextCommand.command_psdk_remove())
+@group_psdk.command(name='remove', help=TextCommand.command_psdk_remove())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def remove(verbose: bool):
     print('Coming soon')
 
 
-@group_psdk.command(help=TextCommand.command_psdk_clear())
+@group_psdk.command(name='clear', help=TextCommand.command_psdk_clear())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
@@ -100,7 +99,7 @@ def clear(select: bool, index: int, verbose: bool):
     print('Coming soon')
 
 
-@group_psdk.command(help=TextCommand.command_psdk_package_search())
+@group_psdk.command(name='package-search', help=TextCommand.command_psdk_package_search())
 @click.option('-p', '--package', type=click.STRING, required=True, help=TextArgument.argument_package_name())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
@@ -110,7 +109,7 @@ def package_search(package: str, select: bool, index: int, verbose: bool):
     print(result)
 
 
-@group_psdk.command(help=TextCommand.command_psdk_package_install())
+@group_psdk.command(name='package-install', help=TextCommand.command_psdk_package_install())
 @click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help=TextArgument.argument_path_rpm())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
@@ -119,7 +118,7 @@ def package_install(path: [], select: bool, index: int, verbose: bool):
     print('Coming soon')
 
 
-@group_psdk.command(help=TextCommand.command_psdk_package_remove())
+@group_psdk.command(name='package-remove', help=TextCommand.command_psdk_package_remove())
 @click.option('-p', '--package', type=click.STRING, required=True, help=TextArgument.argument_package_name())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
@@ -128,7 +127,7 @@ def package_remove(package: str, select: bool, index: int, verbose: bool):
     print('Coming soon')
 
 
-@group_psdk.command(help=TextCommand.command_psdk_sign())
+@group_psdk.command(name='sign', help=TextCommand.command_psdk_sign())
 @click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help=TextArgument.argument_path_rpm())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())

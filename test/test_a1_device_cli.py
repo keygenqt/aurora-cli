@@ -94,28 +94,19 @@ class TestGroupDeviceCLI(unittest.TestCase):
         runner = CliRunner()
         result = runner.invoke(cli=group_device, args=[
             'package-install',
-            '--path', Path.cwd() / 'data' / 'com.keygenqt.trex-0.1.0-1.armv7hl.rpm'
+            '--path', Path.cwd() / 'data' / 'com.keygenqt.trex-0.1.0-1.armv7hl.rpm',
+            '--apm'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('installed successfully', result.output)
 
-    def test_device_a8_command_run(self):
-        sleep(1)
-        runner = CliRunner()
-        result = runner.invoke(cli=group_device, args=[
-            'package-run',
-            '--package', 'com.keygenqt.trex',
-            '--nohup'
-        ])
-        self.assertEqual(result.exit_code, 0)
-        self.assertIn('run successfully', result.output)
-
-    def test_device_a9_command_remove(self):
+    def test_device_a8_command_remove(self):
         sleep(2)
         runner = CliRunner()
         result = runner.invoke(cli=group_device, args=[
             'package-remove',
-            '--package', 'com.keygenqt.trex'
+            '--package', 'com.keygenqt.trex',
+            '--apm'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('successfully removed', result.output)

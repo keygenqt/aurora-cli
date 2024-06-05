@@ -13,22 +13,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-import os
-import traceback
-
-import click
-
-from aurora_cli.src.base.utils.argv import argv_is_verbose
+from aurora_cli.src.base.constants.url import URL_AURORA_REPO_SDK
 
 
-def app_crash_out(e: Exception):
-    print(click.style('An unexpected error occurred in the application.', fg='red'))
-    if argv_is_verbose():
-        traceback.print_exception(e)
-
-
-def app_language() -> str:
-    if 'ru_RU' in os.getenv("LANG"):
-        return 'ru'
-    else:
-        return 'en'
+def get_url_version_sdk(version: str) -> str:
+    return URL_AURORA_REPO_SDK.format(version=version)

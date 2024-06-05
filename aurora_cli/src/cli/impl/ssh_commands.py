@@ -13,10 +13,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
 from paramiko.client import SSHClient
 
-from aurora_cli.src.base.common.ssh_features import (
+from aurora_cli.src.base.common.features.ssh_features import (
     ssh_command,
     ssh_run,
     ssh_upload,
@@ -26,11 +25,11 @@ from aurora_cli.src.base.common.ssh_features import (
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
-from aurora_cli.src.base.utils.argv import argv_is_test
+from aurora_cli.src.base.utils.argv import argv_is_test, argv_is_api
 from aurora_cli.src.base.utils.output import echo_stdout, OutResult
 
 
-def ssh_common_command_cli(
+def ssh_command_common(
         client: SSHClient,
         execute: str,
         verbose: bool
@@ -47,58 +46,65 @@ def ssh_common_command_cli(
                 execute=execute,
                 stdout='\n'.join(result.value['stdout']),
                 stderr='\n'.join(result.value['stderr'])
-            )
+            ),
+            value=result.value
         ), verbose)
 
 
-def ssh_common_run_cli(
-        client: SSHClient,
-        package: str,
-        nohup: bool,
-        verbose: bool,
-):
-    def echo_stdout_with_check_close(stdout: OutResult | None):
-        if stdout and nohup and not stdout.is_error() and 'nohup:' in stdout.value:
-            echo_stdout(OutResult(TextSuccess.ssh_run_package(package)))
-        else:
-            echo_stdout(stdout)
-
-    echo_stdout(ssh_run(
-        client=client,
-        package=package,
-        nohup=nohup,
-        listen_stdout=lambda stdout: echo_stdout_with_check_close(stdout),
-        listen_stderr=lambda stderr: echo_stdout(stderr)
-    ), verbose)
-
-
-def ssh_common_upload_cli(
+def ssh_upload_common(
         client: SSHClient,
         path: [],
         verbose: bool
 ):
+    def state_update(ab: AliveBarPercentage, percent: int):
+        if argv_is_api():
+            echo_stdout(OutResult(TextInfo.shh_upload_progress(), value=percent))
+        else:
+            ab.update(percent)
+
     for file_path in path:
         if not argv_is_test():
-            echo_stdout(TextInfo.shh_download_start(file_path))
+            echo_stdout(OutResult(TextInfo.shh_download_start(file_path)))
         bar = AliveBarPercentage()
         echo_stdout(ssh_upload(
             client=client,
             path=file_path,
-            listen_progress=lambda stdout: bar.update(stdout.value)
+            listen_progress=lambda stdout: state_update(bar, stdout.value)
         ))
     if verbose:
         echo_stdout(OutResult(), verbose)
 
 
-def ssh_common_install_cli(
+def ssh_run_common(
+        client: SSHClient,
+        package: str,
+        verbose: bool,
+):
+    def echo_stdout_with_check_close(stdout: OutResult | None):
+        echo_stdout(stdout)
+
+    result = ssh_run(
+        client=client,
+        package=package,
+        listen_stdout=lambda stdout: echo_stdout_with_check_close(stdout),
+        listen_stderr=lambda stderr: echo_stdout(stderr)
+    )
+    if verbose or result.is_error():
+        echo_stdout(result, verbose)
+
+
+def ssh_install_common(
         client: SSHClient,
         path: [],
         apm: bool,
         verbose: bool,
         devel_su: str | None = None
 ):
-    def bar_update(ab: AliveBarPercentage, percent: int):
-        ab.update(percent)
+    def state_update(ab: AliveBarPercentage, percent: int):
+        if argv_is_api():
+            echo_stdout(OutResult(TextInfo.shh_upload_progress(), value=percent))
+        else:
+            ab.update(percent)
         if percent == 100:
             echo_stdout(OutResult(TextInfo.ssh_install_rpm()))
 
@@ -109,14 +115,14 @@ def ssh_common_install_cli(
             client=client,
             path=file_path,
             apm=apm,
-            listen_progress=lambda stdout: bar_update(bar, stdout.value),
+            listen_progress=lambda stdout: state_update(bar, stdout.value),
             devel_su=devel_su
         ))
     if verbose:
         echo_stdout(OutResult(), verbose)
 
 
-def ssh_common_remove_cli(
+def ssh_remove_common(
         client: SSHClient,
         package: str,
         apm: bool,

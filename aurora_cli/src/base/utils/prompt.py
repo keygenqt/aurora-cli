@@ -13,22 +13,19 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
 import click
 
-from aurora_cli.src.base.common.request_features import get_versions_from_repo
-from aurora_cli.src.base.constants.url import URL_AURORA_REPO_VERSIONS, URL_AURORA_REPO_SDK
+from aurora_cli.src.base.common.features.request_version import get_versions_from_repo
+from aurora_cli.src.base.constants.url import URL_AURORA_REPO_VERSIONS
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.prompt import TextPrompt
 from aurora_cli.src.base.utils.output import OutResultError, OutResult, echo_stdout
 
 
-def prompt_sdk_select(select: bool):
+def prompt_sdk_select(select: bool) -> str:
     versions = get_versions_from_repo(URL_AURORA_REPO_VERSIONS)
-    return URL_AURORA_REPO_SDK.format(
-        version=prompt_model_select('sdk', versions, select, None).value
-    )
+    return prompt_model_select('sdk', versions, select, None).value
 
 
 def prompt_model_select(

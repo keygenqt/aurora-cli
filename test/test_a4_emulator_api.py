@@ -52,6 +52,7 @@ class TestGroupEmulatorAPI(unittest.TestCase):
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
+        self.assertIn('successfully', result.output)
 
     def test_emulator_a3_recording(self):
         sleep(1)
@@ -60,21 +61,11 @@ class TestGroupEmulatorAPI(unittest.TestCase):
             '--route',
             '/emulator/vm/recording/stop'
         ])
-        self.assertEqual(result.exit_code, 0)
+        self.assertEqual(result.exit_code, 1)
         self.assertIn('"code": 500', result.output)
 
-    def test_emulator_a4_recording_is(self):
-        sleep(1)
-        runner = CliRunner()
-        result = runner.invoke(cli=group_api, args=[
-            '--route',
-            '/emulator/vm/recording/is-on'
-        ])
-        self.assertEqual(result.exit_code, 0)
-        self.assertIn('"code": 500', result.output)
-
-    def test_emulator_a5_command_execute(self):
-        sleep(1)
+    def test_emulator_a4_command_execute(self):
+        sleep(4)
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
@@ -82,8 +73,9 @@ class TestGroupEmulatorAPI(unittest.TestCase):
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
+        self.assertIn('Aurora', result.output)
 
-    def test_emulator_a6_command_execute_error(self):
+    def test_emulator_a5_command_execute_error(self):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
@@ -91,9 +83,10 @@ class TestGroupEmulatorAPI(unittest.TestCase):
             '/emulator/ssh/command?execute=just my command'
         ])
         self.assertEqual(result.exit_code, 0)
+        self.assertIn('"code": 200', result.output)
         self.assertIn('bash: just: not found', result.output)
 
-    def test_emulator_a7_command_upload(self):
+    def test_emulator_a6_command_upload(self):
         sleep(1)
         runner = CliRunner()
         path = Path.cwd() / 'data' / 'upload.file'
@@ -101,10 +94,10 @@ class TestGroupEmulatorAPI(unittest.TestCase):
             '--route',
             f'/emulator/ssh/upload?path={path}'
         ])
-        self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
+        self.assertIn('successfully', result.output)
 
-    def test_emulator_a8_command_install(self):
+    def test_emulator_a7_command_install(self):
         sleep(1)
         runner = CliRunner()
         path = Path.cwd() / 'data' / 'com.keygenqt.trex-0.1.0-1.x86_64.rpm'
@@ -114,18 +107,9 @@ class TestGroupEmulatorAPI(unittest.TestCase):
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
+        self.assertIn('successfully', result.output)
 
-    def test_emulator_a9_command_run(self):
-        sleep(1)
-        runner = CliRunner()
-        result = runner.invoke(cli=group_api, args=[
-            '--route',
-            f'/emulator/ssh/package-run?package=com.keygenqt.trex&nohup=true'
-        ])
-        self.assertEqual(result.exit_code, 0)
-        self.assertIn('"code": 200', result.output)
-
-    def test_emulator_b1_command_remove(self):
+    def test_emulator_a8_command_remove(self):
         sleep(2)
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
@@ -134,8 +118,9 @@ class TestGroupEmulatorAPI(unittest.TestCase):
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
+        self.assertIn('successfully', result.output)
 
-    def test_emulator_b2_command_install_apm(self):
+    def test_emulator_a9_command_install_apm(self):
         sleep(1)
         runner = CliRunner()
         path = Path.cwd() / 'data' / 'com.keygenqt.trex-0.1.0-1.x86_64.rpm'
@@ -145,8 +130,9 @@ class TestGroupEmulatorAPI(unittest.TestCase):
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
+        self.assertIn('successfully', result.output)
 
-    def test_emulator_b3_command_remove_apm(self):
+    def test_emulator_b1_command_remove_apm(self):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
@@ -155,6 +141,7 @@ class TestGroupEmulatorAPI(unittest.TestCase):
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
+        self.assertIn('successfully', result.output)
 
 
 if __name__ == '__main__':

@@ -13,11 +13,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
 from dataclasses import dataclass
 from pathlib import Path
 
-from aurora_cli.src.base.common.search_features import search_installed_sdk
+from aurora_cli.src.base.common.features.search_installed import search_installed_sdk
 from aurora_cli.src.base.utils.output import OutResult
 from aurora_cli.src.base.utils.prompt import prompt_model_select
 
@@ -41,7 +40,7 @@ class SdkModel:
         try:
             list_index = SdkModel.get_versions_sdk().index(version)
             path_tool = SdkModel.get_tools_sdk()[list_index]
-            return SdkModel(path_tool)
+            return SdkModel(Path(path_tool))
         except (Exception,):
             return None
 
