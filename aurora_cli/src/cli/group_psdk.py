@@ -15,7 +15,11 @@ limitations under the License.
 """
 import click
 
-from aurora_cli.src.base.common.groups.psdk_features import psdk_available_common, psdk_installed_common
+from aurora_cli.src.base.common.groups.psdk_features import (
+    psdk_available_common,
+    psdk_installed_common,
+    psdk_install_common
+)
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.models.psdk_model import PsdkModel
 from aurora_cli.src.base.models.sign_model import SignModel
@@ -24,6 +28,7 @@ from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
 from aurora_cli.src.base.utils.argv import argv_is_test
 from aurora_cli.src.base.utils.output import echo_stdout
+from aurora_cli.src.base.utils.prompt import prompt_psdk_select
 
 
 def _select_model_psdk(
@@ -70,10 +75,13 @@ def installed(verbose: bool):
 
 
 @group_psdk.command(name='install', help=TextCommand.command_psdk_install())
-@click.option('-l', '--latest', is_flag=True, help=TextArgument.argument_latest_version())
+@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def install(latest: bool, verbose: bool):
-    print('Coming soon')
+def install(select: bool, verbose: bool):
+    # prompt major version
+    version = prompt_psdk_select(select)
+    # install psdk
+    psdk_install_common(version, verbose)
 
 
 @group_psdk.command(name='remove', help=TextCommand.command_psdk_remove())

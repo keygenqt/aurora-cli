@@ -23,6 +23,11 @@ from aurora_cli.src.base.texts.prompt import TextPrompt
 from aurora_cli.src.base.utils.output import OutResultError, OutResult, echo_stdout
 
 
+def prompt_psdk_select(select: bool) -> str:
+    versions = get_versions_from_repo(URL_AURORA_REPO_VERSIONS)
+    return prompt_model_select('psdk', versions, select, None).value
+
+
 def prompt_sdk_select(select: bool) -> str:
     versions = get_versions_from_repo(URL_AURORA_REPO_VERSIONS)
     return prompt_model_select('sdk', versions, select, None).value

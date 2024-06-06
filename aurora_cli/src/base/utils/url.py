@@ -13,7 +13,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-from aurora_cli.src.base.constants.url import URL_AURORA_REPO_SDK
+from aurora_cli.src.base.constants.url import URL_AURORA_REPO_SDK, URL_AURORA_REPO_PSDK
+
+
+def get_url_version_psdk(version: str) -> str:
+    return URL_AURORA_REPO_PSDK.format(version=version)
 
 
 def get_url_version_sdk(version: str) -> str:

@@ -97,7 +97,7 @@ def get_version_latest_by_url(url: str) -> []:
     return versions
 
 
-def get_download_url_by_version(url: str, version: str) -> []:
+def get_download_sdk_url_by_version(url: str, version: str) -> []:
     urls = []
     response = request_get(f'{url}{version}')
     if response.status_code == 200:
@@ -105,5 +105,17 @@ def get_download_url_by_version(url: str, version: str) -> []:
         for item in soup.findAll('a'):
             text = item.text.strip('/')
             if re.search(r'.run$', text) and 'testing' not in text:
+                urls.append(f'{url}{version}/{text}')
+    return urls
+
+
+def get_download_psdk_url_by_version(url: str, version: str) -> []:
+    urls = []
+    response = request_get(f'{url}{version}')
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+        for item in soup.findAll('a'):
+            text = item.text.strip('/')
+            if re.search(r'.tar.(bz2|7z)$', text) and 'pu-' not in text:
                 urls.append(f'{url}{version}/{text}')
     return urls

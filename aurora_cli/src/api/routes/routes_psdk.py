@@ -13,8 +13,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-from aurora_cli.src.base.common.groups.psdk_features import psdk_installed_common, psdk_available_common
-from aurora_cli.src.base.utils.route import get_route_root
+from aurora_cli.src.base.common.groups.psdk_features import (
+    psdk_installed_common,
+    psdk_available_common,
+    psdk_install_common
+)
+from aurora_cli.src.base.utils.route import get_route_root, get_arg_str
 
 
 def search_route_psdk(route: str, verbose: bool) -> bool:
@@ -23,6 +27,12 @@ def search_route_psdk(route: str, verbose: bool) -> bool:
             psdk_available_common(verbose)
         case '/psdk/installed':
             psdk_installed_common(verbose)
+        case '/psdk/install':
+            psdk_install_common(
+                version=get_arg_str(route, 'version'),
+                verbose=verbose,
+                is_bar=False
+            )
         case _:
             return False
     return True

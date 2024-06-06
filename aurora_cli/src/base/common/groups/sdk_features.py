@@ -17,7 +17,7 @@ from pathlib import Path
 
 from aurora_cli.src.base.common.features.request_version import (
     get_version_latest_by_url,
-    get_download_url_by_version,
+    get_download_sdk_url_by_version,
     get_versions_sdk
 )
 from aurora_cli.src.base.common.features.search_installed import search_installed_sdk
@@ -49,13 +49,13 @@ def sdk_install_common(
     # get full latest version
     version_full = get_version_latest_by_url(version_url)
     # get url path to files
-    download_url = get_download_url_by_version(version_url, version_full)
+    download_url = get_download_sdk_url_by_version(version_url, version_full)
     # get by type
     urls = [item for item in download_url if (offline and 'offline' in item) or (not offline and 'online' in item)]
     # check download urls
     urls, files = check_downloads(urls)
 
-    if not download_url or not files:
+    if not download_url and not files:
         echo_stdout(TextError.get_install_info_error())
         exit(1)
 
