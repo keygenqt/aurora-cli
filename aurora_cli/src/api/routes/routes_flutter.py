@@ -15,9 +15,10 @@ limitations under the License.
 """
 from aurora_cli.src.base.common.groups.flutter_features import (
     flutter_available_common,
-    flutter_installed_common
+    flutter_installed_common,
+    flutter_install_common
 )
-from aurora_cli.src.base.utils.route import get_route_root, get_arg_bool
+from aurora_cli.src.base.utils.route import get_route_root, get_arg_str
 
 
 def search_route_flutter(route: str, verbose: bool) -> bool:
@@ -26,6 +27,12 @@ def search_route_flutter(route: str, verbose: bool) -> bool:
             flutter_available_common(verbose)
         case '/flutter/installed':
             flutter_installed_common(verbose)
+        case '/flutter/install':
+            flutter_install_common(
+                version=get_arg_str(route, 'version'),
+                verbose=verbose,
+                is_bar=False
+            )
         case _:
             return False
     return True

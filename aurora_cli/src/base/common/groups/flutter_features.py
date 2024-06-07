@@ -45,7 +45,8 @@ def flutter_install_common(
         echo_stdout(OutResultError(TextError.flutter_already_installed_error(version)), verbose)
         exit(1)
 
-    git_clone(git_url, flutter_path, verbose, is_bar)
-    
+    repo = git_clone(git_url, flutter_path, verbose, is_bar)
+    repo.git.checkout(version)
+
     # @todo
     print(flutter_path)

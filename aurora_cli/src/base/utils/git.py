@@ -33,7 +33,7 @@ def git_clone(
         path: Path,
         verbose: bool,
         is_bar: bool = True
-):
+) -> Repo:
     bar = AliveBarPercentage()
 
     try:
@@ -45,8 +45,9 @@ def git_clone(
             else:
                 echo_stdout(OutResultInfo(TextInfo.git_clone_progress(title), value=result), verbose)
 
-        _git_clone(url, path, bar_update)
+        repo = _git_clone(url, path, bar_update)
         echo_stdout(OutResult(TextSuccess.git_clone_success()), verbose)
+        return repo
     except GitCommandError as e:
         bar.stop()
         if 'code(-2)' in str(e):
@@ -61,7 +62,7 @@ def _git_clone(
         url: str,
         path: Path,
         listen: Callable[[str, int], None]
-):
+) -> Repo:
     percents = []
 
     def _update(op_code: int, cur_count: float, max_count: float, _: str):
@@ -72,7 +73,7 @@ def _git_clone(
             percents.append(percent)
             listen(TitleOpCode.get_title(op_code), percent)
 
-    Repo.clone_from(
+    return Repo.clone_from(
         url=url,
         to_path=path,
         progress=_update
