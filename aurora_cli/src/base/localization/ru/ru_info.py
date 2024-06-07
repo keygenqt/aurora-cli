@@ -50,6 +50,10 @@ class TextInfoRu(Enum):
         return '<blue>Прогресс загрузки файла в процентах.</blue>'
 
     @staticmethod
+    def git_clone_progress(title: str):
+        return f'<blue>Прогресс клонирования репозитория:</blue> {title}'
+
+    @staticmethod
     def select_array_out(key: str, names: []):
         if names:
             return (f'<blue>Выберите</blue> {key} <blue>индекс:</blue>\n'

@@ -30,18 +30,30 @@ class AliveBarPercentage:
     def update(
             self,
             percentage: int,
-    ) -> None:
+            title: str | None = None,
+            title_length: int | None = None,
+    ):
         if not argv_is_test():
             if not self.alive_bar_instance:
-                self._dispatch_bar()
+                self._dispatch_bar(title, title_length)
             self.bar(percentage * 0.01)
             if percentage == 100:
                 self._destroy_bar()
 
-    def _dispatch_bar(self, title: str | None = "") -> None:
-        self.alive_bar_instance = alive_bar(manual=True, title=title, stats='({eta})')
+    def _dispatch_bar(
+            self,
+            title: str | None = None,
+            title_length: int | None = None
+    ):
+        self.alive_bar_instance = alive_bar(
+            manual=True,
+            title=title if title else '',
+            stats='({eta})',
+            title_length=title_length if title_length else 0,
+        )
         self.bar = self.alive_bar_instance.__enter__()
 
-    def _destroy_bar(self) -> None:
-        self.alive_bar_instance.__exit__(None, None, None)
-        self.alive_bar_instance = None
+    def _destroy_bar(self):
+        if self.alive_bar_instance:
+            self.alive_bar_instance.__exit__(None, None, None)
+            self.alive_bar_instance = None

@@ -62,10 +62,6 @@ class TextArgumentRu(Enum):
         return 'Выйти после запуска.'
 
     @staticmethod
-    def argument_latest_version():
-        return 'Выберите последнюю версию.'
-
-    @staticmethod
     def argument_sdk_installer_type():
         return 'Загрузите установщик offline типа (online = по умолчанию).'
 

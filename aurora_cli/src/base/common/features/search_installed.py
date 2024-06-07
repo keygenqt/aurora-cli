@@ -53,8 +53,8 @@ def search_installed_flutter() -> OutResult:
         dart = get_tool_dart_from_file_with_version(file)
         if version and flutter and dart:
             versions.append(version)
-            flutters.append(flutter)
-            darts.append(dart)
+            flutters.append(str(flutter))
+            darts.append(str(dart))
     if not versions:
         return OutResultError(TextError.just_empty_error())
     return OutResult(TextInfo.installed_versions_flutter(versions), value={

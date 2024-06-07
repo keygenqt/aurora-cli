@@ -13,7 +13,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-from aurora_cli.src.base.constants.url import URL_AURORA_REPO_SDK, URL_AURORA_REPO_PSDK
+from aurora_cli.src.base.constants.url import (
+    URL_AURORA_REPO_SDK,
+    URL_AURORA_REPO_PSDK,
+    URL_FLUTTER_GIT
+)
+
+
+def get_url_git_flutter() -> str:
+    return URL_FLUTTER_GIT
 
 
 def get_url_version_psdk(version: str) -> str:

@@ -76,11 +76,6 @@ class TextArgument(Enum):
 
     @staticmethod
     @localization
-    def argument_latest_version():
-        return 'Select latest version.'
-
-    @staticmethod
-    @localization
     def argument_sdk_installer_type():
         return 'Download offline type installer (online = default).'
 

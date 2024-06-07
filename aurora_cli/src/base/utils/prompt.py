@@ -15,22 +15,48 @@ limitations under the License.
 """
 import click
 
-from aurora_cli.src.base.common.features.request_version import get_versions_from_repo
-from aurora_cli.src.base.constants.url import URL_AURORA_REPO_VERSIONS
+from aurora_cli.src.base.common.features.request_version import get_versions_flutter, \
+    get_versions_sdk, get_versions_psdk
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.prompt import TextPrompt
 from aurora_cli.src.base.utils.output import OutResultError, OutResult, echo_stdout
 
 
-def prompt_psdk_select(select: bool) -> str:
-    versions = get_versions_from_repo(URL_AURORA_REPO_VERSIONS)
-    return prompt_model_select('psdk', versions, select, None).value
+def prompt_flutter_select(select: bool) -> str | None:
+    versions = get_versions_flutter()
+    if versions.is_error():
+        echo_stdout(versions)
+        exit(1)
+    prompt_result = prompt_model_select('flutter', versions.value, select, None)
+    if prompt_result.is_error():
+        echo_stdout(prompt_result)
+        exit(1)
+    return prompt_result.value
 
 
-def prompt_sdk_select(select: bool) -> str:
-    versions = get_versions_from_repo(URL_AURORA_REPO_VERSIONS)
-    return prompt_model_select('sdk', versions, select, None).value
+def prompt_psdk_select(select: bool) -> str | None:
+    versions = get_versions_sdk()
+    if versions.is_error():
+        echo_stdout(versions)
+        exit(1)
+    prompt_result = prompt_model_select('psdk', versions.value, select, None)
+    if prompt_result.is_error():
+        echo_stdout(prompt_result)
+        exit(1)
+    return prompt_result.value
+
+
+def prompt_sdk_select(select: bool) -> str | None:
+    versions = get_versions_psdk()
+    if versions.is_error():
+        echo_stdout(versions)
+        exit(1)
+    prompt_result = prompt_model_select('sdk', versions.value, select, None)
+    if prompt_result.is_error():
+        echo_stdout(prompt_result)
+        exit(1)
+    return prompt_result.value
 
 
 def prompt_model_select(

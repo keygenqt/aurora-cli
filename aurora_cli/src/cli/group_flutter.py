@@ -15,7 +15,8 @@ limitations under the License.
 """
 import click
 
-from aurora_cli.src.base.common.groups.flutter_features import flutter_available_common, flutter_installed_common
+from aurora_cli.src.base.common.groups.flutter_features import flutter_available_common, flutter_installed_common, \
+    flutter_install_common
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.models.flutter_model import FlutterModel
 from aurora_cli.src.base.texts.app_argument import TextArgument
@@ -23,6 +24,7 @@ from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
 from aurora_cli.src.base.utils.argv import argv_is_test
 from aurora_cli.src.base.utils.output import echo_stdout
+from aurora_cli.src.base.utils.prompt import prompt_flutter_select
 
 
 def _select_model(
@@ -57,10 +59,13 @@ def installed(verbose: bool):
 
 
 @group_flutter.command(name='install', help=TextCommand.command_flutter_install())
-@click.option('-l', '--latest', is_flag=True, help=TextArgument.argument_latest_version())
+@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def install(latest: bool, verbose: bool):
-    print('Coming soon')
+def install(select: bool, verbose: bool):
+    # prompt major version
+    version = prompt_flutter_select(select)
+    # install flutter
+    flutter_install_common(version, verbose)
 
 
 @group_flutter.command(name='remove', help=TextCommand.command_flutter_remove())

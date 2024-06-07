@@ -16,6 +16,8 @@ limitations under the License.
 
 URL_AURORA_REPO_VERSIONS = 'https://sdk-repo.omprussia.ru/sdk/installers/'
 
+URL_FLUTTER_GIT = 'https://gitlab.com/omprussia/flutter/flutter.git'
+
 URL_FLUTTER_SDK_VERSIONS = 'https://gitlab.com/api/v4/projects/53055476/repository/tags?per_page=100'
 
 URL_FLUTTER_PLUGINS_VERSIONS = 'https://gitlab.com/api/v4/projects/48571226/repository/tags?per_page=100'

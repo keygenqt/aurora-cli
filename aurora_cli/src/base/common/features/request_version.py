@@ -43,7 +43,7 @@ def get_versions_sdk() -> OutResult:
         versions = get_versions_from_repo(URL_AURORA_REPO_VERSIONS)
         if not versions:
             return OutResultError(TextError.request_empty_error())
-        return OutResult(TextInfo.available_versions_sdk(versions), value={'versions': versions})
+        return OutResult(TextInfo.available_versions_sdk(versions), value=versions)
     except (Exception,):
         return OutResultError(TextError.request_error())
 
@@ -53,7 +53,7 @@ def get_versions_psdk() -> OutResult:
         versions = get_versions_from_repo(URL_AURORA_REPO_VERSIONS)
         if not versions:
             return OutResultError(TextError.request_empty_error())
-        return OutResult(TextInfo.available_versions_psdk(versions), value={'versions': versions})
+        return OutResult(TextInfo.available_versions_psdk(versions), value=versions)
     except (Exception,):
         return OutResultError(TextError.request_error())
 
@@ -64,7 +64,7 @@ def get_versions_flutter() -> OutResult:
         versions = [obj['name'] for obj in response.json()]
         if not versions:
             return OutResultError(TextError.request_empty_error())
-        return OutResult(TextInfo.available_versions_flutter(versions))
+        return OutResult(TextInfo.available_versions_flutter(versions), value=versions)
     except (Exception,):
         return OutResultError(TextError.request_error())
 
@@ -75,7 +75,7 @@ def get_flutter_plugins() -> OutResult:
         versions = [obj['name'] for obj in response.json()]
         if not versions:
             return OutResultError(TextError.request_empty_error())
-        return OutResult(TextInfo.available_versions_flutter(versions))
+        return OutResult(TextInfo.available_versions_flutter(versions), value=versions)
     except (Exception,):
         return OutResultError(TextError.request_error())
 

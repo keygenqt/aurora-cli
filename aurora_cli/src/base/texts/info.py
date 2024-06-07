@@ -54,6 +54,11 @@ class TextInfo(Enum):
 
     @staticmethod
     @localization
+    def git_clone_progress(title: str):
+        return f'<blue>Repository cloning progress:</blue> {title}'
+
+    @staticmethod
+    @localization
     def ssh_install_rpm():
         return '<blue>Starting install RPM package...</blue>'
 

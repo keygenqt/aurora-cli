@@ -225,6 +225,11 @@ class TextError(Enum):
 
     @staticmethod
     @localization
+    def flutter_already_installed_error(version: str):
+        return f'<red>Flutter already installed:</red> {version}'
+
+    @staticmethod
+    @localization
     @hint(Hint.psdk_install, Hint.psdk_documentation_link)
     def psdk_not_found_error():
         return '<red>Not found: Aurora Platform SDK.</red>'

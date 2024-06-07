@@ -174,6 +174,10 @@ class TextErrorRu(Enum):
         return '<red>Не найдено: Flutter SDK.</red>'
 
     @staticmethod
+    def flutter_already_installed_error(version: str):
+        return f'<red>Flutter уже установлен:</red> {version}'
+
+    @staticmethod
     def psdk_not_found_error():
         return '<red>Не найдено: Аврора Platform SDK.</red>'
 
