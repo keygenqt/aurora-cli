@@ -82,3 +82,7 @@ class TextSuccessRu(Enum):
     @staticmethod
     def download_success():
         return '<green>Файлы скачаны успешно.</green>'
+
+    @staticmethod
+    def git_clone_success():
+        return '<green>Проект успешно клонирован.</green>'

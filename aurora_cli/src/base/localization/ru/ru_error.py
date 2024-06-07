@@ -228,3 +228,7 @@ class TextErrorRu(Enum):
     @staticmethod
     def get_install_info_error():
         return '<red>Не удалось получить информацию об установочных файлах.</red>'
+
+    @staticmethod
+    def git_clone_error():
+        return '<red>Не удалось выполнить клонирование репозитория.</red>'

@@ -100,3 +100,8 @@ class TextSuccess(Enum):
     @localization
     def download_success():
         return '<green>The files were downloaded successfully.</green>'
+
+    @staticmethod
+    @localization
+    def git_clone_success():
+        return '<green>The project has been successfully cloned.</green>'

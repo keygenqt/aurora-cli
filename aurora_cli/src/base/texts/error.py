@@ -300,3 +300,8 @@ class TextError(Enum):
     @localization
     def get_install_info_error():
         return '<red>Failed to obtain installation files information.</red>'
+
+    @staticmethod
+    @localization
+    def git_clone_error():
+        return '<red>Failed to clone the repository.</red>'

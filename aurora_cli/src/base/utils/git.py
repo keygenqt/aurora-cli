@@ -16,12 +16,16 @@ limitations under the License.
 from collections.abc import Callable
 from pathlib import Path
 
-from git import Repo
+import click
+from git import Repo, GitCommandError
 
+from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
+from aurora_cli.src.base.texts.success import TextSuccess
+from aurora_cli.src.base.utils.abort import abort_catch
 from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
 from aurora_cli.src.base.utils.git_title import TitleOpCode
-from aurora_cli.src.base.utils.output import echo_stdout, OutResultInfo
+from aurora_cli.src.base.utils.output import echo_stdout, OutResultInfo, OutResultError, OutResult
 
 
 def git_clone(
@@ -32,15 +36,25 @@ def git_clone(
 ):
     bar = AliveBarPercentage()
 
-    def bar_update(title: str, result: int):
-        if is_bar:
-            bar.update(result, title, 11)
+    try:
+        abort_catch(lambda: bar.stop())
+
+        def bar_update(title: str, result: int):
+            if is_bar:
+                bar.update(result, title, 11)
+            else:
+                echo_stdout(OutResultInfo(TextInfo.git_clone_progress(title), value=result), verbose)
+
+        _git_clone(url, path, bar_update)
+        echo_stdout(OutResult(TextSuccess.git_clone_success()), verbose)
+    except GitCommandError as e:
+        bar.stop()
+        if 'code(-2)' in str(e):
+            raise click.exceptions.Abort
         else:
-            echo_stdout(OutResultInfo(TextInfo.git_clone_progress(title), value=result), verbose)
-
-    # @todo success, error, ctrl+c
-
-    _git_clone(url, path, bar_update)
+            echo_stdout(OutResultError(TextError.git_clone_error()), verbose)
+    except (Exception,):
+        echo_stdout(OutResultError(TextError.git_clone_error()), verbose)
 
 
 def _git_clone(

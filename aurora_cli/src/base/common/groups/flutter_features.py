@@ -46,3 +46,6 @@ def flutter_install_common(
         exit(1)
 
     git_clone(git_url, flutter_path, verbose, is_bar)
+    
+    # @todo
+    print(flutter_path)

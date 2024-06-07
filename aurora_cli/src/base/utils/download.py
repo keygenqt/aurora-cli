@@ -21,6 +21,7 @@ from urllib.request import urlretrieve
 
 import click
 
+from aurora_cli.src.base.constants.app import TIMEOUT
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
@@ -105,7 +106,7 @@ def _downloads(
     out_percent_url = {}
 
     abort_catch(lambda: out_abort.append(True))
-    socket.setdefaulttimeout(30)
+    socket.setdefaulttimeout(TIMEOUT)
 
     def listen_out(url: str, percent: int):
         if percent < 0:

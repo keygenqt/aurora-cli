@@ -19,3 +19,5 @@ APP_NAME = 'aurora-cli'
 APP_VERSION = '3.0.0'
 
 PATH_TEMP = '~/.aurora-cli/temp'
+
+TIMEOUT = 600
