@@ -64,6 +64,11 @@ class TextHintRU(Enum):
                 'https://developer.auroraos.ru/doc/software_development/sdk')
 
     @staticmethod
+    def psdk_documentation_keys_link():
+        return ('<i>Более подробную информацию можно найти в документации:</i> '
+                'https://developer.auroraos.ru/doc/software_development/guides/package_signing')
+
+    @staticmethod
     def flutter_install():
         return '<i>Вы можете установить Flutter с помощью следующей команды:</i> aurora-cli flutter install'
 
@@ -98,3 +103,7 @@ class TextHintRU(Enum):
         if argv_is_verbose() or argv_is_api():
             return ''
         return '<i>Для более подробного вывода используйте флаг:</i> --verbose'
+
+    @staticmethod
+    def psdk_keys_info():
+        return '<i>В конфигурационный файл приложение вы можете добавить ваши ключи, если такие имеются.</i>'

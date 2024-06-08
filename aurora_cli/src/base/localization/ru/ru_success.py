@@ -121,3 +121,7 @@ class TextSuccessRu(Enum):
     @staticmethod
     def flutter_project_report_success():
         return '<green>Генерация отчета прошла успешно.</green>'
+
+    @staticmethod
+    def psdk_sign_success():
+        return '<green>Подпись выполнена успешно.</green>'

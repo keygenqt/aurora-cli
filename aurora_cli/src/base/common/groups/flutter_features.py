@@ -26,7 +26,7 @@ from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.dependency import check_dependency, DependencyApps
-from aurora_cli.src.base.utils.download import check_with_download_file
+from aurora_cli.src.base.utils.download import check_with_download_files
 from aurora_cli.src.base.utils.git import git_clone
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResult, OutResultInfo
 from aurora_cli.src.base.utils.text_file import file_remove_line
@@ -41,12 +41,12 @@ def _check_path_project(path: Path):
 
 @check_dependency(DependencyApps.clang_format)
 def _get_clang_format(verbose: bool, is_bar: bool) -> Path:
-    return check_with_download_file(
-        path=PATH_CLANG_FORMAT_CONF,
-        url=URL_CLANG_FORMAT_CONF,
+    return check_with_download_files(
+        files=[PATH_CLANG_FORMAT_CONF],
+        urls=[URL_CLANG_FORMAT_CONF],
         verbose=verbose,
         is_bar=is_bar
-    )
+    )[0]
 
 
 def flutter_available_common(verbose: bool):

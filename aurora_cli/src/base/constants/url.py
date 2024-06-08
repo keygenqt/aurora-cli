@@ -26,8 +26,8 @@ URL_AURORA_REPO_SDK = 'https://sdk-repo.omprussia.ru/sdk/installers/{version}/Ap
 
 URL_AURORA_REPO_PSDK = 'https://sdk-repo.omprussia.ru/sdk/installers/{version}/PlatformSDK/'
 
-URL_KEY = 'https://developer.auroraos.ru/static/regular_key.pem'
+URL_REGULAR_KEY = 'https://developer.auroraos.ru/static/regular_key.pem'
 
-URL_CERT = 'https://developer.auroraos.ru/static/regular_cert.pem'
+URL_REGULAR_CERT = 'https://developer.auroraos.ru/static/regular_cert.pem'
 
 URL_CLANG_FORMAT_CONF = 'https://gitlab.com/omprussia/flutter/flutter/-/raw/stable/.clang-format'

@@ -51,3 +51,34 @@ def shell_cpp_format(
         if stderr:
             return OutResultError(TextError.flutter_project_format_error())
     return OutResult()
+
+
+def shell_resign(
+        tool: str,
+        key: str,
+        cert: str,
+        paths: [str],
+) -> OutResult:
+    is_error = False
+    for path in paths:
+        shell_exec_command([
+            tool,
+            'rpmsign-external',
+            'delete',
+            path
+        ])
+        _, stderr = shell_exec_command([
+            tool,
+            'rpmsign-external',
+            'sign',
+            f'--key={key}',
+            f'--cert={cert}',
+            path
+        ])
+        if stderr:
+            is_error = True
+
+    if is_error:
+        return OutResultError(TextError.psdk_sign_error())
+
+    return OutResult()

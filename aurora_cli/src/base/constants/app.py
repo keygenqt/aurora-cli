@@ -22,4 +22,8 @@ PATH_TEMP = '~/.aurora-cli/temp'
 
 PATH_CLANG_FORMAT_CONF = '~/.aurora-cli/.clang-format'
 
+PATH_REGULAR_KEY = '~/.aurora-cli/regular_key.pem'
+
+PATH_REGULAR_CERT = '~/.aurora-cli/regular_cert.pem'
+
 TIMEOUT = 600

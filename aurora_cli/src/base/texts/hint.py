@@ -31,6 +31,8 @@ class Hint(Enum):
     flutter_documentation_link = 'flutter_documentation_link'
     psdk_documentation_link = 'psdk_documentation_link'
     sdk_documentation_link = 'sdk_documentation_link'
+    psdk_documentation_keys_link = 'psdk_documentation_keys_link'
+    psdk_keys_info = 'psdk_keys_info'
     flutter_install = 'flutter_install'
     psdk_install = 'psdk_install'
     sdk_install = 'sdk_install'
@@ -119,6 +121,11 @@ class TextHint(Enum):
                 'https://developer.auroraos.ru/doc/software_development/sdk')
 
     @staticmethod
+    def psdk_documentation_keys_link():
+        return ('<i>More information can be found in the documentation:</i> '
+                'https://developer.auroraos.ru/doc/software_development/guides/package_signing')
+
+    @staticmethod
     @localization
     def flutter_install():
         return '<i>You can install the Flutter with the following command:</i> aurora-cli flutter install'
@@ -161,3 +168,8 @@ class TextHint(Enum):
         if argv_is_verbose() or argv_is_api():
             return ''
         return '<i>For more detailed output, use the flag:</i> --verbose'
+
+    @staticmethod
+    @localization
+    def psdk_keys_info():
+        return '<i>You can add your keys, if any, to the application configuration file.</i>'

@@ -203,10 +203,6 @@ class TextErrorRu(Enum):
         return f'<red>Не найдено: Устройство. Host: </red> {host}'
 
     @staticmethod
-    def sign_not_found_error(name: str):
-        return f'<red>Не найдено: Ключи подписи. Название: </red> {name}'
-
-    @staticmethod
     def shell_run_app_error(name: str):
         return f'<red>Не удалось запустить приложение:</red> {name}'
 
@@ -249,3 +245,7 @@ class TextErrorRu(Enum):
     @staticmethod
     def flutter_project_format_error():
         return f'<red>Произошла ошибка при форматировании проекта.</red>'
+
+    @staticmethod
+    def psdk_sign_error():
+        return '<red>Возникла ошибка при подписи.</red>'

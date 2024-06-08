@@ -263,11 +263,6 @@ class TextError(Enum):
 
     @staticmethod
     @localization
-    def sign_not_found_error(name: str):
-        return f'<red>Not found: Sign keys. Name: </red> {name}'
-
-    @staticmethod
-    @localization
     def shell_run_app_error(name: str):
         return f'<red>Application failed to start:</red> {name}'
 
@@ -325,4 +320,10 @@ class TextError(Enum):
     @localization
     @hint(Hint.use_verbose)
     def flutter_project_format_error():
-        return f'<red>An error occurred while formatting the project.</red>'
+        return '<red>An error occurred while formatting the project.</red>'
+
+    @staticmethod
+    @localization
+    @hint(Hint.use_verbose)
+    def psdk_sign_error():
+        return '<red>An error occurred while signing.</red>'

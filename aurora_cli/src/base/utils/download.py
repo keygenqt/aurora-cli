@@ -18,6 +18,7 @@ from collections.abc import Callable
 from enum import Enum
 from pathlib import Path
 from threading import Thread
+from time import sleep
 from urllib.request import urlretrieve
 
 import click
@@ -54,19 +55,31 @@ def check_downloads(urls: []):
     return downloads_url, files
 
 
-def check_with_download_file(
-        path: str,
-        url: str,
+def check_with_download_files(
+        files: [str],
+        urls: [str],
         verbose: bool,
         is_bar: bool = True
-) -> Path:
-    path = path_convert_relative(path)
-    if not path.is_file():
-        echo_stdout(OutResultInfo(TextInfo.file_check_and_download(url)))
-        downloads([url], verbose, is_bar)
-        path_download = path_get_download_path(url)
-        path_download.replace(path)
-    return path
+) -> [Path]:
+    paths = []
+    downloads_urls = []
+    for i, file in enumerate(files):
+        path = path_convert_relative(file)
+        if not path.is_file() and len(urls) > i:
+            downloads_urls.append(urls[i])
+
+    if downloads_urls:
+        echo_stdout(OutResultInfo(TextInfo.file_check_and_download()))
+        downloads(downloads_urls, verbose, is_bar)
+
+    for i, file in enumerate(files):
+        path = path_convert_relative(file)
+        if not path.is_file() and len(urls) > i:
+            path_download = path_get_download_path(urls[i])
+            path_download.replace(path)
+        paths.append(path)
+
+    return paths
 
 
 def downloads(
@@ -82,9 +95,11 @@ def downloads(
             case DownloadCode.start.value:
                 bar.stop()
                 echo_stdout(OutResultError(TextError.start_download_error()), verbose)
+                exit(1)
             case DownloadCode.download.value:
                 bar.stop()
                 echo_stdout(OutResultError(TextError.download_error()), verbose)
+                exit(1)
             case DownloadCode.interrupted.value:
                 bar.stop()
                 if not is_bar:
@@ -162,6 +177,8 @@ def _downloads(
             exit(1)
 
         def reporthook(block_num, block_size, total_size):
+            if block_size > total_size:
+                sleep(1)
             if True in out_exit or True in out_abort:
                 download_exit()
             percent = int(block_num * block_size * 100 / total_size)

@@ -18,7 +18,8 @@ import click
 from aurora_cli.src.base.common.groups.psdk_features import (
     psdk_available_common,
     psdk_installed_common,
-    psdk_install_common
+    psdk_install_common,
+    psdk_sign_common
 )
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.models.psdk_model import PsdkModel
@@ -46,13 +47,11 @@ def _select_model_psdk(
 def _select_model_sign(
         select: bool,
         index: int | None,
-        verbose: bool
-) -> SignModel:
+) -> SignModel | None:
     result_model = SignModel.get_model_select(select, index)
     if result_model.is_error():
-        echo_stdout(result_model, verbose)
-        exit(1)
-    return SignModel.get_model_by_name(result_model.value, verbose)
+        return None
+    return SignModel.get_model_by_name(result_model.value)
 
 
 @click.group(name='psdk', help=TextGroup.group_psdk())
@@ -132,8 +131,9 @@ def package_remove(package: str, select: bool, index: int, verbose: bool):
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def sign(path: [], select: bool, index: int, verbose: bool):
-    result = _select_model_sign(select, index, verbose)
-    print(result)
+    model_psdk = _select_model_psdk(select, index, verbose)
+    model_keys = _select_model_sign(select, index)
+    psdk_sign_common(model_psdk, model_keys, path, verbose)
 
 
 @group_psdk.command(help=TextCommand.command_psdk_sudoers_add())

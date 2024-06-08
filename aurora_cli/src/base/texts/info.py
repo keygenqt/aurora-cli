@@ -16,6 +16,7 @@ limitations under the License.
 from enum import Enum
 
 from aurora_cli.src.base.localization.localization import localization
+from aurora_cli.src.base.texts.hint import hint, Hint
 from aurora_cli.src.base.utils.path import path_convert_relative
 
 
@@ -136,5 +137,11 @@ class TextInfo(Enum):
 
     @staticmethod
     @localization
-    def file_check_and_download(url: str):
-        return f'<blue>Download the required file:</blue> {url}'
+    def file_check_and_download():
+        return '<blue>Download the necessary files...</blue>'
+
+    @staticmethod
+    @localization
+    @hint(Hint.psdk_keys_info, Hint.psdk_documentation_keys_link)
+    def psdk_sign_use_public_keys():
+        return '<blue>Public keys will be used for signing.</blue>'

@@ -145,3 +145,8 @@ Good luck 👋'''
     @localization
     def flutter_project_report_success():
         return '<green>Report generation was successful.</green>'
+
+    @staticmethod
+    @localization
+    def psdk_sign_success():
+        return '<green>The signature was completed successfully.</green>'

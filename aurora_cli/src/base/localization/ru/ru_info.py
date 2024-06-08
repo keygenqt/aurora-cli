@@ -112,5 +112,9 @@ class TextInfoRu(Enum):
         return '<blue>Форматирование Dart окончено.</blue>'
 
     @staticmethod
-    def file_check_and_download(url: str):
-        return f'<blue>Качаем необходимый файл:</blue> {url}'
+    def file_check_and_download():
+        return f'<blue>Качаем необходимые файлы...</blue>'
+
+    @staticmethod
+    def psdk_sign_use_public_keys():
+        return '<blue>Для подписи будут использованы публичные ключи.</blue>'
