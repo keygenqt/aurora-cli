@@ -109,3 +109,15 @@ class TextSuccessRu(Enum):
     @staticmethod
     def flutter_remove_success(version: str):
         return f'<green>Удаление Flutter</green> "{version}" <green>прошло успешно.</green>'
+
+    @staticmethod
+    def flutter_project_format_success():
+        return '<green>Проект успешно отформатирован.</green>'
+
+    @staticmethod
+    def flutter_project_build_success():
+        return '<green>Сборка проекта прошла успешно.</green>'
+
+    @staticmethod
+    def flutter_project_report_success():
+        return '<green>Генерация отчета прошла успешно.</green>'

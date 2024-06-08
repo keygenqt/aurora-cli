@@ -13,13 +13,18 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+from pathlib import Path
+
 import click
 
 from aurora_cli.src.base.common.groups.flutter_features import (
     flutter_available_common,
     flutter_installed_common,
     flutter_install_common,
-    flutter_remove_common
+    flutter_remove_common,
+    flutter_project_format_common,
+    flutter_project_build_common,
+    flutter_project_report_common
 )
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.models.flutter_model import FlutterModel
@@ -81,9 +86,29 @@ def remove(verbose: bool):
     flutter_remove_common(model, verbose)
 
 
-@group_flutter.command(name='plugins-report', help=TextCommand.command_flutter_plugins_report())
-@click.option('-p', '--path', type=click.STRING, default=None, required=False,
-              help=TextArgument.argument_path_to_project())
+@group_flutter.command(name='project-format', help=TextCommand.command_flutter_project_format())
+@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
+@click.option('-i', '--index', type=click.INT, default=None, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def plugins_report(path: str, verbose: bool):
-    print('Coming soon')
+def project_format(select: bool, index: int | None, verbose: bool):
+    # select model
+    model = _select_model(select, index, verbose)
+    # remove flutter
+    flutter_project_format_common(model, Path.cwd(), verbose)
+
+
+@group_flutter.command(name='project-build', help=TextCommand.command_flutter_project_build())
+@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
+@click.option('-i', '--index', type=click.INT, default=None, help=TextArgument.argument_index())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
+def project_build(select: bool, index: int | None, verbose: bool):
+    # select model
+    model = _select_model(select, index, verbose)
+    # remove flutter
+    flutter_project_build_common(model, Path.cwd(), verbose)
+
+
+@group_flutter.command(name='project-report', help=TextCommand.command_flutter_project_report())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
+def project_report(verbose: bool):
+    flutter_project_report_common(Path.cwd(), verbose)

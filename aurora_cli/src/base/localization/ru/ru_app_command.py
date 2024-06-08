@@ -18,22 +18,6 @@ from enum import Enum
 
 class TextCommandRu(Enum):
     @staticmethod
-    def command_build_flutter():
-        return 'Сборка проекта Flutter для ОС Aurora.'
-
-    @staticmethod
-    def command_build_qt():
-        return 'Сборка проекта Qt для ОС Aurora.'
-
-    @staticmethod
-    def command_debug_dart():
-        return 'Отладка Dart для ОС Aurora.'
-
-    @staticmethod
-    def command_debug_gdb():
-        return 'Отладка GDB для ОС Аврора.'
-
-    @staticmethod
     def command_device_command():
         return 'Выполните команду на устройстве.'
 
@@ -102,8 +86,16 @@ class TextCommandRu(Enum):
         return 'Удалите Flutter для ОС Аврора.'
 
     @staticmethod
-    def command_flutter_plugins_report():
-        return 'Составить отчет по платформо-зависимым плагинам проекта Flutter.'
+    def command_flutter_project_format():
+        return 'Форматирование проекта Flutter.'
+
+    @staticmethod
+    def command_flutter_project_build():
+        return 'Сборка проекта Flutter.'
+
+    @staticmethod
+    def command_flutter_project_report():
+        return 'Составить отчет проекта Flutter.'
 
     @staticmethod
     def command_psdk_available():
@@ -172,15 +164,3 @@ class TextCommandRu(Enum):
     @staticmethod
     def command_sdk_tool():
         return 'Запустите инструмент обслуживания (удаление, обновление).'
-
-    @staticmethod
-    def command_sundry_format_dart():
-        return 'Форматирование проекта Dart по условиям платформы Flutter для ОС Аврора.'
-
-    @staticmethod
-    def command_sundry_format_clang():
-        return 'Форматирование проекта С++ по условиям платформы Flutter для ОС Аврора.'
-
-    @staticmethod
-    def command_sundry_image_sizes():
-        return 'Генерируйте значки разных размеров для приложений.'

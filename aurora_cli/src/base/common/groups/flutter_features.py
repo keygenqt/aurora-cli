@@ -66,3 +66,31 @@ def flutter_remove_common(model: FlutterModel, verbose: bool):
         search=path
     )
     echo_stdout(OutResult(TextSuccess.flutter_remove_success(version)), verbose)
+
+
+# @todo
+def flutter_project_format_common(
+        model: FlutterModel,
+        project: Path,
+        verbose: bool
+):
+    print(project)
+    print(model.get_tools_dart())
+    echo_stdout(OutResult(TextSuccess.flutter_project_format_success()), verbose)
+
+
+# @todo
+def flutter_project_build_common(
+        model: FlutterModel,
+        project: Path,
+        verbose: bool
+):
+    print(project)
+    print(model.get_tools_flutter())
+    echo_stdout(OutResult(TextSuccess.flutter_project_build_success()), verbose)
+
+
+# @todo
+def flutter_project_report_common(project: Path, verbose: bool):
+    print(project)
+    echo_stdout(OutResult(TextSuccess.flutter_project_report_success()), verbose)

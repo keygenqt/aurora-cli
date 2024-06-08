@@ -130,3 +130,18 @@ Good luck 👋'''
     @localization
     def flutter_remove_success(version: str):
         return f'<green>Remove Flutter</green> {version} <green>successfully!</green>'
+
+    @staticmethod
+    @localization
+    def flutter_project_format_success():
+        return '<green>The project was successfully formatted.</green>'
+
+    @staticmethod
+    @localization
+    def flutter_project_build_success():
+        return '<green>The project was successfully build.</green>'
+
+    @staticmethod
+    @localization
+    def flutter_project_report_success():
+        return '<green>Report generation was successful.</green>'

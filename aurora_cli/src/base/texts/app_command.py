@@ -21,26 +21,6 @@ from aurora_cli.src.base.localization.localization import localization
 class TextCommand(Enum):
     @staticmethod
     @localization
-    def command_build_flutter():
-        return 'Building Flutter project for Aurora OS.'
-
-    @staticmethod
-    @localization
-    def command_build_qt():
-        return 'Building Qt project for Aurora OS.'
-
-    @staticmethod
-    @localization
-    def command_debug_dart():
-        return 'Debugging Dart for Aurora OS.'
-
-    @staticmethod
-    @localization
-    def command_debug_gdb():
-        return 'Debugging GDB for Aurora OS.'
-
-    @staticmethod
-    @localization
     def command_device_command():
         return 'Execute the command on the device.'
 
@@ -126,8 +106,18 @@ class TextCommand(Enum):
 
     @staticmethod
     @localization
-    def command_flutter_plugins_report():
-        return 'Compile a report on platform-dependent plugins of the Flutter project.'
+    def command_flutter_project_format():
+        return 'Formatting a flutter project.'
+
+    @staticmethod
+    @localization
+    def command_flutter_project_build():
+        return 'Build a flutter project.'
+
+    @staticmethod
+    @localization
+    def command_flutter_project_report():
+        return 'Compile a report flutter project.'
 
     @staticmethod
     @localization
@@ -213,18 +203,3 @@ class TextCommand(Enum):
     @localization
     def command_sdk_tool():
         return 'Run maintenance tool (remove, update).'
-
-    @staticmethod
-    @localization
-    def command_sundry_format_dart():
-        return 'Formatting the Dart project according to the terms of the Flutter for Aurora OS.'
-
-    @staticmethod
-    @localization
-    def command_sundry_format_clang():
-        return 'Formatting the С++ project according to the terms of the Flutter for Aurora OS.'
-
-    @staticmethod
-    @localization
-    def command_sundry_image_sizes():
-        return 'Gen multiple size icons for application.'

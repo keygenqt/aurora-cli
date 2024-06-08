@@ -170,20 +170,29 @@ class TextErrorRu(Enum):
         return '<yellow>Не найдены элементы для выбора, проверьте конфигурационный файл.</yellow>'
 
     @staticmethod
-    def flutter_not_found_error(version: str):
-        return f'<red>Не найдено: Flutter SDK. Версия:</red> {version}'
-
-    @staticmethod
     def flutter_already_installed_error(version: str):
         return f'<red>Flutter уже установлен:</red> {version}'
 
     @staticmethod
-    def psdk_not_found_error(version: str):
-        return f'<red>Не найдено: Аврора Platform SDK. Версия:</red> {version}'
+    def flutter_not_found_error(version: str = ''):
+        if version:
+            return f'<red>Не найдено: Flutter SDK. Версия:</red> {version}'
+        else:
+            return '<red>Не найдено: Flutter SDK.</red>'
 
     @staticmethod
-    def sdk_not_found_error(version: str):
-        return f'<red>Не найдено: Аврора SDK. Версия:</red> {version}'
+    def psdk_not_found_error(version: str = ''):
+        if version:
+            return f'<red>Не найдено: Аврора Platform SDK. Версия:</red> {version}'
+        else:
+            return '<red>Не найдено: Аврора Platform SDK.</red>'
+
+    @staticmethod
+    def sdk_not_found_error(version: str = ''):
+        if version:
+            return f'<red>Не найдено: Аврора SDK. Версия:</red> {version}'
+        else:
+            return '<red>Не найдено: Аврора SDK.</red>'
 
     @staticmethod
     def sdk_already_installed_error():
