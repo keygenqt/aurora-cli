@@ -106,6 +106,11 @@ class TextCommand(Enum):
 
     @staticmethod
     @localization
+    def command_flutter_project_report():
+        return 'Compile a report flutter project.'
+
+    @staticmethod
+    @localization
     def command_flutter_project_format():
         return 'Formatting a flutter project.'
 
@@ -116,8 +121,8 @@ class TextCommand(Enum):
 
     @staticmethod
     @localization
-    def command_flutter_project_report():
-        return 'Compile a report flutter project.'
+    def command_flutter_project_debug():
+        return 'Run debug for vscode a flutter project.'
 
     @staticmethod
     @localization

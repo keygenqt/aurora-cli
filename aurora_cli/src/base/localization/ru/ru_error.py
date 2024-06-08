@@ -241,3 +241,7 @@ class TextErrorRu(Enum):
     @staticmethod
     def git_clone_error():
         return '<red>Не удалось выполнить клонирование репозитория.</red>'
+
+    @staticmethod
+    def flutter_project_not_found(path: str):
+        return f'<red>Проект Flutter не найден:</red> {path}'

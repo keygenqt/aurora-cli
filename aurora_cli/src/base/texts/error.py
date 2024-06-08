@@ -315,3 +315,8 @@ class TextError(Enum):
     @localization
     def git_clone_error():
         return '<red>Failed to clone the repository.</red>'
+
+    @staticmethod
+    @localization
+    def flutter_project_not_found(path: str):
+        return f'<red>Flutter project not found:</red> {path}'

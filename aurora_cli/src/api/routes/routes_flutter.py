@@ -19,7 +19,11 @@ from aurora_cli.src.base.common.groups.flutter_features import (
     flutter_available_common,
     flutter_installed_common,
     flutter_install_common,
-    flutter_remove_common, flutter_project_format_common, flutter_project_build_common, flutter_project_report_common
+    flutter_remove_common,
+    flutter_project_report_common,
+    flutter_project_format_common,
+    flutter_project_build_common,
+    flutter_project_debug_common,
 )
 from aurora_cli.src.base.models.flutter_model import FlutterModel
 from aurora_cli.src.base.utils.route import get_route_root, get_arg_str
@@ -42,6 +46,11 @@ def search_route_flutter(route: str, verbose: bool) -> bool:
                 model=FlutterModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
                 verbose=verbose
             )
+        case '/flutter/project/report':
+            flutter_project_report_common(
+                project=Path(get_arg_str(route, 'path')),
+                verbose=verbose
+            )
         case '/flutter/project/format':
             flutter_project_format_common(
                 model=FlutterModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
@@ -54,8 +63,9 @@ def search_route_flutter(route: str, verbose: bool) -> bool:
                 project=Path(get_arg_str(route, 'path')),
                 verbose=verbose
             )
-        case '/flutter/project/report':
-            flutter_project_report_common(
+        case '/flutter/project/debug':
+            flutter_project_debug_common(
+                model=FlutterModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
                 project=Path(get_arg_str(route, 'path')),
                 verbose=verbose
             )

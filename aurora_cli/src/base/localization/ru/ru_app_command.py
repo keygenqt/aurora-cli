@@ -86,6 +86,10 @@ class TextCommandRu(Enum):
         return 'Удалите Flutter для ОС Аврора.'
 
     @staticmethod
+    def command_flutter_project_report():
+        return 'Составить отчет проекта Flutter.'
+
+    @staticmethod
     def command_flutter_project_format():
         return 'Форматирование проекта Flutter.'
 
@@ -94,8 +98,8 @@ class TextCommandRu(Enum):
         return 'Сборка проекта Flutter.'
 
     @staticmethod
-    def command_flutter_project_report():
-        return 'Составить отчет проекта Flutter.'
+    def command_flutter_project_debug():
+        return 'Запуск debug для vscode проекта Flutter.'
 
     @staticmethod
     def command_psdk_available():

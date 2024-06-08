@@ -27,6 +27,12 @@ from aurora_cli.src.base.utils.text_file import file_remove_line
 from aurora_cli.src.base.utils.url import get_url_git_flutter
 
 
+def _check_path_project(path: Path):
+    if not path.is_dir() or not (path / 'pubspec.yaml').is_file():
+        echo_stdout(OutResultError(TextError.flutter_project_not_found(str(path))))
+        exit(1)
+
+
 def flutter_available_common(verbose: bool):
     echo_stdout(get_versions_flutter(), verbose)
 
@@ -68,29 +74,48 @@ def flutter_remove_common(model: FlutterModel, verbose: bool):
     echo_stdout(OutResult(TextSuccess.flutter_remove_success(version)), verbose)
 
 
-# @todo
+def flutter_project_report_common(project: Path, verbose: bool):
+    _check_path_project(project)
+
+    # @todo
+    print(project)
+    echo_stdout(OutResult(TextSuccess.flutter_project_report_success()), verbose)
+
+
 def flutter_project_format_common(
         model: FlutterModel,
         project: Path,
         verbose: bool
 ):
+    _check_path_project(project)
+
+    # @todo
     print(project)
-    print(model.get_tools_dart())
+    print(model.get_tool_dart())
     echo_stdout(OutResult(TextSuccess.flutter_project_format_success()), verbose)
 
 
-# @todo
 def flutter_project_build_common(
         model: FlutterModel,
         project: Path,
         verbose: bool
 ):
+    _check_path_project(project)
+
+    # @todo
     print(project)
-    print(model.get_tools_flutter())
+    print(model.get_tool_flutter())
     echo_stdout(OutResult(TextSuccess.flutter_project_build_success()), verbose)
 
 
-# @todo
-def flutter_project_report_common(project: Path, verbose: bool):
+def flutter_project_debug_common(
+        model: FlutterModel,
+        project: Path,
+        verbose: bool
+):
+    _check_path_project(project)
+
+    # @todo
     print(project)
-    echo_stdout(OutResult(TextSuccess.flutter_project_report_success()), verbose)
+    print(model.get_tool_flutter())
+    echo_stdout(OutResult(TextSuccess.flutter_project_build_success()), verbose)
