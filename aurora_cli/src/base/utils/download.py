@@ -16,6 +16,7 @@ limitations under the License.
 import socket
 from collections.abc import Callable
 from enum import Enum
+from pathlib import Path
 from threading import Thread
 from urllib.request import urlretrieve
 
@@ -28,7 +29,7 @@ from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.abort import abort_catch
 from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResultInfo, OutResult
-from aurora_cli.src.base.utils.path import path_get_download_path
+from aurora_cli.src.base.utils.path import path_get_download_path, path_convert_relative
 from aurora_cli.src.base.utils.request import request_check_url_download
 from aurora_cli.src.base.utils.verbose import verbose_add_map
 
@@ -51,6 +52,21 @@ def check_downloads(urls: []):
         files.append(result.value)
         downloads_url.append(url)
     return downloads_url, files
+
+
+def check_with_download_file(
+        path: str,
+        url: str,
+        verbose: bool,
+        is_bar: bool = True
+) -> Path:
+    path = path_convert_relative(path)
+    if not path.is_file():
+        echo_stdout(OutResultInfo(TextInfo.flutter_project_format_config_download()))
+        downloads([url], verbose, is_bar)
+        path_download = path_get_download_path(url)
+        path_download.replace(path)
+    return path
 
 
 def downloads(
