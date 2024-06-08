@@ -220,8 +220,8 @@ class TextError(Enum):
     @staticmethod
     @localization
     @hint(Hint.flutter_install, Hint.flutter_documentation_link)
-    def flutter_not_found_error():
-        return '<red>Not found: Flutter SDK.</red>'
+    def flutter_not_found_error(version: str):
+        return f'<red>Not found: Flutter SDK. Version:</red> {version}'
 
     @staticmethod
     @localization
@@ -232,14 +232,14 @@ class TextError(Enum):
     @staticmethod
     @localization
     @hint(Hint.psdk_install, Hint.psdk_documentation_link)
-    def psdk_not_found_error():
-        return '<red>Not found: Aurora Platform SDK.</red>'
+    def psdk_not_found_error(version: str):
+        return f'<red>Not found: Aurora Platform SDK. Version:</red> {version}'
 
     @staticmethod
     @localization
     @hint(Hint.sdk_install, Hint.sdk_documentation_link)
-    def sdk_not_found_error():
-        return '<red>Not found: Aurora SDK.</red>'
+    def sdk_not_found_error(version: str):
+        return f'<red>Not found: Aurora SDK. Version:</red> {version}'
 
     @staticmethod
     @localization

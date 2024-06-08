@@ -41,7 +41,7 @@ class SdkModel:
             path_tool = SdkModel.get_tools_sdk()[list_index]
             return SdkModel(Path(path_tool))
         except (Exception,):
-            echo_stdout(OutResultError(TextError.sdk_not_found_error()), verbose)
+            echo_stdout(OutResultError(TextError.sdk_not_found_error(version)), verbose)
             exit(1)
 
     @staticmethod

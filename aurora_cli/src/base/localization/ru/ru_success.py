@@ -90,7 +90,7 @@ class TextSuccessRu(Enum):
     @staticmethod
     def flutter_install_success(path: str, version: str):
         return f'''
-<green>Установка Flutter "{version}" прошла успешно!</green>
+<green>Установка Flutter</green> {version} <green>прошла успешно!</green>
 
 Добавьте alias to ~/.bashrc для удобства:
 
@@ -105,3 +105,7 @@ class TextSuccessRu(Enum):
     <blue>flutter-aurora --version</blue>
 
 Удачи 👋'''
+
+    @staticmethod
+    def flutter_remove_success(version: str):
+        return f'<green>Удаление Flutter</green> "{version}" <green>прошло успешно.</green>'

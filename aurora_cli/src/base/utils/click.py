@@ -16,24 +16,18 @@ limitations under the License.
 from typing import Any
 
 from aurora_cli.src.api.group_api import group_api
-from aurora_cli.src.cli.group_build import group_build
-from aurora_cli.src.cli.group_debug import group_debug
 from aurora_cli.src.cli.group_device import group_device
 from aurora_cli.src.cli.group_emulator import group_emulator
 from aurora_cli.src.cli.group_flutter import group_flutter
 from aurora_cli.src.cli.group_psdk import group_psdk
 from aurora_cli.src.cli.group_sdk import group_sdk
-from aurora_cli.src.cli.group_sundry import group_sundry
 
 
 # noinspection PyTypeChecker
 def click_init_groups(fun: Any):
     fun.add_command(group_api)
-    fun.add_command(group_build)
-    fun.add_command(group_debug)
     fun.add_command(group_device)
     fun.add_command(group_emulator)
     fun.add_command(group_flutter)
     fun.add_command(group_psdk)
     fun.add_command(group_sdk)
-    fun.add_command(group_sundry)

@@ -83,7 +83,7 @@ def prompt_model_select(
     if not select:
         return OutResult(value=models[0])
     # If one item
-    if len(models) == 1:
+    if not select and len(models) == 1:
         return OutResult(value=models[0])
     # Prompt
     echo_stdout(TextInfo.select_array_out(name, models))

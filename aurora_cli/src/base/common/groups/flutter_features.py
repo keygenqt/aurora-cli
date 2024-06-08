@@ -13,14 +13,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import shutil
 from pathlib import Path
 
 from aurora_cli.src.base.common.features.request_version import get_versions_flutter
 from aurora_cli.src.base.common.features.search_installed import search_installed_flutter
+from aurora_cli.src.base.models.flutter_model import FlutterModel
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.git import git_clone
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResult
+from aurora_cli.src.base.utils.text_file import file_remove_line
 from aurora_cli.src.base.utils.url import get_url_git_flutter
 
 
@@ -50,3 +53,16 @@ def flutter_install_common(
     repo.git.checkout(version)
 
     echo_stdout(OutResult(TextSuccess.flutter_install_success(str(flutter_path), version)), verbose)
+
+
+def flutter_remove_common(model: FlutterModel, verbose: bool):
+    path: str = model.get_path()
+    version: str = model.get_version()
+    # remove folder
+    shutil.rmtree(path)
+    # remove alias
+    file_remove_line(
+        file=Path.home() / '.bashrc',
+        search=path
+    )
+    echo_stdout(OutResult(TextSuccess.flutter_remove_success(version)), verbose)

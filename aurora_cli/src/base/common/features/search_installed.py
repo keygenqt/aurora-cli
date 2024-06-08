@@ -16,13 +16,11 @@ limitations under the License.
 from pathlib import Path
 
 from aurora_cli.src.base.common.features.load_by_version import (
-    get_version_flutter_from_file,
-    get_tool_flutter_from_file_with_version,
-    get_tool_dart_from_file_with_version,
     get_version_psdk_from_file,
     get_tool_psdk_from_file_with_version,
     get_version_sdk_from_file,
-    get_tool_sdk_from_file_with_version
+    get_tool_sdk_from_file_with_version,
+    get_version_flutter_from_path
 )
 from aurora_cli.src.base.models.workdir_model import WorkdirModel
 from aurora_cli.src.base.texts.error import TextError
@@ -31,7 +29,7 @@ from aurora_cli.src.base.utils.output import OutResult, OutResultError
 from aurora_cli.src.base.utils.path import path_convert_relative
 
 
-def _search_files(workdir: Path, pattern: str) -> [str]:
+def _search_files(workdir: Path, pattern: str) -> [Path]:
     files = []
     for file in workdir.rglob(pattern):
         if file.is_file():
@@ -41,20 +39,19 @@ def _search_files(workdir: Path, pattern: str) -> [str]:
 
 def search_installed_flutter() -> OutResult:
     path = path_convert_relative('~/.local/opt')
-    files = _search_files(path, 'flutter*/CHANGELOG.md')
+    files = _search_files(path, 'flutter-*/bin/flutter')
+
     versions = []
     flutters = []
     darts = []
     files = sorted(files)
     files = reversed(files)
-    for file in files:
-        version = get_version_flutter_from_file(file)
-        flutter = get_tool_flutter_from_file_with_version(file)
-        dart = get_tool_dart_from_file_with_version(file)
-        if version and flutter and dart:
+    for flutter in files:
+        version = get_version_flutter_from_path(flutter)
+        if version:
             versions.append(version)
             flutters.append(str(flutter))
-            darts.append(str(dart))
+            darts.append(str(flutter.parent / 'dart'))
     if not versions:
         return OutResultError(TextError.just_empty_error())
     return OutResult(TextInfo.installed_versions_flutter(versions), value={

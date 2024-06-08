@@ -25,14 +25,18 @@ from aurora_cli.src.base.utils.prompt import prompt_model_select
 @dataclass
 class FlutterModel:
     """Class Aurora Platform SDK."""
+    version: str
     flutter: Path
     dart: Path
 
     @staticmethod
     def get_model_select(select: bool, index: int | None) -> OutResult:
+        versions = FlutterModel.get_versions_flutter()
+        if not versions:
+            return OutResultError(TextError.flutter_not_found_error())
         return prompt_model_select(
             name='flutter',
-            models=FlutterModel.get_versions_flutter(),
+            models=versions,
             select=select,
             index=index
         )
@@ -41,11 +45,11 @@ class FlutterModel:
     def get_model_by_version(version: str, verbose: bool):
         try:
             list_index = FlutterModel.get_versions_flutter().index(version)
-            path_flutter = FlutterModel.get_tools_flutter()[list_index]
             path_dart = FlutterModel.get_tools_dart()[list_index]
-            return FlutterModel(path_flutter, path_dart)
+            path_flutter = FlutterModel.get_tools_flutter()[list_index]
+            return FlutterModel(version, Path(path_flutter), Path(path_dart))
         except (Exception,):
-            echo_stdout(OutResultError(TextError.flutter_not_found_error()), verbose)
+            echo_stdout(OutResultError(TextError.flutter_not_found_error(version)), verbose)
             exit(1)
 
     @staticmethod
@@ -66,6 +70,12 @@ class FlutterModel:
         if result.is_error():
             return []
         return search_installed_flutter().value[key]
+
+    def get_path(self) -> str:
+        return str(self.flutter.parent.parent)
+
+    def get_version(self) -> str:
+        return self.version
 
     def get_tool_flutter(self) -> str:
         return str(self.flutter)

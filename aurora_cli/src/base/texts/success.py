@@ -110,7 +110,7 @@ class TextSuccess(Enum):
     @localization
     def flutter_install_success(path: str, version: str):
         return f'''
-<green>Install Flutter "{version}" successfully!</green>
+<green>Install Flutter</green> {version} <green>successfully!</green>
 
 Add alias to ~/.bashrc for convenience:
 
@@ -125,3 +125,8 @@ You can check the installation with the command:
     <blue>flutter-aurora --version</blue>
 
 Good luck 👋'''
+
+    @staticmethod
+    @localization
+    def flutter_remove_success(version: str):
+        return f'<green>Remove Flutter</green> {version} <green>successfully!</green>'

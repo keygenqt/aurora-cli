@@ -15,8 +15,12 @@ limitations under the License.
 """
 import click
 
-from aurora_cli.src.base.common.groups.flutter_features import flutter_available_common, flutter_installed_common, \
-    flutter_install_common
+from aurora_cli.src.base.common.groups.flutter_features import (
+    flutter_available_common,
+    flutter_installed_common,
+    flutter_install_common,
+    flutter_remove_common
+)
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.models.flutter_model import FlutterModel
 from aurora_cli.src.base.texts.app_argument import TextArgument
@@ -71,8 +75,10 @@ def install(select: bool, verbose: bool):
 @group_flutter.command(name='remove', help=TextCommand.command_flutter_remove())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def remove(verbose: bool):
-    result = _select_model(True, None, verbose)
-    print(result)
+    # select required
+    model = _select_model(True, None, verbose)
+    # remove flutter
+    flutter_remove_common(model, verbose)
 
 
 @group_flutter.command(name='plugins-report', help=TextCommand.command_flutter_plugins_report())

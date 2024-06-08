@@ -29,9 +29,12 @@ class PsdkModel:
 
     @staticmethod
     def get_model_select(select: bool, index: int | None) -> OutResult:
+        versions = PsdkModel.get_versions_psdk()
+        if not versions:
+            return OutResultError(TextError.psdk_not_found_error())
         return prompt_model_select(
             name='psdk',
-            models=PsdkModel.get_versions_psdk(),
+            models=versions,
             select=select,
             index=index
         )
@@ -43,7 +46,7 @@ class PsdkModel:
             path_tool = PsdkModel.get_tools_psdk()[list_index]
             return PsdkModel(Path(path_tool))
         except (Exception,):
-            echo_stdout(OutResultError(TextError.psdk_not_found_error()), verbose)
+            echo_stdout(OutResultError(TextError.psdk_not_found_error(version)), verbose)
             exit(1)
 
     @staticmethod

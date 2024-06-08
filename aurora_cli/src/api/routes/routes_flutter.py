@@ -16,8 +16,10 @@ limitations under the License.
 from aurora_cli.src.base.common.groups.flutter_features import (
     flutter_available_common,
     flutter_installed_common,
-    flutter_install_common
+    flutter_install_common,
+    flutter_remove_common
 )
+from aurora_cli.src.base.models.flutter_model import FlutterModel
 from aurora_cli.src.base.utils.route import get_route_root, get_arg_str
 
 
@@ -32,6 +34,11 @@ def search_route_flutter(route: str, verbose: bool) -> bool:
                 version=get_arg_str(route, 'version'),
                 verbose=verbose,
                 is_bar=False
+            )
+        case '/flutter/remove':
+            flutter_remove_common(
+                model=FlutterModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
+                verbose=verbose
             )
         case _:
             return False
