@@ -39,6 +39,16 @@ def _check_path_project(path: Path):
         exit(1)
 
 
+@check_dependency(DependencyApps.clang_format)
+def _get_clang_format(verbose: bool, is_bar: bool) -> Path:
+    return check_with_download_file(
+        path=PATH_CLANG_FORMAT_CONF,
+        url=URL_CLANG_FORMAT_CONF,
+        verbose=verbose,
+        is_bar=is_bar
+    )
+
+
 def flutter_available_common(verbose: bool):
     echo_stdout(get_versions_flutter(), verbose)
 
@@ -88,7 +98,6 @@ def flutter_project_report_common(project: Path, verbose: bool):
     echo_stdout(OutResult(TextSuccess.flutter_project_report_success()), verbose)
 
 
-@check_dependency(DependencyApps.clang_format)
 def flutter_project_format_common(
         model: FlutterModel,
         project: Path,
@@ -101,34 +110,26 @@ def flutter_project_format_common(
     files_h = project.rglob('*.h')
     files_cpp = project.rglob('*.cpp')
 
+    # if C++ files exist run clang-format format
+    if files_h or files_cpp:
+        files = []
+        files.extend(files_h)
+        files.extend(files_cpp)
+        result = shell_cpp_format(files, _get_clang_format(verbose, is_bar))
+        if result.is_error():
+            echo_stdout(result, verbose)
+            exit(1)
+        echo_stdout(OutResultInfo(TextInfo.flutter_project_format_cpp_done()), verbose)
+
     # if dart files exist run dart format
     if files_dart:
-        echo_stdout(OutResultInfo(TextInfo.flutter_project_format_start_dart()))
         result = shell_dart_format(model.get_tool_dart(), str(project))
         if result.is_error():
             echo_stdout(result, verbose)
             exit(1)
+        echo_stdout(OutResultInfo(TextInfo.flutter_project_format_dart_done()), verbose)
 
-    # if C++ files exist run clang-format format
-    if files_h or files_cpp:
-        clang_format = check_with_download_file(
-            path=PATH_CLANG_FORMAT_CONF,
-            url=URL_CLANG_FORMAT_CONF,
-            verbose=verbose,
-            is_bar=is_bar
-        )
-
-        echo_stdout(OutResultInfo(TextInfo.flutter_project_format_start_c()))
-
-        files = []
-        files.extend(files_h)
-        files.extend(files_cpp)
-        result = shell_cpp_format(files, clang_format)
-        if result.is_error():
-            echo_stdout(result, verbose)
-            exit(1)
-
-    echo_stdout(OutResult(TextSuccess.flutter_project_format_success()), verbose)
+        echo_stdout(OutResult(TextSuccess.flutter_project_format_success()), verbose)
 
 
 def flutter_project_build_common(

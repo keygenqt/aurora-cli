@@ -104,13 +104,13 @@ class TextInfoRu(Enum):
         return f'<blue>Файл скачиваться не будет, уже существует:</blue> {path}'
 
     @staticmethod
-    def flutter_project_format_start_dart():
-        return '<blue>Начато форматирование Dart кода проекта...</blue>'
+    def flutter_project_format_cpp_done():
+        return '<blue>Форматирование C++ окончено.</blue>'
 
     @staticmethod
-    def flutter_project_format_start_c():
-        return '<blue>Начато форматирование С++ кода проекта...</blue>'
+    def flutter_project_format_dart_done():
+        return '<blue>Форматирование Dart окончено.</blue>'
 
     @staticmethod
-    def flutter_project_format_config_download():
-        return '<blue>Качаем конфигурационный файл для форматирования С++ кода.</blue>'
+    def file_check_and_download(url: str):
+        return f'<blue>Качаем необходимый файл:</blue> {url}'

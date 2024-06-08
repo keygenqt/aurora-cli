@@ -62,7 +62,7 @@ def check_with_download_file(
 ) -> Path:
     path = path_convert_relative(path)
     if not path.is_file():
-        echo_stdout(OutResultInfo(TextInfo.flutter_project_format_config_download()))
+        echo_stdout(OutResultInfo(TextInfo.file_check_and_download(url)))
         downloads([url], verbose, is_bar)
         path_download = path_get_download_path(url)
         path_download.replace(path)

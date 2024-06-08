@@ -126,15 +126,15 @@ class TextInfo(Enum):
 
     @staticmethod
     @localization
-    def flutter_project_format_start_dart():
-        return '<blue>Started formatting the project Dart code...</blue>'
+    def flutter_project_format_cpp_done():
+        return '<blue>C++ formatting is complete.</blue>'
 
     @staticmethod
     @localization
-    def flutter_project_format_start_c():
-        return '<blue>Started formatting the project C++ code...</blue>'
+    def flutter_project_format_dart_done():
+        return '<blue>Dart formatting is complete.</blue>'
 
     @staticmethod
     @localization
-    def flutter_project_format_config_download():
-        return '<blue>Download configuration file to format C++ code.</blue>'
+    def file_check_and_download(url: str):
+        return f'<blue>Download the required file:</blue> {url}'
