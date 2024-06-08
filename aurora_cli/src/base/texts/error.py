@@ -320,3 +320,9 @@ class TextError(Enum):
     @localization
     def flutter_project_not_found(path: str):
         return f'<red>Flutter project not found:</red> {path}'
+
+    @staticmethod
+    @localization
+    @hint(Hint.use_verbose)
+    def flutter_project_format_error():
+        return f'<red>An error occurred while formatting the project.</red>'

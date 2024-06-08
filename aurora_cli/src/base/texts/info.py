@@ -123,3 +123,18 @@ class TextInfo(Enum):
     @localization
     def check_url_download_exist(path: str):
         return f'<blue>The file will not be downloaded, it already exists:</blue> {path}'
+
+    @staticmethod
+    @localization
+    def flutter_project_format_start_dart():
+        return '<blue>Started formatting the project Dart code...</blue>'
+
+    @staticmethod
+    @localization
+    def flutter_project_format_start_c():
+        return '<blue>Started formatting the project C++ code...</blue>'
+
+    @staticmethod
+    @localization
+    def flutter_project_format_config_download():
+        return '<blue>Download configuration file to format C++ code.</blue>'

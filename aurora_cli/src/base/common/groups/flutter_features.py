@@ -18,11 +18,18 @@ from pathlib import Path
 
 from aurora_cli.src.base.common.features.request_version import get_versions_flutter
 from aurora_cli.src.base.common.features.search_installed import search_installed_flutter
+from aurora_cli.src.base.constants.app import PATH_CLANG_FORMAT_CONF
+from aurora_cli.src.base.constants.url import URL_CLANG_FORMAT_CONF
 from aurora_cli.src.base.models.flutter_model import FlutterModel
 from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
+from aurora_cli.src.base.utils.dependency import check_dependency, DependencyApps
+from aurora_cli.src.base.utils.download import downloads
 from aurora_cli.src.base.utils.git import git_clone
-from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResult
+from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResult, OutResultInfo
+from aurora_cli.src.base.utils.path import path_convert_relative, path_get_download_path
+from aurora_cli.src.base.utils.shell import shell_exec_command
 from aurora_cli.src.base.utils.text_file import file_remove_line
 from aurora_cli.src.base.utils.url import get_url_git_flutter
 
@@ -82,16 +89,54 @@ def flutter_project_report_common(project: Path, verbose: bool):
     echo_stdout(OutResult(TextSuccess.flutter_project_report_success()), verbose)
 
 
+@check_dependency(DependencyApps.clang_format)
 def flutter_project_format_common(
         model: FlutterModel,
         project: Path,
-        verbose: bool
+        verbose: bool,
+        is_bar: bool = True
 ):
     _check_path_project(project)
 
-    # @todo
-    print(project)
-    print(model.get_tool_dart())
+    files_dart = project.rglob('*.dart')
+    files_h = project.rglob('*.h')
+    files_cpp = project.rglob('*.cpp')
+
+    # if dart files exist run dart format
+    if files_dart:
+        echo_stdout(OutResultInfo(TextInfo.flutter_project_format_start_dart()))
+        stdout, stderr = shell_exec_command([
+            model.get_tool_dart(),
+            'format',
+            '--line-length=120',
+            str(project),
+        ])
+        if stdout and 'Could not format' in stdout[0]:
+            echo_stdout(OutResultError(TextError.flutter_project_format_error()), verbose)
+            exit(1)
+
+    # if C++ files exist run clang-format format
+    if files_h or files_cpp:
+        # check config file clang-format, download if not exist
+        clang_format = path_convert_relative(PATH_CLANG_FORMAT_CONF)
+        if not clang_format.is_file():
+            echo_stdout(OutResultInfo(TextInfo.flutter_project_format_config_download()))
+            downloads([URL_CLANG_FORMAT_CONF], verbose, is_bar)
+            path_download = path_get_download_path(URL_CLANG_FORMAT_CONF)
+            path_download.replace(clang_format)
+
+        echo_stdout(OutResultInfo(TextInfo.flutter_project_format_start_c()))
+        files_format = []
+        files_format.extend(files_h)
+        files_format.extend(files_cpp)
+        for file in files_format:
+            shell_exec_command([
+                'clang-format',
+                f'--style=file:{clang_format}',
+                '-i',
+                str(file)
+            ])
+
     echo_stdout(OutResult(TextSuccess.flutter_project_format_success()), verbose)
 
 

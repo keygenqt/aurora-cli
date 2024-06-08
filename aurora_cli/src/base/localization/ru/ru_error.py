@@ -245,3 +245,7 @@ class TextErrorRu(Enum):
     @staticmethod
     def flutter_project_not_found(path: str):
         return f'<red>Проект Flutter не найден:</red> {path}'
+
+    @staticmethod
+    def flutter_project_format_error():
+        return f'<red>Произошла ошибка при форматировании проекта.</red>'

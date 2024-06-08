@@ -55,7 +55,8 @@ def search_route_flutter(route: str, verbose: bool) -> bool:
             flutter_project_format_common(
                 model=FlutterModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
                 project=Path(get_arg_str(route, 'path')),
-                verbose=verbose
+                verbose=verbose,
+                is_bar=False
             )
         case '/flutter/project/build':
             flutter_project_build_common(

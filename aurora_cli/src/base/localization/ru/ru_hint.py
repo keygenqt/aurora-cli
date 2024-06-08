@@ -15,7 +15,7 @@ limitations under the License.
 """
 from enum import Enum
 
-from aurora_cli.src.base.utils.argv import argv_is_select
+from aurora_cli.src.base.utils.argv import argv_is_select, argv_is_verbose, argv_is_api
 
 
 class TextHintRU(Enum):
@@ -89,6 +89,12 @@ class TextHintRU(Enum):
 
     @staticmethod
     def use_select():
-        if argv_is_select():
+        if argv_is_select() or argv_is_api():
             return ''
         return '<i>Для выбора других версий используйте флаг:</i> --select'
+
+    @staticmethod
+    def use_verbose():
+        if argv_is_verbose() or argv_is_api():
+            return ''
+        return '<i>Для более подробного вывода используйте флаг:</i> --verbose'

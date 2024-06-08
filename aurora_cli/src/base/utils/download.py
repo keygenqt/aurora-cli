@@ -149,6 +149,8 @@ def _downloads(
             if True in out_exit or True in out_abort:
                 download_exit()
             percent = int(block_num * block_size * 100 / total_size)
+            if percent > 100:
+                percent = 100
             if percent in percent_out:
                 return
             percent_out.append(percent)

@@ -88,39 +88,43 @@ def remove(verbose: bool):
 
 
 @group_flutter.command(name='project-report', help=TextCommand.command_flutter_project_report())
+@click.option('-p', '--path', type=click.STRING, required=False, help=TextArgument.argument_path_to_project())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def project_report(verbose: bool):
-    flutter_project_report_common(Path.cwd(), verbose)
+def project_report(path: str | None, verbose: bool):
+    flutter_project_report_common(path if Path(path) else Path.cwd(), verbose)
 
 
 @group_flutter.command(name='project-format', help=TextCommand.command_flutter_project_format())
+@click.option('-p', '--path', type=click.STRING, required=False, help=TextArgument.argument_path_to_project())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, default=None, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def project_format(select: bool, index: int | None, verbose: bool):
+def project_format(path: str | None, select: bool, index: int | None, verbose: bool):
     # select model
     model = _select_model(select, index, verbose)
     # remove flutter
-    flutter_project_format_common(model, Path.cwd(), verbose)
+    flutter_project_format_common(model, Path(path) if path else Path.cwd(), verbose)
 
 
 @group_flutter.command(name='project-build', help=TextCommand.command_flutter_project_build())
+@click.option('-p', '--path', type=click.STRING, required=False, help=TextArgument.argument_path_to_project())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, default=None, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def project_build(select: bool, index: int | None, verbose: bool):
+def project_build(path: str | None, select: bool, index: int | None, verbose: bool):
     # select model
     model = _select_model(select, index, verbose)
     # remove flutter
-    flutter_project_build_common(model, Path.cwd(), verbose)
+    flutter_project_build_common(model, Path(path) if path else Path.cwd(), verbose)
 
 
 @group_flutter.command(name='project-debug', help=TextCommand.command_flutter_project_debug())
+@click.option('-p', '--path', type=click.STRING, required=False, help=TextArgument.argument_path_to_project())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, default=None, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def project_debug(select: bool, index: int | None, verbose: bool):
+def project_debug(path: str | None, select: bool, index: int | None, verbose: bool):
     # select model
     model = _select_model(select, index, verbose)
     # remove flutter
-    flutter_project_debug_common(model, Path.cwd(), verbose)
+    flutter_project_debug_common(model, Path(path) if path else Path.cwd(), verbose)

@@ -28,6 +28,7 @@ class DependencyApps(Enum):
     sudo = 'sudo'
     git = 'git'
     ssh = 'ssh'
+    clang_format = 'clang-format'
 
 
 def check_dependency(*apps: DependencyApps):
@@ -55,6 +56,8 @@ def _check_dependency(*apps: DependencyApps):
                 _check_dependency_git()
             case DependencyApps.ssh:
                 _check_dependency_ssh()
+            case DependencyApps.clang_format:
+                _check_dependency_clang_format()
 
 
 def _check_dependency_vboxmanage():
@@ -94,4 +97,12 @@ def _check_dependency_ssh():
         subprocess.run(['ssh', '-V'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except (Exception,):
         echo_stdout(OutResultError(TextError.dependency_not_found('ssh')))
+        exit(1)
+
+
+def _check_dependency_clang_format():
+    try:
+        subprocess.run(['clang-format', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except (Exception,):
+        echo_stdout(OutResultError(TextError.dependency_not_found('clang-format')))
         exit(1)
