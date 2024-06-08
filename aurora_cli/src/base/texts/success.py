@@ -105,3 +105,23 @@ class TextSuccess(Enum):
     @localization
     def git_clone_success():
         return '<green>The project has been successfully cloned.</green>'
+
+    @staticmethod
+    @localization
+    def flutter_install_success(path: str, version: str):
+        return f'''
+<green>Install Flutter "{version}" successfully!</green>
+
+Add alias to ~/.bashrc for convenience:
+
+    <blue>alias flutter-aurora={path}/bin/flutter</blue>
+
+After that run the command:
+
+    <blue>source $HOME/.bashrc</blue>
+
+You can check the installation with the command:
+
+    <blue>flutter-aurora --version</blue>
+
+Good luck 👋'''

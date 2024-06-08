@@ -43,7 +43,9 @@ def git_clone(
             if is_bar:
                 bar.update(result, title, 11)
             else:
-                echo_stdout(OutResultInfo(TextInfo.git_clone_progress(title), value=result), verbose)
+                echo_stdout(OutResultInfo(TextInfo.git_clone_progress(title), value=result))
+
+        echo_stdout(OutResultInfo(TextInfo.git_clone_start(url)))
 
         repo = _git_clone(url, path, bar_update)
         echo_stdout(OutResult(TextSuccess.git_clone_success()), verbose)

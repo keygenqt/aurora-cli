@@ -70,3 +70,11 @@ def ru_abort(text: str) -> str:
     return (text
             .replace('Aborted! Closing...', 'Прервано! Закрытие...')
             .replace('Goodbye 👋', 'До свидания 👋'))
+
+
+def ru_git_clone(text: str) -> str:
+    return (text
+            .replace('Counting', 'Подсчет')
+            .replace('Compressing', 'Сжатие')
+            .replace('Receiving', 'Получение')
+            .replace('Resolving', 'Разрешение'))

@@ -17,6 +17,7 @@ import functools
 from enum import Enum
 
 from aurora_cli.src.base.localization.localization import localization
+from aurora_cli.src.base.utils.argv import argv_is_select
 
 
 class Hint(Enum):
@@ -36,6 +37,7 @@ class Hint(Enum):
     sdk_reinstall = 'sdk_reinstall'
     hint_download_error = 'hint_download_error'
     hint_check_download_error = 'hint_check_download_error'
+    use_select = 'use_select'
 
 
 def hint(*hints: Hint):
@@ -47,10 +49,12 @@ def hint(*hints: Hint):
                 for key_fun in TextHint.__dict__:
                     if key.value == key_fun:
                         hint_fun = getattr(TextHint, key_fun)
-                        value = '{text}\n<hint>{hint}</hint>'.format(
-                            text=value,
-                            hint=hint_fun()
-                        )
+                        text_hint = hint_fun()
+                        if text_hint:
+                            value = '{text}\n<hint>{hint}</hint>'.format(
+                                text=value,
+                                hint=hint_fun()
+                            )
             return value
 
         return wrapper
@@ -142,3 +146,10 @@ class TextHint(Enum):
     @localization
     def hint_check_download_error():
         return '<i>The download will not start until all errors are resolved.</i>'
+
+    @staticmethod
+    @localization
+    def use_select():
+        if argv_is_select():
+            return ''
+        return '<i>To select other versions use flag:</i> --select'

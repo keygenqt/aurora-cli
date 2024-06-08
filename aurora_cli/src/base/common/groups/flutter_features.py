@@ -18,8 +18,9 @@ from pathlib import Path
 from aurora_cli.src.base.common.features.request_version import get_versions_flutter
 from aurora_cli.src.base.common.features.search_installed import search_installed_flutter
 from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.git import git_clone
-from aurora_cli.src.base.utils.output import echo_stdout, OutResultError
+from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResult
 from aurora_cli.src.base.utils.url import get_url_git_flutter
 
 
@@ -48,5 +49,4 @@ def flutter_install_common(
     repo = git_clone(git_url, flutter_path, verbose, is_bar)
     repo.git.checkout(version)
 
-    # @todo
-    print(flutter_path)
+    echo_stdout(OutResult(TextSuccess.flutter_install_success(str(flutter_path), version)), verbose)

@@ -15,6 +15,8 @@ limitations under the License.
 """
 from enum import Enum
 
+from aurora_cli.src.base.utils.argv import argv_is_select
+
 
 class TextHintRU(Enum):
     @staticmethod
@@ -84,3 +86,9 @@ class TextHintRU(Enum):
     @staticmethod
     def hint_check_download_error():
         return '<i>Скачивание не начнется пока не будут устранены все ошибки.</i>'
+
+    @staticmethod
+    def use_select():
+        if argv_is_select():
+            return ''
+        return '<i>Для выбора других версий используйте флаг:</i> --select'

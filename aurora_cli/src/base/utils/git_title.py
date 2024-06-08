@@ -15,6 +15,8 @@ limitations under the License.
 """
 from git import RemoteProgress
 
+from aurora_cli.src.base.localization.localization import localization_git_clone
+
 
 class TitleOpCode(RemoteProgress):
     OP_CODES = [
@@ -43,4 +45,4 @@ class TitleOpCode(RemoteProgress):
 
     @staticmethod
     def get_title(op_code: int) -> str:
-        return TitleOpCode()._get_title(op_code)
+        return localization_git_clone(TitleOpCode()._get_title(op_code))

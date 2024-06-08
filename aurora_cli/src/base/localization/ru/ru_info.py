@@ -50,6 +50,10 @@ class TextInfoRu(Enum):
         return '<blue>Прогресс загрузки файла в процентах.</blue>'
 
     @staticmethod
+    def git_clone_start(url: str):
+        return f'<blue>Начато клонирование репозитория:</blue> {url}'
+
+    @staticmethod
     def git_clone_progress(title: str):
         return f'<blue>Прогресс клонирования репозитория:</blue> {title}'
 

@@ -225,6 +225,7 @@ class TextError(Enum):
 
     @staticmethod
     @localization
+    @hint(Hint.use_select)
     def flutter_already_installed_error(version: str):
         return f'<red>Flutter already installed:</red> {version}'
 
