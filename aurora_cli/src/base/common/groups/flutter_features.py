@@ -129,7 +129,7 @@ def flutter_project_format_common(
             exit(1)
         echo_stdout(OutResultInfo(TextInfo.flutter_project_format_dart_done()), verbose)
 
-        echo_stdout(OutResult(TextSuccess.flutter_project_format_success()), verbose)
+    echo_stdout(OutResult(TextSuccess.flutter_project_format_success()), verbose)
 
 
 def flutter_project_build_common(
