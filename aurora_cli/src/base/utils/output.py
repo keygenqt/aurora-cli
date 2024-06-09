@@ -99,9 +99,11 @@ def _echo_stdout_shell(
     if verbose:
         for exec_command in verbose_seize_map():
             echo_stdout(OutResult(TextInfo.command_execute(exec_command['command'])))
-            if exec_command['stdout']:
+            if 'time' in exec_command:
+                echo_stdout(OutResult(TextInfo.command_execute_time(exec_command['time'])))
+            if 'stdout' in exec_command and exec_command['stdout']:
                 echo_stdout(OutResult('\n'.join(exec_command['stdout'])))
-            if exec_command['stderr']:
+            if 'stderr' in exec_command and exec_command['stderr']:
                 echo_stdout(OutResult('\n'.join(exec_command['stderr'])))
 
 

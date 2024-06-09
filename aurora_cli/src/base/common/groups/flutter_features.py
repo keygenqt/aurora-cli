@@ -26,6 +26,7 @@ from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.dependency import check_dependency, DependencyApps
+from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
 from aurora_cli.src.base.utils.download import check_with_download_files
 from aurora_cli.src.base.utils.git import git_clone
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResult, OutResultInfo
@@ -75,6 +76,8 @@ def flutter_install_common(
     repo.git.checkout(version)
 
     echo_stdout(OutResult(TextSuccess.flutter_install_success(str(flutter_path), version)), verbose)
+    # clear cache
+    disk_cache_clear()
 
 
 def flutter_remove_common(model: FlutterModel, verbose: bool):
@@ -88,6 +91,8 @@ def flutter_remove_common(model: FlutterModel, verbose: bool):
         search=path
     )
     echo_stdout(OutResult(TextSuccess.flutter_remove_success(version)), verbose)
+    # clear cache
+    disk_cache_clear()
 
 
 def flutter_project_report_common(project: Path, verbose: bool):

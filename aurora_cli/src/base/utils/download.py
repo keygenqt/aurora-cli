@@ -32,7 +32,7 @@ from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResultInfo, OutResult
 from aurora_cli.src.base.utils.path import path_get_download_path, path_convert_relative
 from aurora_cli.src.base.utils.request import request_check_url_download
-from aurora_cli.src.base.utils.verbose import verbose_add_map
+from aurora_cli.src.base.utils.verbose import verbose_add_map, verbose_command_start
 
 
 def check_downloads(urls: []):
@@ -189,16 +189,17 @@ def _downloads(
             percent_out.append(percent)
             worker_listen(url_download, percent)
 
+        command = verbose_command_start(f'Download: {url_download}')
         try:
+            urlretrieve(url_download, path_download, reporthook)
             verbose_add_map(
-                command=f'Download: {url_download}',
+                command=command,
                 stdout=[],
                 stderr=[],
             )
-            urlretrieve(url_download, path_download, reporthook)
         except Exception as e:
             verbose_add_map(
-                command=f'Download: {url_download}',
+                command=command,
                 stdout=[],
                 stderr=[str(e)],
             )

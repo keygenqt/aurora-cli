@@ -25,18 +25,27 @@ from aurora_cli.src.base.common.features.load_by_version import (
 from aurora_cli.src.base.models.workdir_model import WorkdirModel
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
+from aurora_cli.src.base.utils.disk_cache import disk_cache
 from aurora_cli.src.base.utils.output import OutResult, OutResultError
 from aurora_cli.src.base.utils.path import path_convert_relative
+from aurora_cli.src.base.utils.verbose import verbose_command_start, verbose_add_map
 
 
 def _search_files(workdir: Path, pattern: str) -> [Path]:
     files = []
+    command = verbose_command_start(f'Search: {pattern}')
     for file in workdir.rglob(pattern):
         if file.is_file():
             files.append(file)
+    verbose_add_map(
+        command=command,
+        stdout=[],
+        stderr=[],
+    )
     return files
 
 
+@disk_cache()
 def search_installed_flutter() -> OutResult:
     path = path_convert_relative('~/.local/opt')
     files = _search_files(path, 'flutter-*/bin/flutter')
@@ -61,6 +70,7 @@ def search_installed_flutter() -> OutResult:
     })
 
 
+@disk_cache()
 def search_installed_psdk() -> OutResult:
     workdir = WorkdirModel.get_workdir()
     files = _search_files(workdir, 'sdks/aurora_psdk/etc/os-release')
@@ -82,6 +92,7 @@ def search_installed_psdk() -> OutResult:
     })
 
 
+@disk_cache()
 def search_installed_sdk() -> OutResult:
     workdir = WorkdirModel.get_workdir()
     files = _search_files(workdir, 'sdk-release')

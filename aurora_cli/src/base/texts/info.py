@@ -28,6 +28,11 @@ class TextInfo(Enum):
 
     @staticmethod
     @localization
+    def command_execute_time(seconds: float):
+        return f'<blue>Run time seconds:</blue> {seconds:.2f}'
+
+    @staticmethod
+    @localization
     def emulator_start_locked():
         return '<blue>The emulator is already running.</blue>'
 

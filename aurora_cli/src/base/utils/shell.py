@@ -25,7 +25,7 @@ from cffi.backend_ctypes import unicode
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError
 from aurora_cli.src.base.utils.string import str_clear_line
-from aurora_cli.src.base.utils.verbose import verbose_add_map
+from aurora_cli.src.base.utils.verbose import verbose_add_map, verbose_command_start
 
 
 def shell_exec_command(args: []) -> []:
@@ -52,6 +52,8 @@ def shell_exec_command(args: []) -> []:
         else:
             stdout.append(out)
 
+    command = verbose_command_start(args)
+
     try:
         with subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, preexec_fn=exec_fn) as process:
             for value in iter(lambda: process.stdout.readline(), ""):
@@ -64,7 +66,7 @@ def shell_exec_command(args: []) -> []:
         set_out(str(e), True)
 
     verbose_add_map(
-        command=' '.join(args),
+        command=command,
         stdout=stdout,
         stderr=stderr,
     )
@@ -75,17 +77,18 @@ def shell_exec_command(args: []) -> []:
 def shell_exec_app(path: Path) -> bool:
     os.chmod(str(path), os.stat(path).st_mode | stat.S_IEXEC)
     cmds = shlex.split(str(path))
+    command = verbose_command_start(' '.join(cmds))
     try:
         subprocess.Popen(cmds, start_new_session=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         verbose_add_map(
-            command=' '.join(cmds),
+            command=command,
             stdout=[],
             stderr=[],
         )
         return True
     except Exception as e:
         verbose_add_map(
-            command=' '.join(cmds),
+            command=command,
             stdout=[],
             stderr=[str(e)],
         )

@@ -13,16 +13,30 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+from time import monotonic
 
 _commands_verbose_save = []
+_start_time = {}
+
+
+def verbose_command_start(command: str | list) -> str:
+    if isinstance(command, list):
+        command = ' '.join(command)
+    global _start_time
+    _start_time[command] = monotonic()
+    return command
 
 
 def verbose_add_map(command: str, stdout: [], stderr: []):
-    _commands_verbose_save.append({
+    global _start_time
+    out = {
         'command': command,
         'stdout': stdout,
         'stderr': stderr,
-    })
+    }
+    if command in _start_time:
+        out['time'] = monotonic() - _start_time[command]
+    _commands_verbose_save.append(out)
 
 
 def verbose_seize_map():

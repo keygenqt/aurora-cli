@@ -22,7 +22,7 @@ from paramiko.client import SSHClient
 
 from aurora_cli.src.base.utils.dependency import check_dependency, DependencyApps
 from aurora_cli.src.base.utils.string import str_clear_line
-from aurora_cli.src.base.utils.verbose import verbose_add_map
+from aurora_cli.src.base.utils.verbose import verbose_add_map, verbose_command_start
 
 
 @check_dependency(DependencyApps.ssh)
@@ -51,6 +51,7 @@ def ssh_exec_command(
         listen_stdout: Callable[[str, int], None] = None,
         listen_stderr: Callable[[str, int], None] = None,
 ):
+    command = verbose_command_start(execute)
     _, stdout, stderr = client.exec_command(execute, get_pty=True)
 
     def call_listen(out: [], listen: Callable[[str, int], None] = None):
@@ -74,7 +75,7 @@ def ssh_exec_command(
     stderr = read_lines(stderr, listen_stderr)
 
     verbose_add_map(
-        command=execute,
+        command=command,
         stdout=stdout,
         stderr=stderr,
     )

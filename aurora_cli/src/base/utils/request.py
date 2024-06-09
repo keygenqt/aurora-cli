@@ -21,21 +21,22 @@ from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.output import OutResult, OutResultError, OutResultInfo
 from aurora_cli.src.base.utils.path import path_get_download_path
-from aurora_cli.src.base.utils.verbose import verbose_add_map
+from aurora_cli.src.base.utils.verbose import verbose_add_map, verbose_command_start
 
 
 def request_get(url: str, stream: bool = False) -> Response | OutResult:
+    command = verbose_command_start(f'request: {url}')
     try:
         response = requests.get(url, stream=stream)
         verbose_add_map(
-            command=f'request: {url}',
+            command=command,
             stdout=[response.text],
             stderr=[],
         )
         return response
     except Exception as e:
         verbose_add_map(
-            command=f'request: {url}',
+            command=command,
             stdout=[],
             stderr=[str(e)],
         )
