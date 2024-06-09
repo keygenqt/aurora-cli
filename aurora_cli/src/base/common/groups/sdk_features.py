@@ -45,6 +45,9 @@ def sdk_install_common(
         verbose: bool,
         is_bar: bool = True
 ):
+    if SdkModel.get_versions_sdk():
+        echo_stdout(OutResultError(TextError.sdk_already_installed_error()), verbose)
+        exit(1)
     # url major version
     version_url = get_url_version_sdk(version)
     # get full latest version

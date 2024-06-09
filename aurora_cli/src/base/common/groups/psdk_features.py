@@ -81,6 +81,26 @@ def psdk_install_common(
     disk_cache_clear()
 
 
+def psdk_remove_common(model: PsdkModel):
+    print('Coming soon')
+
+
+def psdk_clear_common(model: PsdkModel):
+    print('Coming soon')
+
+
+def psdk_package_search_common(model: PsdkModel, package: str):
+    print('Coming soon')
+
+
+def psdk_package_install_common(model: PsdkModel, path: []):
+    print('Coming soon')
+
+
+def psdk_package_remove_common(model: PsdkModel, package: str):
+    print('Coming soon')
+
+
 def psdk_sign_common(
         model_psdk: PsdkModel,
         model_keys: SignModel | None,
@@ -105,3 +125,23 @@ def psdk_sign_common(
         exit(1)
 
     echo_stdout(OutResult(TextSuccess.psdk_sign_success()), verbose)
+
+
+def psdk_sudoers_add_common(model: PsdkModel):
+    print('Coming soon')
+
+
+def psdk_sudoers_remove_common(model: PsdkModel):
+    print('Coming soon')
+
+
+def psdk_targets_common(model: PsdkModel):
+    print('Coming soon')
+
+
+def psdk_validate_common(
+        model: PsdkModel,
+        path: [],
+        profile: str
+):
+    print('Coming soon')

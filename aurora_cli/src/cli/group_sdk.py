@@ -27,9 +27,7 @@ from aurora_cli.src.base.models.sdk_model import SdkModel
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
-from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.utils.argv import argv_is_test
-from aurora_cli.src.base.utils.output import echo_stdout
 from aurora_cli.src.base.utils.prompt import prompt_sdk_select
 
 
@@ -57,13 +55,7 @@ def installed(verbose: bool):
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def install(offline: bool, select: bool, verbose: bool):
-    if SdkModel.get_versions_sdk():
-        echo_stdout(TextError.sdk_already_installed_error(), verbose)
-        exit(1)
-
-    # prompt major version
     version = prompt_sdk_select(select)
-    # install sdk
     sdk_install_common(version, offline, verbose)
 
 

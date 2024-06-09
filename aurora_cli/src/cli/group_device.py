@@ -56,7 +56,8 @@ def group_device(ctx: {}):
 @click.option('-i', '--index', type=click.INT, default=None, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def command(execute: str, select: bool, index: int | None, verbose: bool):
-    device_command_common(_select_model(select, index, verbose), execute, verbose)
+    model = _select_model(select, index, verbose)
+    device_command_common(model, execute, verbose)
 
 
 @group_device.command(name='upload', help=TextCommand.command_device_upload())
@@ -65,7 +66,8 @@ def command(execute: str, select: bool, index: int | None, verbose: bool):
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def upload(path: [], select: bool, index: int, verbose: bool):
-    device_upload_common(_select_model(select, index, verbose), path, verbose)
+    model = _select_model(select, index, verbose)
+    device_upload_common(model, path, verbose)
 
 
 @group_device.command(name='package-run', help=TextCommand.command_device_package_run())
@@ -74,7 +76,8 @@ def upload(path: [], select: bool, index: int, verbose: bool):
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_run(package: str, select: bool, index: int, verbose: bool):
-    device_package_run_common(_select_model(select, index, verbose), package, verbose)
+    model = _select_model(select, index, verbose)
+    device_package_run_common(model, package, verbose)
 
 
 @group_device.command(name='package-install', help=TextCommand.command_device_package_install())
@@ -84,7 +87,8 @@ def package_run(package: str, select: bool, index: int, verbose: bool):
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_install(path: [], apm: bool, select: bool, index: int, verbose: bool):
-    device_package_install_common(_select_model(select, index, verbose), path, apm, verbose)
+    model = _select_model(select, index, verbose)
+    device_package_install_common(model, path, apm, verbose)
 
 
 @group_device.command(name='package-remove', help=TextCommand.command_device_package_remove())
@@ -94,4 +98,5 @@ def package_install(path: [], apm: bool, select: bool, index: int, verbose: bool
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_remove(package: str, apm: bool, select: bool, index: int, verbose: bool):
-    device_package_remove_common(_select_model(select, index, verbose), package, apm, verbose)
+    model = _select_model(select, index, verbose)
+    device_package_remove_common(model, package, apm, verbose)

@@ -57,24 +57,27 @@ def group_emulator(ctx: {}):
 @group_emulator.command(name='start', help=TextCommand.command_emulator_start())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def start(verbose: bool):
-    emulator_start_common(_select_model(verbose), verbose)
+    model = _select_model(verbose)
+    emulator_start_common(model, verbose)
 
 
 @group_emulator.command(name='screenshot', help=TextCommand.command_emulator_screenshot())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def screenshot(verbose: bool):
-    emulator_screenshot_common(_select_model(verbose), verbose)
+    model = _select_model(verbose)
+    emulator_screenshot_common(model, verbose)
 
 
 @group_emulator.command(name='recording', help=TextCommand.command_emulator_recording())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def recording(verbose: bool):
-    emulator_recording_start_common(_select_model(verbose), verbose)
+    model = _select_model(verbose)
+    emulator_recording_start_common(model, verbose)
 
     def stop_record_and_exit():
         print('')
         abort_text_start()
-        emulator_recording_stop_common(_select_model(verbose), verbose)
+        emulator_recording_stop_common(model, verbose)
         abort_text_end()
         exit(0)
 
@@ -86,28 +89,31 @@ def recording(verbose: bool):
         default='Enter',
         hide_input=True
     )
-    emulator_recording_stop_common(_select_model(verbose), verbose)
+    emulator_recording_stop_common(model, verbose)
 
 
 @group_emulator.command(name='command', help=TextCommand.command_emulator_command())
 @click.option('-e', '--execute', type=click.STRING, required=True, help=TextArgument.argument_execute_emulator())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def command(execute: str, verbose: bool):
-    emulator_command_common(_select_model(verbose), execute, verbose)
+    model = _select_model(verbose)
+    emulator_command_common(model, execute, verbose)
 
 
 @group_emulator.command(name='upload', help=TextCommand.command_emulator_upload())
 @click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help=TextArgument.argument_path())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def upload(path: [], verbose: bool):
-    emulator_upload_common(_select_model(verbose), path, verbose)
+    model = _select_model(verbose)
+    emulator_upload_common(model, path, verbose)
 
 
 @group_emulator.command(name='package-run', help=TextCommand.command_emulator_package_run())
 @click.option('-p', '--package', type=click.STRING, required=True, help=TextArgument.argument_package_name())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_run(package: str, verbose: bool):
-    emulator_package_run_common(_select_model(verbose), package, verbose)
+    model = _select_model(verbose)
+    emulator_package_run_common(model, package, verbose)
 
 
 @group_emulator.command(name='package-install', help=TextCommand.command_emulator_package_install())
@@ -115,7 +121,8 @@ def package_run(package: str, verbose: bool):
 @click.option('-a', '--apm', is_flag=True, help=TextArgument.argument_apm())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_install(path: [], apm: bool, verbose: bool):
-    emulator_package_install_common(_select_model(verbose, True), path, apm, verbose)
+    model = _select_model(verbose, True)
+    emulator_package_install_common(model, path, apm, verbose)
 
 
 @group_emulator.command(name='package-remove', help=TextCommand.command_emulator_package_remove())
@@ -123,4 +130,5 @@ def package_install(path: [], apm: bool, verbose: bool):
 @click.option('-a', '--apm', is_flag=True, help=TextArgument.argument_apm())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_remove(package: str, apm: bool, verbose: bool):
-    emulator_package_remove_common(_select_model(verbose, True), package, apm, verbose)
+    model = _select_model(verbose, True)
+    emulator_package_remove_common(model, package, apm, verbose)
