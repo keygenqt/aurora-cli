@@ -121,6 +121,7 @@ class TextHint(Enum):
                 'https://developer.auroraos.ru/doc/software_development/sdk')
 
     @staticmethod
+    @localization
     def psdk_documentation_keys_link():
         return ('<i>More information can be found in the documentation:</i> '
                 'https://developer.auroraos.ru/doc/software_development/guides/package_signing')
