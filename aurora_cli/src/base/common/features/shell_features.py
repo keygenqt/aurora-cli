@@ -23,10 +23,7 @@ from aurora_cli.src.base.utils.output import OutResult, OutResultError, OutResul
 from aurora_cli.src.base.utils.shell import shell_exec_command
 
 
-def shell_dart_format(
-        dart: str,
-        path: str,
-) -> OutResult:
+def shell_dart_format(dart: str, path: str) -> OutResult:
     stdout, stderr = shell_exec_command([
         dart,
         'format',
@@ -35,14 +32,12 @@ def shell_dart_format(
     ])
     if stdout and 'Could not format' in stdout[0]:
         return OutResultError(TextError.flutter_project_format_error())
-    return OutResult()
+
+    return OutResultInfo(TextInfo.flutter_project_format_dart_done())
 
 
 @check_dependency(DependencyApps.clang_format)
-def shell_cpp_format(
-        files: [Path],
-        config: Path,
-) -> OutResult:
+def shell_cpp_format(files: [Path], config: Path) -> OutResult:
     for file in files:
         _, stderr = shell_exec_command([
             'clang-format',
@@ -52,7 +47,8 @@ def shell_cpp_format(
         ])
         if stderr:
             return OutResultError(TextError.flutter_project_format_error())
-    return OutResult()
+
+    return OutResultInfo(TextInfo.flutter_project_format_cpp_done())
 
 
 def shell_psdk_resign(
@@ -83,7 +79,7 @@ def shell_psdk_resign(
     if is_error:
         return OutResultError(TextError.psdk_sign_error())
 
-    return OutResult()
+    return OutResult(TextSuccess.psdk_sign_success())
 
 
 def shell_psdk_targets(version: str, tool: str) -> OutResult:

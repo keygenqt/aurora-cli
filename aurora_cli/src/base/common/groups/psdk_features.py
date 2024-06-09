@@ -28,10 +28,9 @@ from aurora_cli.src.base.models.psdk_model import PsdkModel
 from aurora_cli.src.base.models.sign_model import SignModel
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
-from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
 from aurora_cli.src.base.utils.download import check_downloads, downloads, check_with_download_files
-from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResultInfo, OutResult
+from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResultInfo
 from aurora_cli.src.base.utils.url import get_url_version_psdk
 
 
@@ -131,11 +130,7 @@ def psdk_sign_common(
         paths=paths
     )
 
-    if result.is_error():
-        echo_stdout(result, verbose)
-        exit(1)
-
-    echo_stdout(OutResult(TextSuccess.psdk_sign_success()), verbose)
+    echo_stdout(result, verbose)
 
 
 def psdk_sudoers_add_common(model: PsdkModel, verbose: bool):

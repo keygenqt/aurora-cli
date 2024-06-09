@@ -23,13 +23,12 @@ from aurora_cli.src.base.constants.app import PATH_CLANG_FORMAT_CONF
 from aurora_cli.src.base.constants.url import URL_CLANG_FORMAT_CONF
 from aurora_cli.src.base.models.flutter_model import FlutterModel
 from aurora_cli.src.base.texts.error import TextError
-from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.dependency import check_dependency, DependencyApps
 from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
 from aurora_cli.src.base.utils.download import check_with_download_files
 from aurora_cli.src.base.utils.git import git_clone
-from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResult, OutResultInfo
+from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResult
 from aurora_cli.src.base.utils.text_file import file_remove_line
 from aurora_cli.src.base.utils.url import get_url_git_flutter
 
@@ -121,18 +120,20 @@ def flutter_project_format_common(
         files.extend(files_h)
         files.extend(files_cpp)
         result = shell_cpp_format(files, _get_clang_format(verbose, is_bar))
-        if result.is_error():
+        if not result.is_error():
+            echo_stdout(result)
+        else:
             echo_stdout(result, verbose)
             exit(1)
-        echo_stdout(OutResultInfo(TextInfo.flutter_project_format_cpp_done()), verbose)
 
     # if dart files exist run dart format
     if files_dart:
         result = shell_dart_format(model.get_tool_dart(), str(project))
-        if result.is_error():
+        if not result.is_error():
+            echo_stdout(result)
+        else:
             echo_stdout(result, verbose)
             exit(1)
-        echo_stdout(OutResultInfo(TextInfo.flutter_project_format_dart_done()), verbose)
 
     echo_stdout(OutResult(TextSuccess.flutter_project_format_success()), verbose)
 
