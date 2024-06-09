@@ -327,3 +327,9 @@ class TextError(Enum):
     @hint(Hint.use_verbose)
     def psdk_sign_error():
         return '<red>An error occurred while signing.</red>'
+
+    @staticmethod
+    @localization
+    @hint(Hint.use_verbose)
+    def psdk_targets_get_error():
+        return '<red>An error occurred while receiving targets.</red>'

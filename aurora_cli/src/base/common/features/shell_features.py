@@ -16,8 +16,10 @@ limitations under the License.
 from pathlib import Path
 
 from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.texts.info import TextInfo
+from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.dependency import check_dependency, DependencyApps
-from aurora_cli.src.base.utils.output import OutResult, OutResultError
+from aurora_cli.src.base.utils.output import OutResult, OutResultError, OutResultInfo
 from aurora_cli.src.base.utils.shell import shell_exec_command
 
 
@@ -53,7 +55,7 @@ def shell_cpp_format(
     return OutResult()
 
 
-def shell_resign(
+def shell_psdk_resign(
         tool: str,
         key: str,
         cert: str,
@@ -82,3 +84,24 @@ def shell_resign(
         return OutResultError(TextError.psdk_sign_error())
 
     return OutResult()
+
+
+def shell_psdk_targets(version: str, tool: str) -> OutResult:
+    targets = []
+    stdout, stderr = shell_exec_command([
+        tool,
+        'sdk-assistant',
+        'list',
+    ])
+
+    if stderr:
+        return OutResultError(TextError.psdk_targets_get_error())
+
+    for line in stdout:
+        if '─' in line and 'default' not in line:
+            targets.append(line[2:])
+
+    if not targets:
+        return OutResultInfo(TextInfo.psdk_targets_empty_success(version))
+
+    return OutResult(TextSuccess.psdk_targets_get_success(version, targets), value=targets)

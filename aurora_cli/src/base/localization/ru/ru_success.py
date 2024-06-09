@@ -125,3 +125,7 @@ class TextSuccessRu(Enum):
     @staticmethod
     def psdk_sign_success():
         return '<green>Подпись выполнена успешно.</green>'
+
+    @staticmethod
+    def psdk_targets_get_success(version: str, targets: []):
+        return f'<green>Список таргетов:</green> {version}\n' + '\n'.join(targets)

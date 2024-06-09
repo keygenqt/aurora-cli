@@ -150,3 +150,8 @@ Good luck 👋'''
     @localization
     def psdk_sign_success():
         return '<green>The signature was completed successfully.</green>'
+
+    @staticmethod
+    @localization
+    def psdk_targets_get_success(version: str, targets: []):
+        return f'<green>List of targets:</green> {version}\n' + '\n'.join(targets)

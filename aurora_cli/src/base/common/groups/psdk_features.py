@@ -21,7 +21,7 @@ from aurora_cli.src.base.common.features.request_version import (
     get_download_psdk_url_by_version
 )
 from aurora_cli.src.base.common.features.search_installed import search_installed_psdk
-from aurora_cli.src.base.common.features.shell_features import shell_resign
+from aurora_cli.src.base.common.features.shell_features import shell_psdk_resign, shell_psdk_targets
 from aurora_cli.src.base.constants.app import PATH_REGULAR_KEY, PATH_REGULAR_CERT
 from aurora_cli.src.base.constants.url import URL_REGULAR_KEY, URL_REGULAR_CERT
 from aurora_cli.src.base.models.psdk_model import PsdkModel
@@ -81,23 +81,34 @@ def psdk_install_common(
     disk_cache_clear()
 
 
-def psdk_remove_common(model: PsdkModel):
+def psdk_remove_common(model: PsdkModel, verbose: bool):
     print('Coming soon')
 
 
-def psdk_clear_common(model: PsdkModel):
+def psdk_clear_common(model: PsdkModel, verbose: bool):
     print('Coming soon')
 
 
-def psdk_package_search_common(model: PsdkModel, package: str):
+def psdk_package_search_common(
+        model: PsdkModel,
+        package: str,
+        verbose: bool
+):
     print('Coming soon')
 
 
-def psdk_package_install_common(model: PsdkModel, path: []):
+def psdk_package_install_common(
+        model: PsdkModel,
+        path: [], verbose: bool
+):
     print('Coming soon')
 
 
-def psdk_package_remove_common(model: PsdkModel, package: str):
+def psdk_package_remove_common(
+        model: PsdkModel,
+        package: str,
+        verbose: bool
+):
     print('Coming soon')
 
 
@@ -113,7 +124,7 @@ def psdk_sign_common(
         keys = _get_open_keys(verbose, is_bar)
         model_keys = SignModel('_', keys[0], keys[1])
 
-    result = shell_resign(
+    result = shell_psdk_resign(
         tool=model_psdk.get_tool_path(),
         key=str(model_keys.key),
         cert=str(model_keys.cert),
@@ -127,21 +138,23 @@ def psdk_sign_common(
     echo_stdout(OutResult(TextSuccess.psdk_sign_success()), verbose)
 
 
-def psdk_sudoers_add_common(model: PsdkModel):
+def psdk_sudoers_add_common(model: PsdkModel, verbose: bool):
     print('Coming soon')
 
 
-def psdk_sudoers_remove_common(model: PsdkModel):
+def psdk_sudoers_remove_common(model: PsdkModel, verbose: bool):
     print('Coming soon')
 
 
-def psdk_targets_common(model: PsdkModel):
-    print('Coming soon')
+def psdk_targets_common(model: PsdkModel, verbose: bool):
+    result = shell_psdk_targets(model.get_version(), model.get_tool_path())
+    echo_stdout(result, verbose)
 
 
 def psdk_validate_common(
         model: PsdkModel,
         path: [],
-        profile: str
+        profile: str,
+        verbose: bool
 ):
     print('Coming soon')

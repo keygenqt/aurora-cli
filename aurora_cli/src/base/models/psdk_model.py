@@ -26,6 +26,7 @@ from aurora_cli.src.base.utils.prompt import prompt_model_select
 class PsdkModel:
     """Class Aurora Platform SDK."""
     tool: Path
+    version: str
 
     @staticmethod
     def get_model_select(select: bool, index: int | None) -> OutResult:
@@ -44,7 +45,7 @@ class PsdkModel:
         try:
             list_index = PsdkModel.get_versions_psdk().index(version)
             path_tool = PsdkModel.get_tools_psdk()[list_index]
-            return PsdkModel(Path(path_tool))
+            return PsdkModel(Path(path_tool), version)
         except (Exception,):
             echo_stdout(OutResultError(TextError.psdk_not_found_error(version)), verbose)
             exit(1)
@@ -62,7 +63,10 @@ class PsdkModel:
         result = search_installed_psdk()
         if result.is_error():
             return []
-        return search_installed_psdk().value[key]
+        return result.value[key]
+
+    def get_version(self) -> str:
+        return str(self.version)
 
     def get_tool_path(self) -> str:
         return str(self.tool)

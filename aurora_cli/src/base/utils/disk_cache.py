@@ -19,9 +19,9 @@ from aurora_cli.src.base.constants.config import APP_FOLDER
 from aurora_cli.src.base.utils.path import path_convert_relative
 
 
-# Default cache = 1 hour
+# Default cache = 12 hours
 # App has flag --clear-cache for force clear
-def disk_cache(expire=3600):
+def disk_cache(expire=43200):
     def decorator(func):
         def wrapper(*args, **kwargs) -> str:
             def save(data):

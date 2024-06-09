@@ -150,3 +150,8 @@ class TextInfo(Enum):
     @hint(Hint.psdk_keys_info, Hint.psdk_documentation_keys_link)
     def psdk_sign_use_public_keys():
         return '<blue>Public keys will be used for signing.</blue>'
+
+    @staticmethod
+    @localization
+    def psdk_targets_empty_success(version: str):
+        return f'<yellow>Target list is empty:</yellow> {version}'

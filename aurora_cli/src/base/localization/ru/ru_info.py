@@ -118,3 +118,7 @@ class TextInfoRu(Enum):
     @staticmethod
     def psdk_sign_use_public_keys():
         return '<blue>Для подписи будут использованы публичные ключи.</blue>'
+
+    @staticmethod
+    def psdk_targets_empty_success(version: str):
+        return f'<yellow>Список таргетов пуст:</yellow> {version}'

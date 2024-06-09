@@ -249,3 +249,7 @@ class TextErrorRu(Enum):
     @staticmethod
     def psdk_sign_error():
         return '<red>Возникла ошибка при подписи.</red>'
+
+    @staticmethod
+    def psdk_targets_get_error():
+        return '<red>Произошла ошибка при получении таргетов.</red>'

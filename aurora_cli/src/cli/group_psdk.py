@@ -96,7 +96,7 @@ def install(select: bool, verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def remove(select: bool, index: int, verbose: bool):
     model = _select_model_psdk(select, index, verbose)
-    psdk_remove_common(model)
+    psdk_remove_common(model, verbose)
 
 
 @group_psdk.command(name='clear', help=TextCommand.command_psdk_clear())
@@ -105,7 +105,7 @@ def remove(select: bool, index: int, verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def clear(select: bool, index: int, verbose: bool):
     model = _select_model_psdk(select, index, verbose)
-    psdk_clear_common(model)
+    psdk_clear_common(model, verbose)
 
 
 @group_psdk.command(name='package-search', help=TextCommand.command_psdk_package_search())
@@ -115,7 +115,7 @@ def clear(select: bool, index: int, verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_search(package: str, select: bool, index: int, verbose: bool):
     model = _select_model_psdk(select, index, verbose)
-    psdk_package_search_common(model, package)
+    psdk_package_search_common(model, package, verbose)
 
 
 @group_psdk.command(name='package-install', help=TextCommand.command_psdk_package_install())
@@ -125,7 +125,7 @@ def package_search(package: str, select: bool, index: int, verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_install(path: [], select: bool, index: int, verbose: bool):
     model = _select_model_psdk(select, index, verbose)
-    psdk_package_install_common(model, path)
+    psdk_package_install_common(model, path, verbose)
 
 
 @group_psdk.command(name='package-remove', help=TextCommand.command_psdk_package_remove())
@@ -135,7 +135,7 @@ def package_install(path: [], select: bool, index: int, verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_remove(package: str, select: bool, index: int, verbose: bool):
     model = _select_model_psdk(select, index, verbose)
-    psdk_package_remove_common(model, package)
+    psdk_package_remove_common(model, package, verbose)
 
 
 @group_psdk.command(name='sign', help=TextCommand.command_psdk_sign())
@@ -155,7 +155,7 @@ def sign(path: [], select: bool, index: int, verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def sudoers_add(select: bool, index: int, verbose: bool):
     model = _select_model_psdk(select, index, verbose)
-    psdk_sudoers_add_common(model)
+    psdk_sudoers_add_common(model, verbose)
 
 
 @group_psdk.command(help=TextCommand.command_psdk_sudoers_remove())
@@ -164,7 +164,7 @@ def sudoers_add(select: bool, index: int, verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def sudoers_remove(select: bool, index: int, verbose: bool):
     model = _select_model_psdk(select, index, verbose)
-    psdk_sudoers_remove_common(model)
+    psdk_sudoers_remove_common(model, verbose)
 
 
 @group_psdk.command(help=TextCommand.command_psdk_targets())
@@ -173,7 +173,7 @@ def sudoers_remove(select: bool, index: int, verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def targets(select: bool, index: int, verbose: bool):
     model = _select_model_psdk(select, index, verbose)
-    psdk_targets_common(model)
+    psdk_targets_common(model, verbose)
 
 
 @group_psdk.command(help=TextCommand.command_psdk_validate())
@@ -190,4 +190,4 @@ def targets(select: bool, index: int, verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def validate(path: [], profile: str, select: bool, index: int, verbose: bool):
     model = _select_model_psdk(select, index, verbose)
-    psdk_validate_common(model, path, profile)
+    psdk_validate_common(model, path, profile, verbose)
