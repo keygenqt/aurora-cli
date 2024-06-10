@@ -38,7 +38,7 @@ class TestGroupEmulatorAPI(unittest.TestCase):
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            '/emulator/vm/start'
+            '/emulator/start'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
@@ -48,7 +48,7 @@ class TestGroupEmulatorAPI(unittest.TestCase):
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            '/emulator/vm/screenshot'
+            '/emulator/screenshot'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
@@ -59,7 +59,7 @@ class TestGroupEmulatorAPI(unittest.TestCase):
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            '/emulator/vm/recording/stop'
+            '/emulator/recording/stop'
         ])
         self.assertEqual(result.exit_code, 1)
         self.assertIn('"code": 500', result.output)
@@ -69,7 +69,7 @@ class TestGroupEmulatorAPI(unittest.TestCase):
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            '/emulator/ssh/command?execute=version'
+            '/emulator/command?execute=version'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
@@ -80,7 +80,7 @@ class TestGroupEmulatorAPI(unittest.TestCase):
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            '/emulator/ssh/command?execute=just my command'
+            '/emulator/command?execute=just my command'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
@@ -92,7 +92,7 @@ class TestGroupEmulatorAPI(unittest.TestCase):
         path = Path.cwd() / 'data' / 'upload.file'
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            f'/emulator/ssh/upload?path={path}'
+            f'/emulator/upload?path={path}'
         ])
         self.assertIn('"code": 200', result.output)
         self.assertIn('successfully', result.output)
@@ -103,7 +103,7 @@ class TestGroupEmulatorAPI(unittest.TestCase):
         path = Path.cwd() / 'data' / 'com.keygenqt.trex-0.1.0-1.x86_64.rpm'
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            f'/emulator/ssh/package-install?path={path}'
+            f'/emulator/package/install?path={path}'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
@@ -114,7 +114,7 @@ class TestGroupEmulatorAPI(unittest.TestCase):
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            f'/emulator/ssh/package-remove?package=com.keygenqt.trex'
+            f'/emulator/package/remove?package=com.keygenqt.trex'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
@@ -126,7 +126,7 @@ class TestGroupEmulatorAPI(unittest.TestCase):
         path = Path.cwd() / 'data' / 'com.keygenqt.trex-0.1.0-1.x86_64.rpm'
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            f'/emulator/ssh/package-install?path={path}&apm=true'
+            f'/emulator/package/install?path={path}&apm=true'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
@@ -137,7 +137,7 @@ class TestGroupEmulatorAPI(unittest.TestCase):
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            f'/emulator/ssh/package-remove?package=com.keygenqt.trex&apm=true'
+            f'/emulator/package/remove?package=com.keygenqt.trex&apm=true'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)

@@ -52,7 +52,7 @@ class TestGroupEmulatorCLI(unittest.TestCase):
         self.assertIn('taken successfully', result.output)
 
     def test_emulator_a3_recording(self):
-        sleep(1)
+        sleep(8)
         runner = CliRunner()
         result = runner.invoke(cli=group_emulator, input='', args=[
             'recording',

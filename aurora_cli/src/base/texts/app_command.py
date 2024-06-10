@@ -146,8 +146,8 @@ class TextCommand(Enum):
 
     @staticmethod
     @localization
-    def command_psdk_clear():
-        return 'Remove snapshots targets.'
+    def command_psdk_snapshot_remove():
+        return 'Remove snapshot target.'
 
     @staticmethod
     @localization

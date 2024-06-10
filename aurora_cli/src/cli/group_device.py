@@ -61,11 +61,11 @@ def command(execute: str, select: bool, index: int | None, verbose: bool):
 
 
 @group_device.command(name='upload', help=TextCommand.command_device_upload())
-@click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help=TextArgument.argument_path())
+@click.option('-p', '--path', type=click.STRING, required=True, help=TextArgument.argument_path())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def upload(path: [], select: bool, index: int, verbose: bool):
+def upload(path: str, select: bool, index: int, verbose: bool):
     model = _select_model(select, index, verbose)
     device_upload_common(model, path, verbose)
 
@@ -81,12 +81,12 @@ def package_run(package: str, select: bool, index: int, verbose: bool):
 
 
 @group_device.command(name='package-install', help=TextCommand.command_device_package_install())
-@click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help=TextArgument.argument_path_rpm())
+@click.option('-p', '--path', type=click.STRING, required=True, help=TextArgument.argument_path_rpm())
 @click.option('-a', '--apm', is_flag=True, help=TextArgument.argument_apm())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def package_install(path: [], apm: bool, select: bool, index: int, verbose: bool):
+def package_install(path: str, apm: bool, select: bool, index: int, verbose: bool):
     model = _select_model(select, index, verbose)
     device_package_install_common(model, path, apm, verbose)
 

@@ -73,6 +73,7 @@ def screenshot(verbose: bool):
 def recording(verbose: bool):
     model = _select_model(verbose)
     emulator_recording_start_common(model, verbose)
+    model = _select_model(verbose)
 
     def stop_record_and_exit():
         print('')
@@ -101,9 +102,9 @@ def command(execute: str, verbose: bool):
 
 
 @group_emulator.command(name='upload', help=TextCommand.command_emulator_upload())
-@click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help=TextArgument.argument_path())
+@click.option('-p', '--path', type=click.STRING, required=True, help=TextArgument.argument_path())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def upload(path: [], verbose: bool):
+def upload(path: str, verbose: bool):
     model = _select_model(verbose)
     emulator_upload_common(model, path, verbose)
 
@@ -117,10 +118,10 @@ def package_run(package: str, verbose: bool):
 
 
 @group_emulator.command(name='package-install', help=TextCommand.command_emulator_package_install())
-@click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help=TextArgument.argument_path_rpm())
+@click.option('-p', '--path', type=click.STRING, required=True, help=TextArgument.argument_path_rpm())
 @click.option('-a', '--apm', is_flag=True, help=TextArgument.argument_apm())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def package_install(path: [], apm: bool, verbose: bool):
+def package_install(path: str, apm: bool, verbose: bool):
     model = _select_model(verbose, True)
     emulator_package_install_common(model, path, apm, verbose)
 

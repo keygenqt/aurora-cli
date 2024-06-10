@@ -86,8 +86,8 @@ class TextErrorRu(Enum):
         return '<red>Не удалось загрузить файлы.</red>'
 
     @staticmethod
-    def ssh_upload_file_not_found(path: str):
-        return f'<red>Файл для загрузки не найден:</red> {path}'
+    def file_not_found_error(path: str):
+        return f'<red>Файл не найден:</red> {path}'
 
     @staticmethod
     def ssh_install_rpm_error():
@@ -253,3 +253,11 @@ class TextErrorRu(Enum):
     @staticmethod
     def psdk_targets_get_error():
         return '<red>Произошла ошибка при получении таргетов.</red>'
+
+    @staticmethod
+    def exec_command_error():
+        return '<red>Произошла ошибка при выполнении команды.</red>'
+
+    @staticmethod
+    def psdk_validate_error():
+        return '<red>Пакет не прошел валидацию.</red>'

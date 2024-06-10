@@ -129,3 +129,27 @@ class TextSuccessRu(Enum):
     @staticmethod
     def psdk_targets_get_success(version: str, targets: []):
         return f'<green>Список таргетов:</green> {version}\n' + '\n'.join(targets)
+
+    @staticmethod
+    def psdk_package_install_success():
+        return '<green>Установка пакета прошла успешно.</green>'
+
+    @staticmethod
+    def psdk_package_remove_success():
+        return '<green>Удаление пакета прошло успешно.</green>'
+
+    @staticmethod
+    def psdk_snapshot_remove_success():
+        return '<green>Удаление снимка прошло успешно.</green>'
+
+    @staticmethod
+    def psdk_validate_success():
+        return '<green>Пакет прошел валидацию успешно.</green>'
+
+    @staticmethod
+    def psdk_sudoers_add_success(version: str, path: str):
+        return f'<green>Версия</green> {version} <green>добавлена в файл:</green> {path}'
+
+    @staticmethod
+    def psdk_sudoers_remove_success(version: str, path: str):
+        return f'<green>Версия</green> {version} <green>удалена из файла:</green> {path}'

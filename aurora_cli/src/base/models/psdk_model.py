@@ -17,8 +17,10 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from aurora_cli.src.base.common.features.search_installed import search_installed_psdk
+from aurora_cli.src.base.common.features.shell_features import shell_psdk_targets
 from aurora_cli.src.base.texts.error import TextError
-from aurora_cli.src.base.utils.output import OutResult, echo_stdout, OutResultError
+from aurora_cli.src.base.texts.info import TextInfo
+from aurora_cli.src.base.utils.output import OutResult, echo_stdout, OutResultError, OutResultInfo
 from aurora_cli.src.base.utils.prompt import prompt_model_select
 
 
@@ -64,6 +66,23 @@ class PsdkModel:
         if result.is_error():
             return []
         return result.value[key]
+
+    def get_model_targets_select(self) -> OutResult:
+        targets = self.get_targets_psdk()
+        if not targets:
+            return OutResultInfo(TextInfo.psdk_targets_empty(self.get_version()))
+        return prompt_model_select(
+            name='target',
+            models=targets,
+            select=True,
+            index=None
+        )
+
+    def get_targets_psdk(self) -> []:
+        result = shell_psdk_targets(self.get_version(), self.get_tool_path())
+        if not result.is_success():
+            return []
+        return result.value
 
     def get_version(self) -> str:
         return str(self.version)

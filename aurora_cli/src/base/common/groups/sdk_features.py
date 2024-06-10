@@ -15,11 +15,11 @@ limitations under the License.
 """
 from pathlib import Path
 
-from aurora_cli.src.base.common.features.request_version import (
+from aurora_cli.src.base.common.features.load_by_version import (
     get_version_latest_by_url,
-    get_download_sdk_url_by_version,
-    get_versions_sdk
+    get_download_sdk_url_by_version
 )
+from aurora_cli.src.base.common.features.request_version import request_versions_sdk
 from aurora_cli.src.base.common.features.search_installed import search_installed_sdk
 from aurora_cli.src.base.models.sdk_model import SdkModel
 from aurora_cli.src.base.texts.error import TextError
@@ -32,7 +32,7 @@ from aurora_cli.src.base.utils.url import get_url_version_sdk
 
 
 def sdk_available_common(verbose: bool):
-    echo_stdout(get_versions_sdk(), verbose)
+    echo_stdout(request_versions_sdk(), verbose)
 
 
 def sdk_installed_common(verbose: bool):

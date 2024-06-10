@@ -112,8 +112,8 @@ class TextError(Enum):
 
     @staticmethod
     @localization
-    def ssh_upload_file_not_found(path: str):
-        return f'<red>File not found for download:</red> {path}'
+    def file_not_found_error(path: str):
+        return f'<red>File not found:</red> {path}'
 
     @staticmethod
     @localization
@@ -333,3 +333,15 @@ class TextError(Enum):
     @hint(Hint.use_verbose)
     def psdk_targets_get_error():
         return '<red>An error occurred while receiving targets.</red>'
+
+    @staticmethod
+    @localization
+    @hint(Hint.use_verbose)
+    def exec_command_error():
+        return '<red>An error occurred when execution command.</red>'
+
+    @staticmethod
+    @localization
+    @hint(Hint.use_verbose)
+    def psdk_validate_error():
+        return '<red>The package has not been validated.</red>'

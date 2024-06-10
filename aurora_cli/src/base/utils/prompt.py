@@ -15,8 +15,11 @@ limitations under the License.
 """
 import click
 
-from aurora_cli.src.base.common.features.request_version import get_versions_flutter, \
-    get_versions_sdk, get_versions_psdk
+from aurora_cli.src.base.common.features.request_version import (
+    request_versions_flutter,
+    request_versions_sdk,
+    request_versions_psdk
+)
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.prompt import TextPrompt
@@ -24,7 +27,7 @@ from aurora_cli.src.base.utils.output import OutResultError, OutResult, echo_std
 
 
 def prompt_flutter_select(select: bool) -> str | None:
-    versions = get_versions_flutter()
+    versions = request_versions_flutter()
     if versions.is_error():
         echo_stdout(versions)
         exit(1)
@@ -36,7 +39,7 @@ def prompt_flutter_select(select: bool) -> str | None:
 
 
 def prompt_psdk_select(select: bool) -> str | None:
-    versions = get_versions_sdk()
+    versions = request_versions_sdk()
     if versions.is_error():
         echo_stdout(versions)
         exit(1)
@@ -48,7 +51,7 @@ def prompt_psdk_select(select: bool) -> str | None:
 
 
 def prompt_sdk_select(select: bool) -> str | None:
-    versions = get_versions_psdk()
+    versions = request_versions_psdk()
     if versions.is_error():
         echo_stdout(versions)
         exit(1)

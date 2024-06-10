@@ -15,3 +15,11 @@ limitations under the License.
 """
 
 VM_MANAGE = "VBoxManage"
+
+MER_SDK_CHROOT_PATH = '/etc/sudoers.d/mer-sdk-chroot'
+MER_SDK_CHROOT_DATA = ('{username} ALL=(ALL) NOPASSWD: {psdk_tool_folder}\n'
+                       'Defaults!{psdk_tool_folder} env_keep += "SSH_AGENT_PID SSH_AUTH_SOCK"\n')
+
+SDK_CHROOT_PATH = '/etc/sudoers.d/sdk-chroot'
+SDK_CHROOT_DATA = ('{username} ALL=(ALL) NOPASSWD: {psdk_tool}\n'
+                   'Defaults!{psdk_tool} env_keep += "SSH_AGENT_PID SSH_AUTH_SOCK"\n')

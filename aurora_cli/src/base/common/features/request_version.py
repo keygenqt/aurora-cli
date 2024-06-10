@@ -25,7 +25,7 @@ from aurora_cli.src.base.utils.output import OutResult, OutResultError
 from aurora_cli.src.base.utils.request import request_get
 
 
-def get_versions_from_repo(url: str) -> []:
+def _get_versions_from_repo(url: str) -> []:
     versions = []
     response = request_get(url)
     if response.status_code == 200:
@@ -38,9 +38,9 @@ def get_versions_from_repo(url: str) -> []:
     return versions
 
 
-def get_versions_sdk() -> OutResult:
+def request_versions_sdk() -> OutResult:
     try:
-        versions = get_versions_from_repo(URL_AURORA_REPO_VERSIONS)
+        versions = _get_versions_from_repo(URL_AURORA_REPO_VERSIONS)
         if not versions:
             return OutResultError(TextError.request_empty_error())
         return OutResult(TextInfo.available_versions_sdk(versions), value=versions)
@@ -48,9 +48,9 @@ def get_versions_sdk() -> OutResult:
         return OutResultError(TextError.request_error())
 
 
-def get_versions_psdk() -> OutResult:
+def request_versions_psdk() -> OutResult:
     try:
-        versions = get_versions_from_repo(URL_AURORA_REPO_VERSIONS)
+        versions = _get_versions_from_repo(URL_AURORA_REPO_VERSIONS)
         if not versions:
             return OutResultError(TextError.request_empty_error())
         return OutResult(TextInfo.available_versions_psdk(versions), value=versions)
@@ -58,7 +58,7 @@ def get_versions_psdk() -> OutResult:
         return OutResultError(TextError.request_error())
 
 
-def get_versions_flutter() -> OutResult:
+def request_versions_flutter() -> OutResult:
     try:
         response = request_get(URL_FLUTTER_SDK_VERSIONS)
         versions = [obj['name'] for obj in response.json()]
@@ -69,7 +69,7 @@ def get_versions_flutter() -> OutResult:
         return OutResultError(TextError.request_error())
 
 
-def get_flutter_plugins() -> OutResult:
+def request_flutter_plugins() -> OutResult:
     try:
         response = request_get(URL_FLUTTER_PLUGINS_VERSIONS)
         versions = [obj['name'] for obj in response.json()]
@@ -80,42 +80,4 @@ def get_flutter_plugins() -> OutResult:
         return OutResultError(TextError.request_error())
 
 
-def get_version_latest_by_url(url: str) -> []:
-    major = ''
-    versions = []
-    response = request_get(url)
-    if response.status_code == 200:
-        soup = BeautifulSoup(response.text, 'html.parser')
-        for item in soup.findAll('a'):
-            text = item.text.strip('/')
-            if re.search(r'^\d.\d.\d', text):
-                version = int(text.split('.')[-1])
-                major = text.replace(str(version), '')
-                versions.append(version)
-    if versions:
-        return f'{major}{sorted(versions)[-1]}'
-    return versions
 
-
-def get_download_sdk_url_by_version(url: str, version: str) -> []:
-    urls = []
-    response = request_get(f'{url}{version}')
-    if response.status_code == 200:
-        soup = BeautifulSoup(response.text, 'html.parser')
-        for item in soup.findAll('a'):
-            text = item.text.strip('/')
-            if re.search(r'.run$', text) and 'testing' not in text:
-                urls.append(f'{url}{version}/{text}')
-    return urls
-
-
-def get_download_psdk_url_by_version(url: str, version: str) -> []:
-    urls = []
-    response = request_get(f'{url}{version}')
-    if response.status_code == 200:
-        soup = BeautifulSoup(response.text, 'html.parser')
-        for item in soup.findAll('a'):
-            text = item.text.strip('/')
-            if re.search(r'.tar.(bz2|7z)$', text) and 'pu-' not in text:
-                urls.append(f'{url}{version}/{text}')
-    return urls

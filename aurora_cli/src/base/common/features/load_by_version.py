@@ -13,7 +13,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import re
 from pathlib import Path
+
+from bs4 import BeautifulSoup
+
+from aurora_cli.src.base.utils.request import request_get
 
 
 # Flutter
@@ -56,3 +61,45 @@ def get_tool_sdk_from_file_with_version(file_version: Path) -> Path | None:
     if tool_path.is_file():
         return tool_path
     return None
+
+
+# PSDK / SDK
+def get_version_latest_by_url(url: str) -> []:
+    major = ''
+    versions = []
+    response = request_get(url)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+        for item in soup.findAll('a'):
+            text = item.text.strip('/')
+            if re.search(r'^\d.\d.\d', text):
+                version = int(text.split('.')[-1])
+                major = text.replace(str(version), '')
+                versions.append(version)
+    if versions:
+        return f'{major}{sorted(versions)[-1]}'
+    return versions
+
+
+def get_download_sdk_url_by_version(url: str, version: str) -> []:
+    urls = []
+    response = request_get(f'{url}{version}')
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+        for item in soup.findAll('a'):
+            text = item.text.strip('/')
+            if re.search(r'.run$', text) and 'testing' not in text:
+                urls.append(f'{url}{version}/{text}')
+    return urls
+
+
+def get_download_psdk_url_by_version(url: str, version: str) -> []:
+    urls = []
+    response = request_get(f'{url}{version}')
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+        for item in soup.findAll('a'):
+            text = item.text.strip('/')
+            if re.search(r'.tar.(bz2|7z)$', text) and 'pu-' not in text:
+                urls.append(f'{url}{version}/{text}')
+    return urls

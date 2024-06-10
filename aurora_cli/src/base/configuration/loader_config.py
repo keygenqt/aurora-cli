@@ -37,7 +37,7 @@ class ConfigLoader:
         return self._result_checks
 
     def get_validate_json(self):
-        return [result.to_json() for result in self.get_validate()]
+        return [result.to_map() for result in self.get_validate()]
 
     def is_error(self):
         for result in self.get_validate():

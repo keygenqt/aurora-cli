@@ -155,3 +155,33 @@ Good luck 👋'''
     @localization
     def psdk_targets_get_success(version: str, targets: []):
         return f'<green>List of targets:</green> {version}\n' + '\n'.join(targets)
+
+    @staticmethod
+    @localization
+    def psdk_package_install_success():
+        return '<green>The package installation was successful.</green>'
+
+    @staticmethod
+    @localization
+    def psdk_package_remove_success():
+        return '<green>The package removal was successful.</green>'
+
+    @staticmethod
+    @localization
+    def psdk_snapshot_remove_success():
+        return '<green>The snapshot removal was successful.</green>'
+
+    @staticmethod
+    @localization
+    def psdk_validate_success():
+        return '<green>The package was validated successfully.</green>'
+
+    @staticmethod
+    @localization
+    def psdk_sudoers_add_success(version: str, path: str):
+        return f'<green>Version</green> {version} <green>added to file:</green> {path}'
+
+    @staticmethod
+    @localization
+    def psdk_sudoers_remove_success(version: str, path: str):
+        return f'<green>Version</green> {version} <green>remove from file:</green> {path}'

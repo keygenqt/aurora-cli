@@ -63,7 +63,7 @@ def ssh_command_common(
 
 def ssh_upload_common(
         model: ModelClient,
-        path: [],
+        path: str,
         verbose: bool
 ):
     client = _get_ssh_client(model, verbose)
@@ -74,16 +74,17 @@ def ssh_upload_common(
         else:
             ab.update(percent)
 
-    for file_path in path:
-        if not argv_is_test():
-            echo_stdout(OutResult(TextInfo.shh_download_start(file_path)))
-        bar = AliveBarPercentage()
-        echo_stdout(ssh_upload(
-            client=client,
-            path=file_path,
-            listen_progress=lambda stdout: state_update(bar, stdout.value),
-            close=False
-        ))
+    if not argv_is_test():
+        echo_stdout(OutResult(TextInfo.shh_download_start(path)))
+
+    bar = AliveBarPercentage()
+
+    echo_stdout(ssh_upload(
+        client=client,
+        path=path,
+        listen_progress=lambda stdout: state_update(bar, stdout.value),
+        close=False
+    ))
 
     client.close()
 
@@ -113,7 +114,7 @@ def ssh_run_common(
 
 def ssh_install_common(
         model: ModelClient,
-        path: [],
+        path: str,
         apm: bool,
         verbose: bool,
         devel_su: str | None = None
@@ -128,17 +129,18 @@ def ssh_install_common(
         if percent == 100:
             echo_stdout(OutResult(TextInfo.ssh_install_rpm()))
 
-    for file_path in path:
-        echo_stdout(OutResult(TextInfo.shh_download_start(file_path)))
-        bar = AliveBarPercentage()
-        echo_stdout(ssh_rpm_install(
-            client=client,
-            path=file_path,
-            apm=apm,
-            listen_progress=lambda stdout: state_update(bar, stdout.value),
-            devel_su=devel_su,
-            close=False
-        ))
+    echo_stdout(OutResult(TextInfo.shh_download_start(path)))
+
+    bar = AliveBarPercentage()
+
+    echo_stdout(ssh_rpm_install(
+        client=client,
+        path=path,
+        apm=apm,
+        listen_progress=lambda stdout: state_update(bar, stdout.value),
+        devel_su=devel_su,
+        close=False
+    ))
 
     client.close()
 

@@ -19,16 +19,16 @@ from aurora_cli.src.base.common.groups.psdk_features import (
     psdk_available_common,
     psdk_installed_common,
     psdk_install_common,
-    psdk_sign_common,
     psdk_remove_common,
-    psdk_clear_common,
     psdk_package_search_common,
-    psdk_package_install_common,
-    psdk_package_remove_common,
     psdk_sudoers_add_common,
     psdk_sudoers_remove_common,
     psdk_targets_common,
-    psdk_validate_common
+    psdk_package_install_common,
+    psdk_package_remove_common,
+    psdk_package_validate_common,
+    psdk_package_sign_common,
+    psdk_snapshot_remove_common,
 )
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.models.psdk_model import PsdkModel
@@ -51,6 +51,17 @@ def _select_model_psdk(
         echo_stdout(result_model, verbose)
         exit(1)
     return PsdkModel.get_model_by_version(result_model.value, verbose)
+
+
+def _select_target_psdk(
+        model: PsdkModel,
+        verbose: bool
+) -> str:
+    result_target = model.get_model_targets_select()
+    if not result_target.is_success():
+        echo_stdout(result_target, verbose)
+        exit(1)
+    return result_target.value
 
 
 def _select_model_sign(
@@ -82,6 +93,15 @@ def installed(verbose: bool):
     psdk_installed_common(verbose)
 
 
+@group_psdk.command(help=TextCommand.command_psdk_targets())
+@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
+@click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
+def targets(select: bool, index: int, verbose: bool):
+    model = _select_model_psdk(select, index, verbose)
+    psdk_targets_common(model, verbose)
+
+
 @group_psdk.command(name='install', help=TextCommand.command_psdk_install())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
@@ -99,13 +119,14 @@ def remove(select: bool, index: int, verbose: bool):
     psdk_remove_common(model, verbose)
 
 
-@group_psdk.command(name='clear', help=TextCommand.command_psdk_clear())
+@group_psdk.command(name='snapshot-remove', help=TextCommand.command_psdk_snapshot_remove())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def clear(select: bool, index: int, verbose: bool):
+def snapshot_remove(select: bool, index: int, verbose: bool):
     model = _select_model_psdk(select, index, verbose)
-    psdk_clear_common(model, verbose)
+    target = _select_target_psdk(model, select)
+    psdk_snapshot_remove_common(model, target, verbose)
 
 
 @group_psdk.command(name='package-search', help=TextCommand.command_psdk_package_search())
@@ -115,17 +136,19 @@ def clear(select: bool, index: int, verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_search(package: str, select: bool, index: int, verbose: bool):
     model = _select_model_psdk(select, index, verbose)
-    psdk_package_search_common(model, package, verbose)
+    target = _select_target_psdk(model, select)
+    psdk_package_search_common(model, target, package, verbose)
 
 
 @group_psdk.command(name='package-install', help=TextCommand.command_psdk_package_install())
-@click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help=TextArgument.argument_path_rpm())
+@click.option('-p', '--path', type=click.STRING, required=True, help=TextArgument.argument_path_rpm())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def package_install(path: [], select: bool, index: int, verbose: bool):
+def package_install(path: str, select: bool, index: int, verbose: bool):
     model = _select_model_psdk(select, index, verbose)
-    psdk_package_install_common(model, path, verbose)
+    target = _select_target_psdk(model, verbose)
+    psdk_package_install_common(model, target, path, verbose)
 
 
 @group_psdk.command(name='package-remove', help=TextCommand.command_psdk_package_remove())
@@ -135,18 +158,37 @@ def package_install(path: [], select: bool, index: int, verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_remove(package: str, select: bool, index: int, verbose: bool):
     model = _select_model_psdk(select, index, verbose)
-    psdk_package_remove_common(model, package, verbose)
+    target = _select_target_psdk(model, verbose)
+    psdk_package_remove_common(model, target, package, verbose)
 
 
-@group_psdk.command(name='sign', help=TextCommand.command_psdk_sign())
-@click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help=TextArgument.argument_path_rpm())
+@group_psdk.command(name='package-validate', help=TextCommand.command_psdk_validate())
+@click.option('-p', '--path', type=click.STRING, required=True, help=TextArgument.argument_path_rpm())
+@click.option('-pr', '--profile', default='regular', type=click.Choice([
+    'regular',
+    'extended',
+    'mdm',
+    'antivirus',
+    'auth',
+], case_sensitive=False), help=TextArgument.argument_validate_profile())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def sign(path: [], select: bool, index: int, verbose: bool):
+def package_validate(path: str, profile: str, select: bool, index: int, verbose: bool):
+    model = _select_model_psdk(select, index, verbose)
+    target = _select_target_psdk(model, verbose)
+    psdk_package_validate_common(model, target, path, profile, verbose)
+
+
+@group_psdk.command(name='package-sign', help=TextCommand.command_psdk_sign())
+@click.option('-p', '--path', type=click.STRING, required=True, help=TextArgument.argument_path_rpm())
+@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
+@click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
+def package_sign(path: str, select: bool, index: int, verbose: bool):
     model_psdk = _select_model_psdk(select, index, verbose)
     model_keys = _select_model_sign(select, index)
-    psdk_sign_common(model_psdk, model_keys, path, verbose)
+    psdk_package_sign_common(model_psdk, model_keys, path, verbose)
 
 
 @group_psdk.command(help=TextCommand.command_psdk_sudoers_add())
@@ -165,29 +207,3 @@ def sudoers_add(select: bool, index: int, verbose: bool):
 def sudoers_remove(select: bool, index: int, verbose: bool):
     model = _select_model_psdk(select, index, verbose)
     psdk_sudoers_remove_common(model, verbose)
-
-
-@group_psdk.command(help=TextCommand.command_psdk_targets())
-@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
-@click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
-@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def targets(select: bool, index: int, verbose: bool):
-    model = _select_model_psdk(select, index, verbose)
-    psdk_targets_common(model, verbose)
-
-
-@group_psdk.command(help=TextCommand.command_psdk_validate())
-@click.option('-p', '--path', multiple=True, type=click.STRING, required=True, help=TextArgument.argument_path_rpm())
-@click.option('-pr', '--profile', default='regular', type=click.Choice([
-    'regular',
-    'extended',
-    'mdm',
-    'antivirus',
-    'auth',
-], case_sensitive=False), help=TextArgument.argument_validate_profile())
-@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
-@click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
-@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def validate(path: [], profile: str, select: bool, index: int, verbose: bool):
-    model = _select_model_psdk(select, index, verbose)
-    psdk_validate_common(model, path, profile, verbose)

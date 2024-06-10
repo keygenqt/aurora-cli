@@ -156,7 +156,7 @@ def emulator_command_common(
 
 def emulator_upload_common(
         model: EmulatorModel,
-        path: [],
+        path: str,
         verbose: bool
 ):
     _check_is_not_run(model, verbose)
@@ -174,7 +174,7 @@ def emulator_package_run_common(
 
 def emulator_package_install_common(
         model: EmulatorModel,
-        path: [],
+        path: str,
         apm: bool,
         verbose: bool
 ):

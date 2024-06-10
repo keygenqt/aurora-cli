@@ -30,52 +30,52 @@ from aurora_cli.src.base.utils.route import get_route_root, get_arg_bool, get_ar
 
 def search_route_emulator(route: str, verbose: bool) -> bool:
     match get_route_root(route):
-        case '/emulator/vm/start':
+        case '/emulator/start':
             emulator_start_common(
                 model=EmulatorModel.get_model_user(verbose),
                 verbose=verbose
             )
-        case '/emulator/vm/screenshot':
+        case '/emulator/screenshot':
             emulator_screenshot_common(
                 model=EmulatorModel.get_model_user(verbose),
                 verbose=verbose
             )
-        case '/emulator/vm/recording/start':
+        case '/emulator/recording/start':
             emulator_recording_start_common(
                 model=EmulatorModel.get_model_user(verbose),
                 verbose=verbose
             )
-        case '/emulator/vm/recording/stop':
+        case '/emulator/recording/stop':
             emulator_recording_stop_common(
                 model=EmulatorModel.get_model_user(verbose),
                 verbose=verbose
             )
-        case '/emulator/ssh/command':
+        case '/emulator/command':
             emulator_command_common(
                 model=EmulatorModel.get_model_user(verbose),
                 execute=get_arg_str(route, 'execute'),
                 verbose=verbose
             )
-        case '/emulator/ssh/upload':
+        case '/emulator/upload':
             emulator_upload_common(
                 model=EmulatorModel.get_model_user(verbose),
-                path=[get_arg_str(route, 'path')],
+                path=get_arg_str(route, 'path'),
                 verbose=verbose
             )
-        case '/emulator/ssh/package-run':
+        case '/emulator/package/run':
             emulator_package_run_common(
                 model=EmulatorModel.get_model_user(verbose),
                 package=get_arg_str(route, 'package'),
                 verbose=verbose
             )
-        case '/emulator/ssh/package-install':
+        case '/emulator/package/install':
             emulator_package_install_common(
                 model=EmulatorModel.get_model_root(verbose),
-                path=[get_arg_str(route, 'path')],
+                path=get_arg_str(route, 'path'),
                 apm=get_arg_bool(route, 'apm'),
                 verbose=verbose
             )
-        case '/emulator/ssh/package-remove':
+        case '/emulator/package/remove':
             emulator_package_remove_common(
                 model=EmulatorModel.get_model_root(verbose),
                 package=get_arg_str(route, 'package'),

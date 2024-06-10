@@ -51,37 +51,6 @@ def shell_cpp_format(files: [Path], config: Path) -> OutResult:
     return OutResultInfo(TextInfo.flutter_project_format_cpp_done())
 
 
-def shell_psdk_resign(
-        tool: str,
-        key: str,
-        cert: str,
-        paths: [str],
-) -> OutResult:
-    is_error = False
-    for path in paths:
-        shell_exec_command([
-            tool,
-            'rpmsign-external',
-            'delete',
-            path
-        ])
-        _, stderr = shell_exec_command([
-            tool,
-            'rpmsign-external',
-            'sign',
-            f'--key={key}',
-            f'--cert={cert}',
-            path
-        ])
-        if stderr:
-            is_error = True
-
-    if is_error:
-        return OutResultError(TextError.psdk_sign_error())
-
-    return OutResult(TextSuccess.psdk_sign_success())
-
-
 def shell_psdk_targets(version: str, tool: str) -> OutResult:
     targets = []
     stdout, stderr = shell_exec_command([
@@ -89,7 +58,6 @@ def shell_psdk_targets(version: str, tool: str) -> OutResult:
         'sdk-assistant',
         'list',
     ])
-
     if stderr:
         return OutResultError(TextError.psdk_targets_get_error())
 
@@ -98,6 +66,196 @@ def shell_psdk_targets(version: str, tool: str) -> OutResult:
             targets.append(line[2:])
 
     if not targets:
-        return OutResultInfo(TextInfo.psdk_targets_empty_success(version))
+        return OutResultInfo(TextInfo.psdk_targets_empty(version))
 
     return OutResult(TextSuccess.psdk_targets_get_success(version, targets), value=targets)
+
+
+def shell_psdk_snapshot_remove(tool: str, target: str) -> OutResult:
+    stdout, stderr = shell_exec_command([
+        tool,
+        'sdk-assistant',
+        'target',
+        'remove',
+        '-y',
+        '--snapshots-of',
+        target
+    ])
+    if stderr:
+        return OutResultError(TextError.exec_command_error())
+    else:
+        for line in stdout:
+            if 'No such target' in line:
+                return OutResultError(TextError.exec_command_error())
+
+    return OutResult(TextSuccess.psdk_snapshot_remove_success())
+
+
+def shell_psdk_package_search(
+        tool: str,
+        target: str,
+        package: str,
+) -> OutResult:
+    stdout, stderr = shell_exec_command([
+        tool,
+        'sb2',
+        '-t',
+        target,
+        '-R',
+        'zypper',
+        'search',
+        '--installed-only',
+        '-s',
+        package
+    ])
+    if stderr:
+        return OutResultError(TextError.exec_command_error())
+
+    for line in stdout:
+        if 'Invalid target specified' in line:
+            return OutResultError(TextError.exec_command_error())
+
+    keys = []
+    values = []
+    for line in stdout:
+        if keys and '-+-' not in line:
+            fond = [val.strip() for val in line.split('|')]
+            val = {}
+            for i, key in enumerate(keys):
+                if len(fond) > i:
+                    val[key] = fond[i]
+            if val:
+                values.append(val)
+
+        if '| Version |' in line:
+            keys = [key.strip() for key in line.split('|')]
+
+    if not values:
+        return OutResultInfo(TextInfo.psdk_package_not_found())
+
+    return OutResultInfo(TextInfo.psdk_package_search(values), value=values)
+
+
+def shell_psdk_package_install(
+        tool: str,
+        target: str,
+        path: str,
+) -> OutResult:
+    stdout, stderr = shell_exec_command([
+        tool,
+        'sb2',
+        '-t',
+        target,
+        '-m',
+        'sdk-install',
+        '-R',
+        'zypper',
+        '--no-gpg-checks',
+        'in',
+        '-y',
+        path
+    ])
+    if stderr:
+        return OutResultError(TextError.exec_command_error())
+    else:
+        for line in stdout:
+            if 'No provider of' in line:
+                return OutResultError(TextError.file_not_found_error(path))
+            if 'Invalid target specified' in line:
+                return OutResultError(TextError.exec_command_error())
+            if 'Problem with the RPM' in line:
+                return OutResultError(TextError.exec_command_error())
+            if 'is already installed' in line:
+                return OutResultInfo(TextInfo.psdk_package_already_installed())
+
+    return OutResult(TextSuccess.psdk_package_install_success())
+
+
+def shell_psdk_package_remove(
+        tool: str,
+        target: str,
+        package: str,
+) -> OutResult:
+    stdout, stderr = shell_exec_command([
+        tool,
+        'sb2',
+        '-t',
+        target,
+        '-m',
+        'sdk-install',
+        '-R',
+        'zypper',
+        'rm',
+        '-y',
+        package
+    ])
+    if stderr:
+        return OutResultError(TextError.exec_command_error())
+    else:
+        for line in stdout:
+            if 'Invalid target specified' in line:
+                return OutResultError(TextError.exec_command_error())
+            if 'not found in package names' in line:
+                return OutResultInfo(TextInfo.psdk_package_not_found())
+
+    return OutResult(TextSuccess.psdk_package_remove_success())
+
+
+def shell_psdk_package_validate(
+        tool: str,
+        target: str,
+        path: str,
+        profile: str,
+) -> OutResult:
+    stdout, stderr = shell_exec_command([
+        tool,
+        'sb2',
+        '-t',
+        target,
+        '-m',
+        'emulate',
+        'rpm-validator',
+        '-p',
+        profile,
+        path
+    ])
+    if stderr:
+        return OutResultError(TextError.exec_command_error())
+    else:
+        for line in stdout:
+            if 'read failed' in line:
+                return OutResultError(TextError.file_not_found_error(path))
+            if 'ERROR' in line:
+                return OutResultError(TextError.psdk_validate_error())
+
+    return OutResult(TextSuccess.psdk_validate_success())
+
+
+def shell_psdk_resign(
+        tool: str,
+        key: str,
+        cert: str,
+        path: str,
+) -> OutResult:
+    shell_exec_command([
+        tool,
+        'rpmsign-external',
+        'delete',
+        path
+    ])
+    stdout, stderr = shell_exec_command([
+        tool,
+        'rpmsign-external',
+        'sign',
+        f'--key={key}',
+        f'--cert={cert}',
+        path
+    ])
+    if stderr:
+        return OutResultError(TextError.psdk_sign_error())
+    else:
+        for line in stdout:
+            if 'is a directory' in line:
+                return OutResultError(TextError.file_not_found_error(path))
+
+    return OutResult(TextSuccess.psdk_sign_success())

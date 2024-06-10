@@ -44,7 +44,10 @@ class OutResult:
     def is_info(self):
         return self.code == EchoJsonCode.info
 
-    def to_json(self):
+    def is_success(self):
+        return self.code == EchoJsonCode.success
+
+    def to_map(self):
         data = {
             'code': self.code.value
         }
@@ -67,17 +70,20 @@ class OutResultInfo(OutResult):
     code: EchoJsonCode = EchoJsonCode.info
 
 
+def echo_stdout_verbose(verbose: bool):
+    echo_stdout(None, verbose)
+
+
 def echo_stdout(
         out: OutResult | str | None,
         verbose: bool = False,
         newlines: int = 1,
         prefix: str = '',
 ):
-    if out:
-        if argv_is_api():
-            _echo_stdout_json(out, verbose)
-        else:
-            _echo_stdout_shell(out, verbose, newlines, prefix)
+    if argv_is_api():
+        _echo_stdout_json(out, verbose)
+    else:
+        _echo_stdout_shell(out, verbose, newlines, prefix)
 
 
 def _echo_stdout_shell(
@@ -111,8 +117,10 @@ def _echo_stdout_json(
         out: OutResult | None,
         verbose: bool = False
 ):
-    if out:
-        data = out.to_json()
-        if verbose:
-            data['verbose'] = verbose_seize_map()
-        click.echo(json.dumps(data, indent=2, ensure_ascii=False))
+    if out is not None:
+        data = out.to_map()
+    else:
+        data = {}
+    if verbose:
+        data['verbose'] = verbose_seize_map()
+    click.echo(json.dumps(data, indent=2, ensure_ascii=False))

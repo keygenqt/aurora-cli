@@ -153,5 +153,33 @@ class TextInfo(Enum):
 
     @staticmethod
     @localization
-    def psdk_targets_empty_success(version: str):
+    def psdk_targets_empty(version: str):
         return f'<yellow>Target list is empty:</yellow> {version}'
+
+    @staticmethod
+    @localization
+    def psdk_package_not_found():
+        return '<blue>Packages not found.</blue>'
+
+    @staticmethod
+    @localization
+    def psdk_package_search(values: []):
+        return (f'<blue>Packages found:</blue>\n'
+                + '\n'.join([f'{value["Name"]} ({value["Version"]})' for value in values]))
+
+    @staticmethod
+    @localization
+    def psdk_package_already_installed():
+        return '<blue>The package is already installed.</blue>'
+
+    @staticmethod
+    @localization
+    def psdk_sudoers_exist(version: str, path: str):
+        return f'<blue>Version</blue> {version} <blue>is already specified in the file:</blue> {path}'
+
+    @staticmethod
+    @localization
+    def psdk_sudoers_not_found(version: str, path: str):
+        return f'<blue>Version</blue> {version} <blue>not found in file:</blue> {path}'
+
+

@@ -101,9 +101,7 @@ def ssh_upload(
     file_path = path_convert_relative(path)
 
     if not file_path.is_file():
-        return OutResultError(
-            message=TextError.ssh_upload_file_not_found(path),
-        )
+        return OutResultError(TextError.file_not_found_error(path))
 
     try:
         file_name = os.path.basename(file_path)

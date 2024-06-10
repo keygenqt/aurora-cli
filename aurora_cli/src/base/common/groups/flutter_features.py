@@ -16,7 +16,7 @@ limitations under the License.
 import shutil
 from pathlib import Path
 
-from aurora_cli.src.base.common.features.request_version import get_versions_flutter
+from aurora_cli.src.base.common.features.request_version import request_versions_flutter
 from aurora_cli.src.base.common.features.search_installed import search_installed_flutter
 from aurora_cli.src.base.common.features.shell_features import shell_dart_format, shell_cpp_format
 from aurora_cli.src.base.constants.app import PATH_CLANG_FORMAT_CONF
@@ -50,7 +50,7 @@ def _get_clang_format(verbose: bool, is_bar: bool) -> Path:
 
 
 def flutter_available_common(verbose: bool):
-    echo_stdout(get_versions_flutter(), verbose)
+    echo_stdout(request_versions_flutter(), verbose)
 
 
 def flutter_installed_common(verbose: bool):
@@ -97,8 +97,8 @@ def flutter_remove_common(model: FlutterModel, verbose: bool):
 def flutter_project_report_common(project: Path, verbose: bool):
     _check_path_project(project)
 
-    # @todo
-    print(project)
+    print('Coming soon')
+
     echo_stdout(OutResult(TextSuccess.flutter_project_report_success()), verbose)
 
 
@@ -145,9 +145,8 @@ def flutter_project_build_common(
 ):
     _check_path_project(project)
 
-    # @todo
-    print(project)
-    print(model.get_tool_flutter())
+    print('Coming soon')
+
     echo_stdout(OutResult(TextSuccess.flutter_project_build_success()), verbose)
 
 
@@ -158,7 +157,6 @@ def flutter_project_debug_common(
 ):
     _check_path_project(project)
 
-    # @todo
-    print(project)
-    print(model.get_tool_flutter())
+    print('Coming soon')
+
     echo_stdout(OutResult(TextSuccess.flutter_project_build_success()), verbose)

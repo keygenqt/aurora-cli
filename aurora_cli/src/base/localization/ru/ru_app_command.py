@@ -118,8 +118,8 @@ class TextCommandRu(Enum):
         return 'Удалить Аврора Platform SDK.'
 
     @staticmethod
-    def command_psdk_clear():
-        return 'Удалить снапшоты таргетов.'
+    def command_psdk_snapshot_remove():
+        return 'Удалить снимок таргета.'
 
     @staticmethod
     def command_psdk_package_search():

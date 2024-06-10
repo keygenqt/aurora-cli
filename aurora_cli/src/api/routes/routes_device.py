@@ -31,32 +31,32 @@ def search_route_device(route: str, verbose: bool) -> bool:
             echo_stdout(OutResult(
                 value=[device.to_dict() for device in DeviceModel.get_lists_devices()]
             ), verbose)
-        case '/device/ssh/command':
+        case '/device/command':
             device_command_common(
                 model=DeviceModel.get_model_by_host(get_arg_str(route, 'host'), verbose),
                 execute=get_arg_str(route, 'execute'),
                 verbose=verbose
             )
-        case '/device/ssh/upload':
+        case '/device/upload':
             device_upload_common(
                 model=DeviceModel.get_model_by_host(get_arg_str(route, 'host'), verbose),
-                path=[get_arg_str(route, 'path')],
+                path=get_arg_str(route, 'path'),
                 verbose=verbose
             )
-        case '/device/ssh/package-run':
+        case '/device/package/run':
             device_package_run_common(
                 model=DeviceModel.get_model_by_host(get_arg_str(route, 'host'), verbose),
                 package=get_arg_str(route, 'package'),
                 verbose=verbose
             )
-        case '/device/ssh/package-install':
+        case '/device/package/install':
             device_package_install_common(
                 model=DeviceModel.get_model_by_host(get_arg_str(route, 'host'), verbose),
-                path=[get_arg_str(route, 'path')],
+                path=get_arg_str(route, 'path'),
                 apm=get_arg_bool(route, 'apm'),
                 verbose=verbose
             )
-        case '/device/ssh/package-remove':
+        case '/device/package/remove':
             device_package_remove_common(
                 model=DeviceModel.get_model_by_host(get_arg_str(route, 'host'), verbose),
                 package=get_arg_str(route, 'package'),

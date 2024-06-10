@@ -40,7 +40,7 @@ class TestGroupDeviceAPI(unittest.TestCase):
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            '/device/ssh/command?host=192.168.2.15&execute=version'
+            '/device/command?host=192.168.2.15&execute=version'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
@@ -51,7 +51,7 @@ class TestGroupDeviceAPI(unittest.TestCase):
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            '/device/ssh/command?host=192.168.2.15'
+            '/device/command?host=192.168.2.15'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 500', result.output)
@@ -62,7 +62,7 @@ class TestGroupDeviceAPI(unittest.TestCase):
         path = Path.cwd() / 'data' / 'upload.file'
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            f'/device/ssh/upload?host=192.168.2.15&path={path}'
+            f'/device/upload?host=192.168.2.15&path={path}'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
@@ -74,7 +74,7 @@ class TestGroupDeviceAPI(unittest.TestCase):
         path = Path.cwd() / 'data' / 'com.keygenqt.trex-0.1.0-1.armv7hl.rpm'
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            f'/device/ssh/package-install?host=192.168.2.15&path={path}&apm=true'
+            f'/device/package/install?host=192.168.2.15&path={path}&apm=true'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
@@ -85,7 +85,7 @@ class TestGroupDeviceAPI(unittest.TestCase):
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            f'/device/ssh/package-remove?host=192.168.2.15&package=com.keygenqt.trex&apm=true'
+            f'/device/package/remove?host=192.168.2.15&package=com.keygenqt.trex&apm=true'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)

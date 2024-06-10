@@ -120,5 +120,26 @@ class TextInfoRu(Enum):
         return '<blue>Для подписи будут использованы публичные ключи.</blue>'
 
     @staticmethod
-    def psdk_targets_empty_success(version: str):
+    def psdk_targets_empty(version: str):
         return f'<yellow>Список таргетов пуст:</yellow> {version}'
+
+    @staticmethod
+    def psdk_package_not_found():
+        return f'<blue>Пакеты не найден.</blue>'
+
+    @staticmethod
+    def psdk_package_search(values: []):
+        return (f'<blue>Найдены пакеты:</blue>\n'
+                + '\n'.join([f'{value["Name"]} ({value["Version"]})' for value in values]))
+
+    @staticmethod
+    def psdk_package_already_installed():
+        return '<blue>Пакет уже установлен.</blue>'
+
+    @staticmethod
+    def psdk_sudoers_exist(version: str, path: str):
+        return f'<blue>Версия</blue> {version} <blue>уже указана в файле:</blue> {path}'
+
+    @staticmethod
+    def psdk_sudoers_not_found(version: str, path: str):
+        return f'<blue>Версия</blue> {version} <blue>не найдена в файле:</blue> {path}'

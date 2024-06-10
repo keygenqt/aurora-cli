@@ -33,7 +33,7 @@ def device_command_common(
 
 def device_upload_common(
         model: DeviceModel,
-        path: [],
+        path: str,
         verbose: bool
 ): ssh_upload_common(model, path, verbose)
 
@@ -47,7 +47,7 @@ def device_package_run_common(
 
 def device_package_install_common(
         model: DeviceModel,
-        path: [],
+        path: str,
         apm: bool,
         verbose: bool
 ): ssh_install_common(model, path, apm, verbose)
