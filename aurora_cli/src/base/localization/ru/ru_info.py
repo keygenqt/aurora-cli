@@ -50,6 +50,10 @@ class TextInfoRu(Enum):
         return '<blue>Прогресс загрузки файла в процентах.</blue>'
 
     @staticmethod
+    def install_progress():
+        return '<blue>Прогресс установки в процентах.</blue>'
+
+    @staticmethod
     def git_clone_start(url: str):
         return f'<blue>Начато клонирование репозитория:</blue> {url}'
 
@@ -101,7 +105,7 @@ class TextInfoRu(Enum):
 
     @staticmethod
     def check_url_download_exist(path: str):
-        return f'<blue>Файл скачиваться не будет, уже существует:</blue> {path}'
+        return f'<blue>Файл уже существует:</blue> {path}'
 
     @staticmethod
     def flutter_project_format_cpp_done():
@@ -143,3 +147,15 @@ class TextInfoRu(Enum):
     @staticmethod
     def psdk_sudoers_not_found(version: str, path: str):
         return f'<blue>Версия</blue> {version} <blue>не найдена в файле:</blue> {path}'
+
+    @staticmethod
+    def psdk_install_start():
+        return f'<blue>Установка Аврора Platform SDK начата.</blue>'
+
+    @staticmethod
+    def psdk_remove_start():
+        return f'<blue>Установка Аврора Platform SDK начато.</blue>'
+
+    @staticmethod
+    def psdk_download_start():
+        return f'<blue>Начата загрузка файлов Аврора Platform SDK.</blue>'

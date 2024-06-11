@@ -199,6 +199,10 @@ class TextErrorRu(Enum):
         return '<red>Аврора SDK уже установлено.</red>'
 
     @staticmethod
+    def psdk_already_installed_error(version: str):
+        return f'<red>Аврора Platform SDK</red> {version} <red>уже установлено.</red>'
+
+    @staticmethod
     def device_not_found_error(host: str):
         return f'<red>Не найдено: Устройство. Host: </red> {host}'
 

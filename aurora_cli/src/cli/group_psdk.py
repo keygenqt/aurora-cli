@@ -111,11 +111,10 @@ def install(select: bool, verbose: bool):
 
 
 @group_psdk.command(name='remove', help=TextCommand.command_psdk_remove())
-@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def remove(select: bool, index: int, verbose: bool):
-    model = _select_model_psdk(select, index, verbose)
+def remove(index: int, verbose: bool):
+    model = _select_model_psdk(True, index, verbose)
     psdk_remove_common(model, verbose)
 
 

@@ -44,19 +44,19 @@ def request_get(url: str, stream: bool = False) -> Response | OutResult:
 
 
 def request_check_url_download(url: str) -> OutResult:
-    download = path_get_download_path(url)
+    path = path_get_download_path(url)
     response = requests.head(url)
     response_length = int(response.headers.get('content-length'))
     if not response_length or response.status_code != 200:
         return OutResultError(TextError.check_url_download_error(url))
 
-    if download.is_dir():
-        return OutResultError(TextError.check_url_download_dir_error(str(download)))
+    if path.is_dir():
+        return OutResultError(TextError.check_url_download_dir_error(str(path)))
 
-    if download.is_file():
-        if download.stat().st_size == response_length:
-            return OutResultInfo(TextInfo.check_url_download_exist(str(download)), value=str(download))
+    if path.is_file():
+        if path.stat().st_size == response_length:
+            return OutResultInfo(TextInfo.check_url_download_exist(str(path)), value=str(path))
         else:
-            return OutResultError(TextError.check_url_download_exist_error(str(download)))
+            return OutResultError(TextError.check_url_download_exist_error(str(path)))
 
-    return OutResult(TextSuccess.check_url_download_success(), value=str(download))
+    return OutResult(TextSuccess.check_url_download_success(url), value=str(url))

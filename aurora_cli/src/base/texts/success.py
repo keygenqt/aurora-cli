@@ -93,8 +93,8 @@ class TextSuccess(Enum):
 
     @staticmethod
     @localization
-    def check_url_download_success():
-        return '<green>The file is ready for download.</green>'
+    def check_url_download_success(url: str):
+        return f'<green>File ready download:</green> {url}'
 
     @staticmethod
     @localization
@@ -185,3 +185,49 @@ Good luck 👋'''
     @localization
     def psdk_sudoers_remove_success(version: str, path: str):
         return f'<green>Version</green> {version} <green>remove from file:</green> {path}'
+
+    @staticmethod
+    @localization
+    def tar_unpack_success():
+        return '<green>Unpacking was successful.</green>'
+
+    @staticmethod
+    @localization
+    def psdk_tooling_install_success():
+        return '<green>The tooling installation was successful.</green>'
+
+    @staticmethod
+    @localization
+    def psdk_target_install_success():
+        return f'<green>The target installation was successful.</green>'
+
+    @staticmethod
+    @localization
+    def psdk_install_success(path: str, version: str):
+        return f'''
+<green>Install Aurora Platform SDK</green> {version} <green>successfully!</green>
+
+You should update your ~/.bashrc to include export:
+
+    <blue>export PSDK_DIR={path}/sdks/aurora_psdk</blue>
+
+Add alias for convenience:
+
+    <blue>alias aurora_psdk={path}/sdks/aurora_psdk/sdk-chroot</blue>
+
+After that run the command:
+
+    <blue>source ~/.bashrc</blue>
+
+You can check the installation with the command:
+
+    <blue>aurora_psdk sdk-assistant list</blue>
+
+The files have been downloaded to the ~/Downloads folder, if you no longer need them, delete them.
+
+Good luck 👋'''
+
+    @staticmethod
+    @localization
+    def psdk_remove_success(version: str):
+        return f'<green>Aurora Platform SDK</green> {version} <green>remove was successful.</green>'

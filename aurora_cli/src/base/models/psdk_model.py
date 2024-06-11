@@ -79,7 +79,7 @@ class PsdkModel:
         )
 
     def get_targets_psdk(self) -> []:
-        result = shell_psdk_targets(self.get_version(), self.get_tool_path())
+        result = shell_psdk_targets(self.get_tool_path(), self.get_version())
         if not result.is_success():
             return []
         return result.value
@@ -89,3 +89,6 @@ class PsdkModel:
 
     def get_tool_path(self) -> str:
         return str(self.tool)
+
+    def get_path(self) -> str:
+        return str(self.tool.parent.parent.parent)

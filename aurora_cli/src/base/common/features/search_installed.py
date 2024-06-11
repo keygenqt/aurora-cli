@@ -33,7 +33,7 @@ from aurora_cli.src.base.utils.verbose import verbose_command_start, verbose_add
 
 def _search_files(workdir: Path, pattern: str) -> [Path]:
     files = []
-    command = verbose_command_start(f'Search: {pattern}')
+    command = verbose_command_start(f'rglob: {pattern}')
     for file in workdir.rglob(pattern):
         if file.is_file():
             files.append(file)

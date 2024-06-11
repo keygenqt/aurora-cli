@@ -76,8 +76,8 @@ class TextSuccessRu(Enum):
         return f'<green>Приложение запущено успешно:</green> {name}'
 
     @staticmethod
-    def check_url_download_success():
-        return '<green>Файл готов к скачиванию.</green>'
+    def check_url_download_success(url: str):
+        return f'<green>Файл будет скачан:</green> {url}'
 
     @staticmethod
     def download_success():
@@ -153,3 +153,44 @@ class TextSuccessRu(Enum):
     @staticmethod
     def psdk_sudoers_remove_success(version: str, path: str):
         return f'<green>Версия</green> {version} <green>удалена из файла:</green> {path}'
+
+    @staticmethod
+    def tar_unpack_success():
+        return '<green>Распаковка прошла успешно.</green>'
+
+    @staticmethod
+    def psdk_tooling_install_success():
+        return '<green>Установка инструмента прошла успешно.</green>'
+
+    @staticmethod
+    def psdk_target_install_success():
+        return f'<green>Установка цели прошла успешно.</green>'
+
+    @staticmethod
+    def psdk_install_success(path: str, version: str):
+        return f'''
+<green>Установка Аврора Platform SDK</green> {version} <green>прошла успешно!</green>
+
+Вам следует обновить ~/.bashrc, включив в него экспорт:
+
+    <blue>export PSDK_DIR={path}/sdks/aurora_psdk</blue>
+
+Добавьте псевдоним для удобства:
+
+    <blue>alias aurora_psdk={path}/sdks/aurora_psdk/sdk-chroot</blue>
+
+После этого выполните команду:
+
+    <blue>source ~/.bashrc</blue>
+
+Проверить установку можно командой:
+
+    <blue>aurora_psdk sdk-assistant list</blue>
+
+Файлы скачаны в папку ~/Загрузки, если они вам больше не нужны, удалите их.
+
+Удачи 👋'''
+
+    @staticmethod
+    def psdk_remove_success(version: str):
+        return f'<green>Аврора Platform SDK</green> {version} <green>успешно удалена.</green>'

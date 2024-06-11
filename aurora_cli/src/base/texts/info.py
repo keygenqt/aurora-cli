@@ -60,6 +60,11 @@ class TextInfo(Enum):
 
     @staticmethod
     @localization
+    def install_progress():
+        return '<blue>Install progress in percentage.</blue>'
+
+    @staticmethod
+    @localization
     def git_clone_progress(title: str):
         return f'<blue>Repository cloning progress:</blue> {title}'
 
@@ -128,7 +133,7 @@ class TextInfo(Enum):
     @staticmethod
     @localization
     def check_url_download_exist(path: str):
-        return f'<blue>The file will not be downloaded, it already exists:</blue> {path}'
+        return f'<blue>File already exists:</blue> {path}'
 
     @staticmethod
     @localization
@@ -181,5 +186,20 @@ class TextInfo(Enum):
     @localization
     def psdk_sudoers_not_found(version: str, path: str):
         return f'<blue>Version</blue> {version} <blue>not found in file:</blue> {path}'
+
+    @staticmethod
+    @localization
+    def psdk_install_start():
+        return f'<blue>Installation Aurora Platform SDK started.</blue>'
+
+    @staticmethod
+    @localization
+    def psdk_remove_start():
+        return f'<blue>Remove Aurora Platform SDK started.</blue>'
+
+    @staticmethod
+    @localization
+    def psdk_download_start():
+        return f'<blue>The download of Aurora Platform SDK files has begun.</blue>'
 
 

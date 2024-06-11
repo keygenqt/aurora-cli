@@ -82,15 +82,9 @@ def flutter_install_common(
 def flutter_remove_common(model: FlutterModel, verbose: bool):
     path: str = model.get_path()
     version: str = model.get_version()
-    # remove folder
     shutil.rmtree(path)
-    # remove alias
-    file_remove_line(
-        file=Path.home() / '.bashrc',
-        search=path
-    )
+    file_remove_line(Path.home() / '.bashrc', path)
     echo_stdout(OutResult(TextSuccess.flutter_remove_success(version)), verbose)
-    # clear cache
     disk_cache_clear()
 
 

@@ -35,7 +35,7 @@ def get_version_flutter_from_path(file: Path) -> str | None:
 def get_version_psdk_from_file(file: Path) -> str | None:
     with open(file) as f:
         for line in f:
-            if 'PRETTY_NAME=' in line:
+            if 'VERSION_ID=' in line:
                 return line.split('=')[1].strip().strip('"')
     return None
 

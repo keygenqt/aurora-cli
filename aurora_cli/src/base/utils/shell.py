@@ -19,6 +19,7 @@ import signal
 import stat
 import subprocess
 from pathlib import Path
+from typing import Callable
 
 from cffi.backend_ctypes import unicode
 
@@ -28,7 +29,11 @@ from aurora_cli.src.base.utils.string import str_clear_line
 from aurora_cli.src.base.utils.verbose import verbose_add_map, verbose_command_start
 
 
-def shell_exec_command(args: []) -> []:
+def shell_exec_command(
+        args: [],
+        listen: Callable[[str], None] | None = None,
+        disable_sigint: bool = True,
+) -> []:
     if not args:
         echo_stdout(OutResultError(TextError.shell_exec_command_empty()))
         exit(1)
@@ -38,7 +43,8 @@ def shell_exec_command(args: []) -> []:
 
     # Ignore ctrl-c
     def exec_fn():
-        signal.signal(signal.SIGINT, signal.SIG_IGN)
+        if disable_sigint:
+            signal.signal(signal.SIGINT, signal.SIG_IGN)
 
     def check_is_error(out: str) -> bool:
         if 'error' in out:
@@ -60,6 +66,8 @@ def shell_exec_command(args: []) -> []:
                 if not value:
                     break
                 value = str_clear_line(str(unicode(value.rstrip(), "utf-8")))
+                if listen:
+                    listen(value)
                 if value:
                     set_out(value)
     except Exception as e:

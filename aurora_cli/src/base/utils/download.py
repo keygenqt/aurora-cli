@@ -37,22 +37,17 @@ from aurora_cli.src.base.utils.verbose import verbose_add_map, verbose_command_s
 
 def check_downloads(urls: []):
     files = []
-    downloads_url = []
+    downloads_urls = []
     for url in urls:
         result = request_check_url_download(url)
-        # Exit with has error with url
         if result.is_error():
-            echo_stdout(request_check_url_download(url))
+            echo_stdout(result)
             exit(1)
-        # Info - if file exist and ok
-        if result.is_info():
-            files.append(result.value)
-            echo_stdout(request_check_url_download(url))
-            continue
-        # Ready for download
-        files.append(result.value)
-        downloads_url.append(url)
-    return downloads_url, files
+        files.append(path_get_download_path(result.value))
+        echo_stdout(result)
+        if result.is_success():
+            downloads_urls.append(url)
+    return downloads_urls, files
 
 
 def check_with_download_files(
@@ -163,6 +158,7 @@ def _downloads(
         if percent == 100:
             listen(percent)
             listen(DownloadCode.end.value)
+            threads.clear()
         else:
             listen(percent)
 
@@ -188,8 +184,10 @@ def _downloads(
                 return
             percent_out.append(percent)
             worker_listen(url_download, percent)
+            if percent == 100:
+                exit(0)
 
-        command = verbose_command_start(f'Download: {url_download}')
+        command = verbose_command_start(f'urlretrieve: {url_download}')
         try:
             urlretrieve(url_download, path_download, reporthook)
             verbose_add_map(

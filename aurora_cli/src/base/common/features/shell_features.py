@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 from pathlib import Path
+from typing import Callable
 
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
@@ -51,7 +52,133 @@ def shell_cpp_format(files: [Path], config: Path) -> OutResult:
     return OutResultInfo(TextInfo.flutter_project_format_cpp_done())
 
 
-def shell_psdk_targets(version: str, tool: str) -> OutResult:
+@check_dependency(DependencyApps.sudo, DependencyApps.tar)
+def shell_tar_sudo_unpack(
+        archive_path: str,
+        unpack_path: str,
+        progress: Callable[[int], None]
+) -> OutResult:
+    size = Path(archive_path).stat().st_size
+    # Estimated size checkpoints
+    count = size * 130 / 439822186
+    percents = []
+
+    def update(out: str):
+        if 'Total bytes read' in out:
+            progress(100)
+        else:
+            percent = int(len(percents) * 100 / count)
+            if percent not in percents and percent < 100:
+                progress(percent)
+            percents.append(percent)
+
+    stdout, stderr = shell_exec_command([
+        'sudo',
+        'tar',
+        '--numeric-owner',
+        '-p',
+        '-xjf',
+        archive_path,
+        '--totals',
+        '--checkpoint=1000',
+        '--checkpoint-action=echo="#%u"',
+        '-C',
+        unpack_path
+    ], lambda out: update(out), disable_sigint=False)
+
+    if stderr:
+        return OutResultError(TextError.exec_command_error())
+    else:
+        for line in stdout:
+            if 'error' in line:
+                return OutResultError(TextError.exec_command_error())
+
+    return OutResult(TextSuccess.tar_unpack_success())
+
+
+@check_dependency(DependencyApps.sudo)
+def shell_psdk_tooling_create(
+        tool: str,
+        version: str,
+        path: str,
+        progress: Callable[[int], None]
+) -> OutResult:
+    # Estimated size out lines
+    count = 15
+    percents = []
+
+    def update(out: str):
+        if 'set up' in out:
+            progress(100)
+        else:
+            percent = int(len(percents) * 100 / count)
+            if percent not in percents and percent < 100:
+                progress(percent)
+            percents.append(percent)
+
+    stdout, stderr = shell_exec_command([
+        tool,
+        'sdk-assistant',
+        'tooling',
+        'create',
+        '-y',
+        'AuroraOS-{}-base'.format(version),
+        path
+    ], lambda out: update(out), disable_sigint=False)
+
+    if stderr:
+        return OutResultError(TextError.exec_command_error())
+    else:
+        for line in stdout:
+            if 'error' in line:
+                return OutResultError(TextError.exec_command_error())
+
+    return OutResult(TextSuccess.psdk_tooling_install_success())
+
+
+@check_dependency(DependencyApps.sudo)
+def shell_psdk_target_create(
+        tool: str,
+        version: str,
+        path: str,
+        arch: str,
+        progress: Callable[[int], None]
+) -> OutResult:
+    # Estimated size out lines
+    count = 30
+    percents = []
+
+    def update(out: str):
+        if 'set up' in out:
+            progress(100)
+        else:
+            percent = int(len(percents) * 100 / count)
+            if percent not in percents and percent < 100:
+                progress(percent)
+            percents.append(percent)
+
+    stdout, stderr = shell_exec_command([
+        tool,
+        'sdk-assistant',
+        'target',
+        'create',
+        '-y',
+        'AuroraOS-{}-base-{}'.format(version, arch),
+        path
+    ], lambda out: update(out), disable_sigint=False)
+
+    if stderr:
+        return OutResultError(TextError.exec_command_error())
+    else:
+        for line in stdout:
+            if 'error' in line:
+                return OutResultError(TextError.exec_command_error())
+
+    return OutResult(TextSuccess.psdk_target_install_success())
+
+
+@check_dependency(DependencyApps.sudo)
+def shell_psdk_targets(tool: str, version: str) -> OutResult:
     targets = []
     stdout, stderr = shell_exec_command([
         tool,
@@ -71,6 +198,7 @@ def shell_psdk_targets(version: str, tool: str) -> OutResult:
     return OutResult(TextSuccess.psdk_targets_get_success(version, targets), value=targets)
 
 
+@check_dependency(DependencyApps.sudo)
 def shell_psdk_snapshot_remove(tool: str, target: str) -> OutResult:
     stdout, stderr = shell_exec_command([
         tool,
@@ -91,6 +219,7 @@ def shell_psdk_snapshot_remove(tool: str, target: str) -> OutResult:
     return OutResult(TextSuccess.psdk_snapshot_remove_success())
 
 
+@check_dependency(DependencyApps.sudo)
 def shell_psdk_package_search(
         tool: str,
         target: str,
@@ -136,6 +265,7 @@ def shell_psdk_package_search(
     return OutResultInfo(TextInfo.psdk_package_search(values), value=values)
 
 
+@check_dependency(DependencyApps.sudo)
 def shell_psdk_package_install(
         tool: str,
         target: str,
@@ -171,6 +301,7 @@ def shell_psdk_package_install(
     return OutResult(TextSuccess.psdk_package_install_success())
 
 
+@check_dependency(DependencyApps.sudo)
 def shell_psdk_package_remove(
         tool: str,
         target: str,
@@ -201,6 +332,7 @@ def shell_psdk_package_remove(
     return OutResult(TextSuccess.psdk_package_remove_success())
 
 
+@check_dependency(DependencyApps.sudo)
 def shell_psdk_package_validate(
         tool: str,
         target: str,
@@ -231,6 +363,7 @@ def shell_psdk_package_validate(
     return OutResult(TextSuccess.psdk_validate_success())
 
 
+@check_dependency(DependencyApps.sudo)
 def shell_psdk_resign(
         tool: str,
         key: str,
@@ -259,3 +392,11 @@ def shell_psdk_resign(
                 return OutResultError(TextError.file_not_found_error(path))
 
     return OutResult(TextSuccess.psdk_sign_success())
+
+
+@check_dependency(DependencyApps.sudo)
+def shell_remove_root_folder(path: str) -> OutResult:
+    stdout, stderr = shell_exec_command(['sudo', 'rm', '-rf', path])
+    if stderr:
+        return OutResultError(TextError.exec_command_error())
+    return OutResult()

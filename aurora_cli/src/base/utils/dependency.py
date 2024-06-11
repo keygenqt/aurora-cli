@@ -29,6 +29,7 @@ class DependencyApps(Enum):
     git = 'git'
     ssh = 'ssh'
     clang_format = 'clang-format'
+    tar = 'tar'
 
 
 def check_dependency(*apps: DependencyApps):
@@ -58,6 +59,8 @@ def _check_dependency(*apps: DependencyApps):
                 _check_dependency_ssh()
             case DependencyApps.clang_format:
                 _check_dependency_clang_format()
+            case DependencyApps.tar:
+                _check_dependency_tar()
 
 
 def _check_dependency_vboxmanage():
@@ -103,6 +106,14 @@ def _check_dependency_ssh():
 def _check_dependency_clang_format():
     try:
         subprocess.run(['clang-format', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except (Exception,):
+        echo_stdout(OutResultError(TextError.dependency_not_found('clang-format')))
+        exit(1)
+
+
+def _check_dependency_tar():
+    try:
+        subprocess.run(['tar', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except (Exception,):
         echo_stdout(OutResultError(TextError.dependency_not_found('clang-format')))
         exit(1)

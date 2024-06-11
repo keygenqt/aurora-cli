@@ -258,6 +258,12 @@ class TextError(Enum):
 
     @staticmethod
     @localization
+    @hint(Hint.use_select)
+    def psdk_already_installed_error(version: str):
+        return f'<red>Aurora Platform SDK</red> {version} <red>already installed.</red>'
+
+    @staticmethod
+    @localization
     def device_not_found_error(host: str):
         return f'<red>Not found: Device. Host: </red> {host}'
 
