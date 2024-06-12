@@ -16,12 +16,12 @@ limitations under the License.
 
 from pathlib import Path
 
+from aurora_cli.src.base.common.features.image_features import image_crop_for_project
 from aurora_cli.src.base.common.features.shell_features import shell_cpp_format
 from aurora_cli.src.base.common.groups.psdk.__tools import psdk_tool_check_is_project, psdk_tool_get_clang_format
 from aurora_cli.src.base.models.psdk_model import PsdkModel
-from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.success import TextSuccess
-from aurora_cli.src.base.utils.output import echo_stdout, OutResult, OutResultError
+from aurora_cli.src.base.utils.output import echo_stdout, OutResult
 
 
 def psdk_project_format_common(
@@ -57,6 +57,7 @@ def psdk_project_build_common(
 ):
     psdk_tool_check_is_project(project)
 
+    # @todo
     print('Coming soon')
 
     echo_stdout(OutResult(TextSuccess.project_build_success()), verbose)
@@ -70,14 +71,16 @@ def psdk_project_debug_common(
 ):
     psdk_tool_check_is_project(project)
 
+    # @todo
     print('Coming soon')
 
 
-def psdk_project_icons_common(project: Path, icon: Path, verbose: bool):
-    if not icon.is_file():
-        echo_stdout(OutResultError(TextError.file_not_found_error(str(icon))))
+def psdk_project_icons_common(project: Path, image: Path, verbose: bool):
+    psdk_tool_check_is_project(project)
+    result = image_crop_for_project(image)
+    if result.is_error():
+        echo_stdout(result, verbose)
         exit(1)
 
-    psdk_tool_check_is_project(project)
-
-    print('Coming soon')
+    # @todo
+    print(f'Move to project: {project}')

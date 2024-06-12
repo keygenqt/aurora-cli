@@ -78,10 +78,10 @@ def project_report(path: str | None, verbose: bool):
     flutter_project_report_common(path, verbose)
 
 
-@subgroup_flutter_project.command(name='icon', help=TextCommand.command_project_icon())
-@click.option('-p', '--icon', type=click.STRING, help=TextArgument.argument_path_to_icon())
+@subgroup_flutter_project.command(name='icons', help=TextCommand.command_project_icon())
+@click.option('-i', '--image', type=click.STRING, help=TextArgument.argument_path_to_icon())
 @click.option('-p', '--path', type=click.STRING, required=False, help=TextArgument.argument_path_to_project())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def project_icon(icon: str, path: str | None, verbose: bool):
+def project_icons(image: str, path: str | None, verbose: bool):
     path = Path(path) if path else Path.cwd()
-    flutter_project_icons_common(path, Path(icon), verbose)
+    flutter_project_icons_common(path, Path(image), verbose)

@@ -18,8 +18,11 @@ import re
 
 from bs4 import BeautifulSoup
 
-from aurora_cli.src.base.constants.url import URL_AURORA_REPO_VERSIONS, URL_FLUTTER_SDK_VERSIONS, \
+from aurora_cli.src.base.constants.url import (
+    URL_AURORA_REPO_VERSIONS,
+    URL_FLUTTER_SDK_VERSIONS,
     URL_FLUTTER_PLUGINS_VERSIONS
+)
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.utils.output import OutResult, OutResultError

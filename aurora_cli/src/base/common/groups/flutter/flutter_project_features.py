@@ -16,15 +16,15 @@ limitations under the License.
 
 from pathlib import Path
 
+from aurora_cli.src.base.common.features.image_features import image_crop_for_project
 from aurora_cli.src.base.common.features.shell_features import shell_dart_format, shell_cpp_format
 from aurora_cli.src.base.common.groups.flutter.__tools import (
     flutter_tool_get_clang_format,
     flutter_tool_check_is_project
 )
 from aurora_cli.src.base.models.flutter_model import FlutterModel
-from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.success import TextSuccess
-from aurora_cli.src.base.utils.output import echo_stdout, OutResult, OutResultError
+from aurora_cli.src.base.utils.output import echo_stdout, OutResult
 
 
 def flutter_project_format_common(
@@ -70,6 +70,7 @@ def flutter_project_build_common(
 ):
     flutter_tool_check_is_project(project)
 
+    # @todo
     print('Coming soon')
 
     echo_stdout(OutResult(TextSuccess.project_build_success()), verbose)
@@ -82,22 +83,25 @@ def flutter_project_debug_common(
 ):
     flutter_tool_check_is_project(project)
 
+    # @todo
     print('Coming soon')
 
 
 def flutter_project_report_common(project: Path, verbose: bool):
     flutter_tool_check_is_project(project)
 
+    # @todo
     print('Coming soon')
 
     echo_stdout(OutResult(TextSuccess.flutter_project_report_success()), verbose)
 
 
 def flutter_project_icons_common(project: Path, icon: Path, verbose: bool):
-    if not icon.is_file():
-        echo_stdout(OutResultError(TextError.file_not_found_error(str(icon))))
+    flutter_tool_check_is_project(project)
+    result = image_crop_for_project(icon)
+    if result.is_error():
+        echo_stdout(result, verbose)
         exit(1)
 
-    flutter_tool_check_is_project(project)
-
-    print('Coming soon')
+    # @todo
+    print(f'Move to project: {project}')

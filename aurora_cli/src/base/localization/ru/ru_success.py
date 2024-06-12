@@ -195,3 +195,7 @@ class TextSuccessRu(Enum):
     @staticmethod
     def psdk_remove_success(version: str):
         return f'<green>Аврора Platform SDK</green> {version} <green>успешно удалена.</green>'
+
+    @staticmethod
+    def image_resize_success(path: str):
+        return f'<green>Изображения были успешно созданы:</green> {path}'

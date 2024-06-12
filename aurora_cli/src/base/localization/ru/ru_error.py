@@ -91,6 +91,10 @@ class TextErrorRu(Enum):
         return f'<red>Файл не найден:</red> {path}'
 
     @staticmethod
+    def file_read_error(path: str):
+        return f'<red>Ошибка чтения файла:</red> {path}'
+
+    @staticmethod
     def ssh_install_rpm_error():
         return '<red>Ошибка установки пакета RPM.</red>'
 
@@ -270,3 +274,7 @@ class TextErrorRu(Enum):
     @staticmethod
     def psdk_validate_error():
         return '<red>Пакет не прошел валидацию.</red>'
+
+    @staticmethod
+    def image_size_icon_error(width: int, height: int):
+        return '<red>Минимальный размер изображения {}x{}.</red>'.format(width, height)

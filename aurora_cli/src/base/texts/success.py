@@ -232,3 +232,8 @@ Good luck 👋'''
     @localization
     def psdk_remove_success(version: str):
         return f'<green>Aurora Platform SDK</green> {version} <green>remove was successful.</green>'
+
+    @staticmethod
+    @localization
+    def image_resize_success(path: str):
+        return f'<green>The images were successfully created:</green> {path}'

@@ -118,6 +118,11 @@ class TextError(Enum):
 
     @staticmethod
     @localization
+    def file_read_error(path: str):
+        return f'<red>Error reading file:</red> {path}'
+
+    @staticmethod
+    @localization
     def ssh_install_rpm_error():
         return '<red>Error installing RPM package.</red>'
 
@@ -357,3 +362,8 @@ class TextError(Enum):
     @hint(Hint.use_verbose)
     def psdk_validate_error():
         return '<red>The package has not been validated.</red>'
+
+    @staticmethod
+    @localization
+    def image_size_icon_error(width: int, height: int):
+        return '<red>Minimum icon size {}x{}.</red>'.format(width, height)
