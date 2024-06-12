@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+
 from enum import Enum
 
 from aurora_cli.src.base.localization.localization import localization
@@ -321,6 +322,11 @@ class TextError(Enum):
     @localization
     def flutter_project_not_found(path: str):
         return f'<red>Flutter project not found:</red> {path}'
+
+    @staticmethod
+    @localization
+    def psdk_project_not_found(path: str):
+        return f'<red>C++ project not found:</red> {path}'
 
     @staticmethod
     @localization

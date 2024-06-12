@@ -13,22 +13,32 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+
+from pathlib import Path
+
 import click
 
-from aurora_cli.src.base.common.groups.psdk_features import (
+from aurora_cli.src.base.common.groups.psdk.psdk_features import (
     psdk_available_common,
     psdk_installed_common,
     psdk_install_common,
     psdk_remove_common,
-    psdk_package_search_common,
     psdk_sudoers_add_common,
     psdk_sudoers_remove_common,
     psdk_targets_common,
+    psdk_snapshot_remove_common,
+)
+from aurora_cli.src.base.common.groups.psdk.psdk_package_features import (
+    psdk_package_search_common,
     psdk_package_install_common,
     psdk_package_remove_common,
     psdk_package_validate_common,
     psdk_package_sign_common,
-    psdk_snapshot_remove_common,
+)
+from aurora_cli.src.base.common.groups.psdk.psdk_project_features import (
+    psdk_project_format_common,
+    psdk_project_debug_common,
+    psdk_project_build_common
 )
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.models.psdk_model import PsdkModel
@@ -128,6 +138,24 @@ def snapshot_remove(select: bool, index: int, verbose: bool):
     psdk_snapshot_remove_common(model, target, verbose)
 
 
+@group_psdk.command(help=TextCommand.command_psdk_sudoers_add())
+@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
+@click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
+def sudoers_add(select: bool, index: int, verbose: bool):
+    model = _select_model_psdk(select, index, verbose)
+    psdk_sudoers_add_common(model, verbose)
+
+
+@group_psdk.command(help=TextCommand.command_psdk_sudoers_remove())
+@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
+@click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
+def sudoers_remove(select: bool, index: int, verbose: bool):
+    model = _select_model_psdk(select, index, verbose)
+    psdk_sudoers_remove_common(model, verbose)
+
+
 @group_psdk.command(name='package-search', help=TextCommand.command_psdk_package_search())
 @click.option('-p', '--package', type=click.STRING, required=True, help=TextArgument.argument_package_name())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
@@ -190,19 +218,33 @@ def package_sign(path: str, select: bool, index: int, verbose: bool):
     psdk_package_sign_common(model_psdk, model_keys, path, verbose)
 
 
-@group_psdk.command(help=TextCommand.command_psdk_sudoers_add())
-@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
-@click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
+@group_psdk.command(name='project-format', help=TextCommand.command_project_format())
+@click.option('-p', '--path', type=click.STRING, required=False, help=TextArgument.argument_path_to_project())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def sudoers_add(select: bool, index: int, verbose: bool):
-    model = _select_model_psdk(select, index, verbose)
-    psdk_sudoers_add_common(model, verbose)
+def project_format(path: str | None, verbose: bool):
+    path = Path(path) if path else Path.cwd()
+    psdk_project_format_common(path, verbose)
 
 
-@group_psdk.command(help=TextCommand.command_psdk_sudoers_remove())
+@group_psdk.command(name='project-build', help=TextCommand.command_project_build())
+@click.option('-p', '--path', type=click.STRING, required=False, help=TextArgument.argument_path_to_project())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
-@click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
+@click.option('-i', '--index', type=click.INT, default=None, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def sudoers_remove(select: bool, index: int, verbose: bool):
+def project_build(path: str | None, select: bool, index: int | None, verbose: bool):
+    path = Path(path) if path else Path.cwd()
     model = _select_model_psdk(select, index, verbose)
-    psdk_sudoers_remove_common(model, verbose)
+    target = _select_target_psdk(model, verbose)
+    psdk_project_build_common(model, target, path, verbose)
+
+
+@group_psdk.command(name='project-debug', help=TextCommand.command_project_debug())
+@click.option('-p', '--path', type=click.STRING, required=False, help=TextArgument.argument_path_to_project())
+@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
+@click.option('-i', '--index', type=click.INT, default=None, help=TextArgument.argument_index())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
+def project_debug(path: str | None, select: bool, index: int | None, verbose: bool):
+    path = Path(path) if path else Path.cwd()
+    model = _select_model_psdk(select, index, verbose)
+    target = _select_target_psdk(model, verbose)
+    psdk_project_debug_common(model, target, path, verbose)

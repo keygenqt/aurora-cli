@@ -13,8 +13,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-from aurora_cli.src.base.common.groups.sdk_features import sdk_available_common, sdk_installed_common, \
-    sdk_install_common, sdk_tool_common
+
+from aurora_cli.src.base.common.groups.sdk.sdk_features import (
+    sdk_available_common,
+    sdk_installed_common,
+    sdk_install_common,
+    sdk_tool_common
+)
 from aurora_cli.src.base.models.sdk_model import SdkModel
 from aurora_cli.src.base.utils.route import get_route_root, get_arg_bool, get_arg_str
 

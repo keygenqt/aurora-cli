@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+
 from enum import Enum
 
 
@@ -111,11 +112,11 @@ class TextSuccessRu(Enum):
         return f'<green>Удаление Flutter</green> "{version}" <green>прошло успешно.</green>'
 
     @staticmethod
-    def flutter_project_format_success():
+    def project_format_success():
         return '<green>Проект успешно отформатирован.</green>'
 
     @staticmethod
-    def flutter_project_build_success():
+    def project_build_success():
         return '<green>Сборка проекта прошла успешно.</green>'
 
     @staticmethod

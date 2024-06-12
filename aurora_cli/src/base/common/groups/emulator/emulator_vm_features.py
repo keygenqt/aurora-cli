@@ -13,15 +13,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+
 from pathlib import Path
 
-from aurora_cli.src.base.common.groups.impl.ssh_commands import (
-    ssh_command_common,
-    ssh_run_common,
-    ssh_upload_common,
-    ssh_install_common,
-    ssh_remove_common
-)
+from aurora_cli.src.base.common.groups.emulator.__tools import emulator_tool_check_is_not_run
 from aurora_cli.src.base.constants.other import VM_MANAGE
 from aurora_cli.src.base.models.emulator_model import EmulatorModel
 from aurora_cli.src.base.texts.error import TextError
@@ -32,12 +27,6 @@ from aurora_cli.src.base.utils.dependency import check_dependency, DependencyApp
 from aurora_cli.src.base.utils.output import OutResult, OutResultError, OutResultInfo, echo_stdout
 from aurora_cli.src.base.utils.path import path_gen_file_name
 from aurora_cli.src.base.utils.shell import shell_exec_command
-
-
-def _check_is_not_run(model: EmulatorModel, verbose: bool):
-    if not model.is_on:
-        echo_stdout(OutResultError(TextError.emulator_not_found_running()), verbose)
-        exit(1)
 
 
 @check_dependency(DependencyApps.vboxmanage)
@@ -63,7 +52,7 @@ def emulator_start_common(model: EmulatorModel, verbose: bool):
 
 @check_dependency(DependencyApps.vboxmanage)
 def emulator_screenshot_common(model: EmulatorModel, verbose: bool):
-    _check_is_not_run(model, verbose)
+    emulator_tool_check_is_not_run(model, verbose)
 
     screenshots = Path.home() / 'Pictures' / 'Screenshots'
     if not screenshots.is_dir():
@@ -90,7 +79,7 @@ def emulator_screenshot_common(model: EmulatorModel, verbose: bool):
 
 @check_dependency(DependencyApps.vboxmanage, DependencyApps.ffmpeg)
 def emulator_recording_start_common(model: EmulatorModel, verbose: bool):
-    _check_is_not_run(model, verbose)
+    emulator_tool_check_is_not_run(model, verbose)
     if model.is_record:
         echo_stdout(OutResultError(TextError.emulator_already_running_recording()), verbose)
         exit(1)
@@ -110,7 +99,7 @@ def emulator_recording_start_common(model: EmulatorModel, verbose: bool):
 
 @check_dependency(DependencyApps.vboxmanage, DependencyApps.ffmpeg)
 def emulator_recording_stop_common(model: EmulatorModel, verbose: bool):
-    _check_is_not_run(model, verbose)
+    emulator_tool_check_is_not_run(model, verbose)
     if not model.is_record:
         echo_stdout(OutResultError(TextError.emulator_not_running_recording()), verbose)
         exit(1)
@@ -143,50 +132,3 @@ def emulator_recording_stop_common(model: EmulatorModel, verbose: bool):
         exit(1)
 
     echo_stdout(OutResult(TextSuccess.emulator_recording_video_stop_with_save(str(s_path))), verbose)
-
-
-def emulator_command_common(
-        model: EmulatorModel,
-        execute: str,
-        verbose: bool
-):
-    _check_is_not_run(model, verbose)
-    ssh_command_common(model, execute, verbose)
-
-
-def emulator_upload_common(
-        model: EmulatorModel,
-        path: str,
-        verbose: bool
-):
-    _check_is_not_run(model, verbose)
-    ssh_upload_common(model, path, verbose)
-
-
-def emulator_package_run_common(
-        model: EmulatorModel,
-        package: str,
-        verbose: bool
-):
-    _check_is_not_run(model, verbose)
-    ssh_run_common(model, package, verbose)
-
-
-def emulator_package_install_common(
-        model: EmulatorModel,
-        path: str,
-        apm: bool,
-        verbose: bool
-):
-    _check_is_not_run(model, verbose)
-    ssh_install_common(model, path, apm, verbose)
-
-
-def emulator_package_remove_common(
-        model: EmulatorModel,
-        package: str,
-        apm: bool,
-        verbose: bool
-):
-    _check_is_not_run(model, verbose)
-    ssh_remove_common(model, package, apm, verbose)

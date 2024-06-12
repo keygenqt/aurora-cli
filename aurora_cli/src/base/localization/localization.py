@@ -13,8 +13,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-from aurora_cli.src.base.localization.ru.ru import ru_localization, ru_click_help, ru_click_usage_error, ru_abort, \
+
+from aurora_cli.src.base.localization.ru.ru import (
+    ru_localization,
+    ru_click_help,
+    ru_click_usage_error,
+    ru_abort,
     ru_git_clone
+)
 from aurora_cli.src.base.utils.app import app_language
 
 

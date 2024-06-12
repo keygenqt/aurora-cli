@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+
 from pathlib import Path
 from typing import Callable
 
@@ -93,7 +94,7 @@ def shell_tar_sudo_unpack(
             if 'error' in line:
                 return OutResultError(TextError.exec_command_error())
 
-    return OutResult(TextSuccess.tar_unpack_success())
+    return OutResult(TextSuccess.tar_unpack_success(), value=archive_path)
 
 
 @check_dependency(DependencyApps.sudo)
@@ -133,7 +134,7 @@ def shell_psdk_tooling_create(
             if 'error' in line:
                 return OutResultError(TextError.exec_command_error())
 
-    return OutResult(TextSuccess.psdk_tooling_install_success())
+    return OutResult(TextSuccess.psdk_tooling_install_success(), value=path)
 
 
 @check_dependency(DependencyApps.sudo)
@@ -174,7 +175,7 @@ def shell_psdk_target_create(
             if 'error' in line:
                 return OutResultError(TextError.exec_command_error())
 
-    return OutResult(TextSuccess.psdk_target_install_success())
+    return OutResult(TextSuccess.psdk_target_install_success(), value=path)
 
 
 @check_dependency(DependencyApps.sudo)

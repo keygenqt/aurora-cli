@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+
 from enum import Enum
 
 
@@ -90,16 +91,16 @@ class TextCommandRu(Enum):
         return 'Составить отчет проекта Flutter.'
 
     @staticmethod
-    def command_flutter_project_format():
-        return 'Форматирование проекта Flutter.'
+    def command_project_format():
+        return 'Форматирование проекта.'
 
     @staticmethod
-    def command_flutter_project_build():
-        return 'Сборка проекта Flutter.'
+    def command_project_build():
+        return 'Сборка проекта.'
 
     @staticmethod
-    def command_flutter_project_debug():
-        return 'Запуск debug для vscode проекта Flutter.'
+    def command_project_debug():
+        return 'Сборка debug и запуск проекта.'
 
     @staticmethod
     def command_psdk_available():

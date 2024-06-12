@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+
 from paramiko.client import SSHClient
 
 from aurora_cli.src.base.common.features.ssh_features import (

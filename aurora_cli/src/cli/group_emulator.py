@@ -16,13 +16,15 @@ limitations under the License.
 
 import click
 
-from aurora_cli.src.base.common.groups.emulator_features import (
-    emulator_start_common,
+from aurora_cli.src.base.common.groups.emulator.emulator_features import (
     emulator_command_common,
     emulator_upload_common,
     emulator_package_run_common,
     emulator_package_install_common,
     emulator_package_remove_common,
+)
+from aurora_cli.src.base.common.groups.emulator.emulator_vm_features import (
+    emulator_start_common,
     emulator_recording_start_common,
     emulator_recording_stop_common,
     emulator_screenshot_common,
@@ -52,45 +54,6 @@ def _select_model(
 def group_emulator(ctx: {}):
     if argv_is_test():
         ctx.obj = AppConfig.create_test()
-
-
-@group_emulator.command(name='start', help=TextCommand.command_emulator_start())
-@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def start(verbose: bool):
-    model = _select_model(verbose)
-    emulator_start_common(model, verbose)
-
-
-@group_emulator.command(name='screenshot', help=TextCommand.command_emulator_screenshot())
-@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def screenshot(verbose: bool):
-    model = _select_model(verbose)
-    emulator_screenshot_common(model, verbose)
-
-
-@group_emulator.command(name='recording', help=TextCommand.command_emulator_recording())
-@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def recording(verbose: bool):
-    model = _select_model(verbose)
-    emulator_recording_start_common(model, verbose)
-    model = _select_model(verbose)
-
-    def stop_record_and_exit():
-        print('')
-        abort_text_start()
-        emulator_recording_stop_common(model, verbose)
-        abort_text_end()
-        exit(0)
-
-    abort_catch(lambda: stop_record_and_exit())
-
-    click.prompt(
-        text=TextPrompt.emulator_recording_video_loading(),
-        prompt_suffix='',
-        default='Enter',
-        hide_input=True
-    )
-    emulator_recording_stop_common(model, verbose)
 
 
 @group_emulator.command(name='command', help=TextCommand.command_emulator_command())
@@ -133,3 +96,42 @@ def package_install(path: str, apm: bool, verbose: bool):
 def package_remove(package: str, apm: bool, verbose: bool):
     model = _select_model(verbose, True)
     emulator_package_remove_common(model, package, apm, verbose)
+
+
+@group_emulator.command(name='start', help=TextCommand.command_emulator_start())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
+def start(verbose: bool):
+    model = _select_model(verbose)
+    emulator_start_common(model, verbose)
+
+
+@group_emulator.command(name='screenshot', help=TextCommand.command_emulator_screenshot())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
+def screenshot(verbose: bool):
+    model = _select_model(verbose)
+    emulator_screenshot_common(model, verbose)
+
+
+@group_emulator.command(name='recording', help=TextCommand.command_emulator_recording())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
+def recording(verbose: bool):
+    model = _select_model(verbose)
+    emulator_recording_start_common(model, verbose)
+    model = _select_model(verbose)
+
+    def stop_record_and_exit():
+        print('')
+        abort_text_start()
+        emulator_recording_stop_common(model, verbose)
+        abort_text_end()
+        exit(0)
+
+    abort_catch(lambda: stop_record_and_exit())
+
+    click.prompt(
+        text=TextPrompt.emulator_recording_video_loading(),
+        prompt_suffix='',
+        default='Enter',
+        hide_input=True
+    )
+    emulator_recording_stop_common(model, verbose)

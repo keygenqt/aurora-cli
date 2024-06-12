@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+
 from aurora_cli.src.base.localization.ru.ru_app_argument import TextArgumentRu
 from aurora_cli.src.base.localization.ru.ru_app_command import TextCommandRu
 from aurora_cli.src.base.localization.ru.ru_app_group import TextGroupRu

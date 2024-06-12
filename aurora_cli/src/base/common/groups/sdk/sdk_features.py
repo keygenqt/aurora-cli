@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+
 from pathlib import Path
 
 from aurora_cli.src.base.common.features.load_by_version import (
@@ -48,15 +49,12 @@ def sdk_install_common(
     if SdkModel.get_versions_sdk():
         echo_stdout(OutResultError(TextError.sdk_already_installed_error()), verbose)
         exit(1)
-    # url major version
+
     version_url = get_url_version_sdk(version)
-    # get full latest version
     version_full = get_version_latest_by_url(version_url)
-    # get url path to files
     download_url = get_download_sdk_url_by_version(version_url, version_full)
-    # get by type
     urls = [item for item in download_url if (offline and 'offline' in item) or (not offline and 'online' in item)]
-    # check download urls
+
     urls, files = check_downloads(urls)
 
     if not download_url and not files:
@@ -70,7 +68,6 @@ def sdk_install_common(
 
     if shell_exec_app(run):
         echo_stdout(OutResult(TextSuccess.shell_run_app_success(run.name)), verbose)
-        # clear cache
         disk_cache_clear()
     else:
         echo_stdout(OutResultError(TextError.shell_run_app_error(run.name)), verbose)
@@ -80,7 +77,6 @@ def sdk_tool_common(model: SdkModel, verbose: bool):
     tool = model.get_tool_path()
     if shell_exec_app(tool):
         echo_stdout(OutResult(TextSuccess.shell_run_app_success(tool.name)), verbose)
-        # clear cache
         disk_cache_clear()
     else:
         echo_stdout(OutResultError(TextError.shell_run_app_error(tool.name)), verbose)

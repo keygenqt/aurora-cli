@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from aurora_cli.src.base.common.groups.impl.ssh_commands import (
+from aurora_cli.src.base.common.groups.common.ssh_commands import (
     ssh_command_common,
     ssh_run_common,
     ssh_upload_common,

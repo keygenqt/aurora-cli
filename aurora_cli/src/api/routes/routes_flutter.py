@@ -13,13 +13,16 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+
 from pathlib import Path
 
-from aurora_cli.src.base.common.groups.flutter_features import (
+from aurora_cli.src.base.common.groups.flutter.flutter_features import (
     flutter_available_common,
     flutter_installed_common,
     flutter_install_common,
     flutter_remove_common,
+)
+from aurora_cli.src.base.common.groups.flutter.flutter_project_features import (
     flutter_project_report_common,
     flutter_project_format_common,
     flutter_project_build_common,
@@ -46,11 +49,6 @@ def search_route_flutter(route: str, verbose: bool) -> bool:
                 model=FlutterModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
                 verbose=verbose
             )
-        case '/flutter/project/report':
-            flutter_project_report_common(
-                project=Path(get_arg_str(route, 'path')),
-                verbose=verbose
-            )
         case '/flutter/project/format':
             flutter_project_format_common(
                 model=FlutterModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
@@ -67,6 +65,11 @@ def search_route_flutter(route: str, verbose: bool) -> bool:
         case '/flutter/project/debug':
             flutter_project_debug_common(
                 model=FlutterModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
+                project=Path(get_arg_str(route, 'path')),
+                verbose=verbose
+            )
+        case '/flutter/project/report':
+            flutter_project_report_common(
                 project=Path(get_arg_str(route, 'path')),
                 verbose=verbose
             )

@@ -16,7 +16,7 @@ limitations under the License.
 
 import click
 
-from aurora_cli.src.base.common.groups.sdk_features import (
+from aurora_cli.src.base.common.groups.sdk.sdk_features import (
     sdk_available_common,
     sdk_installed_common,
     sdk_install_common,

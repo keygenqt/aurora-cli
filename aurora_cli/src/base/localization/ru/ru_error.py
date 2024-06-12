@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+
 from enum import Enum
 
 
@@ -245,6 +246,10 @@ class TextErrorRu(Enum):
     @staticmethod
     def flutter_project_not_found(path: str):
         return f'<red>Проект Flutter не найден:</red> {path}'
+
+    @staticmethod
+    def psdk_project_not_found(path: str):
+        return f'<red>Проект C++ не найден:</red> {path}'
 
     @staticmethod
     def flutter_project_format_error():

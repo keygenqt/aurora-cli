@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+
 from enum import Enum
 
 from aurora_cli.src.base.localization.localization import localization
@@ -111,18 +112,18 @@ class TextCommand(Enum):
 
     @staticmethod
     @localization
-    def command_flutter_project_format():
-        return 'Formatting a flutter project.'
+    def command_project_format():
+        return 'Formatting a project.'
 
     @staticmethod
     @localization
-    def command_flutter_project_build():
-        return 'Build a flutter project.'
+    def command_project_build():
+        return 'Build a project.'
 
     @staticmethod
     @localization
-    def command_flutter_project_debug():
-        return 'Run debug for vscode a flutter project.'
+    def command_project_debug():
+        return 'Build debug and run a project.'
 
     @staticmethod
     @localization

@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+
 from enum import Enum
 
 from aurora_cli.src.base.localization.localization import localization
@@ -133,12 +134,12 @@ Good luck 👋'''
 
     @staticmethod
     @localization
-    def flutter_project_format_success():
+    def project_format_success():
         return '<green>The project was successfully formatted.</green>'
 
     @staticmethod
     @localization
-    def flutter_project_build_success():
+    def project_build_success():
         return '<green>The project was successfully build.</green>'
 
     @staticmethod

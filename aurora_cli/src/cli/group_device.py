@@ -13,9 +13,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+
 import click
 
-from aurora_cli.src.base.common.groups.device_features import (
+from aurora_cli.src.base.common.groups.device.device_features import (
     device_command_common,
     device_upload_common,
     device_package_run_common,
