@@ -30,4 +30,6 @@ URL_REGULAR_KEY = 'https://developer.auroraos.ru/static/regular_key.pem'
 
 URL_REGULAR_CERT = 'https://developer.auroraos.ru/static/regular_cert.pem'
 
-URL_CLANG_FORMAT_CONF = 'https://gitlab.com/omprussia/flutter/flutter/-/raw/stable/.clang-format'
+URL_CLANG_FORMAT_CONF_FLUTTER = 'https://gitlab.com/omprussia/flutter/flutter/-/raw/stable/.clang-format'
+
+URL_CLANG_FORMAT_CONF = 'https://gitlab.com/omprussia/demos/IpcCatalog/-/raw/example/.clang-format'

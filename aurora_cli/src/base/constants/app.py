@@ -20,6 +20,8 @@ APP_VERSION = '3.0.0'
 
 PATH_TEMP = '~/.aurora-cli/temp'
 
+PATH_CLANG_FORMAT_CONF_FLUTTER = '~/.aurora-cli/.clang-format-flutter'
+
 PATH_CLANG_FORMAT_CONF = '~/.aurora-cli/.clang-format'
 
 PATH_REGULAR_KEY = '~/.aurora-cli/regular_key.pem'

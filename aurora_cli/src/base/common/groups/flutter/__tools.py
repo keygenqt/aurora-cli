@@ -16,8 +16,8 @@ limitations under the License.
 
 from pathlib import Path
 
-from aurora_cli.src.base.constants.app import PATH_CLANG_FORMAT_CONF
-from aurora_cli.src.base.constants.url import URL_CLANG_FORMAT_CONF
+from aurora_cli.src.base.constants.app import PATH_CLANG_FORMAT_CONF_FLUTTER
+from aurora_cli.src.base.constants.url import URL_CLANG_FORMAT_CONF_FLUTTER
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.utils.dependency import check_dependency, DependencyApps
 from aurora_cli.src.base.utils.download import check_with_download_files
@@ -33,8 +33,8 @@ def flutter_tool_check_is_project(path: Path):
 @check_dependency(DependencyApps.clang_format)
 def flutter_tool_get_clang_format(verbose: bool, is_bar: bool) -> Path:
     return check_with_download_files(
-        files=[PATH_CLANG_FORMAT_CONF],
-        urls=[URL_CLANG_FORMAT_CONF],
+        files=[PATH_CLANG_FORMAT_CONF_FLUTTER],
+        urls=[URL_CLANG_FORMAT_CONF_FLUTTER],
         verbose=verbose,
         is_bar=is_bar
     )[0]
