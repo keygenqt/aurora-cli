@@ -19,8 +19,9 @@ from pathlib import Path
 from aurora_cli.src.base.common.features.shell_features import shell_cpp_format
 from aurora_cli.src.base.common.groups.psdk.__tools import psdk_tool_check_is_project, psdk_tool_get_clang_format
 from aurora_cli.src.base.models.psdk_model import PsdkModel
+from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.success import TextSuccess
-from aurora_cli.src.base.utils.output import echo_stdout, OutResult
+from aurora_cli.src.base.utils.output import echo_stdout, OutResult, OutResultError
 
 
 def psdk_project_format_common(
@@ -73,6 +74,10 @@ def psdk_project_debug_common(
 
 
 def psdk_project_icons_common(project: Path, icon: Path, verbose: bool):
+    if not icon.is_file():
+        echo_stdout(OutResultError(TextError.file_not_found_error(str(icon))))
+        exit(1)
+
     psdk_tool_check_is_project(project)
 
     print('Coming soon')

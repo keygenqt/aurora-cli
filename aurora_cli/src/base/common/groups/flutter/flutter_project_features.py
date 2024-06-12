@@ -22,8 +22,9 @@ from aurora_cli.src.base.common.groups.flutter.__tools import (
     flutter_tool_check_is_project
 )
 from aurora_cli.src.base.models.flutter_model import FlutterModel
+from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.success import TextSuccess
-from aurora_cli.src.base.utils.output import echo_stdout, OutResult
+from aurora_cli.src.base.utils.output import echo_stdout, OutResult, OutResultError
 
 
 def flutter_project_format_common(
@@ -93,6 +94,10 @@ def flutter_project_report_common(project: Path, verbose: bool):
 
 
 def flutter_project_icons_common(project: Path, icon: Path, verbose: bool):
+    if not icon.is_file():
+        echo_stdout(OutResultError(TextError.file_not_found_error(str(icon))))
+        exit(1)
+
     flutter_tool_check_is_project(project)
 
     print('Coming soon')
