@@ -17,6 +17,7 @@ limitations under the License.
 from pathlib import Path
 
 from aurora_cli.src.base.common.features.image_features import image_crop_for_project
+from aurora_cli.src.base.common.features.search_installed import search_project_application_id
 from aurora_cli.src.base.common.features.shell_features import shell_cpp_format
 from aurora_cli.src.base.common.groups.psdk.__tools import psdk_tool_check_is_project, psdk_tool_get_clang_format
 from aurora_cli.src.base.models.psdk_model import PsdkModel
@@ -77,10 +78,6 @@ def psdk_project_debug_common(
 
 def psdk_project_icons_common(project: Path, image: Path, verbose: bool):
     psdk_tool_check_is_project(project)
-    result = image_crop_for_project(image)
-    if result.is_error():
-        echo_stdout(result, verbose)
-        exit(1)
-
-    # @todo
-    print(f'Move to project: {project}')
+    path_icons = project / 'icons'
+    result = image_crop_for_project(image, path_icons, search_project_application_id(project))
+    echo_stdout(result, verbose)

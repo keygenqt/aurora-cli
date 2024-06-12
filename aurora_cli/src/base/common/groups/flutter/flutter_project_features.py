@@ -96,12 +96,8 @@ def flutter_project_report_common(project: Path, verbose: bool):
     echo_stdout(OutResult(TextSuccess.flutter_project_report_success()), verbose)
 
 
-def flutter_project_icons_common(project: Path, icon: Path, verbose: bool):
+def flutter_project_icons_common(project: Path, image: Path, verbose: bool):
     flutter_tool_check_is_project(project)
-    result = image_crop_for_project(icon)
-    if result.is_error():
-        echo_stdout(result, verbose)
-        exit(1)
-
-    # @todo
-    print(f'Move to project: {project}')
+    path_icons = project / 'aurora' / 'icons'
+    result = image_crop_for_project(image, path_icons)
+    echo_stdout(result, verbose)

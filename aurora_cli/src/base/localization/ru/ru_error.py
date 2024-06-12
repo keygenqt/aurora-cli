@@ -249,7 +249,7 @@ class TextErrorRu(Enum):
 
     @staticmethod
     def flutter_project_not_found(path: str):
-        return f'<red>Проект Flutter не найден:</red> {path}'
+        return f'<red>Проект Flutter c поддержкой ОС Аврора не найден:</red> {path}'
 
     @staticmethod
     def psdk_project_not_found(path: str):

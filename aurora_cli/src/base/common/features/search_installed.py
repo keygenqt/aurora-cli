@@ -46,6 +46,38 @@ def _search_files(workdir: Path, pattern: str) -> [Path]:
     return files
 
 
+def search_file_for_check_is_flutter_project(path: Path) -> bool:
+    desktop = _search_files(path, '*.desktop')
+    pubspec = _search_files(path, 'pubspec.yaml')
+    dart = _search_files(path, '*.dart')
+    return len(desktop) != 0 and len(dart) != 0 and len(pubspec) == 1
+
+
+def search_file_for_check_is_aurora_project(path: Path) -> bool:
+    desktop = _search_files(path, '*.desktop')
+    pro = _search_files(path, '*.pro')
+    qml = _search_files(path, '*.qml')
+    return len(desktop) != 0 and len(pro) != 0 and len(qml) != 0
+
+
+def search_project_application_id(path: Path) -> str | None:
+    desktop = _search_files(path, '*.desktop')
+    if not desktop:
+        return None
+    org = ''
+    app = ''
+    with open(desktop[0]) as f:
+        for line in f:
+            if 'OrganizationName=' in line:
+                org = line.replace('OrganizationName=', '').strip()
+            if 'ApplicationName=' in line:
+                app = line.replace('ApplicationName=', '').strip()
+
+    if org and app:
+        return f'{org}.{app}'
+    return None
+
+
 @disk_cache()
 def search_installed_flutter() -> OutResult:
     path = path_convert_relative('~/.local/opt')

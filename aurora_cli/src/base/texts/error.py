@@ -326,7 +326,7 @@ class TextError(Enum):
     @staticmethod
     @localization
     def flutter_project_not_found(path: str):
-        return f'<red>Flutter project not found:</red> {path}'
+        return f'<red>Flutter project with support Aurora OS not found:</red> {path}'
 
     @staticmethod
     @localization

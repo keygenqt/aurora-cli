@@ -16,6 +16,7 @@ limitations under the License.
 
 from pathlib import Path
 
+from aurora_cli.src.base.common.features.search_installed import search_file_for_check_is_flutter_project
 from aurora_cli.src.base.constants.app import PATH_CLANG_FORMAT_CONF_FLUTTER
 from aurora_cli.src.base.constants.url import URL_CLANG_FORMAT_CONF_FLUTTER
 from aurora_cli.src.base.texts.error import TextError
@@ -25,7 +26,7 @@ from aurora_cli.src.base.utils.output import echo_stdout, OutResultError
 
 
 def flutter_tool_check_is_project(path: Path):
-    if not path.is_dir() or not (path / 'pubspec.yaml').is_file():
+    if not path.is_dir() or not search_file_for_check_is_flutter_project(path):
         echo_stdout(OutResultError(TextError.flutter_project_not_found(str(path))))
         exit(1)
 
