@@ -1,0 +1,68 @@
+"""
+Copyright 2024 Vitaliy Zarubin
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+"""
+
+import click
+
+from aurora_cli.src.base.common.groups.flutter.flutter_features import (
+    flutter_available_common,
+    flutter_installed_common,
+    flutter_install_common,
+    flutter_remove_common,
+)
+from aurora_cli.src.base.configuration.app_config import AppConfig
+from aurora_cli.src.base.texts.app_argument import TextArgument
+from aurora_cli.src.base.texts.app_command import TextCommand
+from aurora_cli.src.base.texts.app_group import TextGroup
+from aurora_cli.src.base.utils.prompt import prompt_flutter_select
+from aurora_cli.src.cli.flutter.__tools import cli_flutter_tool_select_model
+from aurora_cli.src.cli.flutter.subgroup_flutter_project import subgroup_flutter_project
+
+
+# noinspection PyTypeChecker
+def init_subgroups_flutter():
+    group_flutter.add_command(subgroup_flutter_project)
+
+
+@click.group(name='flutter', help=TextGroup.group_flutter())
+def group_flutter():
+    AppConfig.create_test()
+
+
+@group_flutter.command(name='available', help=TextCommand.command_flutter_available())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
+def available(verbose: bool):
+    flutter_available_common(verbose)
+
+
+@group_flutter.command(name='installed', help=TextCommand.command_flutter_installed())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
+def installed(verbose: bool):
+    flutter_installed_common(verbose)
+
+
+@group_flutter.command(name='install', help=TextCommand.command_flutter_install())
+@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
+def install(select: bool, verbose: bool):
+    version = prompt_flutter_select(select)
+    flutter_install_common(version, verbose)
+
+
+@group_flutter.command(name='remove', help=TextCommand.command_flutter_remove())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
+def remove(verbose: bool):
+    model = cli_flutter_tool_select_model(True, None, verbose)
+    flutter_remove_common(model, verbose)

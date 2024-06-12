@@ -200,7 +200,7 @@ def shell_psdk_targets(tool: str, version: str) -> OutResult:
 
 
 @check_dependency(DependencyApps.sudo)
-def shell_psdk_snapshot_remove(tool: str, target: str) -> OutResult:
+def shell_psdk_clear(tool: str, target: str) -> OutResult:
     stdout, stderr = shell_exec_command([
         tool,
         'sdk-assistant',
@@ -217,7 +217,7 @@ def shell_psdk_snapshot_remove(tool: str, target: str) -> OutResult:
             if 'No such target' in line:
                 return OutResultError(TextError.exec_command_error())
 
-    return OutResult(TextSuccess.psdk_snapshot_remove_success())
+    return OutResult(TextSuccess.psdk_clear_success())
 
 
 @check_dependency(DependencyApps.sudo)

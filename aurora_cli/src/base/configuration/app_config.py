@@ -17,13 +17,15 @@ limitations under the License.
 from pathlib import Path
 from typing import AnyStr
 
+import click
+
 from aurora_cli.src.base.configuration.loader_config import ConfigLoader
 from aurora_cli.src.base.constants.config import CONFIG_DEFAULT, CONFIG_PATH
 from aurora_cli.src.base.models.device_model import DeviceModel
 from aurora_cli.src.base.models.sign_model import SignModel
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
-from aurora_cli.src.base.utils.argv import argv_is_api
+from aurora_cli.src.base.utils.argv import argv_is_api, argv_is_test
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResult
 from aurora_cli.src.base.utils.path import path_convert_relative
 
@@ -33,8 +35,10 @@ class AppConfig:
         self._data_config = _data_config
 
     @staticmethod
-    def create_test():
-        return AppConfig(ConfigLoader(CONFIG_DEFAULT).get_data())
+    @click.pass_context
+    def create_test(ctx: {}):
+        if argv_is_test():
+            ctx.obj = AppConfig(ConfigLoader(CONFIG_DEFAULT).get_data())
 
     @staticmethod
     def create(path: str | None):

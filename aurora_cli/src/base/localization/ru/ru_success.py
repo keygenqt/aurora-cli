@@ -140,7 +140,7 @@ class TextSuccessRu(Enum):
         return '<green>Удаление пакета прошло успешно.</green>'
 
     @staticmethod
-    def psdk_snapshot_remove_success():
+    def psdk_clear_success():
         return '<green>Удаление снимка прошло успешно.</green>'
 
     @staticmethod

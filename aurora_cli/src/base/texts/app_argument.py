@@ -92,6 +92,11 @@ class TextArgument(Enum):
 
     @staticmethod
     @localization
+    def argument_path_to_icon():
+        return 'Path to icon for project.'
+
+    @staticmethod
+    @localization
     def argument_path_to_image():
         return 'Path to image.'
 

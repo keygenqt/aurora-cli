@@ -24,7 +24,7 @@ from aurora_cli.src.api.group_api import group_api
 
 
 # noinspection PyTypeChecker
-class TestGroupDeviceAPI(unittest.TestCase):
+class TestDeviceAPI(unittest.TestCase):
     def test_device_a1_device_list(self):
         sleep(1)
         runner = CliRunner()
@@ -59,7 +59,7 @@ class TestGroupDeviceAPI(unittest.TestCase):
     def test_device_a4_command_upload(self):
         sleep(1)
         runner = CliRunner()
-        path = Path.cwd() / 'data' / 'upload.file'
+        path = Path(__file__).parent.parent / 'data' / 'upload.file'
         result = runner.invoke(cli=group_api, args=[
             '--route',
             f'/device/upload?host=192.168.2.15&path={path}'
@@ -71,7 +71,7 @@ class TestGroupDeviceAPI(unittest.TestCase):
     def test_device_a5_command_install(self):
         sleep(1)
         runner = CliRunner()
-        path = Path.cwd() / 'data' / 'com.keygenqt.trex-0.1.0-1.armv7hl.rpm'
+        path = Path(__file__).parent.parent / 'data' / 'com.keygenqt.trex-0.1.0-1.armv7hl.rpm'
         result = runner.invoke(cli=group_api, args=[
             '--route',
             f'/device/package/install?host=192.168.2.15&path={path}&apm=true'

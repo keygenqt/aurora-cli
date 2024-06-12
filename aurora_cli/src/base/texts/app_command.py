@@ -43,7 +43,7 @@ class TextCommand(Enum):
     @staticmethod
     @localization
     def command_device_package_remove():
-        return 'Remove RPM package from device.'
+        return 'Remove package from device.'
 
     @staticmethod
     @localization
@@ -83,7 +83,7 @@ class TextCommand(Enum):
     @staticmethod
     @localization
     def command_emulator_package_remove():
-        return 'Remove RPM package from emulator.'
+        return 'Remove package from emulator.'
 
     @staticmethod
     @localization
@@ -127,6 +127,11 @@ class TextCommand(Enum):
 
     @staticmethod
     @localization
+    def command_project_icon():
+        return 'Gen multiple size icons for application.'
+
+    @staticmethod
+    @localization
     def command_psdk_available():
         return 'Get available version Aurora Platform SDK.'
 
@@ -147,7 +152,7 @@ class TextCommand(Enum):
 
     @staticmethod
     @localization
-    def command_psdk_snapshot_remove():
+    def command_psdk_clear():
         return 'Remove snapshot target.'
 
     @staticmethod

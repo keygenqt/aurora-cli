@@ -19,11 +19,11 @@ import unittest
 from click.testing import CliRunner
 
 from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
-from aurora_cli.src.cli.group_sdk import group_sdk
+from aurora_cli.src.cli.sdk.group_sdk import group_sdk
 
 
 # noinspection PyTypeChecker
-class TestGroupSdk(unittest.TestCase):
+class TestSdkCLI(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         disk_cache_clear()

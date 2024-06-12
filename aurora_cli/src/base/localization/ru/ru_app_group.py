@@ -46,16 +46,40 @@ Platform SDK https://developer.auroraos.ru/doc/software_development/psdk
         return 'Работа с устройством.'
 
     @staticmethod
+    def subgroup_device_package():
+        return 'Работа с пакетами.'
+
+    @staticmethod
     def group_emulator():
         return 'Работа с эмулятором в virtualbox.'
+
+    @staticmethod
+    def subgroup_emulator_package():
+        return 'Работа с пакетами.'
 
     @staticmethod
     def group_flutter():
         return 'Работа с Flutter для ОС Aurora.'
 
     @staticmethod
+    def subgroup_flutter_project():
+        return 'Работа с проектами Flutter.'
+
+    @staticmethod
     def group_psdk():
         return 'Работа с Аврора Platform SDK.'
+
+    @staticmethod
+    def subgroup_psdk_package():
+        return 'Работа с пакетами.'
+
+    @staticmethod
+    def subgroup_psdk_project():
+        return 'Работа с проектами C++.'
+
+    @staticmethod
+    def subgroup_psdk_sudoers():
+        return 'Работа с sudoers.'
 
     @staticmethod
     def group_sdk():

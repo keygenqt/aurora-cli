@@ -82,7 +82,7 @@ def _check_dependency_ffmpeg():
 
 def _check_dependency_sudo():
     try:
-        subprocess.run(['sudo', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.run(['sudo', '-V'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except (Exception,):
         echo_stdout(OutResultError(TextError.dependency_not_found('sudo')))
         exit(1)

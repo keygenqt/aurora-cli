@@ -36,7 +36,7 @@ class TextCommandRu(Enum):
 
     @staticmethod
     def command_device_package_remove():
-        return 'Удалите пакет RPM с устройства.'
+        return 'Удалите пакет с устройства.'
 
     @staticmethod
     def command_emulator_start():
@@ -68,7 +68,7 @@ class TextCommandRu(Enum):
 
     @staticmethod
     def command_emulator_package_remove():
-        return 'Удалите пакет RPM с эмулятора.'
+        return 'Удалите пакет с эмулятора.'
 
     @staticmethod
     def command_flutter_available():
@@ -103,6 +103,10 @@ class TextCommandRu(Enum):
         return 'Сборка debug и запуск проекта.'
 
     @staticmethod
+    def command_project_icon():
+        return 'Генерируйте иконки разных размеров для приложения.'
+
+    @staticmethod
     def command_psdk_available():
         return 'Получить список доступных версий Аврора Platform SDK.'
 
@@ -119,7 +123,7 @@ class TextCommandRu(Enum):
         return 'Удалить Аврора Platform SDK.'
 
     @staticmethod
-    def command_psdk_snapshot_remove():
+    def command_psdk_clear():
         return 'Удалить снимок таргета.'
 
     @staticmethod

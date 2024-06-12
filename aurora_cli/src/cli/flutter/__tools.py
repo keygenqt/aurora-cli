@@ -14,22 +14,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from aurora_cli.src.base.common.groups.common.ssh_commands import (
-    ssh_command_common,
-    ssh_upload_common
-)
-from aurora_cli.src.base.models.device_model import DeviceModel
+from aurora_cli.src.base.models.flutter_model import FlutterModel
+from aurora_cli.src.base.utils.output import echo_stdout
 
 
-def device_command_common(
-        model: DeviceModel,
-        execute: str,
+def cli_flutter_tool_select_model(
+        select: bool,
+        index: int | None,
         verbose: bool
-): ssh_command_common(model, execute, verbose)
-
-
-def device_upload_common(
-        model: DeviceModel,
-        path: str,
-        verbose: bool
-): ssh_upload_common(model, path, verbose)
+) -> FlutterModel:
+    result_model = FlutterModel.get_model_select(select, index)
+    if result_model.is_error():
+        echo_stdout(result_model, verbose)
+        exit(1)
+    return FlutterModel.get_model_by_version(result_model.value, verbose)

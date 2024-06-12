@@ -21,10 +21,8 @@ from aurora_cli.src.base.common.groups.psdk.psdk_features import (
     psdk_installed_common,
     psdk_install_common,
     psdk_remove_common,
-    psdk_sudoers_add_common,
-    psdk_sudoers_remove_common,
     psdk_targets_common,
-    psdk_snapshot_remove_common,
+    psdk_clear_common,
 )
 from aurora_cli.src.base.common.groups.psdk.psdk_package_features import (
     psdk_package_search_common,
@@ -33,8 +31,16 @@ from aurora_cli.src.base.common.groups.psdk.psdk_package_features import (
     psdk_package_validate_common,
     psdk_package_sign_common,
 )
-from aurora_cli.src.base.common.groups.psdk.psdk_project_features import psdk_project_format_common, \
-    psdk_project_build_common, psdk_project_debug_common
+from aurora_cli.src.base.common.groups.psdk.psdk_project_features import (
+    psdk_project_format_common,
+    psdk_project_debug_common,
+    psdk_project_build_common,
+    psdk_project_icons_common
+)
+from aurora_cli.src.base.common.groups.psdk.psdk_sudoers_features import (
+    psdk_sudoers_add_common,
+    psdk_sudoers_remove_common
+)
 from aurora_cli.src.base.models.psdk_model import PsdkModel
 from aurora_cli.src.base.models.sign_model import SignModel
 from aurora_cli.src.base.utils.route import get_route_root, get_arg_str, get_arg_str_optional
@@ -62,8 +68,8 @@ def search_route_psdk(route: str, verbose: bool) -> bool:
                 model=PsdkModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
                 verbose=verbose
             )
-        case '/psdk/snapshot/remove':
-            psdk_snapshot_remove_common(
+        case '/psdk/clear':
+            psdk_clear_common(
                 model=PsdkModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
                 target=get_arg_str(route, 'target'),
                 verbose=verbose
@@ -133,6 +139,12 @@ def search_route_psdk(route: str, verbose: bool) -> bool:
                 model=PsdkModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
                 target=get_arg_str(route, 'target'),
                 project=Path(get_arg_str(route, 'path')),
+                verbose=verbose
+            )
+        case '/psdk/project/icon':
+            psdk_project_icons_common(
+                project=Path(get_arg_str(route, 'path')),
+                icon=Path(get_arg_str(route, 'icon')),
                 verbose=verbose
             )
         case _:

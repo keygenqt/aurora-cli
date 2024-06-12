@@ -33,11 +33,10 @@ from aurora_cli.src.base.utils.route import get_arg_bool
 
 @click.group(name='api', invoke_without_command=True, help=TextGroup.group_api())
 @click.option('--route', help='Route API', type=click.STRING, required=True)
-@click.pass_context
-def group_api(ctx: {}, route: str):
+def group_api(route: str):
     if argv_is_test():
         sys.argv.append('api')
-        ctx.obj = AppConfig.create_test()
+        AppConfig.create_test()
     try:
         # common value
         verbose = get_arg_bool(route, 'verbose')

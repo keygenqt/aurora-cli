@@ -70,3 +70,9 @@ def psdk_project_debug_common(
     psdk_tool_check_is_project(project)
 
     print('Coming soon')
+
+
+def psdk_project_icons_common(project: Path, icon: Path, verbose: bool):
+    psdk_tool_check_is_project(project)
+
+    print('Coming soon')

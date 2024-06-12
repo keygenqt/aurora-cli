@@ -14,22 +14,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from aurora_cli.src.base.common.groups.common.ssh_commands import (
-    ssh_command_common,
-    ssh_upload_common
-)
-from aurora_cli.src.base.models.device_model import DeviceModel
+from aurora_cli.src.base.models.emulator_model import EmulatorModel
 
 
-def device_command_common(
-        model: DeviceModel,
-        execute: str,
-        verbose: bool
-): ssh_command_common(model, execute, verbose)
-
-
-def device_upload_common(
-        model: DeviceModel,
-        path: str,
-        verbose: bool
-): ssh_upload_common(model, path, verbose)
+def cli_emulator_tool_select_model(
+        verbose: bool,
+        is_root: bool = False,
+) -> EmulatorModel:
+    if is_root:
+        return EmulatorModel.get_model_root(verbose)
+    else:
+        return EmulatorModel.get_model_user(verbose)

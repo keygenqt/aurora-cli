@@ -54,8 +54,18 @@ This is a third party tool written by enthusiasts!'''
 
     @staticmethod
     @localization
+    def subgroup_device_package():
+        return 'Working with packages.'
+
+    @staticmethod
+    @localization
     def group_emulator():
         return 'Working with the emulator virtualbox.'
+
+    @staticmethod
+    @localization
+    def subgroup_emulator_package():
+        return 'Working with packages.'
 
     @staticmethod
     @localization
@@ -64,8 +74,28 @@ This is a third party tool written by enthusiasts!'''
 
     @staticmethod
     @localization
+    def subgroup_flutter_project():
+        return 'Working with Flutter projects.'
+
+    @staticmethod
+    @localization
     def group_psdk():
         return 'Working with Platform Aurora SDK.'
+
+    @staticmethod
+    @localization
+    def subgroup_psdk_package():
+        return 'Working with packages.'
+
+    @staticmethod
+    @localization
+    def subgroup_psdk_project():
+        return 'Working with projects C++.'
+
+    @staticmethod
+    @localization
+    def subgroup_psdk_sudoers():
+        return 'Working with sudoers.'
 
     @staticmethod
     @localization

@@ -14,21 +14,28 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from typing import Any
+import unittest
 
-from aurora_cli.src.api.group_api import group_api
-from aurora_cli.src.cli.group_device import group_device
-from aurora_cli.src.cli.group_emulator import group_emulator
-from aurora_cli.src.cli.group_flutter import group_flutter
-from aurora_cli.src.cli.group_psdk import group_psdk
-from aurora_cli.src.cli.group_sdk import group_sdk
+from click.testing import CliRunner
+
+from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
+from aurora_cli.src.cli.sdk.group_sdk import group_sdk
 
 
 # noinspection PyTypeChecker
-def click_init_groups(fun: Any):
-    fun.add_command(group_api)
-    fun.add_command(group_device)
-    fun.add_command(group_emulator)
-    fun.add_command(group_flutter)
-    fun.add_command(group_psdk)
-    fun.add_command(group_sdk)
+class TestPsdkCLI(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        disk_cache_clear()
+
+    def test_psdk_a1_available(self):
+        runner = CliRunner()
+        result = runner.invoke(cli=group_sdk, args=[
+            'available',
+        ])
+        self.assertEqual(result.exit_code, 0)
+        self.assertIn('5.1.0', result.output)
+
+
+if __name__ == '__main__':
+    unittest.main()

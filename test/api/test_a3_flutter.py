@@ -18,23 +18,24 @@ import unittest
 
 from click.testing import CliRunner
 
+from aurora_cli.src.api.group_api import group_api
 from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
-from aurora_cli.src.cli.group_flutter import group_flutter
 
 
 # noinspection PyTypeChecker
-class TestGroupFlutter(unittest.TestCase):
+class TestFlutterAPI(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         disk_cache_clear()
 
     def test_flutter_a1_available(self):
         runner = CliRunner()
-        result = runner.invoke(cli=group_flutter, args=[
-            'available',
+        result = runner.invoke(cli=group_api, args=[
+            '--route',
+            '/flutter/available'
         ])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn('3.16.2-2', result.output)
+        self.assertIn('"code": 200', result.output)
 
 
 if __name__ == '__main__':

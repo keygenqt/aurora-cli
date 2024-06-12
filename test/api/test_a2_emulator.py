@@ -25,7 +25,7 @@ from test.set_up.set_up import emulator_off
 
 
 # noinspection PyTypeChecker
-class TestGroupEmulatorAPI(unittest.TestCase):
+class TestEmulatorAPI(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         emulator_off()
@@ -90,7 +90,7 @@ class TestGroupEmulatorAPI(unittest.TestCase):
     def test_emulator_a6_command_upload(self):
         sleep(1)
         runner = CliRunner()
-        path = Path.cwd() / 'data' / 'upload.file'
+        path = Path(__file__).parent.parent / 'data' / 'upload.file'
         result = runner.invoke(cli=group_api, args=[
             '--route',
             f'/emulator/upload?path={path}'
@@ -101,7 +101,7 @@ class TestGroupEmulatorAPI(unittest.TestCase):
     def test_emulator_a7_command_install(self):
         sleep(1)
         runner = CliRunner()
-        path = Path.cwd() / 'data' / 'com.keygenqt.trex-0.1.0-1.x86_64.rpm'
+        path = Path(__file__).parent.parent / 'data' / 'com.keygenqt.trex-0.1.0-1.x86_64.rpm'
         result = runner.invoke(cli=group_api, args=[
             '--route',
             f'/emulator/package/install?path={path}'
@@ -124,7 +124,7 @@ class TestGroupEmulatorAPI(unittest.TestCase):
     def test_emulator_a9_command_install_apm(self):
         sleep(1)
         runner = CliRunner()
-        path = Path.cwd() / 'data' / 'com.keygenqt.trex-0.1.0-1.x86_64.rpm'
+        path = Path(__file__).parent.parent / 'data' / 'com.keygenqt.trex-0.1.0-1.x86_64.rpm'
         result = runner.invoke(cli=group_api, args=[
             '--route',
             f'/emulator/package/install?path={path}&apm=true'

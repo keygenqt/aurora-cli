@@ -15,21 +15,31 @@ limitations under the License.
 """
 
 from aurora_cli.src.base.common.groups.common.ssh_commands import (
-    ssh_command_common,
-    ssh_upload_common
+    ssh_run_common,
+    ssh_install_common,
+    ssh_remove_common
 )
 from aurora_cli.src.base.models.device_model import DeviceModel
 
 
-def device_command_common(
+def device_package_run_common(
         model: DeviceModel,
-        execute: str,
+        package: str,
         verbose: bool
-): ssh_command_common(model, execute, verbose)
+): ssh_run_common(model, package, verbose)
 
 
-def device_upload_common(
+def device_package_install_common(
         model: DeviceModel,
         path: str,
+        apm: bool,
         verbose: bool
-): ssh_upload_common(model, path, verbose)
+): ssh_install_common(model, path, apm, verbose)
+
+
+def device_package_remove_common(
+        model: DeviceModel,
+        package: str,
+        apm: bool,
+        verbose: bool
+): ssh_remove_common(model, package, apm, verbose)

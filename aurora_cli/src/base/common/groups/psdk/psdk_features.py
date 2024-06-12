@@ -14,7 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-import getpass
 import signal
 import subprocess
 from pathlib import Path
@@ -31,13 +30,8 @@ from aurora_cli.src.base.common.features.shell_features import (
     shell_tar_sudo_unpack,
     shell_psdk_tooling_create,
     shell_psdk_target_create,
-    shell_remove_root_folder, shell_psdk_snapshot_remove,
-)
-from aurora_cli.src.base.constants.other import (
-    MER_SDK_CHROOT_PATH,
-    SDK_CHROOT_PATH,
-    MER_SDK_CHROOT_DATA,
-    SDK_CHROOT_DATA
+    shell_remove_root_folder,
+    shell_psdk_clear,
 )
 from aurora_cli.src.base.models.psdk_model import PsdkModel
 from aurora_cli.src.base.models.workdir_model import WorkdirModel
@@ -48,12 +42,8 @@ from aurora_cli.src.base.utils.abort import abort_catch
 from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
 from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
 from aurora_cli.src.base.utils.download import check_downloads, downloads
-from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResultInfo, echo_stdout_verbose, OutResult
-from aurora_cli.src.base.utils.shell import shell_exec_command
+from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResultInfo, OutResult
 from aurora_cli.src.base.utils.text_file import (
-    file_exist_in_line,
-    file_permissions_777,
-    file_permissions_644,
     file_remove_line
 )
 from aurora_cli.src.base.utils.url import get_url_version_psdk
@@ -190,48 +180,10 @@ def psdk_remove_common(model: PsdkModel, verbose: bool):
     echo_stdout(OutResult(TextSuccess.psdk_remove_success(model.get_version())), verbose)
 
 
-def psdk_snapshot_remove_common(
+def psdk_clear_common(
         model: PsdkModel,
         target: str,
         verbose: bool
 ):
-    result = shell_psdk_snapshot_remove(model.get_tool_path(), target)
+    result = shell_psdk_clear(model.get_tool_path(), target)
     echo_stdout(result, verbose)
-
-
-def psdk_sudoers_add_common(model: PsdkModel, verbose: bool):
-    for item in [[MER_SDK_CHROOT_PATH, MER_SDK_CHROOT_DATA], [SDK_CHROOT_PATH, SDK_CHROOT_DATA]]:
-        path = Path(item[0])
-        tool = Path(model.get_tool_path())
-        user = getpass.getuser()
-        data = item[1].format(username=user, psdk_tool=tool, psdk_tool_folder=tool.parent)
-        if not path.is_file():
-            shell_exec_command(['sudo', 'touch', str(path)])
-        if file_exist_in_line(path, str(tool.parent)):
-            echo_stdout(TextInfo.psdk_sudoers_exist(model.version, str(path)))
-        else:
-            file_permissions_777(path)
-            with open(path, 'a') as file:
-                file.write(data)
-            file_permissions_644(path)
-            echo_stdout(TextSuccess.psdk_sudoers_add_success(model.version, str(path)))
-
-    echo_stdout_verbose(verbose)
-
-
-def psdk_sudoers_remove_common(model: PsdkModel, verbose: bool):
-    for path in [MER_SDK_CHROOT_PATH, SDK_CHROOT_PATH]:
-        path = Path(path)
-        tool = Path(model.get_tool_path())
-        if not path.is_file():
-            echo_stdout(TextInfo.psdk_sudoers_not_found(model.version, str(path)))
-            continue
-        if not file_exist_in_line(path, str(tool.parent)):
-            echo_stdout(TextInfo.psdk_sudoers_not_found(model.version, str(path)))
-            continue
-        file_permissions_777(path)
-        file_remove_line(path, str(tool.parent))
-        file_permissions_644(path)
-        echo_stdout(TextSuccess.psdk_sudoers_remove_success(model.version, str(path)))
-
-    echo_stdout_verbose(verbose)

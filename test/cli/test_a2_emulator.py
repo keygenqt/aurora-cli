@@ -20,12 +20,13 @@ from time import sleep
 
 from click.testing import CliRunner
 
-from aurora_cli.src.cli.group_emulator import group_emulator
+from aurora_cli.src.cli.emulator.group_emulator import group_emulator
+from aurora_cli.src.cli.emulator.subgroup_emulator_package import subgroup_emulator_package
 from test.set_up.set_up import emulator_off
 
 
 # noinspection PyTypeChecker
-class TestGroupEmulatorCLI(unittest.TestCase):
+class TestEmulatorCLI(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         emulator_off()
@@ -87,7 +88,7 @@ class TestGroupEmulatorCLI(unittest.TestCase):
         runner = CliRunner()
         result = runner.invoke(cli=group_emulator, args=[
             'upload',
-            '--path', Path.cwd() / 'data' / 'upload.file'
+            '--path', Path(__file__).parent.parent / 'data' / 'upload.file'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('successfully uploaded', result.output)
@@ -95,9 +96,9 @@ class TestGroupEmulatorCLI(unittest.TestCase):
     def test_emulator_a7_command_install(self):
         sleep(1)
         runner = CliRunner()
-        result = runner.invoke(cli=group_emulator, args=[
-            'package-install',
-            '--path', Path.cwd() / 'data' / 'com.keygenqt.trex-0.1.0-1.x86_64.rpm'
+        result = runner.invoke(cli=subgroup_emulator_package, args=[
+            'install',
+            '--path', Path(__file__).parent.parent / 'data' / 'com.keygenqt.trex-0.1.0-1.x86_64.rpm'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('installed successfully', result.output)
@@ -105,8 +106,8 @@ class TestGroupEmulatorCLI(unittest.TestCase):
     def test_emulator_a8_command_remove(self):
         sleep(2)
         runner = CliRunner()
-        result = runner.invoke(cli=group_emulator, args=[
-            'package-remove',
+        result = runner.invoke(cli=subgroup_emulator_package, args=[
+            'remove',
             '--package', 'com.keygenqt.trex'
         ])
         self.assertEqual(result.exit_code, 0)
@@ -115,9 +116,9 @@ class TestGroupEmulatorCLI(unittest.TestCase):
     def test_emulator_a9_command_install_apm(self):
         sleep(1)
         runner = CliRunner()
-        result = runner.invoke(cli=group_emulator, args=[
-            'package-install',
-            '--path', Path.cwd() / 'data' / 'com.keygenqt.trex-0.1.0-1.x86_64.rpm',
+        result = runner.invoke(cli=subgroup_emulator_package, args=[
+            'install',
+            '--path', Path(__file__).parent.parent / 'data' / 'com.keygenqt.trex-0.1.0-1.x86_64.rpm',
             '--apm'
         ])
         self.assertEqual(result.exit_code, 0)
@@ -126,8 +127,8 @@ class TestGroupEmulatorCLI(unittest.TestCase):
     def test_emulator_b1_command_remove_apm(self):
         sleep(1)
         runner = CliRunner()
-        result = runner.invoke(cli=group_emulator, args=[
-            'package-remove',
+        result = runner.invoke(cli=subgroup_emulator_package, args=[
+            'remove',
             '--package', 'com.keygenqt.trex',
             '--apm'
         ])

@@ -75,6 +75,10 @@ class TextArgumentRu(Enum):
         return 'Путь к проекту. По умолчанию текущая директория.'
 
     @staticmethod
+    def argument_path_to_icon():
+        return 'Путь к картинке для проекта.'
+
+    @staticmethod
     def argument_path_to_image():
         return 'Путь к изображению.'
 

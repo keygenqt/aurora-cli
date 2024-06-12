@@ -20,11 +20,12 @@ from time import sleep
 
 from click.testing import CliRunner
 
-from aurora_cli.src.cli.group_device import group_device
+from aurora_cli.src.cli.device.group_device import group_device
+from aurora_cli.src.cli.device.subgroup_device_package import subgroup_device_package
 
 
 # noinspection PyTypeChecker
-class TestGroupDeviceCLI(unittest.TestCase):
+class TestDeviceCLI(unittest.TestCase):
     def test_device_a1_command_execute(self):
         sleep(1)
         runner = CliRunner()
@@ -46,18 +47,7 @@ class TestGroupDeviceCLI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('Aurora', result.output)
 
-    def test_device_a3_command_execute_select(self):
-        sleep(1)
-        runner = CliRunner()
-        result = runner.invoke(cli=group_device, input='1', args=[
-            'command',
-            '--execute', 'version',
-            '--select'
-        ])
-        self.assertEqual(result.exit_code, 0)
-        self.assertIn('Aurora', result.output)
-
-    def test_device_a4_command_execute_select_index(self):
+    def test_device_a3_command_execute_select_index(self):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_device, args=[
@@ -69,7 +59,7 @@ class TestGroupDeviceCLI(unittest.TestCase):
         self.assertEqual(result.exit_code, 1)
         self.assertIn('Select one thing', result.output)
 
-    def test_device_a5_command_execute_error(self):
+    def test_device_a4_command_execute_error(self):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_device, args=[
@@ -79,32 +69,32 @@ class TestGroupDeviceCLI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('bash: just: not found', result.output)
 
-    def test_device_a6_command_upload(self):
+    def test_device_a5_command_upload(self):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_device, args=[
             'upload',
-            '--path', Path.cwd() / 'data' / 'upload.file'
+            '--path', Path(__file__).parent.parent / 'data' / 'upload.file'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('successfully uploaded', result.output)
 
-    def test_device_a7_command_install(self):
+    def test_device_a6_command_install(self):
         sleep(1)
         runner = CliRunner()
-        result = runner.invoke(cli=group_device, args=[
-            'package-install',
-            '--path', Path.cwd() / 'data' / 'com.keygenqt.trex-0.1.0-1.armv7hl.rpm',
+        result = runner.invoke(cli=subgroup_device_package, args=[
+            'install',
+            '--path', Path(__file__).parent.parent / 'data' / 'com.keygenqt.trex-0.1.0-1.armv7hl.rpm',
             '--apm'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('installed successfully', result.output)
 
-    def test_device_a8_command_remove(self):
+    def test_device_a7_command_remove(self):
         sleep(2)
         runner = CliRunner()
-        result = runner.invoke(cli=group_device, args=[
-            'package-remove',
+        result = runner.invoke(cli=subgroup_device_package, args=[
+            'remove',
             '--package', 'com.keygenqt.trex',
             '--apm'
         ])

@@ -169,7 +169,7 @@ Good luck 👋'''
 
     @staticmethod
     @localization
-    def psdk_snapshot_remove_success():
+    def psdk_clear_success():
         return '<green>The snapshot removal was successful.</green>'
 
     @staticmethod

@@ -17,6 +17,8 @@ limitations under the License.
 from aurora_cli.src.base.common.groups.device.device_features import (
     device_command_common,
     device_upload_common,
+)
+from aurora_cli.src.base.common.groups.device.device_package_features import (
     device_package_run_common,
     device_package_install_common,
     device_package_remove_common

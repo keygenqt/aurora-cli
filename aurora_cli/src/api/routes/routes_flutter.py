@@ -27,6 +27,7 @@ from aurora_cli.src.base.common.groups.flutter.flutter_project_features import (
     flutter_project_format_common,
     flutter_project_build_common,
     flutter_project_debug_common,
+    flutter_project_icons_common,
 )
 from aurora_cli.src.base.models.flutter_model import FlutterModel
 from aurora_cli.src.base.utils.route import get_route_root, get_arg_str
@@ -71,6 +72,12 @@ def search_route_flutter(route: str, verbose: bool) -> bool:
         case '/flutter/project/report':
             flutter_project_report_common(
                 project=Path(get_arg_str(route, 'path')),
+                verbose=verbose
+            )
+        case '/flutter/project/icon':
+            flutter_project_icons_common(
+                project=Path(get_arg_str(route, 'path')),
+                icon=Path(get_arg_str(route, 'icon')),
                 verbose=verbose
             )
         case _:

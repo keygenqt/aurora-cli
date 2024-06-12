@@ -90,3 +90,9 @@ def flutter_project_report_common(project: Path, verbose: bool):
     print('Coming soon')
 
     echo_stdout(OutResult(TextSuccess.flutter_project_report_success()), verbose)
+
+
+def flutter_project_icons_common(project: Path, icon: Path, verbose: bool):
+    flutter_tool_check_is_project(project)
+
+    print('Coming soon')

@@ -27,15 +27,12 @@ from aurora_cli.src.base.models.sdk_model import SdkModel
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
-from aurora_cli.src.base.utils.argv import argv_is_test
 from aurora_cli.src.base.utils.prompt import prompt_sdk_select
 
 
 @click.group(name='sdk', help=TextGroup.group_sdk())
-@click.pass_context
-def group_sdk(ctx: {}):
-    if argv_is_test():
-        ctx.obj = AppConfig.create_test()
+def group_sdk():
+    AppConfig.create_test()
 
 
 @group_sdk.command(help=TextCommand.command_sdk_available())
