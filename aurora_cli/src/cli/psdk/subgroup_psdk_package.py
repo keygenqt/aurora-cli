@@ -74,13 +74,9 @@ def package_remove(package: str, select: bool, index: int, verbose: bool):
 
 @subgroup_psdk_package.command(name='validate', help=TextCommand.command_psdk_validate())
 @click.option('-p', '--path', type=click.STRING, required=True, help=TextArgument.argument_path_rpm())
-@click.option('-pr', '--profile', default='regular', type=click.Choice([
-    'regular',
-    'extended',
-    'mdm',
-    'antivirus',
-    'auth',
-], case_sensitive=False), help=TextArgument.argument_validate_profile())
+@click.option('-pr', '--profile', default='regular',
+              type=click.Choice(['regular', 'extended', 'mdm', 'antivirus', 'auth'], case_sensitive=False),
+              help=TextArgument.argument_validate_profile())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())

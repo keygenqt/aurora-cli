@@ -31,7 +31,10 @@ class FlutterModel:
     dart: Path
 
     @staticmethod
-    def get_model_select(select: bool, index: int | None) -> OutResult:
+    def get_model_select(
+            select: bool,
+            index: int | None,
+    ) -> OutResult:
         versions = FlutterModel.get_versions_flutter()
         if not versions:
             return OutResultError(TextError.flutter_not_found_error())
@@ -39,7 +42,7 @@ class FlutterModel:
             name='flutter',
             models=versions,
             select=select,
-            index=index
+            index=index,
         )
 
     @staticmethod

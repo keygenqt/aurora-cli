@@ -78,6 +78,17 @@ def search_project_application_id(path: Path) -> str | None:
     return None
 
 
+def search_flutter_project_pubspec_key(path: Path, key: str) -> bool:
+    pubspec = _search_files(path, 'pubspec.yaml')
+    if not pubspec:
+        return False
+    with open(pubspec[0]) as f:
+        for line in f:
+            if key in line:
+                return True
+    return False
+
+
 @disk_cache()
 def search_installed_flutter() -> OutResult:
     path = path_convert_relative('~/.local/opt')

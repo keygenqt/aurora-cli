@@ -22,7 +22,8 @@ from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.dependency import check_dependency, DependencyApps
 from aurora_cli.src.base.utils.output import OutResult, OutResultError, OutResultInfo
-from aurora_cli.src.base.utils.shell import shell_exec_command
+from aurora_cli.src.base.utils.percent_cli import percent_start, percent_counter, percent_end
+from aurora_cli.src.base.utils.shell import shell_exec_command, shell_check_error_out
 
 
 def shell_dart_format(dart: str, path: str) -> OutResult:
@@ -32,8 +33,10 @@ def shell_dart_format(dart: str, path: str) -> OutResult:
         '--line-length=120',
         path,
     ])
-    if stdout and 'Could not format' in stdout[0]:
-        return OutResultError(TextError.flutter_project_format_error())
+
+    result = shell_check_error_out(stdout, stderr, ['Could not format'])
+    if result.is_error():
+        return OutResultError(TextError.project_format_error())
 
     return OutResultInfo(TextInfo.flutter_project_format_dart_done())
 
@@ -41,14 +44,15 @@ def shell_dart_format(dart: str, path: str) -> OutResult:
 @check_dependency(DependencyApps.clang_format)
 def shell_cpp_format(files: [Path], config: Path) -> OutResult:
     for file in files:
-        _, stderr = shell_exec_command([
+        stdout, stderr = shell_exec_command([
             'clang-format',
             f'--style=file:{config}',
             '-i',
             str(file)
         ])
-        if stderr:
-            return OutResultError(TextError.flutter_project_format_error())
+        result = shell_check_error_out(stdout, stderr)
+        if result.is_error():
+            return OutResultError(TextError.project_format_error())
 
     return OutResultInfo(TextInfo.flutter_project_format_cpp_done())
 
@@ -59,19 +63,10 @@ def shell_tar_sudo_unpack(
         unpack_path: str,
         progress: Callable[[int], None]
 ) -> OutResult:
-    size = Path(archive_path).stat().st_size
-    # Estimated size checkpoints
-    count = size * 130 / 439822186
     percents = []
-
-    def update(out: str):
-        if 'Total bytes read' in out:
-            progress(100)
-        else:
-            percent = int(len(percents) * 100 / count)
-            if percent not in percents and percent < 100:
-                progress(percent)
-            percents.append(percent)
+    percent_start(percents, progress)
+    size = Path(archive_path).stat().st_size
+    count = int(size * 130 / 439822186)
 
     stdout, stderr = shell_exec_command([
         'sudo',
@@ -85,14 +80,13 @@ def shell_tar_sudo_unpack(
         '--checkpoint-action=echo="#%u"',
         '-C',
         unpack_path
-    ], lambda out: update(out), disable_sigint=False)
+    ], listen=lambda out: percent_counter(count, percents, progress), disable_sigint=False)
 
-    if stderr:
-        return OutResultError(TextError.exec_command_error())
-    else:
-        for line in stdout:
-            if 'error' in line:
-                return OutResultError(TextError.exec_command_error())
+    percent_end(percents, progress)
+
+    result = shell_check_error_out(stdout, stderr, ['error'])
+    if result.is_error():
+        return result
 
     return OutResult(TextSuccess.tar_unpack_success(), value=archive_path)
 
@@ -104,18 +98,8 @@ def shell_psdk_tooling_create(
         path: str,
         progress: Callable[[int], None]
 ) -> OutResult:
-    # Estimated size out lines
-    count = 15
     percents = []
-
-    def update(out: str):
-        if 'set up' in out:
-            progress(100)
-        else:
-            percent = int(len(percents) * 100 / count)
-            if percent not in percents and percent < 100:
-                progress(percent)
-            percents.append(percent)
+    percent_start(percents, progress)
 
     stdout, stderr = shell_exec_command([
         tool,
@@ -125,14 +109,13 @@ def shell_psdk_tooling_create(
         '-y',
         'AuroraOS-{}-base'.format(version),
         path
-    ], lambda out: update(out), disable_sigint=False)
+    ], listen=lambda _: percent_counter(15, percents, progress), disable_sigint=False)
 
-    if stderr:
-        return OutResultError(TextError.exec_command_error())
-    else:
-        for line in stdout:
-            if 'error' in line:
-                return OutResultError(TextError.exec_command_error())
+    percent_end(percents, progress)
+
+    result = shell_check_error_out(stdout, stderr, ['error'])
+    if result.is_error():
+        return result
 
     return OutResult(TextSuccess.psdk_tooling_install_success(), value=path)
 
@@ -145,18 +128,8 @@ def shell_psdk_target_create(
         arch: str,
         progress: Callable[[int], None]
 ) -> OutResult:
-    # Estimated size out lines
-    count = 30
     percents = []
-
-    def update(out: str):
-        if 'set up' in out:
-            progress(100)
-        else:
-            percent = int(len(percents) * 100 / count)
-            if percent not in percents and percent < 100:
-                progress(percent)
-            percents.append(percent)
+    percent_start(percents, progress)
 
     stdout, stderr = shell_exec_command([
         tool,
@@ -166,14 +139,13 @@ def shell_psdk_target_create(
         '-y',
         'AuroraOS-{}-base-{}'.format(version, arch),
         path
-    ], lambda out: update(out), disable_sigint=False)
+    ], listen=lambda out: percent_counter(30, percents, progress), disable_sigint=False)
 
-    if stderr:
-        return OutResultError(TextError.exec_command_error())
-    else:
-        for line in stdout:
-            if 'error' in line:
-                return OutResultError(TextError.exec_command_error())
+    percent_end(percents, progress)
+
+    result = shell_check_error_out(stdout, stderr, ['error'])
+    if result.is_error():
+        return result
 
     return OutResult(TextSuccess.psdk_target_install_success(), value=path)
 
@@ -210,12 +182,10 @@ def shell_psdk_clear(tool: str, target: str) -> OutResult:
         '--snapshots-of',
         target
     ])
-    if stderr:
-        return OutResultError(TextError.exec_command_error())
-    else:
-        for line in stdout:
-            if 'No such target' in line:
-                return OutResultError(TextError.exec_command_error())
+
+    result = shell_check_error_out(stdout, stderr, ['No such target'])
+    if result.is_error():
+        return result
 
     return OutResult(TextSuccess.psdk_clear_success())
 
@@ -238,12 +208,10 @@ def shell_psdk_package_search(
         '-s',
         package
     ])
-    if stderr:
-        return OutResultError(TextError.exec_command_error())
 
-    for line in stdout:
-        if 'Invalid target specified' in line:
-            return OutResultError(TextError.exec_command_error())
+    result = shell_check_error_out(stdout, stderr, ['Invalid target specified'])
+    if result.is_error():
+        return result
 
     keys = []
     values = []
@@ -286,18 +254,19 @@ def shell_psdk_package_install(
         '-y',
         path
     ])
-    if stderr:
-        return OutResultError(TextError.exec_command_error())
-    else:
-        for line in stdout:
-            if 'No provider of' in line:
-                return OutResultError(TextError.file_not_found_error(path))
-            if 'Invalid target specified' in line:
-                return OutResultError(TextError.exec_command_error())
-            if 'Problem with the RPM' in line:
-                return OutResultError(TextError.exec_command_error())
-            if 'is already installed' in line:
-                return OutResultInfo(TextInfo.psdk_package_already_installed())
+
+    result = shell_check_error_out(stdout, stderr, [
+        'No provider of',
+        'is already installed',
+        'Invalid target specified',
+        'Problem with the RPM',
+    ])
+    if result.is_error():
+        if result.value == 0:
+            return OutResultError(TextError.file_not_found_error(path))
+        if result.value == 1:
+            return OutResultInfo(TextInfo.psdk_package_already_installed())
+        return result
 
     return OutResult(TextSuccess.psdk_package_install_success())
 
@@ -321,14 +290,15 @@ def shell_psdk_package_remove(
         '-y',
         package
     ])
-    if stderr:
-        return OutResultError(TextError.exec_command_error())
-    else:
-        for line in stdout:
-            if 'Invalid target specified' in line:
-                return OutResultError(TextError.exec_command_error())
-            if 'not found in package names' in line:
-                return OutResultInfo(TextInfo.psdk_package_not_found())
+
+    result = shell_check_error_out(stdout, stderr, [
+        'not found in package names',
+        'Invalid target specified',
+    ])
+    if result.is_error():
+        if result.value == 0:
+            return OutResultInfo(TextInfo.psdk_package_not_found())
+        return result
 
     return OutResult(TextSuccess.psdk_package_remove_success())
 
@@ -352,14 +322,17 @@ def shell_psdk_package_validate(
         profile,
         path
     ])
-    if stderr:
-        return OutResultError(TextError.exec_command_error())
-    else:
-        for line in stdout:
-            if 'read failed' in line:
-                return OutResultError(TextError.file_not_found_error(path))
-            if 'ERROR' in line:
-                return OutResultError(TextError.psdk_validate_error())
+
+    result = shell_check_error_out(stdout, stderr, [
+        'read failed',
+        'ERROR',
+    ])
+    if result.is_error():
+        if result.value == 0:
+            return OutResultError(TextError.file_not_found_error(path))
+        if result.value == 1:
+            return OutResultError(TextError.psdk_validate_error())
+        return result
 
     return OutResult(TextSuccess.psdk_validate_success())
 
@@ -385,12 +358,14 @@ def shell_psdk_resign(
         f'--cert={cert}',
         path
     ])
-    if stderr:
-        return OutResultError(TextError.psdk_sign_error())
-    else:
-        for line in stdout:
-            if 'is a directory' in line:
-                return OutResultError(TextError.file_not_found_error(path))
+
+    result = shell_check_error_out(stdout, stderr, [
+        'is a directory',
+    ])
+    if result.is_error():
+        if result.value == 0:
+            return OutResultError(TextError.file_not_found_error(path))
+        return result
 
     return OutResult(TextSuccess.psdk_sign_success())
 

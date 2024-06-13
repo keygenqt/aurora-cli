@@ -27,36 +27,36 @@ from aurora_cli.src.base.texts.prompt import TextPrompt
 from aurora_cli.src.base.utils.output import OutResultError, OutResult, echo_stdout
 
 
-def prompt_flutter_select(select: bool) -> str | None:
+def prompt_flutter_select_version(select: bool) -> str | None:
     versions = request_versions_flutter()
     if versions.is_error():
         echo_stdout(versions)
         exit(1)
-    prompt_result = prompt_model_select('flutter', versions.value, select, None)
+    prompt_result = prompt_model_select('flutter', versions.value, select, None, False)
     if prompt_result.is_error():
         echo_stdout(prompt_result)
         exit(1)
     return prompt_result.value
 
 
-def prompt_psdk_select(select: bool) -> str | None:
+def prompt_psdk_select_version(select: bool) -> str | None:
     versions = request_versions_sdk()
     if versions.is_error():
         echo_stdout(versions)
         exit(1)
-    prompt_result = prompt_model_select('psdk', versions.value, select, None)
+    prompt_result = prompt_model_select('psdk', versions.value, select, None, False)
     if prompt_result.is_error():
         echo_stdout(prompt_result)
         exit(1)
     return prompt_result.value
 
 
-def prompt_sdk_select(select: bool) -> str | None:
+def prompt_sdk_select_version(select: bool) -> str | None:
     versions = request_versions_psdk()
     if versions.is_error():
         echo_stdout(versions)
         exit(1)
-    prompt_result = prompt_model_select('sdk', versions.value, select, None)
+    prompt_result = prompt_model_select('sdk', versions.value, select, None, False)
     if prompt_result.is_error():
         echo_stdout(prompt_result)
         exit(1)
@@ -67,7 +67,7 @@ def prompt_model_select(
         name: str,
         models: [],
         select: bool,
-        index: int | None
+        index: int | None,
 ) -> OutResult:
     def has_index(i: int, arr: []) -> bool:
         return i < 0 or len(arr) <= i

@@ -17,7 +17,7 @@ limitations under the License.
 from aurora_cli.src.base.common.groups.common.ssh_commands import (
     ssh_run_common,
     ssh_install_common,
-    ssh_remove_common
+    ssh_remove_common, ssh_check_package
 )
 from aurora_cli.src.base.models.device_model import DeviceModel
 
@@ -43,3 +43,11 @@ def device_package_remove_common(
         apm: bool,
         verbose: bool
 ): ssh_remove_common(model, package, apm, verbose)
+
+
+def device_check_package_common(
+        model: DeviceModel,
+        package: str,
+        verbose: bool
+) -> bool:
+    return ssh_check_package(model, package, verbose)

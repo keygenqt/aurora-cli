@@ -35,6 +35,12 @@ def argv_is_verbose() -> bool:
     return False
 
 
+def argv_is_apm() -> bool:
+    if '-a' in sys.argv or '--apm' in sys.argv:
+        return True
+    return False
+
+
 def argv_is_select() -> bool:
     if '-s' in sys.argv or '--select' in sys.argv:
         return True

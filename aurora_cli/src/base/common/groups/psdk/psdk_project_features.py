@@ -58,10 +58,6 @@ def psdk_project_build_common(
 ):
     psdk_tool_check_is_project(project)
 
-    # @todo
-    print('Coming soon')
-
-    echo_stdout(OutResult(TextSuccess.project_build_success()), verbose)
 
 
 def psdk_project_debug_common(

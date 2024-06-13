@@ -28,7 +28,7 @@ from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
-from aurora_cli.src.base.utils.prompt import prompt_psdk_select
+from aurora_cli.src.base.utils.prompt import prompt_psdk_select_version
 from aurora_cli.src.cli.psdk.__tools import cli_psdk_tool_select_model_psdk, cli_psdk_tool_select_target_psdk
 from aurora_cli.src.cli.psdk.subgroup_psdk_package import subgroup_psdk_package
 from aurora_cli.src.cli.psdk.subgroup_psdk_project import subgroup_psdk_project
@@ -72,7 +72,7 @@ def targets(select: bool, index: int, verbose: bool):
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def install(select: bool, verbose: bool):
-    version = prompt_psdk_select(select)
+    version = prompt_psdk_select_version(select)
     psdk_install_common(version, verbose)
 
 

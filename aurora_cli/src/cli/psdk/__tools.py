@@ -22,7 +22,7 @@ from aurora_cli.src.base.utils.output import echo_stdout
 def cli_psdk_tool_select_model_psdk(
         select: bool,
         index: int | None,
-        verbose: bool
+        verbose: bool,
 ) -> PsdkModel:
     result_model = PsdkModel.get_model_select(select, index)
     if result_model.is_error():
@@ -33,7 +33,7 @@ def cli_psdk_tool_select_model_psdk(
 
 def cli_psdk_tool_select_target_psdk(
         model: PsdkModel,
-        verbose: bool
+        verbose: bool,
 ) -> str:
     result_target = model.get_model_targets_select()
     if not result_target.is_success():

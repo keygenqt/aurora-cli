@@ -16,8 +16,6 @@ limitations under the License.
 
 from enum import Enum
 
-from aurora_cli.src.base.utils.path import path_convert_relative
-
 
 class TextInfoRu(Enum):
     @staticmethod
@@ -33,10 +31,8 @@ class TextInfoRu(Enum):
         return '<blue>Эмулятор записи видео уже выключен.</blue>'
 
     @staticmethod
-    def shh_download_start(path: str):
-        path = path_convert_relative(path)
-        if path and path.is_file():
-            return f'<blue>Начинаем загрузку файла:</blue> {path}'
+    def shh_download_start():
+        return f'<blue>Начинаем загрузку файла...</blue>'
 
     @staticmethod
     def shh_upload_progress():

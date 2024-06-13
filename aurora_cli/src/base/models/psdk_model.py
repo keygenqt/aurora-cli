@@ -32,7 +32,10 @@ class PsdkModel:
     version: str
 
     @staticmethod
-    def get_model_select(select: bool, index: int | None) -> OutResult:
+    def get_model_select(
+            select: bool,
+            index: int | None,
+    ) -> OutResult:
         versions = PsdkModel.get_versions_psdk()
         if not versions:
             return OutResultError(TextError.psdk_not_found_error())
@@ -40,7 +43,18 @@ class PsdkModel:
             name='psdk',
             models=versions,
             select=select,
-            index=index
+            index=index,
+        )
+
+    def get_model_targets_select(self) -> OutResult:
+        targets = self.get_targets_psdk()
+        if not targets:
+            return OutResultInfo(TextInfo.psdk_targets_empty(self.get_version()))
+        return prompt_model_select(
+            name='target',
+            models=targets,
+            select=True,
+            index=None,
         )
 
     @staticmethod
@@ -68,17 +82,6 @@ class PsdkModel:
             return []
         return result.value[key]
 
-    def get_model_targets_select(self) -> OutResult:
-        targets = self.get_targets_psdk()
-        if not targets:
-            return OutResultInfo(TextInfo.psdk_targets_empty(self.get_version()))
-        return prompt_model_select(
-            name='target',
-            models=targets,
-            select=True,
-            index=None
-        )
-
     def get_targets_psdk(self) -> []:
         result = shell_psdk_targets(self.get_tool_path(), self.get_version())
         if not result.is_success():
@@ -90,6 +93,9 @@ class PsdkModel:
 
     def get_tool_path(self) -> str:
         return str(self.tool)
+
+    def get_psdk_dir(self) -> str:
+        return str(self.tool.parent)
 
     def get_path(self) -> str:
         return str(self.tool.parent.parent.parent)

@@ -123,6 +123,7 @@ class TextError(Enum):
 
     @staticmethod
     @localization
+    @hint(Hint.use_apm, Hint.use_verbose)
     def ssh_install_rpm_error():
         return '<red>Error installing RPM package.</red>'
 
@@ -336,7 +337,7 @@ class TextError(Enum):
     @staticmethod
     @localization
     @hint(Hint.use_verbose)
-    def flutter_project_format_error():
+    def project_format_error():
         return '<red>An error occurred while formatting the project.</red>'
 
     @staticmethod
@@ -367,3 +368,8 @@ class TextError(Enum):
     @localization
     def image_size_icon_error(width: int, height: int):
         return '<red>Minimum icon size {}x{}.</red>'.format(width, height)
+
+    @staticmethod
+    @localization
+    def search_application_id_error():
+        return '<red>Failed to read application ID.</red>'

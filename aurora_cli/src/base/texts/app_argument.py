@@ -47,6 +47,16 @@ class TextArgument(Enum):
 
     @staticmethod
     @localization
+    def argument_install():
+        return 'Install on device or emulator.'
+
+    @staticmethod
+    @localization
+    def argument_run():
+        return 'Run application on device or emulator.'
+
+    @staticmethod
+    @localization
     def argument_index():
         return 'Specify index.'
 
@@ -99,3 +109,8 @@ class TextArgument(Enum):
     @localization
     def argument_clear_cache():
         return 'Clear cached data.'
+
+    @staticmethod
+    @localization
+    def argument_mode_build():
+        return 'Mode build project.'

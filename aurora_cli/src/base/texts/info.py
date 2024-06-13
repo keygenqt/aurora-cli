@@ -18,7 +18,6 @@ from enum import Enum
 
 from aurora_cli.src.base.localization.localization import localization
 from aurora_cli.src.base.texts.hint import hint, Hint
-from aurora_cli.src.base.utils.path import path_convert_relative
 
 
 class TextInfo(Enum):
@@ -44,10 +43,8 @@ class TextInfo(Enum):
 
     @staticmethod
     @localization
-    def shh_download_start(path: str):
-        path = path_convert_relative(path)
-        if path and path.is_file():
-            return f'<blue>Starting file download:</blue> {path}'
+    def shh_upload_start():
+        return f'<blue>Starting file upload.</blue>'
 
     @staticmethod
     @localization
@@ -202,5 +199,3 @@ class TextInfo(Enum):
     @localization
     def psdk_download_start():
         return f'<blue>The download of Aurora Platform SDK files has begun.</blue>'
-
-

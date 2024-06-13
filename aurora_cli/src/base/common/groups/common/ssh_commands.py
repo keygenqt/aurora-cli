@@ -76,7 +76,7 @@ def ssh_upload_common(
             ab.update(percent)
 
     if not argv_is_test():
-        echo_stdout(OutResult(TextInfo.shh_download_start(path)))
+        echo_stdout(OutResult(TextInfo.shh_upload_start()))
 
     bar = AliveBarPercentage()
 
@@ -84,10 +84,7 @@ def ssh_upload_common(
         client=client,
         path=path,
         listen_progress=lambda stdout: state_update(bar, stdout.value),
-        close=False
     ))
-
-    client.close()
 
     if verbose:
         echo_stdout(OutResult(), verbose)
@@ -130,7 +127,7 @@ def ssh_install_common(
         if percent == 100:
             echo_stdout(OutResult(TextInfo.ssh_install_rpm()))
 
-    echo_stdout(OutResult(TextInfo.shh_download_start(path)))
+    echo_stdout(OutResult(TextInfo.shh_upload_start()))
 
     bar = AliveBarPercentage()
 
@@ -139,11 +136,8 @@ def ssh_install_common(
         path=path,
         apm=apm,
         listen_progress=lambda stdout: state_update(bar, stdout.value),
-        devel_su=devel_su,
-        close=False
+        devel_su=devel_su
     ))
-
-    client.close()
 
     if verbose:
         echo_stdout(OutResult(), verbose)
@@ -164,3 +158,17 @@ def ssh_remove_common(
         apm=apm,
         devel_su=devel_su
     ), verbose)
+
+
+def ssh_check_package(
+        model: ModelClient,
+        package: str,
+        verbose: bool
+) -> bool:
+    client = _get_ssh_client(model, verbose)
+    result = ssh_command(
+        client=client,
+        execute=f'ls /usr/bin/{package}'
+    )
+    client.close()
+    return 'No such file or directory' not in result.value['stdout'][0]

@@ -18,7 +18,7 @@ import functools
 from enum import Enum
 
 from aurora_cli.src.base.localization.localization import localization
-from aurora_cli.src.base.utils.argv import argv_is_select, argv_is_verbose, argv_is_api
+from aurora_cli.src.base.utils.argv import argv_is_select, argv_is_verbose, argv_is_api, argv_is_apm
 
 
 class Hint(Enum):
@@ -42,6 +42,7 @@ class Hint(Enum):
     hint_check_download_error = 'hint_check_download_error'
     use_select = 'use_select'
     use_verbose = 'use_verbose'
+    use_apm = 'use_apm'
 
 
 def hint(*hints: Hint):
@@ -170,6 +171,13 @@ class TextHint(Enum):
         if argv_is_verbose() or argv_is_api():
             return ''
         return '<i>For more detailed output, use the flag:</i> --verbose'
+
+    @staticmethod
+    @localization
+    def use_apm():
+        if argv_is_apm() or argv_is_api():
+            return ''
+        return '<i>You might want to enable apm mode:</i> --apm'
 
     @staticmethod
     @localization

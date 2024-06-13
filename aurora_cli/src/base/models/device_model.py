@@ -37,12 +37,15 @@ class DeviceModel(ModelClient):
     user: str = 'defaultuser'
 
     @staticmethod
-    def get_model_select(select: bool, index: int | None) -> OutResult:
+    def get_model_select(
+            select: bool,
+            index: int | None,
+    ) -> OutResult:
         return prompt_model_select(
             name='device',
             models=[model.host for model in DeviceModel.get_lists_devices()],
             select=select,
-            index=index
+            index=index,
         )
 
     @staticmethod

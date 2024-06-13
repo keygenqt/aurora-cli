@@ -256,7 +256,7 @@ class TextErrorRu(Enum):
         return f'<red>Проект C++ не найден:</red> {path}'
 
     @staticmethod
-    def flutter_project_format_error():
+    def project_format_error():
         return f'<red>Произошла ошибка при форматировании проекта.</red>'
 
     @staticmethod
@@ -278,3 +278,7 @@ class TextErrorRu(Enum):
     @staticmethod
     def image_size_icon_error(width: int, height: int):
         return '<red>Минимальный размер изображения {}x{}.</red>'.format(width, height)
+
+    @staticmethod
+    def search_application_id_error():
+        return '<red>Не удалось прочитать идентификатор приложения.</red>'

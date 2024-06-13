@@ -21,7 +21,7 @@ from aurora_cli.src.base.utils.output import echo_stdout
 def cli_device_tool_select_model(
         select: bool,
         index: int | None,
-        verbose: bool
+        verbose: bool,
 ) -> DeviceModel:
     result_model = DeviceModel.get_model_select(select, index)
     if result_model.is_error():

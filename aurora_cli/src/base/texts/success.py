@@ -139,11 +139,6 @@ Good luck 👋'''
 
     @staticmethod
     @localization
-    def project_build_success():
-        return '<green>The project was successfully build.</green>'
-
-    @staticmethod
-    @localization
     def flutter_project_report_success():
         return '<green>Report generation was successful.</green>'
 
@@ -237,3 +232,24 @@ Good luck 👋'''
     @localization
     def image_resize_success(path: str):
         return f'<green>The images were successfully created:</green> {path}'
+
+    @staticmethod
+    @localization
+    def flutter_clear_success():
+        return '<green>The project cleanup was successful.</green>'
+
+    @staticmethod
+    @localization
+    def flutter_get_pub_success():
+        return '<green>Getting dependencies was successful.</green>'
+
+    @staticmethod
+    @localization
+    def flutter_run_build_runner_success():
+        return '<green>The build_runner completed the job successfully.</green>'
+
+    @staticmethod
+    @localization
+    def flutter_build_success(paths):
+        new_line = '\n' if len(paths) > 1 else ''
+        return f'<green>The project build was successful:</green> {new_line}' + '\n'.join(paths)

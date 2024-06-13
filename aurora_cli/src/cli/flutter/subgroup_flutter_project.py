@@ -29,7 +29,10 @@ from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
+from aurora_cli.src.cli.device.__tools import cli_device_tool_select_model
 from aurora_cli.src.cli.flutter.__tools import cli_flutter_tool_select_model
+from aurora_cli.src.cli.psdk.__tools import cli_psdk_tool_select_model_psdk, cli_psdk_tool_select_target_psdk, \
+    cli_psdk_tool_select_model_sign
 
 
 @click.group(name='project', help=TextGroup.subgroup_flutter_project())
@@ -49,14 +52,42 @@ def project_format(path: str | None, select: bool, index: int | None, verbose: b
 
 
 @subgroup_flutter_project.command(name='build', help=TextCommand.command_project_build())
+@click.option('-m', '--mode', default='release',
+              type=click.Choice(['release', 'profile', 'debug'], case_sensitive=False),
+              help=TextArgument.argument_mode_build())
 @click.option('-p', '--path', type=click.STRING, required=False, help=TextArgument.argument_path_to_project())
+@click.option('-i', '--install', is_flag=True, help=TextArgument.argument_install())
+@click.option('-a', '--apm', is_flag=True, help=TextArgument.argument_apm())
+@click.option('-r', '--run', is_flag=True, help=TextArgument.argument_run())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
-@click.option('-i', '--index', type=click.INT, default=None, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def project_build(path: str | None, select: bool, index: int | None, verbose: bool):
+def project_build(mode: str, path: str | None, install: bool, apm: bool, run: bool, select: bool, verbose: bool):
     path = Path(path) if path else Path.cwd()
-    model = cli_flutter_tool_select_model(select, index, verbose)
-    flutter_project_build_common(model, path, verbose)
+    model_flutter = cli_flutter_tool_select_model(select, None, verbose)
+    model_psdk = cli_psdk_tool_select_model_psdk(select, None, verbose)
+    target = cli_psdk_tool_select_target_psdk(model_psdk, verbose)
+
+    model_keys = None
+    if install:
+        model_keys = cli_psdk_tool_select_model_sign(select, None)
+
+    model_device = None
+    if (install or run) and '86_64' not in target:
+        model_device = cli_device_tool_select_model(select, None, verbose)
+
+    flutter_project_build_common(
+        model_flutter=model_flutter,
+        model_psdk=model_psdk,
+        model_device=model_device,
+        model_keys=model_keys,
+        target=target,
+        mode=mode,
+        project=path,
+        is_install=install,
+        is_apm=apm,
+        is_run=run,
+        verbose=verbose,
+    )
 
 
 @subgroup_flutter_project.command(name='debug', help=TextCommand.command_project_debug())

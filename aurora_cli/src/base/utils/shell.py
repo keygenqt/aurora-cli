@@ -25,13 +25,14 @@ from typing import Callable
 from cffi.backend_ctypes import unicode
 
 from aurora_cli.src.base.texts.error import TextError
-from aurora_cli.src.base.utils.output import echo_stdout, OutResultError
+from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResult
 from aurora_cli.src.base.utils.string import str_clear_line
 from aurora_cli.src.base.utils.verbose import verbose_add_map, verbose_command_start
 
 
 def shell_exec_command(
         args: [],
+        cwd: Path = Path.cwd(),
         listen: Callable[[str], None] | None = None,
         disable_sigint: bool = True,
 ) -> []:
@@ -62,7 +63,13 @@ def shell_exec_command(
     command = verbose_command_start(args)
 
     try:
-        with subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, preexec_fn=exec_fn) as process:
+        with subprocess.Popen(
+                args,
+                cwd=cwd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                preexec_fn=exec_fn
+        ) as process:
             for value in iter(lambda: process.stdout.readline(), ""):
                 if not value:
                     break
@@ -102,3 +109,19 @@ def shell_exec_app(path: Path) -> bool:
             stderr=[str(e)],
         )
         return False
+
+
+def shell_check_error_out(
+        stdout: list,
+        stderr: list | None = None,
+        search: list | None = None
+) -> OutResult:
+    if stderr:
+        return OutResultError(TextError.exec_command_error(), value=-1)
+    else:
+        if search:
+            for line in stdout:
+                for i, item in enumerate(search):
+                    if item in line:
+                        return OutResultError(TextError.exec_command_error(), value=i)
+    return OutResult()

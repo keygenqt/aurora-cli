@@ -39,6 +39,14 @@ class TextArgumentRu(Enum):
         return 'Выберите из доступных.'
 
     @staticmethod
+    def argument_install():
+        return 'Установите на устройство или эмулятор.'
+
+    @staticmethod
+    def argument_run():
+        return 'Запустите приложение на устройстве или эмуляторе.'
+
+    @staticmethod
     def argument_index():
         return 'Укажите индекс.'
 
@@ -81,3 +89,7 @@ class TextArgumentRu(Enum):
     @staticmethod
     def argument_clear_cache():
         return 'Очистить кэшированные данные.'
+
+    @staticmethod
+    def argument_mode_build():
+        return 'Тип сборки проекта.'

@@ -116,10 +116,6 @@ class TextSuccessRu(Enum):
         return '<green>Проект успешно отформатирован.</green>'
 
     @staticmethod
-    def project_build_success():
-        return '<green>Сборка проекта прошла успешно.</green>'
-
-    @staticmethod
     def flutter_project_report_success():
         return '<green>Генерация отчета прошла успешно.</green>'
 
@@ -199,3 +195,20 @@ class TextSuccessRu(Enum):
     @staticmethod
     def image_resize_success(path: str):
         return f'<green>Изображения были успешно созданы:</green> {path}'
+
+    @staticmethod
+    def flutter_clear_success():
+        return '<green>Очистка проекта прошла успешно.</green>'
+
+    @staticmethod
+    def flutter_get_pub_success():
+        return '<green>Получение зависимостей прошло успешно.</green>'
+
+    @staticmethod
+    def flutter_run_build_runner_success():
+        return '<green>Успешно выполнил работу build_runner.</green>'
+
+    @staticmethod
+    def flutter_build_success(paths):
+        new_line = '\n' if len(paths) > 1 else ''
+        return f'<green>Сборка проекта прошла успешно:</green> {new_line}' + ''.join(paths)

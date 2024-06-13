@@ -16,7 +16,7 @@ limitations under the License.
 
 from enum import Enum
 
-from aurora_cli.src.base.utils.argv import argv_is_select, argv_is_verbose, argv_is_api
+from aurora_cli.src.base.utils.argv import argv_is_select, argv_is_verbose, argv_is_api, argv_is_apm
 
 
 class TextHintRU(Enum):
@@ -104,6 +104,12 @@ class TextHintRU(Enum):
         if argv_is_verbose() or argv_is_api():
             return ''
         return '<i>Для более подробного вывода используйте флаг:</i> --verbose'
+
+    @staticmethod
+    def use_apm():
+        if argv_is_apm() or argv_is_api():
+            return ''
+        return '<i>Возможно вам стоит включить режим apm:</i> --apm'
 
     @staticmethod
     def psdk_keys_info():

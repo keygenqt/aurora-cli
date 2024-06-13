@@ -31,12 +31,15 @@ class SignModel:
     cert: Path
 
     @staticmethod
-    def get_model_select(select: bool, index: int | None) -> OutResult:
+    def get_model_select(
+            select: bool,
+            index: int | None,
+    ) -> OutResult:
         return prompt_model_select(
             name='keys',
             models=[model.name for model in SignModel.get_lists_keys()],
             select=select,
-            index=index
+            index=index,
         )
 
     @staticmethod
