@@ -27,6 +27,7 @@ from aurora_cli.src.base.models.sdk_model import SdkModel
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
+from aurora_cli.src.base.utils.output import echo_verbose
 from aurora_cli.src.base.utils.prompt import prompt_sdk_select_version
 
 
@@ -38,13 +39,15 @@ def group_sdk():
 @group_sdk.command(help=TextCommand.command_sdk_available())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def available(verbose: bool):
-    sdk_available_common(verbose)
+    sdk_available_common()
+    echo_verbose(verbose)
 
 
 @group_sdk.command(help=TextCommand.command_sdk_installed())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def installed(verbose: bool):
-    sdk_installed_common(verbose)
+    sdk_installed_common()
+    echo_verbose(verbose)
 
 
 @group_sdk.command(help=TextCommand.command_sdk_install())
@@ -53,10 +56,12 @@ def installed(verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def install(offline: bool, select: bool, verbose: bool):
     version = prompt_sdk_select_version(select)
-    sdk_install_common(version, offline, verbose)
+    sdk_install_common(version, offline)
+    echo_verbose(verbose)
 
 
 @group_sdk.command(help=TextCommand.command_sdk_tool())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def tool(verbose: bool):
-    sdk_tool_common(SdkModel.get_model(verbose), verbose)
+    sdk_tool_common(SdkModel.get_model())
+    echo_verbose(verbose)

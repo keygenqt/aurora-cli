@@ -24,6 +24,7 @@ from aurora_cli.src.base.common.features.request_version import (
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.prompt import TextPrompt
+from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.output import OutResultError, OutResult, echo_stdout
 
 
@@ -31,11 +32,11 @@ def prompt_flutter_select_version(select: bool) -> str | None:
     versions = request_versions_flutter()
     if versions.is_error():
         echo_stdout(versions)
-        exit(1)
-    prompt_result = prompt_model_select('flutter', versions.value, select, None, False)
+        app_exit()
+    prompt_result = prompt_model_select('flutter', versions.value, select, None)
     if prompt_result.is_error():
         echo_stdout(prompt_result)
-        exit(1)
+        app_exit()
     return prompt_result.value
 
 
@@ -43,11 +44,11 @@ def prompt_psdk_select_version(select: bool) -> str | None:
     versions = request_versions_sdk()
     if versions.is_error():
         echo_stdout(versions)
-        exit(1)
-    prompt_result = prompt_model_select('psdk', versions.value, select, None, False)
+        app_exit()
+    prompt_result = prompt_model_select('psdk', versions.value, select, None)
     if prompt_result.is_error():
         echo_stdout(prompt_result)
-        exit(1)
+        app_exit()
     return prompt_result.value
 
 
@@ -55,11 +56,11 @@ def prompt_sdk_select_version(select: bool) -> str | None:
     versions = request_versions_psdk()
     if versions.is_error():
         echo_stdout(versions)
-        exit(1)
-    prompt_result = prompt_model_select('sdk', versions.value, select, None, False)
+        app_exit()
+    prompt_result = prompt_model_select('sdk', versions.value, select, None)
     if prompt_result.is_error():
         echo_stdout(prompt_result)
-        exit(1)
+        app_exit()
     return prompt_result.value
 
 

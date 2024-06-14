@@ -26,7 +26,7 @@ from aurora_cli.src.base.constants.other import (
 from aurora_cli.src.base.models.psdk_model import PsdkModel
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
-from aurora_cli.src.base.utils.output import echo_stdout, echo_stdout_verbose
+from aurora_cli.src.base.utils.output import echo_stdout
 from aurora_cli.src.base.utils.shell import shell_exec_command
 from aurora_cli.src.base.utils.text_file import (
     file_exist_in_line,
@@ -36,7 +36,7 @@ from aurora_cli.src.base.utils.text_file import (
 )
 
 
-def psdk_sudoers_add_common(model: PsdkModel, verbose: bool):
+def psdk_sudoers_add_common(model: PsdkModel):
     for item in [[MER_SDK_CHROOT_PATH, MER_SDK_CHROOT_DATA], [SDK_CHROOT_PATH, SDK_CHROOT_DATA]]:
         path = Path(item[0])
         tool = Path(model.get_tool_path())
@@ -53,10 +53,8 @@ def psdk_sudoers_add_common(model: PsdkModel, verbose: bool):
             file_permissions_644(path)
             echo_stdout(TextSuccess.psdk_sudoers_add_success(model.version, str(path)))
 
-    echo_stdout_verbose(verbose)
 
-
-def psdk_sudoers_remove_common(model: PsdkModel, verbose: bool):
+def psdk_sudoers_remove_common(model: PsdkModel):
     for path in [MER_SDK_CHROOT_PATH, SDK_CHROOT_PATH]:
         path = Path(path)
         tool = Path(model.get_tool_path())
@@ -70,5 +68,3 @@ def psdk_sudoers_remove_common(model: PsdkModel, verbose: bool):
         file_remove_line(path, str(tool.parent))
         file_permissions_644(path)
         echo_stdout(TextSuccess.psdk_sudoers_remove_success(model.version, str(path)))
-
-    echo_stdout_verbose(verbose)

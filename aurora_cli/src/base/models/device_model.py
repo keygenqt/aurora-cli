@@ -22,6 +22,7 @@ from paramiko.client import SSHClient
 
 from aurora_cli.src.base.interface.model_client import ModelClient
 from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.output import OutResult, OutResultError, echo_stdout
 from aurora_cli.src.base.utils.prompt import prompt_model_select
 from aurora_cli.src.base.utils.ssh import ssh_client_connect
@@ -49,14 +50,14 @@ class DeviceModel(ModelClient):
         )
 
     @staticmethod
-    def get_model_by_host(host: str, verbose: bool):
+    def get_model_by_host(host: str):
         try:
             models = DeviceModel.get_lists_devices()
             list_index = [model.host for model in DeviceModel.get_lists_devices()].index(host)
             return models[list_index]
         except (Exception,):
-            echo_stdout(OutResultError(TextError.device_not_found_error(host)), verbose)
-            exit(1)
+            echo_stdout(OutResultError(TextError.device_not_found_error(host)))
+            app_exit()
 
     @staticmethod
     @click.pass_context

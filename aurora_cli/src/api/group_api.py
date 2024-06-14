@@ -27,7 +27,7 @@ from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.texts.app_group import TextGroup
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.utils.argv import argv_is_test
-from aurora_cli.src.base.utils.output import echo_stdout, OutResultError
+from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, echo_verbose
 from aurora_cli.src.base.utils.route import get_arg_bool
 
 
@@ -38,19 +38,17 @@ def group_api(route: str):
         sys.argv.append('api')
         AppConfig.create_test()
     try:
-        # common value
-        verbose = get_arg_bool(route, 'verbose')
-        # search route
-        if search_route_device(route, verbose):
-            return
-        if search_route_emulator(route, verbose):
-            return
-        if search_route_flutter(route, verbose):
-            return
-        if search_route_psdk(route, verbose):
-            return
-        if search_route_sdk(route, verbose):
-            return
+        for func in [
+            search_route_device,
+            search_route_emulator,
+            search_route_flutter,
+            search_route_psdk,
+            search_route_sdk,
+        ]:
+            if func(route):
+                echo_verbose(get_arg_bool(route, 'verbose'))
+                exit(0)
+
         echo_stdout(OutResultError(TextError.route_not_found()))
     except Exception as e:
         echo_stdout(OutResultError(str(e)))

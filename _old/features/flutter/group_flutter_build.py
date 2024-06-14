@@ -24,6 +24,8 @@ from aurora_cli.src.support.helper import find_path_file, prompt_index
 from aurora_cli.src.support.output import echo_stdout, echo_stderr
 from aurora_cli.src.support.texts import AppTexts
 
+from aurora_cli.src.base.utils.app import app_exit
+
 build_script = '''#!/bin/bash
 
 ###################################################
@@ -140,7 +142,7 @@ def group_flutter_build(index: int, apm: bool, yes: bool):
     versions = get_list_flutter_installed()
     if not versions:
         echo_stderr(AppTexts.flutter_not_found())
-        exit(0)
+        app_exit()
 
     # Select flutter
     echo_stdout(AppTexts.select_versions(versions))
@@ -157,7 +159,7 @@ def group_flutter_build(index: int, apm: bool, yes: bool):
     file_spec = find_path_file('spec', Path(f'{application}/aurora/rpm'))
     if not file_spec or not file_spec.is_file():
         echo_stderr(AppTexts.flutter_project_read_spec_error())
-        exit(1)
+        app_exit()
 
     # Get path to launch.json
     vscode_dir = Path(f'{os.getcwd()}/.vscode')
@@ -166,7 +168,7 @@ def group_flutter_build(index: int, apm: bool, yes: bool):
 
     if build_path.is_file() and not yes:
         if not click.confirm(AppTexts.flutter_build_script_confirm()):
-            exit(0)
+            app_exit(0)
 
     # Create .gdbinit app flutter
     with open(build_path, 'w') as file:

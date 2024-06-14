@@ -26,6 +26,7 @@ from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
+from aurora_cli.src.base.utils.output import echo_verbose
 from aurora_cli.src.base.utils.prompt import prompt_flutter_select_version
 from aurora_cli.src.cli.flutter.__tools import cli_flutter_tool_select_model
 from aurora_cli.src.cli.flutter.subgroup_flutter_project import subgroup_flutter_project
@@ -44,13 +45,15 @@ def group_flutter():
 @group_flutter.command(name='available', help=TextCommand.command_flutter_available())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def available(verbose: bool):
-    flutter_available_common(verbose)
+    flutter_available_common()
+    echo_verbose(verbose)
 
 
 @group_flutter.command(name='installed', help=TextCommand.command_flutter_installed())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def installed(verbose: bool):
-    flutter_installed_common(verbose)
+    flutter_installed_common()
+    echo_verbose(verbose)
 
 
 @group_flutter.command(name='install', help=TextCommand.command_flutter_install())
@@ -58,11 +61,13 @@ def installed(verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def install(select: bool, verbose: bool):
     version = prompt_flutter_select_version(select)
-    flutter_install_common(version, verbose)
+    flutter_install_common(version)
+    echo_verbose(verbose)
 
 
 @group_flutter.command(name='remove', help=TextCommand.command_flutter_remove())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def remove(verbose: bool):
-    model = cli_flutter_tool_select_model(True, None, verbose)
-    flutter_remove_common(model, verbose)
+    model = cli_flutter_tool_select_model(True, None)
+    flutter_remove_common(model)
+    echo_verbose(verbose)

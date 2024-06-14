@@ -25,9 +25,11 @@ from aurora_cli.src.base.texts.app_group import TextGroup
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.utils.abort import abort_text_end, abort_text_start
 from aurora_cli.src.base.utils.app import app_crash_out
+from aurora_cli.src.base.utils.argv import argv_is_verbose
 from aurora_cli.src.base.utils.capturing_std import CapturingStderr, CapturingStdout
 from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
-from aurora_cli.src.base.utils.output import echo_stdout
+from aurora_cli.src.base.utils.exceptions import AppExit
+from aurora_cli.src.base.utils.output import echo_stdout, echo_verbose
 from aurora_cli.src.cli.device.group_device import group_device, init_subgroups_device
 from aurora_cli.src.cli.emulator.group_emulator import group_emulator, init_subgroups_emulator
 from aurora_cli.src.cli.flutter.group_flutter import group_flutter, init_subgroups_flutter
@@ -84,5 +86,7 @@ if __name__ == '__main__':
         except click.exceptions.Abort:
             abort_text_start()
             abort_text_end()
+        except AppExit:
+            echo_verbose(argv_is_verbose())
     except Exception as e:
         app_crash_out(e)

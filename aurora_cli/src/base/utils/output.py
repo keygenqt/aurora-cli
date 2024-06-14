@@ -71,25 +71,19 @@ class OutResultInfo(OutResult):
     code: EchoJsonCode = EchoJsonCode.info
 
 
-def echo_stdout_verbose(verbose: bool):
-    echo_stdout(None, verbose)
-
-
 def echo_stdout(
         out: OutResult | str | None,
-        verbose: bool = False,
         newlines: int = 1,
         prefix: str = '',
 ):
     if argv_is_api():
-        _echo_stdout_json(out, verbose)
+        _echo_stdout_json(out)
     else:
-        _echo_stdout_shell(out, verbose, newlines, prefix)
+        _echo_stdout_shell(out, newlines, prefix)
 
 
 def _echo_stdout_shell(
         out: OutResult | str | None,
-        verbose: bool = False,
         newlines: int = 1,
         prefix: str = ''
 ):
@@ -103,25 +97,27 @@ def _echo_stdout_shell(
                     click.echo()
             if not out.message and out.value:
                 click.echo(out.value)
-    if verbose:
-        for exec_command in verbose_seize_map():
-            echo_stdout(OutResult(TextInfo.command_execute(exec_command['command'])))
-            if 'time' in exec_command:
-                echo_stdout(OutResult(TextInfo.command_execute_time(exec_command['time'])))
-            if 'stdout' in exec_command and exec_command['stdout']:
-                echo_stdout(OutResult('\n'.join(exec_command['stdout'])))
-            if 'stderr' in exec_command and exec_command['stderr']:
-                echo_stdout(OutResult('\n'.join(exec_command['stderr'])))
 
 
 def _echo_stdout_json(
         out: OutResult | None,
-        verbose: bool = False
 ):
     if out is not None:
         data = out.to_map()
-    else:
-        data = {}
+        click.echo(json.dumps(data, indent=2, ensure_ascii=False))
+
+
+def echo_verbose(verbose: bool):
     if verbose:
-        data['verbose'] = verbose_seize_map()
-    click.echo(json.dumps(data, indent=2, ensure_ascii=False))
+        if argv_is_api():
+            data = {'verbose': verbose_seize_map()}
+            click.echo(json.dumps(data, indent=2, ensure_ascii=False))
+        else:
+            for exec_command in verbose_seize_map():
+                echo_stdout(OutResult(TextInfo.command_execute(exec_command['command'])))
+                if 'time' in exec_command:
+                    echo_stdout(OutResult(TextInfo.command_execute_time(exec_command['time'])))
+                if 'stdout' in exec_command and exec_command['stdout']:
+                    echo_stdout(OutResult('\n'.join(exec_command['stdout'])))
+                if 'stderr' in exec_command and exec_command['stderr']:
+                    echo_stdout(OutResult('\n'.join(exec_command['stderr'])))

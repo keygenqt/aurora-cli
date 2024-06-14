@@ -14,17 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from aurora_cli.src.base.models.device_model import DeviceModel
-from aurora_cli.src.base.utils.app import app_exit
-from aurora_cli.src.base.utils.output import echo_stdout
 
+class AppExit(RuntimeError):
+    __slots__ = ("exit_code",)
 
-def cli_device_tool_select_model(
-        select: bool,
-        index: int | None,
-) -> DeviceModel:
-    result_model = DeviceModel.get_model_select(select, index)
-    if result_model.is_error():
-        echo_stdout(result_model)
-        app_exit()
-    return DeviceModel.get_model_by_host(result_model.value)
+    def __init__(self, code: int = 1) -> None:
+        self.exit_code: int = code

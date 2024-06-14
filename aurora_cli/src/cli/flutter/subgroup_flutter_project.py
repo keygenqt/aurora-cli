@@ -29,10 +29,16 @@ from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
+from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.utils.app import app_exit
+from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, echo_verbose
 from aurora_cli.src.cli.device.__tools import cli_device_tool_select_model
 from aurora_cli.src.cli.flutter.__tools import cli_flutter_tool_select_model
-from aurora_cli.src.cli.psdk.__tools import cli_psdk_tool_select_model_psdk, cli_psdk_tool_select_target_psdk, \
+from aurora_cli.src.cli.psdk.__tools import (
+    cli_psdk_tool_select_model_psdk,
+    cli_psdk_tool_select_target_psdk,
     cli_psdk_tool_select_model_sign
+)
 
 
 @click.group(name='project', help=TextGroup.subgroup_flutter_project())
@@ -47,25 +53,39 @@ def subgroup_flutter_project():
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def project_format(path: str | None, select: bool, index: int | None, verbose: bool):
     path = Path(path) if path else Path.cwd()
-    model = cli_flutter_tool_select_model(select, index, verbose)
-    flutter_project_format_common(model, path, verbose)
+    model = cli_flutter_tool_select_model(select, index)
+    flutter_project_format_common(model, path)
+    echo_verbose(verbose)
 
 
 @subgroup_flutter_project.command(name='build', help=TextCommand.command_project_build())
-@click.option('-m', '--mode', default='release',
-              type=click.Choice(['release', 'profile', 'debug'], case_sensitive=False),
-              help=TextArgument.argument_mode_build())
 @click.option('-p', '--path', type=click.STRING, required=False, help=TextArgument.argument_path_to_project())
+@click.option('-d', '--debug', is_flag=True, help=TextArgument.argument_debug())
+@click.option('-c', '--clean', is_flag=True, help=TextArgument.argument_clean())
 @click.option('-i', '--install', is_flag=True, help=TextArgument.argument_install())
 @click.option('-a', '--apm', is_flag=True, help=TextArgument.argument_apm())
 @click.option('-r', '--run', is_flag=True, help=TextArgument.argument_run())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def project_build(mode: str, path: str | None, install: bool, apm: bool, run: bool, select: bool, verbose: bool):
+def project_build(
+        path: str | None,
+        debug: bool,
+        clean: bool,
+        install: bool,
+        apm: bool,
+        run: bool,
+        select: bool,
+        verbose: bool
+):
+    if install and apm and debug:
+        echo_stdout(OutResultError(TextError.debug_apm_error()))
+        app_exit()
+
     path = Path(path) if path else Path.cwd()
-    model_flutter = cli_flutter_tool_select_model(select, None, verbose)
-    model_psdk = cli_psdk_tool_select_model_psdk(select, None, verbose)
-    target = cli_psdk_tool_select_target_psdk(model_psdk, verbose)
+    model_flutter = cli_flutter_tool_select_model(select, None)
+
+    model_psdk = cli_psdk_tool_select_model_psdk(select, None)
+    target = cli_psdk_tool_select_target_psdk(model_psdk)
 
     model_keys = None
     if install:
@@ -73,7 +93,7 @@ def project_build(mode: str, path: str | None, install: bool, apm: bool, run: bo
 
     model_device = None
     if (install or run) and '86_64' not in target:
-        model_device = cli_device_tool_select_model(select, None, verbose)
+        model_device = cli_device_tool_select_model(select, None)
 
     flutter_project_build_common(
         model_flutter=model_flutter,
@@ -81,13 +101,15 @@ def project_build(mode: str, path: str | None, install: bool, apm: bool, run: bo
         model_device=model_device,
         model_keys=model_keys,
         target=target,
-        mode=mode,
+        debug=debug,
+        clean=clean,
         project=path,
         is_install=install,
         is_apm=apm,
         is_run=run,
-        verbose=verbose,
     )
+
+    echo_verbose(verbose)
 
 
 @subgroup_flutter_project.command(name='debug', help=TextCommand.command_project_debug())
@@ -97,16 +119,21 @@ def project_build(mode: str, path: str | None, install: bool, apm: bool, run: bo
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def project_debug(path: str | None, select: bool, index: int | None, verbose: bool):
     path = Path(path) if path else Path.cwd()
-    model = cli_flutter_tool_select_model(select, index, verbose)
-    flutter_project_debug_common(model, path, verbose)
+    model = cli_flutter_tool_select_model(select, index)
+    flutter_project_debug_common(model, path)
+    echo_verbose(verbose)
 
 
 @subgroup_flutter_project.command(name='report', help=TextCommand.command_flutter_project_report())
 @click.option('-p', '--path', type=click.STRING, required=False, help=TextArgument.argument_path_to_project())
+@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
+@click.option('-i', '--index', type=click.INT, default=None, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def project_report(path: str | None, verbose: bool):
+def project_report(path: str | None, select: bool, index: int | None, verbose: bool):
     path = Path(path) if path else Path.cwd()
-    flutter_project_report_common(path, verbose)
+    model = cli_flutter_tool_select_model(select, index)
+    flutter_project_report_common(model, path)
+    echo_verbose(verbose)
 
 
 @subgroup_flutter_project.command(name='icons', help=TextCommand.command_project_icon())
@@ -115,4 +142,5 @@ def project_report(path: str | None, verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def project_icons(image: str, path: str | None, verbose: bool):
     path = Path(path) if path else Path.cwd()
-    flutter_project_icons_common(path, Path(image), verbose)
+    flutter_project_icons_common(path, Path(image))
+    echo_verbose(verbose)

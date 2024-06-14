@@ -116,12 +116,12 @@ class TextSuccessRu(Enum):
         return '<green>Проект успешно отформатирован.</green>'
 
     @staticmethod
-    def flutter_project_report_success():
-        return '<green>Генерация отчета прошла успешно.</green>'
+    def flutter_project_report_success(path: str):
+        return f'<green>Генерация отчета прошла успешно.</green> {path}'
 
     @staticmethod
-    def psdk_sign_success():
-        return '<green>Подпись выполнена успешно.</green>'
+    def psdk_sign_success(file_name: str):
+        return f'<green>Подпись выполнена успешно:</green> {file_name}'
 
     @staticmethod
     def psdk_targets_get_success(version: str, targets: []):

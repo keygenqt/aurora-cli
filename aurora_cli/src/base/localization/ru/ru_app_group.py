@@ -75,7 +75,7 @@ Platform SDK https://developer.auroraos.ru/doc/software_development/psdk
 
     @staticmethod
     def subgroup_psdk_project():
-        return 'Работа с проектами C++.'
+        return 'Работа с проектами Аврора.'
 
     @staticmethod
     def subgroup_psdk_sudoers():

@@ -27,6 +27,7 @@ from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
+from aurora_cli.src.base.utils.output import echo_verbose
 from aurora_cli.src.cli.psdk.__tools import (
     cli_psdk_tool_select_model_psdk,
     cli_psdk_tool_select_model_sign,
@@ -45,9 +46,10 @@ def subgroup_psdk_package():
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_search(package: str, select: bool, index: int, verbose: bool):
-    model = cli_psdk_tool_select_model_psdk(select, index, verbose)
-    target = cli_psdk_tool_select_target_psdk(model, select)
-    psdk_package_search_common(model, target, package, verbose)
+    model = cli_psdk_tool_select_model_psdk(select, index)
+    target = cli_psdk_tool_select_target_psdk(model)
+    psdk_package_search_common(model, target, package)
+    echo_verbose(verbose)
 
 
 @subgroup_psdk_package.command(name='install', help=TextCommand.command_psdk_package_install())
@@ -56,9 +58,10 @@ def package_search(package: str, select: bool, index: int, verbose: bool):
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_install(path: str, select: bool, index: int, verbose: bool):
-    model = cli_psdk_tool_select_model_psdk(select, index, verbose)
-    target = cli_psdk_tool_select_target_psdk(model, verbose)
-    psdk_package_install_common(model, target, path, verbose)
+    model = cli_psdk_tool_select_model_psdk(select, index)
+    target = cli_psdk_tool_select_target_psdk(model)
+    psdk_package_install_common(model, target, path)
+    echo_verbose(verbose)
 
 
 @subgroup_psdk_package.command(name='remove', help=TextCommand.command_psdk_package_remove())
@@ -67,9 +70,10 @@ def package_install(path: str, select: bool, index: int, verbose: bool):
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_remove(package: str, select: bool, index: int, verbose: bool):
-    model = cli_psdk_tool_select_model_psdk(select, index, verbose)
-    target = cli_psdk_tool_select_target_psdk(model, verbose)
-    psdk_package_remove_common(model, target, package, verbose)
+    model = cli_psdk_tool_select_model_psdk(select, index)
+    target = cli_psdk_tool_select_target_psdk(model)
+    psdk_package_remove_common(model, target, package)
+    echo_verbose(verbose)
 
 
 @subgroup_psdk_package.command(name='validate', help=TextCommand.command_psdk_validate())
@@ -81,9 +85,10 @@ def package_remove(package: str, select: bool, index: int, verbose: bool):
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_validate(path: str, profile: str, select: bool, index: int, verbose: bool):
-    model = cli_psdk_tool_select_model_psdk(select, index, verbose)
-    target = cli_psdk_tool_select_target_psdk(model, verbose)
-    psdk_package_validate_common(model, target, path, profile, verbose)
+    model = cli_psdk_tool_select_model_psdk(select, index)
+    target = cli_psdk_tool_select_target_psdk(model)
+    psdk_package_validate_common(model, target, path, profile)
+    echo_verbose(verbose)
 
 
 @subgroup_psdk_package.command(name='sign', help=TextCommand.command_psdk_sign())
@@ -92,6 +97,7 @@ def package_validate(path: str, profile: str, select: bool, index: int, verbose:
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_sign(path: str, select: bool, index: int, verbose: bool):
-    model_psdk = cli_psdk_tool_select_model_psdk(select, index, verbose)
+    model_psdk = cli_psdk_tool_select_model_psdk(select, index)
     model_keys = cli_psdk_tool_select_model_sign(select, index)
-    psdk_package_sign_common(model_psdk, model_keys, path, verbose)
+    psdk_package_sign_common(model_psdk, model_keys, [path])
+    echo_verbose(verbose)

@@ -28,43 +28,38 @@ from aurora_cli.src.base.utils.output import echo_stdout, OutResult
 from aurora_cli.src.base.utils.route import get_route_root, get_arg_bool, get_arg_str
 
 
-def search_route_device(route: str, verbose: bool) -> bool:
+def search_route_device(route: str) -> bool:
     match get_route_root(route):
         case '/device/list':
             echo_stdout(OutResult(
                 value=[device.to_dict() for device in DeviceModel.get_lists_devices()]
-            ), verbose)
+            ))
         case '/device/command':
             device_command_common(
-                model=DeviceModel.get_model_by_host(get_arg_str(route, 'host'), verbose),
+                model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
                 execute=get_arg_str(route, 'execute'),
-                verbose=verbose
             )
         case '/device/upload':
             device_upload_common(
-                model=DeviceModel.get_model_by_host(get_arg_str(route, 'host'), verbose),
+                model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
                 path=get_arg_str(route, 'path'),
-                verbose=verbose
             )
         case '/device/package/run':
             device_package_run_common(
-                model=DeviceModel.get_model_by_host(get_arg_str(route, 'host'), verbose),
+                model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
                 package=get_arg_str(route, 'package'),
-                verbose=verbose
             )
         case '/device/package/install':
             device_package_install_common(
-                model=DeviceModel.get_model_by_host(get_arg_str(route, 'host'), verbose),
+                model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
                 path=get_arg_str(route, 'path'),
                 apm=get_arg_bool(route, 'apm'),
-                verbose=verbose
             )
         case '/device/package/remove':
             device_package_remove_common(
-                model=DeviceModel.get_model_by_host(get_arg_str(route, 'host'), verbose),
+                model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
                 package=get_arg_str(route, 'package'),
                 apm=get_arg_bool(route, 'apm'),
-                verbose=verbose
             )
         case _:
             return False

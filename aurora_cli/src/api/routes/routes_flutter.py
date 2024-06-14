@@ -29,56 +29,66 @@ from aurora_cli.src.base.common.groups.flutter.flutter_project_features import (
     flutter_project_debug_common,
     flutter_project_icons_common,
 )
+from aurora_cli.src.base.models.device_model import DeviceModel
 from aurora_cli.src.base.models.flutter_model import FlutterModel
-from aurora_cli.src.base.utils.route import get_route_root, get_arg_str
+from aurora_cli.src.base.models.psdk_model import PsdkModel
+from aurora_cli.src.base.models.sign_model import SignModel
+from aurora_cli.src.base.utils.route import get_route_root, get_arg_str, get_arg_str_optional, get_arg_bool
 
 
-def search_route_flutter(route: str, verbose: bool) -> bool:
+def search_route_flutter(route: str) -> bool:
     match get_route_root(route):
         case '/flutter/available':
-            flutter_available_common(verbose)
+            flutter_available_common()
         case '/flutter/installed':
-            flutter_installed_common(verbose)
+            flutter_installed_common()
         case '/flutter/install':
             flutter_install_common(
                 version=get_arg_str(route, 'version'),
-                verbose=verbose,
                 is_bar=False
             )
         case '/flutter/remove':
             flutter_remove_common(
-                model=FlutterModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
-                verbose=verbose
+                model=FlutterModel.get_model_by_version(get_arg_str(route, 'version')),
             )
         case '/flutter/project/format':
             flutter_project_format_common(
-                model=FlutterModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
+                model=FlutterModel.get_model_by_version(get_arg_str(route, 'version')),
                 project=Path(get_arg_str(route, 'path')),
-                verbose=verbose,
                 is_bar=False
             )
         case '/flutter/project/build':
+            model_device = None
+            host = get_arg_str_optional(route, 'host')
+            if host:
+                model_device = DeviceModel.get_model_by_host(host)
             flutter_project_build_common(
-                model=FlutterModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
+                model_flutter=FlutterModel.get_model_by_version(get_arg_str(route, 'version')),
+                model_psdk=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
+                model_device=model_device,
+                model_keys=SignModel.get_model_by_name(get_arg_str_optional(route, 'name')),
+                target=get_arg_str(route, 'target'),
+                debug=get_arg_bool(route, 'debug'),
+                clean=get_arg_bool(route, 'clean'),
                 project=Path(get_arg_str(route, 'path')),
-                verbose=verbose
+                is_apm=get_arg_bool(route, 'is_apm'),
+                is_install=get_arg_bool(route, 'is_install'),
+                is_run=get_arg_bool(route, 'is_run'),
+                is_bar=False,
             )
         case '/flutter/project/debug':
             flutter_project_debug_common(
-                model=FlutterModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
+                model=FlutterModel.get_model_by_version(get_arg_str(route, 'version')),
                 project=Path(get_arg_str(route, 'path')),
-                verbose=verbose
             )
         case '/flutter/project/report':
             flutter_project_report_common(
                 project=Path(get_arg_str(route, 'path')),
-                verbose=verbose
             )
         case '/flutter/project/icon':
             flutter_project_icons_common(
                 project=Path(get_arg_str(route, 'path')),
-                icon=Path(get_arg_str(route, 'icon')),
-                verbose=verbose
+                image=Path(get_arg_str(route, 'image')),
             )
         case _:
             return False

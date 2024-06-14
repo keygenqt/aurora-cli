@@ -52,6 +52,16 @@ class TextArgument(Enum):
 
     @staticmethod
     @localization
+    def argument_debug():
+        return 'Build mode debug.'
+
+    @staticmethod
+    @localization
+    def argument_clean():
+        return 'Build clean.'
+
+    @staticmethod
+    @localization
     def argument_run():
         return 'Run application on device or emulator.'
 

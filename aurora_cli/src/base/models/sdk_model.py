@@ -19,6 +19,7 @@ from pathlib import Path
 
 from aurora_cli.src.base.common.features.search_installed import search_installed_sdk
 from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError
 
 
@@ -28,22 +29,22 @@ class SdkModel:
     tool: Path
 
     @staticmethod
-    def get_model(verbose: bool):
+    def get_model():
         versions = SdkModel.get_versions_sdk()
         if not versions:
-            echo_stdout(OutResultError(TextError.sdk_not_found_error()), verbose)
-            exit(1)
-        return SdkModel.get_model_by_version(versions[0], verbose)
+            echo_stdout(OutResultError(TextError.sdk_not_found_error()))
+            app_exit()
+        return SdkModel.get_model_by_version(versions[0])
 
     @staticmethod
-    def get_model_by_version(version: str, verbose: bool):
+    def get_model_by_version(version: str):
         try:
             list_index = SdkModel.get_versions_sdk().index(version)
             path_tool = SdkModel.get_tools_sdk()[list_index]
             return SdkModel(Path(path_tool))
         except (Exception,):
-            echo_stdout(OutResultError(TextError.sdk_not_found_error(version)), verbose)
-            exit(1)
+            echo_stdout(OutResultError(TextError.sdk_not_found_error(version)))
+            app_exit()
 
     @staticmethod
     def get_versions_sdk() -> []:

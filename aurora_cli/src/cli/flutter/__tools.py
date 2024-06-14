@@ -15,16 +15,16 @@ limitations under the License.
 """
 
 from aurora_cli.src.base.models.flutter_model import FlutterModel
+from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.output import echo_stdout
 
 
 def cli_flutter_tool_select_model(
         select: bool,
         index: int | None,
-        verbose: bool,
 ) -> FlutterModel:
     result_model = FlutterModel.get_model_select(select, index)
     if result_model.is_error():
-        echo_stdout(result_model, verbose)
-        exit(1)
-    return FlutterModel.get_model_by_version(result_model.value, verbose)
+        echo_stdout(result_model)
+        app_exit()
+    return FlutterModel.get_model_by_version(result_model.value)

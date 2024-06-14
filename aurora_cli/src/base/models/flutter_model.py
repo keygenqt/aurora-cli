@@ -19,6 +19,7 @@ from pathlib import Path
 
 from aurora_cli.src.base.common.features.search_installed import search_installed_flutter
 from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.output import OutResult, echo_stdout, OutResultError
 from aurora_cli.src.base.utils.prompt import prompt_model_select
 
@@ -46,15 +47,15 @@ class FlutterModel:
         )
 
     @staticmethod
-    def get_model_by_version(version: str, verbose: bool):
+    def get_model_by_version(version: str):
         try:
             list_index = FlutterModel.get_versions_flutter().index(version)
             path_dart = FlutterModel.get_tools_dart()[list_index]
             path_flutter = FlutterModel.get_tools_flutter()[list_index]
             return FlutterModel(version, Path(path_flutter), Path(path_dart))
         except (Exception,):
-            echo_stdout(OutResultError(TextError.flutter_not_found_error(version)), verbose)
-            exit(1)
+            echo_stdout(OutResultError(TextError.flutter_not_found_error(version)))
+            app_exit()
 
     @staticmethod
     def get_versions_flutter() -> []:

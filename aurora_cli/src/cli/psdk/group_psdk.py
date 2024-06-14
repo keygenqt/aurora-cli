@@ -28,6 +28,7 @@ from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
+from aurora_cli.src.base.utils.output import echo_verbose
 from aurora_cli.src.base.utils.prompt import prompt_psdk_select_version
 from aurora_cli.src.cli.psdk.__tools import cli_psdk_tool_select_model_psdk, cli_psdk_tool_select_target_psdk
 from aurora_cli.src.cli.psdk.subgroup_psdk_package import subgroup_psdk_package
@@ -50,13 +51,15 @@ def group_psdk():
 @group_psdk.command(name='available', help=TextCommand.command_psdk_available())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def available(verbose: bool):
-    psdk_available_common(verbose)
+    psdk_available_common()
+    echo_verbose(verbose)
 
 
 @group_psdk.command(name='installed', help=TextCommand.command_psdk_installed())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def installed(verbose: bool):
-    psdk_installed_common(verbose)
+    psdk_installed_common()
+    echo_verbose(verbose)
 
 
 @group_psdk.command(help=TextCommand.command_psdk_targets())
@@ -64,8 +67,9 @@ def installed(verbose: bool):
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def targets(select: bool, index: int, verbose: bool):
-    model = cli_psdk_tool_select_model_psdk(select, index, verbose)
-    psdk_targets_common(model, verbose)
+    model = cli_psdk_tool_select_model_psdk(select, index)
+    psdk_targets_common(model)
+    echo_verbose(verbose)
 
 
 @group_psdk.command(name='install', help=TextCommand.command_psdk_install())
@@ -73,15 +77,17 @@ def targets(select: bool, index: int, verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def install(select: bool, verbose: bool):
     version = prompt_psdk_select_version(select)
-    psdk_install_common(version, verbose)
+    psdk_install_common(version)
+    echo_verbose(verbose)
 
 
 @group_psdk.command(name='remove', help=TextCommand.command_psdk_remove())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def remove(index: int, verbose: bool):
-    model = cli_psdk_tool_select_model_psdk(True, index, verbose)
-    psdk_remove_common(model, verbose)
+    model = cli_psdk_tool_select_model_psdk(True, index)
+    psdk_remove_common(model)
+    echo_verbose(verbose)
 
 
 @group_psdk.command(name='clear', help=TextCommand.command_psdk_clear())
@@ -89,6 +95,7 @@ def remove(index: int, verbose: bool):
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def clear(select: bool, index: int, verbose: bool):
-    model = cli_psdk_tool_select_model_psdk(select, index, verbose)
-    target = cli_psdk_tool_select_target_psdk(model, select)
-    psdk_clear_common(model, target, verbose)
+    model = cli_psdk_tool_select_model_psdk(select, index)
+    target = cli_psdk_tool_select_target_psdk(model)
+    psdk_clear_common(model, target)
+    echo_verbose(verbose)

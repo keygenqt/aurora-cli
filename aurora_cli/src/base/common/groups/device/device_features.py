@@ -24,12 +24,10 @@ from aurora_cli.src.base.models.device_model import DeviceModel
 def device_command_common(
         model: DeviceModel,
         execute: str,
-        verbose: bool
-): ssh_command_common(model, execute, verbose)
+): ssh_command_common(model, execute)
 
 
 def device_upload_common(
         model: DeviceModel,
         path: str,
-        verbose: bool
-): ssh_upload_common(model, path, verbose)
+): ssh_upload_common(model, path)

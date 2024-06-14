@@ -32,30 +32,21 @@ def psdk_package_search_common(
         model: PsdkModel,
         target: str,
         package: str,
-        verbose: bool
-):
-    result = shell_psdk_package_search(model.get_tool_path(), target, package)
-    echo_stdout(result, verbose)
+): echo_stdout(shell_psdk_package_search(model.get_tool_path(), target, package))
 
 
 def psdk_package_install_common(
         model: PsdkModel,
         target: str,
         path: str,
-        verbose: bool
-):
-    result = shell_psdk_package_install(model.get_tool_path(), target, path)
-    echo_stdout(result, verbose)
+): echo_stdout(shell_psdk_package_install(model.get_tool_path(), target, path))
 
 
 def psdk_package_remove_common(
         model: PsdkModel,
         target: str,
         package: str,
-        verbose: bool
-):
-    result = shell_psdk_package_remove(model.get_tool_path(), target, package)
-    echo_stdout(result, verbose)
+): echo_stdout(shell_psdk_package_remove(model.get_tool_path(), target, package))
 
 
 def psdk_package_validate_common(
@@ -63,29 +54,25 @@ def psdk_package_validate_common(
         target: str,
         path: str,
         profile: str,
-        verbose: bool
-):
-    result = shell_psdk_package_validate(model.get_tool_path(), target, path, profile)
-    echo_stdout(result, verbose)
+): echo_stdout(shell_psdk_package_validate(model.get_tool_path(), target, path, profile))
 
 
 def psdk_package_sign_common(
         model_psdk: PsdkModel,
         model_keys: SignModel | None,
-        path: str,
-        verbose: bool,
+        paths: [str],
         is_bar: bool = True
 ):
     if not model_keys:
         echo_stdout(OutResultInfo(TextInfo.psdk_sign_use_public_keys()))
-        keys = psdk_tool_get_open_keys(verbose, is_bar)
+        keys = psdk_tool_get_open_keys(is_bar)
         model_keys = SignModel('_', keys[0], keys[1])
 
-    result = shell_psdk_resign(
-        tool=model_psdk.get_tool_path(),
-        key=str(model_keys.key),
-        cert=str(model_keys.cert),
-        path=path
-    )
-
-    echo_stdout(result, verbose)
+    for path in paths:
+        result = shell_psdk_resign(
+            tool=model_psdk.get_tool_path(),
+            key=str(model_keys.key),
+            cert=str(model_keys.cert),
+            path=path
+        )
+        echo_stdout(result)

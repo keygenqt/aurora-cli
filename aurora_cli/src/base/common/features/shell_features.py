@@ -367,7 +367,7 @@ def shell_psdk_resign(
             return OutResultError(TextError.file_not_found_error(path))
         return result
 
-    return OutResult(TextSuccess.psdk_sign_success())
+    return OutResult(TextSuccess.psdk_sign_success(Path(path).name))
 
 
 @check_dependency(DependencyApps.sudo)

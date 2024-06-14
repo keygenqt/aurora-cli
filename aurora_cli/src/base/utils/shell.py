@@ -25,6 +25,7 @@ from typing import Callable
 from cffi.backend_ctypes import unicode
 
 from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResult
 from aurora_cli.src.base.utils.string import str_clear_line
 from aurora_cli.src.base.utils.verbose import verbose_add_map, verbose_command_start
@@ -38,7 +39,7 @@ def shell_exec_command(
 ) -> []:
     if not args:
         echo_stdout(OutResultError(TextError.shell_exec_command_empty()))
-        exit(1)
+        app_exit()
 
     stdout = []
     stderr = []
@@ -81,11 +82,12 @@ def shell_exec_command(
     except Exception as e:
         set_out(str(e), True)
 
-    verbose_add_map(
-        command=command,
-        stdout=stdout,
-        stderr=stderr,
-    )
+    if 'showvminfo' not in command:
+        verbose_add_map(
+            command=command,
+            stdout=stdout,
+            stderr=stderr,
+        )
 
     return stdout, stderr
 

@@ -17,7 +17,7 @@ limitations under the License.
 from abc import abstractmethod
 
 
-# Interface for model classes
+# Interface for model classes with ssh client
 class ModelClient:
     @abstractmethod
     def get_ssh_client(self):

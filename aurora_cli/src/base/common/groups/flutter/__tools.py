@@ -16,10 +16,11 @@ limitations under the License.
 
 from pathlib import Path
 
-from aurora_cli.src.base.common.features.search_installed import search_file_for_check_is_flutter_project
+from aurora_cli.src.base.common.features.search_files import search_file_for_check_is_flutter_project
 from aurora_cli.src.base.constants.app import PATH_CLANG_FORMAT_CONF_FLUTTER
 from aurora_cli.src.base.constants.url import URL_CLANG_FORMAT_CONF_FLUTTER
 from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.dependency import check_dependency, DependencyApps
 from aurora_cli.src.base.utils.download import check_with_download_files
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError
@@ -28,14 +29,13 @@ from aurora_cli.src.base.utils.output import echo_stdout, OutResultError
 def flutter_tool_check_is_project(path: Path):
     if not path.is_dir() or not search_file_for_check_is_flutter_project(path):
         echo_stdout(OutResultError(TextError.flutter_project_not_found(str(path))))
-        exit(1)
+        app_exit()
 
 
 @check_dependency(DependencyApps.clang_format)
-def flutter_tool_get_clang_format(verbose: bool, is_bar: bool) -> Path:
+def flutter_tool_get_clang_format(is_bar: bool) -> Path:
     return check_with_download_files(
         files=[PATH_CLANG_FORMAT_CONF_FLUTTER],
         urls=[URL_CLANG_FORMAT_CONF_FLUTTER],
-        verbose=verbose,
         is_bar=is_bar
     )[0]

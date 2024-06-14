@@ -25,6 +25,7 @@ from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
+from aurora_cli.src.base.utils.output import echo_verbose
 from aurora_cli.src.cli.emulator.__tools import cli_emulator_tool_select_model
 
 
@@ -37,8 +38,9 @@ def subgroup_emulator_package():
 @click.option('-p', '--package', type=click.STRING, required=True, help=TextArgument.argument_package_name())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_run(package: str, verbose: bool):
-    model = cli_emulator_tool_select_model(verbose)
-    emulator_package_run_common(model, package, verbose)
+    model = cli_emulator_tool_select_model()
+    emulator_package_run_common(model, package)
+    echo_verbose(verbose)
 
 
 @subgroup_emulator_package.command(name='install', help=TextCommand.command_emulator_package_install())
@@ -46,8 +48,9 @@ def package_run(package: str, verbose: bool):
 @click.option('-a', '--apm', is_flag=True, help=TextArgument.argument_apm())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_install(path: str, apm: bool, verbose: bool):
-    model = cli_emulator_tool_select_model(verbose, True)
-    emulator_package_install_common(model, path, apm, verbose)
+    model = cli_emulator_tool_select_model(True)
+    emulator_package_install_common(model, path, apm)
+    echo_verbose(verbose)
 
 
 @subgroup_emulator_package.command(name='remove', help=TextCommand.command_emulator_package_remove())
@@ -55,5 +58,6 @@ def package_install(path: str, apm: bool, verbose: bool):
 @click.option('-a', '--apm', is_flag=True, help=TextArgument.argument_apm())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_remove(package: str, apm: bool, verbose: bool):
-    model = cli_emulator_tool_select_model(verbose, True)
-    emulator_package_remove_common(model, package, apm, verbose)
+    model = cli_emulator_tool_select_model(True)
+    emulator_package_remove_common(model, package, apm)
+    echo_verbose(verbose)

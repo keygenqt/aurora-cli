@@ -211,7 +211,7 @@ def ssh_package_remove(
     stdout, stderr = ssh_exec_command(client, execute)
 
     if stdout and 'Invalid arguments' in stdout[0]:
-        prompt = "{'ShowPrompt': <false>}"
+        prompt = "{}"
         execute += f'"{prompt}"'
         stdout, stderr = ssh_exec_command(client, execute)
 

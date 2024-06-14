@@ -35,8 +35,8 @@ workdir: ~/Aurora
 ## Example:
 ## keys:
 ##   - name: Public
-##     key: ~/.aurora-cli/keys/regular_key.pem
-##     cert: ~/.aurora-cli/keys/regular_cert.pem
+##     key: ~/.aurora-cli/regular_key.pem
+##     cert: ~/.aurora-cli/regular_cert.pem
 keys: []
 
 ## Devices list

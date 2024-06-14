@@ -27,30 +27,30 @@ from aurora_cli.src.base.interface.model_client import ModelClient
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
+from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.argv import argv_is_test, argv_is_api
 from aurora_cli.src.base.utils.output import echo_stdout, OutResult
 
 
-def _get_ssh_client(model: ModelClient, verbose: bool) -> SSHClient:
+def _get_ssh_client(model: ModelClient) -> SSHClient:
     result = model.get_ssh_client()
     if result.is_error():
-        echo_stdout(result, verbose)
-        exit(1)
+        echo_stdout(result)
+        app_exit()
     return result.value
 
 
 def ssh_command_common(
         model: ModelClient,
         execute: str,
-        verbose: bool
 ):
-    client = _get_ssh_client(model, verbose)
+    client = _get_ssh_client(model)
     result = ssh_command(
         client=client,
         execute=execute
     )
     if result.is_error():
-        echo_stdout(result, verbose)
+        echo_stdout(result)
     else:
         echo_stdout(OutResult(
             message=TextSuccess.ssh_exec_command_success(
@@ -59,15 +59,14 @@ def ssh_command_common(
                 stderr='\n'.join(result.value['stderr'])
             ),
             value=result.value
-        ), verbose)
+        ))
 
 
 def ssh_upload_common(
         model: ModelClient,
         path: str,
-        verbose: bool
 ):
-    client = _get_ssh_client(model, verbose)
+    client = _get_ssh_client(model)
 
     def state_update(ab: AliveBarPercentage, percent: int):
         if argv_is_api():
@@ -86,16 +85,12 @@ def ssh_upload_common(
         listen_progress=lambda stdout: state_update(bar, stdout.value),
     ))
 
-    if verbose:
-        echo_stdout(OutResult(), verbose)
-
 
 def ssh_run_common(
         model: ModelClient,
         package: str,
-        verbose: bool,
 ):
-    client = _get_ssh_client(model, verbose)
+    client = _get_ssh_client(model)
 
     def echo_stdout_with_check_close(stdout: OutResult | None):
         echo_stdout(stdout)
@@ -106,18 +101,17 @@ def ssh_run_common(
         listen_stdout=lambda stdout: echo_stdout_with_check_close(stdout),
         listen_stderr=lambda stderr: echo_stdout(stderr)
     )
-    if verbose or result.is_error():
-        echo_stdout(result, verbose)
+    if result.is_error():
+        echo_stdout(result)
 
 
 def ssh_install_common(
         model: ModelClient,
         path: str,
         apm: bool,
-        verbose: bool,
         devel_su: str | None = None
 ):
-    client = _get_ssh_client(model, verbose)
+    client = _get_ssh_client(model)
 
     def state_update(ab: AliveBarPercentage, percent: int):
         if argv_is_api():
@@ -131,41 +125,40 @@ def ssh_install_common(
 
     bar = AliveBarPercentage()
 
-    echo_stdout(ssh_rpm_install(
+    result = ssh_rpm_install(
         client=client,
         path=path,
         apm=apm,
         listen_progress=lambda stdout: state_update(bar, stdout.value),
         devel_su=devel_su
-    ))
+    )
 
-    if verbose:
-        echo_stdout(OutResult(), verbose)
+    echo_stdout(result)
+    if result.is_error():
+        app_exit()
 
 
 def ssh_remove_common(
         model: ModelClient,
         package: str,
         apm: bool,
-        verbose: bool,
         devel_su: str | None = None
 ):
-    client = _get_ssh_client(model, verbose)
+    client = _get_ssh_client(model)
 
     echo_stdout(ssh_package_remove(
         client=client,
         package=package,
         apm=apm,
         devel_su=devel_su
-    ), verbose)
+    ))
 
 
 def ssh_check_package(
         model: ModelClient,
         package: str,
-        verbose: bool
 ) -> bool:
-    client = _get_ssh_client(model, verbose)
+    client = _get_ssh_client(model)
     result = ssh_command(
         client=client,
         execute=f'ls /usr/bin/{package}'

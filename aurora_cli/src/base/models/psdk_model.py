@@ -21,6 +21,7 @@ from aurora_cli.src.base.common.features.search_installed import search_installe
 from aurora_cli.src.base.common.features.shell_features import shell_psdk_targets
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
+from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.output import OutResult, echo_stdout, OutResultError, OutResultInfo
 from aurora_cli.src.base.utils.prompt import prompt_model_select
 
@@ -58,14 +59,14 @@ class PsdkModel:
         )
 
     @staticmethod
-    def get_model_by_version(version: str, verbose: bool):
+    def get_model_by_version(version: str):
         try:
             list_index = PsdkModel.get_versions_psdk().index(version)
             path_tool = PsdkModel.get_tools_psdk()[list_index]
             return PsdkModel(Path(path_tool), version)
         except (Exception,):
-            echo_stdout(OutResultError(TextError.psdk_not_found_error(version)), verbose)
-            exit(1)
+            echo_stdout(OutResultError(TextError.psdk_not_found_error(version)))
+            app_exit()
 
     @staticmethod
     def get_versions_psdk() -> []:

@@ -32,7 +32,6 @@ from aurora_cli.src.base.utils.output import echo_stdout, OutResultInfo, OutResu
 def git_clone(
         url: str,
         path: Path,
-        verbose: bool,
         is_bar: bool = True
 ) -> Repo:
     bar = AliveBarPercentage()
@@ -49,16 +48,16 @@ def git_clone(
         echo_stdout(OutResultInfo(TextInfo.git_clone_start(url)))
 
         repo = _git_clone(url, path, bar_update)
-        echo_stdout(OutResult(TextSuccess.git_clone_success()), verbose)
+        echo_stdout(OutResult(TextSuccess.git_clone_success()))
         return repo
     except GitCommandError as e:
         bar.stop()
         if 'code(-2)' in str(e):
             raise click.exceptions.Abort
         else:
-            echo_stdout(OutResultError(TextError.git_clone_error()), verbose)
+            echo_stdout(OutResultError(TextError.git_clone_error()))
     except (Exception,):
-        echo_stdout(OutResultError(TextError.git_clone_error()), verbose)
+        echo_stdout(OutResultError(TextError.git_clone_error()))
 
 
 def _git_clone(

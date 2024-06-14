@@ -18,10 +18,9 @@ from aurora_cli.src.base.models.emulator_model import EmulatorModel
 
 
 def cli_emulator_tool_select_model(
-        verbose: bool,
         is_root: bool = False,
 ) -> EmulatorModel:
     if is_root:
-        return EmulatorModel.get_model_root(verbose)
+        return EmulatorModel.get_model_root()
     else:
-        return EmulatorModel.get_model_user(verbose)
+        return EmulatorModel.get_model_user()

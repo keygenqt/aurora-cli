@@ -139,13 +139,13 @@ Good luck 👋'''
 
     @staticmethod
     @localization
-    def flutter_project_report_success():
-        return '<green>Report generation was successful.</green>'
+    def flutter_project_report_success(path: str):
+        return f'<green>Report generation was successful:</green> {path}'
 
     @staticmethod
     @localization
-    def psdk_sign_success():
-        return '<green>The signature was completed successfully.</green>'
+    def psdk_sign_success(file_name: str):
+        return f'<green>The signature was completed successfully:</green> {file_name}'
 
     @staticmethod
     @localization

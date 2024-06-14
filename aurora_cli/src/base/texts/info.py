@@ -136,12 +136,22 @@ class TextInfo(Enum):
     @staticmethod
     @localization
     def flutter_project_format_cpp_done():
-        return '<blue>C++ formatting is complete.</blue>'
+        return '<blue>Aurora formatting is complete.</blue>'
 
     @staticmethod
     @localization
     def flutter_project_format_dart_done():
         return '<blue>Dart formatting is complete.</blue>'
+
+    @staticmethod
+    @localization
+    def flutter_project_pub_get():
+        return '<blue>Retrieving project dependencies...</blue>'
+
+    @staticmethod
+    @localization
+    def flutter_gen_plugins_report():
+        return '<blue>Generating a report on project plugins...</blue>'
 
     @staticmethod
     @localization

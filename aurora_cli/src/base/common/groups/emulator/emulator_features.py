@@ -25,6 +25,7 @@ from aurora_cli.src.base.models.emulator_model import EmulatorModel
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
+from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.convert import convert_video
 from aurora_cli.src.base.utils.dependency import check_dependency, DependencyApps
 from aurora_cli.src.base.utils.output import OutResult, OutResultError, OutResultInfo, echo_stdout
@@ -35,26 +36,24 @@ from aurora_cli.src.base.utils.shell import shell_exec_command
 def emulator_command_common(
         model: EmulatorModel,
         execute: str,
-        verbose: bool
 ):
-    emulator_tool_check_is_not_run(model, verbose)
-    ssh_command_common(model, execute, verbose)
+    emulator_tool_check_is_not_run(model)
+    ssh_command_common(model, execute)
 
 
 def emulator_upload_common(
         model: EmulatorModel,
         path: str,
-        verbose: bool
 ):
-    emulator_tool_check_is_not_run(model, verbose)
-    ssh_upload_common(model, path, verbose)
+    emulator_tool_check_is_not_run(model)
+    ssh_upload_common(model, path)
 
 
 @check_dependency(DependencyApps.vboxmanage)
-def emulator_start_common(model: EmulatorModel, verbose: bool):
+def emulator_start_common(model: EmulatorModel):
     if model.is_on:
-        echo_stdout(OutResultInfo(TextInfo.emulator_start_locked()), verbose)
-        exit(1)
+        echo_stdout(OutResultInfo(TextInfo.emulator_start_locked()))
+        app_exit()
 
     stdout, stderr = shell_exec_command([
         VM_MANAGE,
@@ -63,17 +62,17 @@ def emulator_start_common(model: EmulatorModel, verbose: bool):
     ])
     if stderr:
         if 'already locked' in stderr[0]:
-            echo_stdout(OutResultInfo(TextInfo.emulator_start_locked()), verbose)
-            exit(1)
+            echo_stdout(OutResultInfo(TextInfo.emulator_start_locked()))
+            app_exit()
         else:
-            echo_stdout(OutResultError(TextError.emulator_start_error()), verbose)
-            exit(1)
-    echo_stdout(OutResult(TextSuccess.emulator_start_success()), verbose)
+            echo_stdout(OutResultError(TextError.emulator_start_error()))
+            app_exit()
+    echo_stdout(OutResult(TextSuccess.emulator_start_success()))
 
 
 @check_dependency(DependencyApps.vboxmanage)
-def emulator_screenshot_common(model: EmulatorModel, verbose: bool):
-    emulator_tool_check_is_not_run(model, verbose)
+def emulator_screenshot_common(model: EmulatorModel):
+    emulator_tool_check_is_not_run(model)
 
     screenshots = Path.home() / 'Pictures' / 'Screenshots'
     if not screenshots.is_dir():
@@ -89,21 +88,21 @@ def emulator_screenshot_common(model: EmulatorModel, verbose: bool):
         screenshot
     ])
     if stdout or stderr:
-        echo_stdout(OutResultError(TextError.emulator_screenshot_error()), verbose)
-        exit(1)
+        echo_stdout(OutResultError(TextError.emulator_screenshot_error()))
+        app_exit()
 
     echo_stdout(OutResult(
         message=TextSuccess.emulator_screenshot_success(screenshot),
         value=screenshot
-    ), verbose)
+    ))
 
 
 @check_dependency(DependencyApps.vboxmanage, DependencyApps.ffmpeg)
-def emulator_recording_start_common(model: EmulatorModel, verbose: bool):
-    emulator_tool_check_is_not_run(model, verbose)
+def emulator_recording_start_common(model: EmulatorModel):
+    emulator_tool_check_is_not_run(model)
     if model.is_record:
-        echo_stdout(OutResultError(TextError.emulator_already_running_recording()), verbose)
-        exit(1)
+        echo_stdout(OutResultError(TextError.emulator_already_running_recording()))
+        app_exit()
 
     stdout, stderr = shell_exec_command([
         VM_MANAGE,
@@ -113,17 +112,20 @@ def emulator_recording_start_common(model: EmulatorModel, verbose: bool):
         'on'
     ])
     if stdout or stderr:
-        echo_stdout(OutResultError(TextError.emulator_recording_video_start_error()), verbose)
-        exit(1)
-    echo_stdout(OutResult(TextSuccess.emulator_recording_video_start()), verbose)
+        echo_stdout(OutResultError(TextError.emulator_recording_video_start_error()))
+        app_exit()
+    echo_stdout(OutResult(TextSuccess.emulator_recording_video_start()))
 
 
 @check_dependency(DependencyApps.vboxmanage, DependencyApps.ffmpeg)
-def emulator_recording_stop_common(model: EmulatorModel, verbose: bool):
-    emulator_tool_check_is_not_run(model, verbose)
+def emulator_recording_stop_common(
+        model: EmulatorModel,
+        save: bool
+):
+    emulator_tool_check_is_not_run(model)
     if not model.is_record:
-        echo_stdout(OutResultError(TextError.emulator_not_running_recording()), verbose)
-        exit(1)
+        echo_stdout(OutResultError(TextError.emulator_not_running_recording()))
+        app_exit()
 
     e_path = model.path
     e_name = model.name
@@ -131,8 +133,8 @@ def emulator_recording_stop_common(model: EmulatorModel, verbose: bool):
     s_path = Path.home() / 'Videos' / path_gen_file_name('Video_from_', 'mp4')
 
     if not v_path.is_file():
-        echo_stdout(OutResultError(TextError.emulator_recording_video_file_not_found()), verbose)
-        exit(1)
+        echo_stdout(OutResultError(TextError.emulator_recording_video_file_not_found()))
+        app_exit()
 
     if not s_path.parent.is_dir():
         s_path.parent.mkdir(parents=True, exist_ok=True)
@@ -146,10 +148,12 @@ def emulator_recording_stop_common(model: EmulatorModel, verbose: bool):
     ])
     if stdout or stderr:
         OutResultError(TextError.emulator_recording_video_stop_error())
+        app_exit()
 
-    result = convert_video(v_path, s_path)
-    if result.is_error():
-        echo_stdout(result, verbose)
-        exit(1)
+    if save:
+        result = convert_video(v_path, s_path)
+        if result.is_error():
+            echo_stdout(result)
+            app_exit()
 
-    echo_stdout(OutResult(TextSuccess.emulator_recording_video_stop_with_save(str(s_path))), verbose)
+    echo_stdout(OutResult(TextSuccess.emulator_recording_video_stop_with_save(str(s_path))))

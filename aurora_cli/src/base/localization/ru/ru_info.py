@@ -113,6 +113,14 @@ class TextInfoRu(Enum):
         return '<blue>Форматирование Dart окончено.</blue>'
 
     @staticmethod
+    def flutter_project_pub_get():
+        return '<blue>Получение зависимостей проекта...</blue>'
+
+    @staticmethod
+    def flutter_gen_plugins_report():
+        return '<blue>Генерация отчета по плагинам проекта...</blue>'
+
+    @staticmethod
     def file_check_and_download():
         return f'<blue>Качаем необходимые файлы...</blue>'
 

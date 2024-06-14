@@ -30,6 +30,8 @@ from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
 from aurora_cli.src.base.texts.prompt import TextPrompt
 from aurora_cli.src.base.utils.abort import abort_catch, abort_text_start, abort_text_end
+from aurora_cli.src.base.utils.app import app_exit
+from aurora_cli.src.base.utils.output import echo_verbose
 from aurora_cli.src.cli.emulator.__tools import cli_emulator_tool_select_model
 from aurora_cli.src.cli.emulator.subgroup_emulator_package import subgroup_emulator_package
 
@@ -48,45 +50,49 @@ def group_emulator():
 @click.option('-e', '--execute', type=click.STRING, required=True, help=TextArgument.argument_execute_emulator())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def command(execute: str, verbose: bool):
-    model = cli_emulator_tool_select_model(verbose)
-    emulator_command_common(model, execute, verbose)
+    model = cli_emulator_tool_select_model()
+    emulator_command_common(model, execute)
+    echo_verbose(verbose)
 
 
 @group_emulator.command(name='upload', help=TextCommand.command_emulator_upload())
 @click.option('-p', '--path', type=click.STRING, required=True, help=TextArgument.argument_path())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def upload(path: str, verbose: bool):
-    model = cli_emulator_tool_select_model(verbose)
-    emulator_upload_common(model, path, verbose)
+    model = cli_emulator_tool_select_model()
+    emulator_upload_common(model, path)
+    echo_verbose(verbose)
 
 
 @group_emulator.command(name='start', help=TextCommand.command_emulator_start())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def start(verbose: bool):
-    model = cli_emulator_tool_select_model(verbose)
-    emulator_start_common(model, verbose)
+    model = cli_emulator_tool_select_model()
+    emulator_start_common(model)
+    echo_verbose(verbose)
 
 
 @group_emulator.command(name='screenshot', help=TextCommand.command_emulator_screenshot())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def screenshot(verbose: bool):
-    model = cli_emulator_tool_select_model(verbose)
-    emulator_screenshot_common(model, verbose)
+    model = cli_emulator_tool_select_model()
+    emulator_screenshot_common(model)
+    echo_verbose(verbose)
 
 
 @group_emulator.command(name='recording', help=TextCommand.command_emulator_recording())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def recording(verbose: bool):
-    model = cli_emulator_tool_select_model(verbose)
-    emulator_recording_start_common(model, verbose)
-    model = cli_emulator_tool_select_model(verbose)
+    model = cli_emulator_tool_select_model()
+    emulator_recording_start_common(model)
+    model = cli_emulator_tool_select_model()
 
     def stop_record_and_exit():
         print('')
         abort_text_start()
-        emulator_recording_stop_common(model, verbose)
+        emulator_recording_stop_common(model, save=False)
         abort_text_end()
-        exit(0)
+        app_exit(0)
 
     abort_catch(lambda: stop_record_and_exit())
 
@@ -96,4 +102,5 @@ def recording(verbose: bool):
         default='Enter',
         hide_input=True
     )
-    emulator_recording_stop_common(model, verbose)
+    emulator_recording_stop_common(model, save=True)
+    echo_verbose(verbose)

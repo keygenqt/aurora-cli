@@ -41,111 +41,109 @@ from aurora_cli.src.base.common.groups.psdk.psdk_sudoers_features import (
     psdk_sudoers_add_common,
     psdk_sudoers_remove_common
 )
+from aurora_cli.src.base.models.device_model import DeviceModel
 from aurora_cli.src.base.models.psdk_model import PsdkModel
 from aurora_cli.src.base.models.sign_model import SignModel
-from aurora_cli.src.base.utils.route import get_route_root, get_arg_str, get_arg_str_optional
+from aurora_cli.src.base.utils.route import get_route_root, get_arg_str, get_arg_str_optional, get_arg_bool
 
 
-def search_route_psdk(route: str, verbose: bool) -> bool:
+def search_route_psdk(route: str) -> bool:
     match get_route_root(route):
         case '/psdk/available':
-            psdk_available_common(verbose)
+            psdk_available_common()
         case '/psdk/installed':
-            psdk_installed_common(verbose)
+            psdk_installed_common()
         case '/psdk/targets':
             psdk_targets_common(
-                model=PsdkModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
-                verbose=verbose
+                model=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
             )
         case '/psdk/install':
             psdk_install_common(
                 version=get_arg_str(route, 'version'),
-                verbose=verbose,
                 is_bar=False
             )
         case '/psdk/remove':
             psdk_remove_common(
-                model=PsdkModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
-                verbose=verbose
+                model=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
             )
         case '/psdk/clear':
             psdk_clear_common(
-                model=PsdkModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
+                model=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
                 target=get_arg_str(route, 'target'),
-                verbose=verbose
             )
         case '/psdk/sudoers/add':
             psdk_sudoers_add_common(
-                model=PsdkModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
-                verbose=verbose
+                model=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
             )
         case '/psdk/sudoers/remove':
             psdk_sudoers_remove_common(
-                model=PsdkModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
-                verbose=verbose
+                model=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
             )
         case '/psdk/package/search':
             psdk_package_search_common(
-                model=PsdkModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
+                model=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
                 target=get_arg_str(route, 'target'),
                 package=get_arg_str(route, 'package'),
-                verbose=verbose
             )
         case '/psdk/package/install':
             psdk_package_install_common(
-                model=PsdkModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
+                model=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
                 target=get_arg_str(route, 'target'),
                 path=get_arg_str(route, 'path'),
-                verbose=verbose
             )
         case '/psdk/package/remove':
             psdk_package_remove_common(
-                model=PsdkModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
+                model=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
                 target=get_arg_str(route, 'target'),
                 package=get_arg_str(route, 'package'),
-                verbose=verbose
             )
         case '/psdk/package/validate':
             psdk_package_validate_common(
-                model=PsdkModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
+                model=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
                 target=get_arg_str(route, 'target'),
                 path=get_arg_str(route, 'path'),
                 profile=get_arg_str(route, 'profile'),
-                verbose=verbose
             )
         case '/psdk/package/sign':
             psdk_package_sign_common(
-                model_psdk=PsdkModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
+                model_psdk=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
                 model_keys=SignModel.get_model_by_name(get_arg_str_optional(route, 'name')),
-                path=get_arg_str(route, 'path'),
-                verbose=verbose,
+                paths=[get_arg_str(route, 'path')],
                 is_bar=False
             )
         case '/psdk/project/format':
             psdk_project_format_common(
                 project=Path(get_arg_str(route, 'path')),
-                verbose=verbose,
                 is_bar=False
             )
         case '/psdk/project/build':
+            model_device = None
+            host = get_arg_str_optional(route, 'host')
+            if host:
+                model_device = DeviceModel.get_model_by_host(host)
             psdk_project_build_common(
-                model=PsdkModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
+                model_psdk=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
+                model_device=model_device,
+                model_keys=SignModel.get_model_by_name(get_arg_str_optional(route, 'name')),
                 target=get_arg_str(route, 'target'),
+                debug=get_arg_bool(route, 'debug'),
+                clean=get_arg_bool(route, 'clean'),
                 project=Path(get_arg_str(route, 'path')),
-                verbose=verbose
+                is_apm=get_arg_bool(route, 'is_apm'),
+                is_install=get_arg_bool(route, 'is_install'),
+                is_run=get_arg_bool(route, 'is_run'),
+                is_bar=False,
             )
         case '/psdk/project/debug':
             psdk_project_debug_common(
-                model=PsdkModel.get_model_by_version(get_arg_str(route, 'version'), verbose),
+                model=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
                 target=get_arg_str(route, 'target'),
                 project=Path(get_arg_str(route, 'path')),
-                verbose=verbose
             )
         case '/psdk/project/icon':
             psdk_project_icons_common(
                 project=Path(get_arg_str(route, 'path')),
-                icon=Path(get_arg_str(route, 'icon')),
-                verbose=verbose
+                image=Path(get_arg_str(route, 'image')),
             )
         case _:
             return False

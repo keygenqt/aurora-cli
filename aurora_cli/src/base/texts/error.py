@@ -332,7 +332,7 @@ class TextError(Enum):
     @staticmethod
     @localization
     def psdk_project_not_found(path: str):
-        return f'<red>C++ project not found:</red> {path}'
+        return f'<red>Aurora project not found:</red> {path}'
 
     @staticmethod
     @localization
@@ -373,3 +373,23 @@ class TextError(Enum):
     @localization
     def search_application_id_error():
         return '<red>Failed to read application ID.</red>'
+
+    @staticmethod
+    @localization
+    def arch_not_found():
+        return '<red>Architecture type not found.</red>'
+
+    @staticmethod
+    @localization
+    def debug_apm_error():
+        return '<red>Installation of debug packages for apm is not available.</red>'
+
+    @staticmethod
+    @localization
+    def flutter_read_json_error():
+        return '<red>Failed to retrieve package data.</red>'
+
+    @staticmethod
+    @localization
+    def flutter_read_yaml_error():
+        return '<red>Failed to read pubspec file.</red>'

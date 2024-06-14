@@ -16,10 +16,11 @@ limitations under the License.
 
 from aurora_cli.src.base.models.emulator_model import EmulatorModel
 from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.output import OutResultError, echo_stdout
 
 
-def emulator_tool_check_is_not_run(model: EmulatorModel, verbose: bool):
+def emulator_tool_check_is_not_run(model: EmulatorModel):
     if not model.is_on:
-        echo_stdout(OutResultError(TextError.emulator_not_found_running()), verbose)
-        exit(1)
+        echo_stdout(OutResultError(TextError.emulator_not_found_running()))
+        app_exit()

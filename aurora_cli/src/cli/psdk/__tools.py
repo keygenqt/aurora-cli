@@ -16,29 +16,28 @@ limitations under the License.
 
 from aurora_cli.src.base.models.psdk_model import PsdkModel
 from aurora_cli.src.base.models.sign_model import SignModel
+from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.output import echo_stdout
 
 
 def cli_psdk_tool_select_model_psdk(
         select: bool,
         index: int | None,
-        verbose: bool,
 ) -> PsdkModel:
     result_model = PsdkModel.get_model_select(select, index)
     if result_model.is_error():
-        echo_stdout(result_model, verbose)
-        exit(1)
-    return PsdkModel.get_model_by_version(result_model.value, verbose)
+        echo_stdout(result_model)
+        app_exit()
+    return PsdkModel.get_model_by_version(result_model.value)
 
 
 def cli_psdk_tool_select_target_psdk(
         model: PsdkModel,
-        verbose: bool,
 ) -> str:
     result_target = model.get_model_targets_select()
     if not result_target.is_success():
-        echo_stdout(result_target, verbose)
-        exit(1)
+        echo_stdout(result_target)
+        app_exit()
     return result_target.value
 
 

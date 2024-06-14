@@ -24,6 +24,7 @@ from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
+from aurora_cli.src.base.utils.output import echo_verbose
 from aurora_cli.src.cli.device.__tools import cli_device_tool_select_model
 from aurora_cli.src.cli.device.subgroup_device_package import subgroup_device_package
 
@@ -44,8 +45,9 @@ def group_device():
 @click.option('-i', '--index', type=click.INT, default=None, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def command(execute: str, select: bool, index: int | None, verbose: bool):
-    model = cli_device_tool_select_model(select, index, verbose)
-    device_command_common(model, execute, verbose)
+    model = cli_device_tool_select_model(select, index)
+    device_command_common(model, execute)
+    echo_verbose(verbose)
 
 
 @group_device.command(name='upload', help=TextCommand.command_device_upload())
@@ -54,5 +56,6 @@ def command(execute: str, select: bool, index: int | None, verbose: bool):
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def upload(path: str, select: bool, index: int, verbose: bool):
-    model = cli_device_tool_select_model(select, index, verbose)
-    device_upload_common(model, path, verbose)
+    model = cli_device_tool_select_model(select, index)
+    device_upload_common(model, path)
+    echo_verbose(verbose)

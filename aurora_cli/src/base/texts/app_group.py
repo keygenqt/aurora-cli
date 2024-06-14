@@ -90,7 +90,7 @@ This is a third party tool written by enthusiasts!'''
     @staticmethod
     @localization
     def subgroup_psdk_project():
-        return 'Working with projects C++.'
+        return 'Working with projects Aurora.'
 
     @staticmethod
     @localization

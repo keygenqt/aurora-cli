@@ -31,59 +31,50 @@ from aurora_cli.src.base.models.emulator_model import EmulatorModel
 from aurora_cli.src.base.utils.route import get_route_root, get_arg_bool, get_arg_str
 
 
-def search_route_emulator(route: str, verbose: bool) -> bool:
+def search_route_emulator(route: str) -> bool:
     match get_route_root(route):
         case '/emulator/command':
             emulator_command_common(
-                model=EmulatorModel.get_model_user(verbose),
+                model=EmulatorModel.get_model_user(),
                 execute=get_arg_str(route, 'execute'),
-                verbose=verbose
             )
         case '/emulator/upload':
             emulator_upload_common(
-                model=EmulatorModel.get_model_user(verbose),
+                model=EmulatorModel.get_model_user(),
                 path=get_arg_str(route, 'path'),
-                verbose=verbose
             )
         case '/emulator/package/run':
             emulator_package_run_common(
-                model=EmulatorModel.get_model_user(verbose),
+                model=EmulatorModel.get_model_user(),
                 package=get_arg_str(route, 'package'),
-                verbose=verbose
             )
         case '/emulator/package/install':
             emulator_package_install_common(
-                model=EmulatorModel.get_model_root(verbose),
+                model=EmulatorModel.get_model_root(),
                 path=get_arg_str(route, 'path'),
                 apm=get_arg_bool(route, 'apm'),
-                verbose=verbose
             )
         case '/emulator/package/remove':
             emulator_package_remove_common(
-                model=EmulatorModel.get_model_root(verbose),
+                model=EmulatorModel.get_model_root(),
                 package=get_arg_str(route, 'package'),
                 apm=get_arg_bool(route, 'apm'),
-                verbose=verbose
             )
         case '/emulator/start':
             emulator_start_common(
-                model=EmulatorModel.get_model_user(verbose),
-                verbose=verbose
+                model=EmulatorModel.get_model_user(),
             )
         case '/emulator/screenshot':
             emulator_screenshot_common(
-                model=EmulatorModel.get_model_user(verbose),
-                verbose=verbose
+                model=EmulatorModel.get_model_user(),
             )
         case '/emulator/recording/start':
             emulator_recording_start_common(
-                model=EmulatorModel.get_model_user(verbose),
-                verbose=verbose
+                model=EmulatorModel.get_model_user(),
             )
         case '/emulator/recording/stop':
             emulator_recording_stop_common(
-                model=EmulatorModel.get_model_user(verbose),
-                verbose=verbose
+                model=EmulatorModel.get_model_user(),
             )
         case _:
             return False

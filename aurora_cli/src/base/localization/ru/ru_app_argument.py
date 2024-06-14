@@ -43,6 +43,14 @@ class TextArgumentRu(Enum):
         return 'Установите на устройство или эмулятор.'
 
     @staticmethod
+    def argument_debug():
+        return 'Режим сборки с отладкой.'
+
+    @staticmethod
+    def argument_clean():
+        return 'Очистка сборки.'
+
+    @staticmethod
     def argument_run():
         return 'Запустите приложение на устройстве или эмуляторе.'
 

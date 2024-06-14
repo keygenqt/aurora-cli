@@ -25,6 +25,7 @@ from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
+from aurora_cli.src.base.utils.output import echo_verbose
 from aurora_cli.src.cli.device.__tools import cli_device_tool_select_model
 
 
@@ -39,8 +40,9 @@ def subgroup_device_package():
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_run(package: str, select: bool, index: int, verbose: bool):
-    model = cli_device_tool_select_model(select, index, verbose)
-    device_package_run_common(model, package, verbose)
+    model = cli_device_tool_select_model(select, index)
+    device_package_run_common(model, package)
+    echo_verbose(verbose)
 
 
 @subgroup_device_package.command(name='install', help=TextCommand.command_device_package_install())
@@ -50,8 +52,9 @@ def package_run(package: str, select: bool, index: int, verbose: bool):
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_install(path: str, apm: bool, select: bool, index: int, verbose: bool):
-    model = cli_device_tool_select_model(select, index, verbose)
-    device_package_install_common(model, path, apm, verbose)
+    model = cli_device_tool_select_model(select, index)
+    device_package_install_common(model, path, apm)
+    echo_verbose(verbose)
 
 
 @subgroup_device_package.command(name='remove', help=TextCommand.command_device_package_remove())
@@ -61,5 +64,6 @@ def package_install(path: str, apm: bool, select: bool, index: int, verbose: boo
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_remove(package: str, apm: bool, select: bool, index: int, verbose: bool):
-    model = cli_device_tool_select_model(select, index, verbose)
-    device_package_remove_common(model, package, apm, verbose)
+    model = cli_device_tool_select_model(select, index)
+    device_package_remove_common(model, package, apm)
+    echo_verbose(verbose)

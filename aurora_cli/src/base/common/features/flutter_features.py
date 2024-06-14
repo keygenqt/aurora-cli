@@ -22,7 +22,7 @@ from aurora_cli.src.base.utils.percent_cli import percent_point, percent_counter
 from aurora_cli.src.base.utils.shell import shell_exec_command, shell_check_error_out
 
 
-def flutter_clear(
+def flutter_project_clear(
         flutter: str,
         path: Path,
         progress: Callable[[int], None]
@@ -44,7 +44,7 @@ def flutter_clear(
     return OutResult(TextSuccess.flutter_clear_success())
 
 
-def flutter_get_pub(
+def flutter_project_get_pub(
         flutter: str,
         path: Path,
         progress: Callable[[int], None]
@@ -75,7 +75,7 @@ def flutter_get_pub(
     return OutResult(TextSuccess.flutter_get_pub_success())
 
 
-def flutter_run_build_runner(
+def flutter_project_run_build_runner(
         flutter: str,
         path: Path,
         progress: Callable[[int], None]
@@ -106,11 +106,11 @@ def flutter_run_build_runner(
     return OutResult(TextSuccess.flutter_run_build_runner_success())
 
 
-def flutter_build(
+def flutter_project_build(
         psdk_dir: str,
         target: str,
         flutter: str,
-        mode: str,
+        debug: bool,
         path: Path,
         progress: Callable[[int], None]
 ) -> OutResult:
@@ -135,6 +135,8 @@ def flutter_build(
         if 'x86_64' in target:
             return 'aurora-x64'
         return 'aurora-arm'
+
+    mode = 'debug' if debug else 'release'
 
     stdout, _ = shell_exec_command([
         flutter,

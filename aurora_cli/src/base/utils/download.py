@@ -30,6 +30,7 @@ from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.abort import abort_catch
 from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
+from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResultInfo, OutResult
 from aurora_cli.src.base.utils.path import path_get_download_path, path_convert_relative
 from aurora_cli.src.base.utils.request import request_check_url_download
@@ -43,7 +44,7 @@ def check_downloads(urls: []):
         result = request_check_url_download(url)
         if result.is_error():
             echo_stdout(result)
-            exit(1)
+            app_exit()
         files.append(path_get_download_path(result.value))
         echo_stdout(result)
         if result.is_success():
@@ -54,7 +55,6 @@ def check_downloads(urls: []):
 def check_with_download_files(
         files: [str],
         urls: [str],
-        verbose: bool,
         is_bar: bool = True
 ) -> [Path]:
     paths = []
@@ -66,7 +66,7 @@ def check_with_download_files(
 
     if downloads_urls:
         echo_stdout(OutResultInfo(TextInfo.file_check_and_download()))
-        downloads(downloads_urls, verbose, is_bar)
+        downloads(downloads_urls, is_bar)
 
     for i, file in enumerate(files):
         path = path_convert_relative(file)
@@ -80,7 +80,6 @@ def check_with_download_files(
 
 def downloads(
         urls: [],
-        verbose: bool,
         is_bar: bool = True
 ):
     abort = []
@@ -90,24 +89,24 @@ def downloads(
         match result:
             case DownloadCode.start.value:
                 bar.stop()
-                echo_stdout(OutResultError(TextError.start_download_error()), verbose)
-                exit(1)
+                echo_stdout(OutResultError(TextError.start_download_error()))
+                app_exit()
             case DownloadCode.download.value:
                 bar.stop()
-                echo_stdout(OutResultError(TextError.download_error()), verbose)
-                exit(1)
+                echo_stdout(OutResultError(TextError.download_error()))
+                app_exit()
             case DownloadCode.interrupted.value:
                 bar.stop()
                 if not is_bar:
-                    echo_stdout(OutResultError(TextError.abort_download_error()), verbose)
+                    echo_stdout(OutResultError(TextError.abort_download_error()))
                 abort.append(True)
             case DownloadCode.end.value:
-                echo_stdout(OutResult(TextSuccess.download_success()), verbose)
+                echo_stdout(OutResult(TextSuccess.download_success()))
             case _:
                 if is_bar:
                     bar.update(result)
                 else:
-                    echo_stdout(OutResultInfo(TextInfo.download_progress(), value=result), verbose)
+                    echo_stdout(OutResultInfo(TextInfo.download_progress(), value=result))
 
     _downloads(urls, lambda result: bar_update(result))
 

@@ -32,6 +32,8 @@ from aurora_cli.src.support.output import echo_stdout, echo_stderr
 from aurora_cli.src.support.texts import AppTexts
 from aurora_cli.src.support.versions import get_versions_flutter
 
+from aurora_cli.src.base.utils.app import app_exit
+
 
 @click.group(name='flutter')
 def group_flutter():
@@ -77,7 +79,7 @@ def install(latest: bool):
 
     if os.path.isdir(clone_path):
         echo_stderr(AppTexts.dir_already_exist(clone_path))
-        exit(1)
+        app_exit()
 
     # noinspection PyTypeChecker
     repo = Repo.clone_from(
@@ -101,7 +103,7 @@ def installed():
 
     if not versions:
         echo_stdout(AppTexts.flutter_installed_not_found())
-        exit(1)
+        app_exit()
 
     echo_stdout(AppTexts.flutter_installed_versions(versions))
 
@@ -114,7 +116,7 @@ def remove():
 
     if not versions:
         echo_stdout(AppTexts.flutter_installed_not_found())
-        exit(1)
+        app_exit()
 
     echo_stdout(AppTexts.select_versions(versions))
     echo_stdout(AppTexts.array_indexes(versions), 2)
@@ -129,7 +131,7 @@ def remove():
     path = Path.home() / '.local' / 'opt' / folder
 
     if not click.confirm(AppTexts.flutter_remove_confirm(str(path))):
-        exit(0)
+        app_exit()
 
     # Remove folder
     shutil.rmtree(path)

@@ -20,6 +20,7 @@ import traceback
 import click
 
 from aurora_cli.src.base.utils.argv import argv_is_verbose
+from aurora_cli.src.base.utils.exceptions import AppExit
 
 
 def app_crash_out(e: Exception):
@@ -29,7 +30,12 @@ def app_crash_out(e: Exception):
 
 
 def app_language() -> str:
+    return 'ru'
     if 'ru_RU' in os.getenv("LANG"):
         return 'ru'
     else:
         return 'en'
+
+
+def app_exit(code: int = 1):
+    raise AppExit(code)

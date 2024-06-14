@@ -253,7 +253,7 @@ class TextErrorRu(Enum):
 
     @staticmethod
     def psdk_project_not_found(path: str):
-        return f'<red>Проект C++ не найден:</red> {path}'
+        return f'<red>Проект Аврора не найден:</red> {path}'
 
     @staticmethod
     def project_format_error():
@@ -282,3 +282,19 @@ class TextErrorRu(Enum):
     @staticmethod
     def search_application_id_error():
         return '<red>Не удалось прочитать идентификатор приложения.</red>'
+
+    @staticmethod
+    def arch_not_found():
+        return '<red>Тип архитектуры не найден.</red>'
+
+    @staticmethod
+    def debug_apm_error():
+        return '<red>Установка debug пакетов для apm не доступна.</red>'
+
+    @staticmethod
+    def flutter_read_json_error():
+        return '<red>Не удалось получить данные пакетов.</red>'
+
+    @staticmethod
+    def flutter_read_yaml_error():
+        return '<red>Не удалось прочитать pubspec файл.</red>'

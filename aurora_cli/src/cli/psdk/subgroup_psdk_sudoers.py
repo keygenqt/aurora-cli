@@ -24,6 +24,7 @@ from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
+from aurora_cli.src.base.utils.output import echo_verbose
 from aurora_cli.src.cli.psdk.__tools import cli_psdk_tool_select_model_psdk
 
 
@@ -37,8 +38,9 @@ def subgroup_psdk_sudoers():
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def sudoers_add(select: bool, index: int, verbose: bool):
-    model = cli_psdk_tool_select_model_psdk(select, index, verbose)
-    psdk_sudoers_add_common(model, verbose)
+    model = cli_psdk_tool_select_model_psdk(select, index)
+    psdk_sudoers_add_common(model)
+    echo_verbose(verbose)
 
 
 @subgroup_psdk_sudoers.command(name='remove', help=TextCommand.command_psdk_sudoers_remove())
@@ -46,5 +48,6 @@ def sudoers_add(select: bool, index: int, verbose: bool):
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def sudoers_remove(select: bool, index: int, verbose: bool):
-    model = cli_psdk_tool_select_model_psdk(select, index, verbose)
-    psdk_sudoers_remove_common(model, verbose)
+    model = cli_psdk_tool_select_model_psdk(select, index)
+    psdk_sudoers_remove_common(model)
+    echo_verbose(verbose)

@@ -20,6 +20,7 @@ from enum import Enum
 
 from aurora_cli.src.base.constants.other import VM_MANAGE
 from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.output import OutResultError, echo_stdout
 
 
@@ -69,7 +70,7 @@ def _check_dependency_vboxmanage():
         subprocess.run([VM_MANAGE, '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except (Exception,):
         echo_stdout(OutResultError(TextError.dependency_not_found('VBoxManage')))
-        exit(1)
+        app_exit()
 
 
 def _check_dependency_ffmpeg():
@@ -77,7 +78,7 @@ def _check_dependency_ffmpeg():
         subprocess.run(['ffmpeg', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except (Exception,):
         echo_stdout(OutResultError(TextError.dependency_not_found('ffmpeg')))
-        exit(1)
+        app_exit()
 
 
 def _check_dependency_sudo():
@@ -85,7 +86,7 @@ def _check_dependency_sudo():
         subprocess.run(['sudo', '-V'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except (Exception,):
         echo_stdout(OutResultError(TextError.dependency_not_found('sudo')))
-        exit(1)
+        app_exit()
 
 
 def _check_dependency_git():
@@ -93,7 +94,7 @@ def _check_dependency_git():
         subprocess.run(['git', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except (Exception,):
         echo_stdout(OutResultError(TextError.dependency_not_found('git')))
-        exit(1)
+        app_exit()
 
 
 def _check_dependency_ssh():
@@ -101,7 +102,7 @@ def _check_dependency_ssh():
         subprocess.run(['ssh', '-V'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except (Exception,):
         echo_stdout(OutResultError(TextError.dependency_not_found('ssh')))
-        exit(1)
+        app_exit()
 
 
 def _check_dependency_clang_format():
@@ -109,7 +110,7 @@ def _check_dependency_clang_format():
         subprocess.run(['clang-format', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except (Exception,):
         echo_stdout(OutResultError(TextError.dependency_not_found('clang-format')))
-        exit(1)
+        app_exit()
 
 
 def _check_dependency_tar():
@@ -117,4 +118,4 @@ def _check_dependency_tar():
         subprocess.run(['tar', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except (Exception,):
         echo_stdout(OutResultError(TextError.dependency_not_found('clang-format')))
-        exit(1)
+        app_exit()

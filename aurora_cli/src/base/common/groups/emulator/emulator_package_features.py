@@ -26,37 +26,33 @@ from aurora_cli.src.base.models.emulator_model import EmulatorModel
 def emulator_package_run_common(
         model: EmulatorModel,
         package: str,
-        verbose: bool
 ):
-    emulator_tool_check_is_not_run(model, verbose)
-    ssh_run_common(model, package, verbose)
+    emulator_tool_check_is_not_run(model)
+    ssh_run_common(model, package)
 
 
 def emulator_package_install_common(
         model: EmulatorModel,
         path: str,
         apm: bool,
-        verbose: bool
 ):
-    emulator_tool_check_is_not_run(model, verbose)
-    ssh_install_common(model, path, apm, verbose)
+    emulator_tool_check_is_not_run(model)
+    ssh_install_common(model, path, apm)
 
 
 def emulator_package_remove_common(
         model: EmulatorModel,
         package: str,
         apm: bool,
-        verbose: bool
 ):
-    emulator_tool_check_is_not_run(model, verbose)
-    ssh_remove_common(model, package, apm, verbose)
+    emulator_tool_check_is_not_run(model)
+    ssh_remove_common(model, package, apm)
 
 
 def emulator_check_package_common(
         model: EmulatorModel,
         package: str,
-        verbose: bool
 ) -> bool:
     if not model.is_on:
         return False
-    return ssh_check_package(model, package, verbose)
+    return ssh_check_package(model, package)

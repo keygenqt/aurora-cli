@@ -25,6 +25,7 @@ from aurora_cli.src.base.common.features.search_installed import search_installe
 from aurora_cli.src.base.models.sdk_model import SdkModel
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.success import TextSuccess
+from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
 from aurora_cli.src.base.utils.download import check_downloads, downloads
 from aurora_cli.src.base.utils.output import echo_stdout, OutResult, OutResultError
@@ -32,23 +33,22 @@ from aurora_cli.src.base.utils.shell import shell_exec_app
 from aurora_cli.src.base.utils.url import get_url_version_sdk
 
 
-def sdk_available_common(verbose: bool):
-    echo_stdout(request_versions_sdk(), verbose)
+def sdk_available_common():
+    echo_stdout(request_versions_sdk())
 
 
-def sdk_installed_common(verbose: bool):
-    echo_stdout(search_installed_sdk(), verbose)
+def sdk_installed_common():
+    echo_stdout(search_installed_sdk())
 
 
 def sdk_install_common(
         version: str,
         offline: bool,
-        verbose: bool,
         is_bar: bool = True
 ):
     if SdkModel.get_versions_sdk():
-        echo_stdout(OutResultError(TextError.sdk_already_installed_error()), verbose)
-        exit(1)
+        echo_stdout(OutResultError(TextError.sdk_already_installed_error()))
+        app_exit()
 
     version_url = get_url_version_sdk(version)
     version_full = get_version_latest_by_url(version_url)
@@ -59,24 +59,24 @@ def sdk_install_common(
 
     if not download_url and not files:
         echo_stdout(TextError.get_install_info_error())
-        exit(1)
+        app_exit()
 
     if urls:
-        downloads(urls, verbose, is_bar)
+        downloads(urls, is_bar)
 
     run = Path(files[0])
 
     if shell_exec_app(run):
-        echo_stdout(OutResult(TextSuccess.shell_run_app_success(run.name)), verbose)
+        echo_stdout(OutResult(TextSuccess.shell_run_app_success(run.name)))
         disk_cache_clear()
     else:
-        echo_stdout(OutResultError(TextError.shell_run_app_error(run.name)), verbose)
+        echo_stdout(OutResultError(TextError.shell_run_app_error(run.name)))
 
 
-def sdk_tool_common(model: SdkModel, verbose: bool):
+def sdk_tool_common(model: SdkModel):
     tool = model.get_tool_path()
     if shell_exec_app(tool):
-        echo_stdout(OutResult(TextSuccess.shell_run_app_success(tool.name)), verbose)
+        echo_stdout(OutResult(TextSuccess.shell_run_app_success(tool.name)))
         disk_cache_clear()
     else:
-        echo_stdout(OutResultError(TextError.shell_run_app_error(tool.name)), verbose)
+        echo_stdout(OutResultError(TextError.shell_run_app_error(tool.name)))
