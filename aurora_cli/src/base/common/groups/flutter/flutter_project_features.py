@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+
 import json
 import re
 from pathlib import Path
@@ -233,7 +234,7 @@ def flutter_project_debug_common(
 
 
 def flutter_project_report_common(
-        model_flutter: FlutterModel,
+        model: FlutterModel,
         project: Path,
         is_bar: bool = True
 ):
@@ -271,7 +272,7 @@ def flutter_project_report_common(
     echo_stdout(OutResultInfo(TextInfo.flutter_project_pub_get()))
 
     out_check_result(flutter_project_get_pub(
-        flutter=model_flutter.get_tool_flutter(),
+        flutter=model.get_tool_flutter(),
         path=project,
         progress=lambda percent: out_progress(percent)
     ))
@@ -340,7 +341,10 @@ def flutter_project_report_common(
     echo_stdout(OutResult(TextSuccess.flutter_project_report_success(str(path_out)), value=path_out))
 
 
-def flutter_project_icons_common(project: Path, image: Path):
+def flutter_project_icons_common(
+        project: Path,
+        image: Path
+):
     flutter_tool_check_is_project(project)
     path_icons = project / 'aurora' / 'icons'
     result = image_crop_for_project(image, path_icons)

@@ -26,7 +26,10 @@ from aurora_cli.src.base.utils.percent_cli import percent_start, percent_counter
 from aurora_cli.src.base.utils.shell import shell_exec_command, shell_check_error_out
 
 
-def shell_dart_format(dart: str, path: str) -> OutResult:
+def shell_dart_format(
+        dart: str,
+        path: str
+) -> OutResult:
     stdout, stderr = shell_exec_command([
         dart,
         'format',
@@ -42,7 +45,10 @@ def shell_dart_format(dart: str, path: str) -> OutResult:
 
 
 @check_dependency(DependencyApps.clang_format)
-def shell_cpp_format(files: [Path], config: Path) -> OutResult:
+def shell_cpp_format(
+        files: [Path],
+        config: Path
+) -> OutResult:
     for file in files:
         stdout, stderr = shell_exec_command([
             'clang-format',
@@ -151,7 +157,10 @@ def shell_psdk_target_create(
 
 
 @check_dependency(DependencyApps.sudo)
-def shell_psdk_targets(tool: str, version: str) -> OutResult:
+def shell_psdk_targets(
+        tool: str,
+        version: str
+) -> OutResult:
     targets = []
     stdout, stderr = shell_exec_command([
         tool,
@@ -172,7 +181,10 @@ def shell_psdk_targets(tool: str, version: str) -> OutResult:
 
 
 @check_dependency(DependencyApps.sudo)
-def shell_psdk_clear(tool: str, target: str) -> OutResult:
+def shell_psdk_clear(
+        tool: str,
+        target: str
+) -> OutResult:
     stdout, stderr = shell_exec_command([
         tool,
         'sdk-assistant',

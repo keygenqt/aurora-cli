@@ -45,7 +45,12 @@ def subgroup_psdk_package():
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def package_search(package: str, select: bool, index: int, verbose: bool):
+def package_search(
+        package: str,
+        select: bool,
+        index: int,
+        verbose: bool
+):
     model = cli_psdk_tool_select_model_psdk(select, index)
     target = cli_psdk_tool_select_target_psdk(model)
     psdk_package_search_common(model, target, package)
@@ -57,7 +62,12 @@ def package_search(package: str, select: bool, index: int, verbose: bool):
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def package_install(path: str, select: bool, index: int, verbose: bool):
+def package_install(
+        path: str,
+        select: bool,
+        index: int,
+        verbose: bool
+):
     model = cli_psdk_tool_select_model_psdk(select, index)
     target = cli_psdk_tool_select_target_psdk(model)
     psdk_package_install_common(model, target, path)
@@ -69,7 +79,12 @@ def package_install(path: str, select: bool, index: int, verbose: bool):
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def package_remove(package: str, select: bool, index: int, verbose: bool):
+def package_remove(
+        package: str,
+        select: bool,
+        index: int,
+        verbose: bool
+):
     model = cli_psdk_tool_select_model_psdk(select, index)
     target = cli_psdk_tool_select_target_psdk(model)
     psdk_package_remove_common(model, target, package)
@@ -84,7 +99,13 @@ def package_remove(package: str, select: bool, index: int, verbose: bool):
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def package_validate(path: str, profile: str, select: bool, index: int, verbose: bool):
+def package_validate(
+        path: str,
+        profile: str,
+        select: bool,
+        index: int,
+        verbose: bool
+):
     model = cli_psdk_tool_select_model_psdk(select, index)
     target = cli_psdk_tool_select_target_psdk(model)
     psdk_package_validate_common(model, target, path, profile)
@@ -96,7 +117,12 @@ def package_validate(path: str, profile: str, select: bool, index: int, verbose:
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def package_sign(path: str, select: bool, index: int, verbose: bool):
+def package_sign(
+        path: str,
+        select: bool,
+        index: int,
+        verbose: bool
+):
     model_psdk = cli_psdk_tool_select_model_psdk(select, index)
     model_keys = cli_psdk_tool_select_model_sign(select, index)
     psdk_package_sign_common(model_psdk, model_keys, [path])

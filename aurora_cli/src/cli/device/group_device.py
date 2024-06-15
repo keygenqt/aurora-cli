@@ -44,7 +44,12 @@ def group_device():
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, default=None, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def command(execute: str, select: bool, index: int | None, verbose: bool):
+def command(
+        execute: str,
+        select: bool,
+        index: int | None,
+        verbose: bool
+):
     model = cli_device_tool_select_model(select, index)
     device_command_common(model, execute)
     echo_verbose(verbose)
@@ -55,7 +60,12 @@ def command(execute: str, select: bool, index: int | None, verbose: bool):
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def upload(path: str, select: bool, index: int, verbose: bool):
+def upload(
+        path: str,
+        select: bool,
+        index: int,
+        verbose: bool
+):
     model = cli_device_tool_select_model(select, index)
     device_upload_common(model, path)
     echo_verbose(verbose)

@@ -99,9 +99,7 @@ def _echo_stdout_shell(
                 click.echo(out.value)
 
 
-def _echo_stdout_json(
-        out: OutResult | None,
-):
+def _echo_stdout_json(out: OutResult | None):
     if out is not None:
         data = out.to_map()
         click.echo(json.dumps(data, indent=2, ensure_ascii=False))

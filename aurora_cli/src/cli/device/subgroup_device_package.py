@@ -39,7 +39,12 @@ def subgroup_device_package():
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def package_run(package: str, select: bool, index: int, verbose: bool):
+def package_run(
+        package: str,
+        select: bool,
+        index: int,
+        verbose: bool
+):
     model = cli_device_tool_select_model(select, index)
     device_package_run_common(model, package)
     echo_verbose(verbose)
@@ -51,7 +56,13 @@ def package_run(package: str, select: bool, index: int, verbose: bool):
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def package_install(path: str, apm: bool, select: bool, index: int, verbose: bool):
+def package_install(
+        path: str,
+        apm: bool,
+        select: bool,
+        index: int,
+        verbose: bool
+):
     model = cli_device_tool_select_model(select, index)
     device_package_install_common(model, path, apm)
     echo_verbose(verbose)
@@ -63,7 +74,13 @@ def package_install(path: str, apm: bool, select: bool, index: int, verbose: boo
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def package_remove(package: str, apm: bool, select: bool, index: int, verbose: bool):
+def package_remove(
+        package: str,
+        apm: bool,
+        select: bool,
+        index: int,
+        verbose: bool
+):
     model = cli_device_tool_select_model(select, index)
     device_package_remove_common(model, package, apm)
     echo_verbose(verbose)

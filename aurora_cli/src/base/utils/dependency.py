@@ -117,5 +117,5 @@ def _check_dependency_tar():
     try:
         subprocess.run(['tar', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except (Exception,):
-        echo_stdout(OutResultError(TextError.dependency_not_found('clang-format')))
+        echo_stdout(OutResultError(TextError.dependency_not_found('tar')))
         app_exit()

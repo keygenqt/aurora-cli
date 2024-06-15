@@ -42,7 +42,11 @@ from aurora_cli.src.cli.sdk.group_sdk import group_sdk
 @click.option('--config', help=TextArgument.argument_config(), type=click.STRING, required=False)
 @click.option('--clear-cache', is_flag=True, help=TextArgument.argument_clear_cache())
 @click.pass_context
-def main(ctx: {}, config: str, clear_cache: bool):
+def main(
+        ctx: {},
+        config: str,
+        clear_cache: bool
+):
     ctx.obj = AppConfig.create(config)
 
     if clear_cache:

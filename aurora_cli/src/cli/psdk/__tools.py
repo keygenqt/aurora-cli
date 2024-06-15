@@ -31,9 +31,7 @@ def cli_psdk_tool_select_model_psdk(
     return PsdkModel.get_model_by_version(result_model.value)
 
 
-def cli_psdk_tool_select_target_psdk(
-        model: PsdkModel,
-) -> str:
+def cli_psdk_tool_select_target_psdk(model: PsdkModel) -> str:
     result_target = model.get_model_targets_select()
     if not result_target.is_success():
         echo_stdout(result_target)

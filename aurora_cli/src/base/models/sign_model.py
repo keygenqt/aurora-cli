@@ -43,7 +43,11 @@ class SignModel:
         )
 
     @staticmethod
-    def get_model(name: str, key: Path, cert: Path):
+    def get_model(
+            name: str,
+            key: Path,
+            cert: Path
+    ):
         return SignModel(name, key, cert)
 
     @staticmethod

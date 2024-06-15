@@ -276,7 +276,10 @@ class TextErrorRu(Enum):
         return '<red>Пакет не прошел валидацию.</red>'
 
     @staticmethod
-    def image_size_icon_error(width: int, height: int):
+    def image_size_icon_error(
+            width: int,
+            height: int
+    ):
         return '<red>Минимальный размер изображения {}x{}.</red>'.format(width, height)
 
     @staticmethod

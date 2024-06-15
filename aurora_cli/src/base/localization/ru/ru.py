@@ -24,13 +24,20 @@ from aurora_cli.src.base.localization.ru.ru_prompt import TextPromptRu
 from aurora_cli.src.base.localization.ru.ru_success import TextSuccessRu
 
 
-def _ru_search(cls, key_fun: str):
+def _ru_search(
+        cls,
+        key_fun: str
+):
     for key_fun_ru in cls.__dict__:
         if key_fun == key_fun_ru:
             return getattr(cls, key_fun_ru)
 
 
-def ru_localization(key_fun: str, *args, **kwargs):
+def ru_localization(
+        key_fun: str,
+        *args,
+        **kwargs
+):
     ru_cls = [
         TextArgumentRu,
         TextCommandRu,

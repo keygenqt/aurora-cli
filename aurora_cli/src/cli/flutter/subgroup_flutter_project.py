@@ -51,7 +51,12 @@ def subgroup_flutter_project():
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, default=None, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def project_format(path: str | None, select: bool, index: int | None, verbose: bool):
+def project_format(
+        path: str | None,
+        select: bool,
+        index: int | None,
+        verbose: bool
+):
     path = Path(path) if path else Path.cwd()
     model = cli_flutter_tool_select_model(select, index)
     flutter_project_format_common(model, path)
@@ -117,7 +122,12 @@ def project_build(
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, default=None, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def project_debug(path: str | None, select: bool, index: int | None, verbose: bool):
+def project_debug(
+        path: str | None,
+        select: bool,
+        index: int | None,
+        verbose: bool
+):
     path = Path(path) if path else Path.cwd()
     model = cli_flutter_tool_select_model(select, index)
     flutter_project_debug_common(model, path)
@@ -129,7 +139,12 @@ def project_debug(path: str | None, select: bool, index: int | None, verbose: bo
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, default=None, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def project_report(path: str | None, select: bool, index: int | None, verbose: bool):
+def project_report(
+        path: str | None,
+        select: bool,
+        index: int | None,
+        verbose: bool
+):
     path = Path(path) if path else Path.cwd()
     model = cli_flutter_tool_select_model(select, index)
     flutter_project_report_common(model, path)
@@ -140,7 +155,11 @@ def project_report(path: str | None, select: bool, index: int | None, verbose: b
 @click.option('-i', '--image', type=click.STRING, help=TextArgument.argument_path_to_image())
 @click.option('-p', '--path', type=click.STRING, required=False, help=TextArgument.argument_path_to_project())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def project_icons(image: str, path: str | None, verbose: bool):
+def project_icons(
+        image: str,
+        path: str | None,
+        verbose: bool
+):
     path = Path(path) if path else Path.cwd()
     flutter_project_icons_common(path, Path(image))
     echo_verbose(verbose)

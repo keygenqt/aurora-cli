@@ -47,7 +47,10 @@ def subgroup_psdk_project():
 @subgroup_psdk_project.command(name='format', help=TextCommand.command_project_format())
 @click.option('-p', '--path', type=click.STRING, required=False, help=TextArgument.argument_path_to_project())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def project_format(path: str | None, verbose: bool):
+def project_format(
+        path: str | None,
+        verbose: bool
+):
     path = Path(path) if path else Path.cwd()
     psdk_project_format_common(path)
     echo_verbose(verbose)
@@ -109,7 +112,12 @@ def project_build(
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, default=None, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def project_debug(path: str | None, select: bool, index: int | None, verbose: bool):
+def project_debug(
+        path: str | None,
+        select: bool,
+        index: int | None,
+        verbose: bool
+):
     path = Path(path) if path else Path.cwd()
     model = cli_psdk_tool_select_model_psdk(select, index)
     target = cli_psdk_tool_select_target_psdk(model)
@@ -121,7 +129,11 @@ def project_debug(path: str | None, select: bool, index: int | None, verbose: bo
 @click.option('-i', '--image', type=click.STRING, help=TextArgument.argument_path_to_image())
 @click.option('-p', '--path', type=click.STRING, required=False, help=TextArgument.argument_path_to_project())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def project_icons(image: str, path: str | None, verbose: bool):
+def project_icons(
+        image: str,
+        path: str | None,
+        verbose: bool
+):
     path = Path(path) if path else Path.cwd()
     psdk_project_icons_common(path, Path(image))
     echo_verbose(verbose)

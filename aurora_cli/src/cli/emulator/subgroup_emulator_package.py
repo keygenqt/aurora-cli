@@ -37,7 +37,10 @@ def subgroup_emulator_package():
 @subgroup_emulator_package.command(name='run', help=TextCommand.command_emulator_package_run())
 @click.option('-p', '--package', type=click.STRING, required=True, help=TextArgument.argument_package_name())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def package_run(package: str, verbose: bool):
+def package_run(
+        package: str,
+        verbose: bool
+):
     model = cli_emulator_tool_select_model()
     emulator_package_run_common(model, package)
     echo_verbose(verbose)
@@ -47,8 +50,12 @@ def package_run(package: str, verbose: bool):
 @click.option('-p', '--path', type=click.STRING, required=True, help=TextArgument.argument_path_rpm())
 @click.option('-a', '--apm', is_flag=True, help=TextArgument.argument_apm())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def package_install(path: str, apm: bool, verbose: bool):
-    model = cli_emulator_tool_select_model(True)
+def package_install(
+        path: str,
+        apm: bool,
+        verbose: bool
+):
+    model = cli_emulator_tool_select_model(is_root=True)
     emulator_package_install_common(model, path, apm)
     echo_verbose(verbose)
 
@@ -57,7 +64,11 @@ def package_install(path: str, apm: bool, verbose: bool):
 @click.option('-p', '--package', type=click.STRING, required=True, help=TextArgument.argument_package_name())
 @click.option('-a', '--apm', is_flag=True, help=TextArgument.argument_apm())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def package_remove(package: str, apm: bool, verbose: bool):
-    model = cli_emulator_tool_select_model(True)
+def package_remove(
+        package: str,
+        apm: bool,
+        verbose: bool
+):
+    model = cli_emulator_tool_select_model(is_root=True)
     emulator_package_remove_common(model, package, apm)
     echo_verbose(verbose)

@@ -19,7 +19,10 @@ from pathlib import Path
 from aurora_cli.src.base.utils.verbose import verbose_command_start, verbose_add_map
 
 
-def search_files(workdir: Path, pattern: str) -> [Path]:
+def search_files(
+        workdir: Path,
+        pattern: str
+) -> [Path]:
     files = []
     command = verbose_command_start(f'rglob: {pattern}')
     for file in workdir.rglob(pattern):
@@ -47,7 +50,10 @@ def search_file_for_check_is_aurora_project(path: Path) -> bool:
     return len(desktop) != 0 and len(pro) != 0 and len(qml) != 0
 
 
-def search_aurora_project_builds_rpm(path: Path, arch: str) -> []:
+def search_aurora_project_builds_rpm(
+        path: Path,
+        arch: str
+) -> []:
     return reversed(search_files(path, f'*{arch}*.rpm'))
 
 
@@ -69,7 +75,10 @@ def search_project_application_id(path: Path) -> str | None:
     return None
 
 
-def search_flutter_project_pubspec_key(path: Path, key: str) -> str | None:
+def search_flutter_project_pubspec_key(
+        path: Path,
+        key: str
+) -> str | None:
     pubspec = search_files(path, 'pubspec.yaml')
     if not pubspec:
         return None

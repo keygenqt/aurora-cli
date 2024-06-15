@@ -15,10 +15,7 @@ limitations under the License.
 """
 from pathlib import Path
 
-from aurora_cli.src.base.common.groups.common.ssh_commands import (
-    ssh_command_common,
-    ssh_upload_common
-)
+from aurora_cli.src.base.common.groups.common.ssh_commands import ssh_command_common, ssh_upload_common
 from aurora_cli.src.base.common.groups.emulator.__tools import emulator_tool_check_is_not_run
 from aurora_cli.src.base.constants.other import VM_MANAGE
 from aurora_cli.src.base.models.emulator_model import EmulatorModel

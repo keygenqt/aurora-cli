@@ -366,7 +366,10 @@ class TextError(Enum):
 
     @staticmethod
     @localization
-    def image_size_icon_error(width: int, height: int):
+    def image_size_icon_error(
+            width: int,
+            height: int
+    ):
         return '<red>Minimum icon size {}x{}.</red>'.format(width, height)
 
     @staticmethod

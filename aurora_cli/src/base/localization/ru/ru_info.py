@@ -59,7 +59,10 @@ class TextInfoRu(Enum):
         return f'<blue>Прогресс клонирования репозитория:</blue> {title}'
 
     @staticmethod
-    def select_array_out(key: str, names: []):
+    def select_array_out(
+            key: str,
+            names: []
+    ):
         if names:
             return (f'<blue>Выберите</blue> {key} <blue>индекс:</blue>\n'
                     + '\n'.join([f'{i + 1}: {n}' for i, n in enumerate(names)]))
@@ -146,11 +149,17 @@ class TextInfoRu(Enum):
         return '<blue>Пакет уже установлен.</blue>'
 
     @staticmethod
-    def psdk_sudoers_exist(version: str, path: str):
+    def psdk_sudoers_exist(
+            version: str,
+            path: str
+    ):
         return f'<blue>Версия</blue> {version} <blue>уже указана в файле:</blue> {path}'
 
     @staticmethod
-    def psdk_sudoers_not_found(version: str, path: str):
+    def psdk_sudoers_not_found(
+            version: str,
+            path: str
+    ):
         return f'<blue>Версия</blue> {version} <blue>не найдена в файле:</blue> {path}'
 
     @staticmethod

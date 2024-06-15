@@ -20,7 +20,10 @@ from os.path import basename
 from pathlib import Path
 
 
-def path_gen_file_name(before: str, extension: str) -> str:
+def path_gen_file_name(
+        before: str,
+        extension: str
+) -> str:
     return '{before}{time}.{extension}'.format(
         before=before,
         time=datetime.now().strftime('%Y-%m-%d_%H-%M-%S'),

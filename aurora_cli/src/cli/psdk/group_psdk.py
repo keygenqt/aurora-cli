@@ -66,7 +66,11 @@ def installed(verbose: bool):
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def targets(select: bool, index: int, verbose: bool):
+def targets(
+        select: bool,
+        index: int,
+        verbose: bool
+):
     model = cli_psdk_tool_select_model_psdk(select, index)
     psdk_targets_common(model)
     echo_verbose(verbose)
@@ -75,7 +79,10 @@ def targets(select: bool, index: int, verbose: bool):
 @group_psdk.command(name='install', help=TextCommand.command_psdk_install())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def install(select: bool, verbose: bool):
+def install(
+        select: bool,
+        verbose: bool
+):
     version = prompt_psdk_select_version(select)
     psdk_install_common(version)
     echo_verbose(verbose)
@@ -84,7 +91,10 @@ def install(select: bool, verbose: bool):
 @group_psdk.command(name='remove', help=TextCommand.command_psdk_remove())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def remove(index: int, verbose: bool):
+def remove(
+        index: int,
+        verbose: bool
+):
     model = cli_psdk_tool_select_model_psdk(True, index)
     psdk_remove_common(model)
     echo_verbose(verbose)
@@ -94,7 +104,11 @@ def remove(index: int, verbose: bool):
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def clear(select: bool, index: int, verbose: bool):
+def clear(
+        select: bool,
+        index: int,
+        verbose: bool
+):
     model = cli_psdk_tool_select_model_psdk(select, index)
     target = cli_psdk_tool_select_target_psdk(model)
     psdk_clear_common(model, target)

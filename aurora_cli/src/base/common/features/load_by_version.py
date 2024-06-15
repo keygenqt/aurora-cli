@@ -82,7 +82,10 @@ def get_version_latest_by_url(url: str) -> []:
     return versions
 
 
-def get_download_sdk_url_by_version(url: str, version: str) -> []:
+def get_download_sdk_url_by_version(
+        url: str,
+        version: str
+) -> []:
     urls = []
     response = request_get(f'{url}{version}')
     if response.status_code == 200:
@@ -94,7 +97,10 @@ def get_download_sdk_url_by_version(url: str, version: str) -> []:
     return urls
 
 
-def get_download_psdk_url_by_version(url: str, version: str) -> []:
+def get_download_psdk_url_by_version(
+        url: str,
+        version: str
+) -> []:
     urls = []
     response = request_get(f'{url}{version}')
     if response.status_code == 200:

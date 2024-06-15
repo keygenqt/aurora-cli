@@ -20,7 +20,10 @@ from pathlib import Path
 from aurora_cli.src.base.utils.dependency import check_dependency, DependencyApps
 
 
-def file_remove_line(file: Path, search: str):
+def file_remove_line(
+        file: Path,
+        search: str
+):
     if file.is_file():
         with open(file, 'r') as f:
             lines = f.readlines()
@@ -30,7 +33,10 @@ def file_remove_line(file: Path, search: str):
                     f.write(line)
 
 
-def file_exist_in_line(file: Path, search: str) -> bool:
+def file_exist_in_line(
+        file: Path,
+        search: str
+) -> bool:
     if file.is_file():
         with open(file, 'r') as f:
             for line in f.readlines():

@@ -59,7 +59,10 @@ def installed(verbose: bool):
 @group_flutter.command(name='install', help=TextCommand.command_flutter_install())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def install(select: bool, verbose: bool):
+def install(
+        select: bool,
+        verbose: bool
+):
     version = prompt_flutter_select_version(select)
     flutter_install_common(version)
     echo_verbose(verbose)

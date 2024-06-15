@@ -78,7 +78,10 @@ class TextInfo(Enum):
 
     @staticmethod
     @localization
-    def select_array_out(key: str, names: []):
+    def select_array_out(
+            key: str,
+            names: []
+    ):
         if names:
             return (f'<blue>Select</blue> {key} <blue>index:</blue>\n'
                     + '\n'.join([f'{i + 1}: {n}' for i, n in enumerate(names)]))
@@ -187,7 +190,10 @@ class TextInfo(Enum):
 
     @staticmethod
     @localization
-    def psdk_sudoers_exist(version: str, path: str):
+    def psdk_sudoers_exist(
+            version: str,
+            path: str
+    ):
         return f'<blue>Version</blue> {version} <blue>is already specified in the file:</blue> {path}'
 
     @staticmethod

@@ -28,7 +28,7 @@ class TextSuccess(Enum):
     @staticmethod
     @localization
     def emulator_screenshot_success(path: str):
-        return '<green>Screenshot taken successfully:</green> {}'.format(path)
+        return f'<green>Screenshot taken successfully:</green> {path}'
 
     @staticmethod
     @localization
@@ -43,11 +43,15 @@ class TextSuccess(Enum):
     @staticmethod
     @localization
     def emulator_recording_video_convert(path: str):
-        return '<green>Video record convert successfully:</green> {}'.format(path)
+        return f'<green>Video record convert successfully:</green> {path}'
 
     @staticmethod
     @localization
-    def ssh_exec_command_success(execute: str, stdout: str = None, stderr: str = None):
+    def ssh_exec_command_success(
+            execute: str,
+            stdout: str = None,
+            stderr: str = None
+    ):
         stdout = f'\n{stdout}' if stdout else ''
         stderr = f'\n{stderr}' if stderr else ''
         return f'<green>The command was executed successfully:</green> `{execute}`{stdout}{stderr}'
@@ -55,7 +59,7 @@ class TextSuccess(Enum):
     @staticmethod
     @localization
     def ssh_uploaded_success(remote_path: str):
-        return '<green>The file was successfully uploaded:</green> {}'.format(remote_path)
+        return f'<green>The file was successfully uploaded:</green> {remote_path}'
 
     @staticmethod
     @localization
@@ -109,7 +113,10 @@ class TextSuccess(Enum):
 
     @staticmethod
     @localization
-    def flutter_install_success(path: str, version: str):
+    def flutter_install_success(
+            path: str,
+            version: str
+    ):
         return f'''
 <green>Install Flutter</green> {version} <green>successfully!</green>
 
@@ -149,7 +156,10 @@ Good luck 👋'''
 
     @staticmethod
     @localization
-    def psdk_targets_get_success(version: str, targets: []):
+    def psdk_targets_get_success(
+            version: str,
+            targets: []
+    ):
         return f'<green>List of targets:</green> {version}\n' + '\n'.join(targets)
 
     @staticmethod
@@ -174,12 +184,18 @@ Good luck 👋'''
 
     @staticmethod
     @localization
-    def psdk_sudoers_add_success(version: str, path: str):
+    def psdk_sudoers_add_success(
+            version: str,
+            path: str
+    ):
         return f'<green>Version</green> {version} <green>added to file:</green> {path}'
 
     @staticmethod
     @localization
-    def psdk_sudoers_remove_success(version: str, path: str):
+    def psdk_sudoers_remove_success(
+            version: str,
+            path: str
+    ):
         return f'<green>Version</green> {version} <green>remove from file:</green> {path}'
 
     @staticmethod
@@ -199,7 +215,10 @@ Good luck 👋'''
 
     @staticmethod
     @localization
-    def psdk_install_success(path: str, version: str):
+    def psdk_install_success(
+            path: str,
+            version: str
+    ):
         return f'''
 <green>Install Aurora Platform SDK</green> {version} <green>successfully!</green>
 

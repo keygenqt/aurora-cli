@@ -49,7 +49,10 @@ def group_emulator():
 @group_emulator.command(name='command', help=TextCommand.command_emulator_command())
 @click.option('-e', '--execute', type=click.STRING, required=True, help=TextArgument.argument_execute_emulator())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def command(execute: str, verbose: bool):
+def command(
+        execute: str,
+        verbose: bool
+):
     model = cli_emulator_tool_select_model()
     emulator_command_common(model, execute)
     echo_verbose(verbose)
@@ -58,7 +61,10 @@ def command(execute: str, verbose: bool):
 @group_emulator.command(name='upload', help=TextCommand.command_emulator_upload())
 @click.option('-p', '--path', type=click.STRING, required=True, help=TextArgument.argument_path())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def upload(path: str, verbose: bool):
+def upload(
+        path: str,
+        verbose: bool
+):
     model = cli_emulator_tool_select_model()
     emulator_upload_common(model, path)
     echo_verbose(verbose)

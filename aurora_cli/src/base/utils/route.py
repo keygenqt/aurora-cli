@@ -21,32 +21,47 @@ def get_route_root(route: str) -> str:
     return route.split('?')[0]
 
 
-def get_arg_bool(route: str, arg: str) -> bool:
+def get_arg_bool(
+        route: str,
+        arg: str
+) -> bool:
     try:
         return get_arg_str(route, arg).lower() == 'true'
     except (Exception,):
         return False
 
 
-def get_arg_int(route: str, arg: str) -> int:
+def get_arg_int(
+        route: str,
+        arg: str
+) -> int:
     return int(get_arg_str(route, arg))
 
 
-def get_arg_str(route: str, arg: str) -> str:
+def get_arg_str(
+        route: str,
+        arg: str
+) -> str:
     result = get_arg_str_optional(route, arg)
     if not result:
         raise Exception(f"Argument `{arg}` is required.")
     return result
 
 
-def get_arg_int_optional(route: str, arg: str) -> int | None:
+def get_arg_int_optional(
+        route: str,
+        arg: str
+) -> int | None:
     value = get_arg_str_optional(route, arg)
     if value:
         return int(value)
     return value
 
 
-def get_arg_str_optional(route: str, arg: str) -> str | None:
+def get_arg_str_optional(
+        route: str,
+        arg: str
+) -> str | None:
     result = None
     for arg_value in urlparse(route).query.split('&'):
         if f'{arg}=' in arg_value:

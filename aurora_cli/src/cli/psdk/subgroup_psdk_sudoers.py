@@ -37,7 +37,11 @@ def subgroup_psdk_sudoers():
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def sudoers_add(select: bool, index: int, verbose: bool):
+def sudoers_add(
+        select: bool,
+        index: int,
+        verbose: bool
+):
     model = cli_psdk_tool_select_model_psdk(select, index)
     psdk_sudoers_add_common(model)
     echo_verbose(verbose)
@@ -47,7 +51,11 @@ def sudoers_add(select: bool, index: int, verbose: bool):
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def sudoers_remove(select: bool, index: int, verbose: bool):
+def sudoers_remove(
+        select: bool,
+        index: int,
+        verbose: bool
+):
     model = cli_psdk_tool_select_model_psdk(select, index)
     psdk_sudoers_remove_common(model)
     echo_verbose(verbose)

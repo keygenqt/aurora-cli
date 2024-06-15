@@ -37,9 +37,7 @@ def search_route_sdk(route: str) -> bool:
                 is_bar=False
             )
         case '/sdk/tool':
-            sdk_tool_common(
-                model=SdkModel.get_model(),
-            )
+            sdk_tool_common(SdkModel.get_model())
         case _:
             return False
     return True

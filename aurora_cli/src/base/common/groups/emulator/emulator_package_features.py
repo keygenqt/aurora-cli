@@ -17,7 +17,8 @@ limitations under the License.
 from aurora_cli.src.base.common.groups.common.ssh_commands import (
     ssh_run_common,
     ssh_install_common,
-    ssh_remove_common, ssh_check_package
+    ssh_remove_common,
+    ssh_check_package
 )
 from aurora_cli.src.base.common.groups.emulator.__tools import emulator_tool_check_is_not_run
 from aurora_cli.src.base.models.emulator_model import EmulatorModel

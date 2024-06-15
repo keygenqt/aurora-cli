@@ -24,7 +24,10 @@ from aurora_cli.src.base.utils.shell import shell_exec_command
 
 
 @check_dependency(DependencyApps.ffmpeg)
-def convert_video(v_path: Path, s_path: Path) -> OutResult:
+def convert_video(
+        v_path: Path,
+        s_path: Path
+) -> OutResult:
     def check_is_error(outs: []) -> bool:
         for out in outs:
             if 'Unknown-sized element at' in out:

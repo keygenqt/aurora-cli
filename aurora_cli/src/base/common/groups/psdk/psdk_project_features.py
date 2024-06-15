@@ -187,7 +187,10 @@ def psdk_project_debug_common(
     print('Coming soon')
 
 
-def psdk_project_icons_common(project: Path, image: Path):
+def psdk_project_icons_common(
+        project: Path,
+        image: Path
+):
     psdk_tool_check_is_project(project)
     path_icons = project / 'icons'
     result = image_crop_for_project(image, path_icons, search_project_application_id(project))

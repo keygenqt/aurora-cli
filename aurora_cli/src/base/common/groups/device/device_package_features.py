@@ -17,7 +17,8 @@ limitations under the License.
 from aurora_cli.src.base.common.groups.common.ssh_commands import (
     ssh_run_common,
     ssh_install_common,
-    ssh_remove_common, ssh_check_package
+    ssh_remove_common,
+    ssh_check_package
 )
 from aurora_cli.src.base.models.device_model import DeviceModel
 

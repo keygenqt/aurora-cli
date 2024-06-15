@@ -25,7 +25,10 @@ from aurora_cli.src.base.utils.path import path_get_download_path
 from aurora_cli.src.base.utils.verbose import verbose_add_map, verbose_command_start
 
 
-def request_get(url: str, stream: bool = False) -> Response | OutResult:
+def request_get(
+        url: str,
+        stream: bool = False
+) -> Response | OutResult:
     command = verbose_command_start(f'request: {url}')
     try:
         response = requests.get(url, stream=stream)

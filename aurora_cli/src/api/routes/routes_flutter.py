@@ -83,7 +83,9 @@ def search_route_flutter(route: str) -> bool:
             )
         case '/flutter/project/report':
             flutter_project_report_common(
+                model=FlutterModel.get_model_by_version(get_arg_str(route, 'version')),
                 project=Path(get_arg_str(route, 'path')),
+                is_bar=False
             )
         case '/flutter/project/icon':
             flutter_project_icons_common(

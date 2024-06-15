@@ -17,9 +17,7 @@ limitations under the License.
 from aurora_cli.src.base.models.emulator_model import EmulatorModel
 
 
-def cli_emulator_tool_select_model(
-        is_root: bool = False,
-) -> EmulatorModel:
+def cli_emulator_tool_select_model(is_root: bool = False) -> EmulatorModel:
     if is_root:
         return EmulatorModel.get_model_root()
     else:

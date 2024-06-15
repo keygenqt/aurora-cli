@@ -39,14 +39,18 @@ class TextSuccessRu(Enum):
         return '<green>Видеозапись успешно конвертирована:</green> {}'.format(path)
 
     @staticmethod
-    def ssh_exec_command_success(execute: str, stdout: str = None, stderr: str = None):
+    def ssh_exec_command_success(
+            execute: str,
+            stdout: str = None,
+            stderr: str = None
+    ):
         stdout = f'\n{stdout}' if stdout else ''
         stderr = f'\n{stderr}' if stderr else ''
         return f'<green>Команда выполнена успешно:</green> `{execute}`{stdout}{stderr}'
 
     @staticmethod
     def ssh_uploaded_success(remote_path: str):
-        return '<green>Файл был успешно загружен:</green> {}'.format(remote_path)
+        return f'<green>Файл был успешно загружен:</green> {remote_path}'
 
     @staticmethod
     def ssh_install_rpm(file_name: str):
@@ -89,7 +93,10 @@ class TextSuccessRu(Enum):
         return '<green>Проект успешно клонирован.</green>'
 
     @staticmethod
-    def flutter_install_success(path: str, version: str):
+    def flutter_install_success(
+            path: str,
+            version: str
+    ):
         return f'''
 <green>Установка Flutter</green> {version} <green>прошла успешно!</green>
 
@@ -124,7 +131,10 @@ class TextSuccessRu(Enum):
         return f'<green>Подпись выполнена успешно:</green> {file_name}'
 
     @staticmethod
-    def psdk_targets_get_success(version: str, targets: []):
+    def psdk_targets_get_success(
+            version: str,
+            targets: []
+    ):
         return f'<green>Список таргетов:</green> {version}\n' + '\n'.join(targets)
 
     @staticmethod
@@ -144,11 +154,17 @@ class TextSuccessRu(Enum):
         return '<green>Пакет прошел валидацию успешно.</green>'
 
     @staticmethod
-    def psdk_sudoers_add_success(version: str, path: str):
+    def psdk_sudoers_add_success(
+            version: str,
+            path: str
+    ):
         return f'<green>Версия</green> {version} <green>добавлена в файл:</green> {path}'
 
     @staticmethod
-    def psdk_sudoers_remove_success(version: str, path: str):
+    def psdk_sudoers_remove_success(
+            version: str,
+            path: str
+    ):
         return f'<green>Версия</green> {version} <green>удалена из файла:</green> {path}'
 
     @staticmethod
@@ -164,7 +180,10 @@ class TextSuccessRu(Enum):
         return f'<green>Установка цели прошла успешно.</green>'
 
     @staticmethod
-    def psdk_install_success(path: str, version: str):
+    def psdk_install_success(
+            path: str,
+            version: str
+    ):
         return f'''
 <green>Установка Аврора Platform SDK</green> {version} <green>прошла успешно!</green>
 
@@ -209,6 +228,6 @@ class TextSuccessRu(Enum):
         return '<green>Успешно выполнил работу build_runner.</green>'
 
     @staticmethod
-    def flutter_build_success(paths):
+    def flutter_build_success(paths: []):
         new_line = '\n' if len(paths) > 1 else ''
         return f'<green>Сборка проекта прошла успешно:</green> {new_line}' + ''.join(paths)
