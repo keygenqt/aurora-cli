@@ -81,9 +81,10 @@ def _init_groups():
     main.add_command(group_vscode)
 
 
+_init_groups()
+
 if __name__ == '__main__':
     try:
-        _init_groups()
         try:
             with CapturingStdout(arg='--help', callback=localization_help):
                 main(standalone_mode=False)
