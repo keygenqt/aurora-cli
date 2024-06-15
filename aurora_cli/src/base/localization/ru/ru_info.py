@@ -209,3 +209,7 @@ class TextInfoRu(Enum):
     @staticmethod
     def vscode_extensions_other_installed():
         return '<blue>Расширения для работы с VS Code уже установлены.</blue>'
+
+    @staticmethod
+    def devices_not_found():
+        return '<blue>Устройства не найдены.</blue>'

@@ -24,11 +24,12 @@ from aurora_cli.src.base.models.device_model import DeviceModel
 from aurora_cli.src.base.models.emulator_model import EmulatorModel
 from aurora_cli.src.base.models.flutter_model import FlutterModel
 from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
 from aurora_cli.src.base.utils.git import git_clone
-from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResult
+from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResult, OutResultInfo
 from aurora_cli.src.base.utils.text_file import file_remove_line
 from aurora_cli.src.base.utils.url import get_url_git_flutter
 
@@ -81,6 +82,19 @@ def flutter_add_custom_devices(model: FlutterModel):
 
     emulators = EmulatorModel.get_models_list()
     devices = DeviceModel.get_models_list()
+
+    if not emulators and not devices:
+        echo_stdout(OutResultInfo(TextInfo.devices_not_found()))
+        app_exit()
+
+    path_folder = Path.home() / '.config' / 'flutter'
+    path_config = path_folder / 'custom_devices.json'
+
+    if not path_folder.is_dir():
+        path_folder.mkdir(parents=True)
+
+    if not path_config.is_file():
+        path_config.write_text('{}')
 
     print(emulators)
     print(devices)

@@ -260,3 +260,8 @@ class TextInfo(Enum):
     @localization
     def vscode_extensions_other_installed():
         return '<blue>Extensions for working with VS Code already installed.</blue>'
+
+    @staticmethod
+    @localization
+    def devices_not_found():
+        return '<blue>No devices found.</blue>'
