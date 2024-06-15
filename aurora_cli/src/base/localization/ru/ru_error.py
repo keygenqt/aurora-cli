@@ -301,3 +301,7 @@ class TextErrorRu(Enum):
     @staticmethod
     def flutter_read_yaml_error():
         return '<red>Не удалось прочитать pubspec файл.</red>'
+
+    @staticmethod
+    def vscode_extension_install_error():
+        return '<red>Не удалось установить расширение.</red>'

@@ -35,6 +35,7 @@ from aurora_cli.src.cli.emulator.group_emulator import group_emulator, init_subg
 from aurora_cli.src.cli.flutter.group_flutter import group_flutter, init_subgroups_flutter
 from aurora_cli.src.cli.psdk.group_psdk import group_psdk, init_subgroups_psdk
 from aurora_cli.src.cli.sdk.group_sdk import group_sdk
+from aurora_cli.src.cli.vscode.group_vscode import group_vscode
 
 
 @click.group(invoke_without_command=True, help=TextGroup.group_main())
@@ -76,6 +77,8 @@ def _init_groups():
     init_subgroups_psdk()
     # group Aurora SDK
     main.add_command(group_sdk)
+    # group Visual Studio Code
+    main.add_command(group_vscode)
 
 
 if __name__ == '__main__':

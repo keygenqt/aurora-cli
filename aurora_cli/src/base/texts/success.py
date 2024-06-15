@@ -272,3 +272,8 @@ Good luck 👋'''
     def flutter_build_success(paths):
         new_line = '\n' if len(paths) > 1 else ''
         return f'<green>The project build was successful:</green> {new_line}' + '\n'.join(paths)
+
+    @staticmethod
+    @localization
+    def vscode_extension_install_success(version: str):
+        return f'<green>Extension</green> {version} <green>was successfully installed.</green>'

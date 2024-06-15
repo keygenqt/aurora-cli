@@ -46,6 +46,10 @@ Platform SDK https://developer.auroraos.ru/doc/software_development/psdk
         return 'Работа с устройством.'
 
     @staticmethod
+    def group_vscode():
+        return 'Работа с Visual Studio Code.'
+
+    @staticmethod
     def subgroup_device_package():
         return 'Работа с пакетами.'
 

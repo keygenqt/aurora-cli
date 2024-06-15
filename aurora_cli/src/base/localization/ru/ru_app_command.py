@@ -173,3 +173,7 @@ class TextCommandRu(Enum):
     @staticmethod
     def command_sdk_tool():
         return 'Запустите инструмент обслуживания (удаление, обновление).'
+
+    @staticmethod
+    def command_vscode_tuning():
+        return 'Настройка Visual Studio Code.'

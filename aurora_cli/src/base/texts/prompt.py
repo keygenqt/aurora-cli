@@ -29,3 +29,10 @@ class TextPrompt(Enum):
     @localization
     def select_index():
         return 'Please enter index'
+
+    @staticmethod
+    @localization
+    def select_continue():
+        return 'Do you want to continue?'
+
+

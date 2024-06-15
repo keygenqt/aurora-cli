@@ -54,6 +54,11 @@ This is a third party tool written by enthusiasts!'''
 
     @staticmethod
     @localization
+    def group_vscode():
+        return 'Working with the Visual Studio Code.'
+
+    @staticmethod
+    @localization
     def subgroup_device_package():
         return 'Working with packages.'
 

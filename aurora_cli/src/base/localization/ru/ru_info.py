@@ -164,12 +164,56 @@ class TextInfoRu(Enum):
 
     @staticmethod
     def psdk_install_start():
-        return f'<blue>Установка Аврора Platform SDK начата.</blue>'
+        return '<blue>Установка Аврора Platform SDK.</blue>'
 
     @staticmethod
     def psdk_remove_start():
-        return f'<blue>Установка Аврора Platform SDK начато.</blue>'
+        return '<blue>Установка Аврора Platform SDK.</blue>'
 
     @staticmethod
     def psdk_download_start():
-        return f'<blue>Начата загрузка файлов Аврора Platform SDK.</blue>'
+        return '<blue>Загрузка файлов Аврора Platform SDK.</blue>'
+
+    @staticmethod
+    def vscode_extensions_flutter(extensions: []):
+        return '<blue>Будут установлены расширения для работы с Flutter:</blue>\n' + '\n'.join(extensions)
+
+    @staticmethod
+    def vscode_extensions_python(extensions: []):
+        return '<blue>Будут установлены расширения для работы с Python:</blue>\n' + '\n'.join(extensions)
+
+    @staticmethod
+    def vscode_extensions_cpp(extensions: []):
+        return '<blue>Будут установлены расширения для работы с C++:</blue>\n' + '\n'.join(extensions)
+
+    @staticmethod
+    def vscode_extensions_other(extensions: []):
+        return '<blue>Будут установлены расширения для работы с VS Code:</blue>\n' + '\n'.join(extensions)
+
+    @staticmethod
+    def vscode_extensions_installing(extension: str):
+        return f'<blue>Установка расширения:</blue> {extension}'
+
+    @staticmethod
+    def vscode_settings_update(path: str):
+        return f'<blue>Конфигурационный файл обновлен:</blue> {path}'
+
+    @staticmethod
+    def vscode_settings_not_update():
+        return '<blue>Конфигурационный файл не требует обновления.</blue>'
+
+    @staticmethod
+    def vscode_extensions_flutter_installed():
+        return '<blue>Расширения для работы с Flutter уже установлены.</blue>'
+
+    @staticmethod
+    def vscode_extensions_python_installed():
+        return '<blue>Расширения для работы с Python уже установлены.</blue>'
+
+    @staticmethod
+    def vscode_extensions_cpp_installed():
+        return '<blue>Расширения для работы с C++ уже установлены.</blue>'
+
+    @staticmethod
+    def vscode_extensions_other_installed():
+        return '<blue>Расширения для работы с VS Code уже установлены.</blue>'

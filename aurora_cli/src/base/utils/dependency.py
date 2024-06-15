@@ -32,6 +32,7 @@ class DependencyApps(Enum):
     ssh = 'ssh'
     clang_format = 'clang-format'
     tar = 'tar'
+    vscode = 'vscode'
 
 
 def check_dependency(*apps: DependencyApps):
@@ -63,6 +64,8 @@ def _check_dependency(*apps: DependencyApps):
                 _check_dependency_clang_format()
             case DependencyApps.tar:
                 _check_dependency_tar()
+            case DependencyApps.vscode:
+                _check_dependency_vscode()
 
 
 def _check_dependency_vboxmanage():
@@ -118,4 +121,12 @@ def _check_dependency_tar():
         subprocess.run(['tar', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except (Exception,):
         echo_stdout(OutResultError(TextError.dependency_not_found('tar')))
+        app_exit()
+
+
+def _check_dependency_vscode():
+    try:
+        subprocess.run(['code', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except (Exception,):
+        echo_stdout(OutResultError(TextError.dependency_not_found('vscode')))
         app_exit()

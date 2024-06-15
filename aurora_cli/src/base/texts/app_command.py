@@ -214,3 +214,8 @@ class TextCommand(Enum):
     @localization
     def command_sdk_tool():
         return 'Run maintenance tool (remove, update).'
+
+    @staticmethod
+    @localization
+    def command_vscode_tuning():
+        return 'Tuning Visual Studio Code.'

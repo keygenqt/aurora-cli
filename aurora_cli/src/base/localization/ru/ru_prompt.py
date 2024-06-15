@@ -25,3 +25,7 @@ class TextPromptRu(Enum):
     @staticmethod
     def select_index():
         return 'Пожалуйста, введите индекс'
+
+    @staticmethod
+    def select_continue():
+        return 'Вы хотите продолжать?'

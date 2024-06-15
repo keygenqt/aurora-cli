@@ -396,3 +396,8 @@ class TextError(Enum):
     @localization
     def flutter_read_yaml_error():
         return '<red>Failed to read pubspec file.</red>'
+
+    @staticmethod
+    @localization
+    def vscode_extension_install_error():
+        return '<red>Failed install extension.</red>'

@@ -231,3 +231,7 @@ class TextSuccessRu(Enum):
     def flutter_build_success(paths: []):
         new_line = '\n' if len(paths) > 1 else ''
         return f'<green>Сборка проекта прошла успешно:</green> {new_line}' + ''.join(paths)
+
+    @staticmethod
+    def vscode_extension_install_success(version: str):
+        return f'<green>Расширение</green> {version} <green>было успешно установлено.</green>'

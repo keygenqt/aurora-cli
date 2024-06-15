@@ -215,3 +215,58 @@ class TextInfo(Enum):
     @localization
     def psdk_download_start():
         return f'<blue>The download of Aurora Platform SDK files has begun.</blue>'
+
+    @staticmethod
+    @localization
+    def vscode_extensions_flutter(extensions: []):
+        return '<blue>Extensions for working with Flutter will be installed:</blue>\n' + '\n'.join(extensions)
+
+    @staticmethod
+    @localization
+    def vscode_extensions_python(extensions: []):
+        return '<blue>Extensions for working with Python will be installed:</blue>\n' + '\n'.join(extensions)
+
+    @staticmethod
+    @localization
+    def vscode_extensions_cpp(extensions: []):
+        return '<blue>Extensions for working with C++ will be installed:</blue>\n' + '\n'.join(extensions)
+
+    @staticmethod
+    @localization
+    def vscode_extensions_other(extensions: []):
+        return '<blue>Extensions for working with VS Code will be installed:</blue>\n' + '\n'.join(extensions)
+
+    @staticmethod
+    @localization
+    def vscode_extensions_installing(extension: str):
+        return f'<blue>Installing extension:</blue> {extension}'
+
+    @staticmethod
+    @localization
+    def vscode_settings_update(path: str):
+        return f'<blue>The configuration file has been updated:</blue> {path}'
+
+    @staticmethod
+    @localization
+    def vscode_settings_not_update():
+        return '<blue>The configuration file does not updates.</blue>'
+
+    @staticmethod
+    @localization
+    def vscode_extensions_flutter_installed():
+        return '<blue>Extensions for working with Flutter already installed.</blue>'
+
+    @staticmethod
+    @localization
+    def vscode_extensions_python_installed():
+        return '<blue>Extensions for working with Python already installed.</blue>'
+
+    @staticmethod
+    @localization
+    def vscode_extensions_cpp_installed():
+        return '<blue>Extensions for working with C++ already installed.</blue>'
+
+    @staticmethod
+    @localization
+    def vscode_extensions_other_installed():
+        return '<blue>Extensions for working with VS Code already installed.</blue>'
