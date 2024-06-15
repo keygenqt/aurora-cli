@@ -219,3 +219,8 @@ class TextCommand(Enum):
     @localization
     def command_vscode_tuning():
         return 'Tuning Visual Studio Code.'
+
+    @staticmethod
+    @localization
+    def command_flutter_custom_devices():
+        return 'Add devices Aurora OS to Flutter.'

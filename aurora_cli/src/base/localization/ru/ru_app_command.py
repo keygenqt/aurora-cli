@@ -177,3 +177,7 @@ class TextCommandRu(Enum):
     @staticmethod
     def command_vscode_tuning():
         return 'Настройка Visual Studio Code.'
+
+    @staticmethod
+    def command_flutter_custom_devices():
+        return 'Добавьте устройства с ОС Aurora во Flutter.'

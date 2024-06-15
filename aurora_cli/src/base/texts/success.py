@@ -269,9 +269,14 @@ Good luck 👋'''
 
     @staticmethod
     @localization
-    def flutter_build_success(paths):
+    def flutter_build_success(paths: []):
         new_line = '\n' if len(paths) > 1 else ''
         return f'<green>The project build was successful:</green> {new_line}' + '\n'.join(paths)
+
+    @staticmethod
+    @localization
+    def flutter_enable_custom_device_success():
+        return '<green>Custom devices have been successfully activated.</green>'
 
     @staticmethod
     @localization

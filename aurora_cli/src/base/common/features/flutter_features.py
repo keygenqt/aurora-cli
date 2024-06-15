@@ -166,3 +166,11 @@ def flutter_project_build(
             builds_paths[-1] += build
 
     return OutResult(TextSuccess.flutter_build_success(builds_paths), value=builds_paths)
+
+
+def flutter_enable_custom_device(flutter: str):
+    stdout, stderr = shell_exec_command([flutter, 'config', '--enable-custom-devices'])
+    result = shell_check_error_out(stdout)
+    if result.is_error():
+        return result
+    return OutResult(TextSuccess.flutter_enable_custom_device_success())

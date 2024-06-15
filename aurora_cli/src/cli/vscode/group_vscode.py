@@ -16,9 +16,14 @@ limitations under the License.
 
 import click
 
-from aurora_cli.src.base.common.groups.vscode.vscode_features import vscode_extensions_flutter_check_common, \
-    vscode_extensions_list_common, vscode_extensions_python_check_common, vscode_extensions_cpp_check_common, \
-    vscode_extensions_install, vscode_extensions_other_check_common, vscode_settings_common
+from aurora_cli.src.base.common.groups.vscode.vscode_features import (
+    vscode_extensions_flutter_check_common,
+    vscode_extensions_list_common,
+    vscode_extensions_cpp_check_common,
+    vscode_extensions_install,
+    vscode_extensions_other_check_common,
+    vscode_settings_common
+)
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand

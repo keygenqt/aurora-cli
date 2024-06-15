@@ -20,7 +20,7 @@ from aurora_cli.src.base.common.groups.flutter.flutter_features import (
     flutter_available_common,
     flutter_installed_common,
     flutter_install_common,
-    flutter_remove_common,
+    flutter_remove_common, flutter_add_custom_devices,
 )
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.texts.app_argument import TextArgument
@@ -73,4 +73,18 @@ def install(
 def remove(verbose: bool):
     model = cli_flutter_tool_select_model(True, None)
     flutter_remove_common(model)
+    echo_verbose(verbose)
+
+
+@group_flutter.command(name='devices', help=TextCommand.command_flutter_custom_devices())
+@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
+@click.option('-i', '--index', type=click.INT, default=None, help=TextArgument.argument_index())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
+def custom_devices(
+        select: bool,
+        index: int | None,
+        verbose: bool
+):
+    model = cli_flutter_tool_select_model(select, index)
+    flutter_add_custom_devices(model)
     echo_verbose(verbose)

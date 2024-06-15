@@ -44,7 +44,7 @@ class DeviceModel(ModelClient):
     ) -> OutResult:
         return prompt_model_select(
             name='device',
-            models=[model.host for model in DeviceModel.get_lists_devices()],
+            models=[model.host for model in DeviceModel.get_models_list()],
             select=select,
             index=index,
         )
@@ -52,8 +52,8 @@ class DeviceModel(ModelClient):
     @staticmethod
     def get_model_by_host(host: str):
         try:
-            models = DeviceModel.get_lists_devices()
-            list_index = [model.host for model in DeviceModel.get_lists_devices()].index(host)
+            models = DeviceModel.get_models_list()
+            list_index = [model.host for model in models].index(host)
             return models[list_index]
         except (Exception,):
             echo_stdout(OutResultError(TextError.device_not_found_error(host)))
@@ -61,7 +61,7 @@ class DeviceModel(ModelClient):
 
     @staticmethod
     @click.pass_context
-    def get_lists_devices(ctx: {}) -> []:
+    def get_models_list(ctx: {}) -> []:
         return ctx.obj.get_devices()
 
     def get_ssh_client(self) -> SSHClient | OutResult:

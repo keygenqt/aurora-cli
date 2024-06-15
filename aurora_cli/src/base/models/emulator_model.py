@@ -52,6 +52,13 @@ class EmulatorModel(ModelClient):
         return EmulatorModel(name, path, is_on, is_record, user='root')
 
     @staticmethod
+    def get_models_list() -> []:
+        name = EmulatorModel._vm_emulator_name()
+        if not name:
+            return []
+        return [EmulatorModel.get_model_user()]
+
+    @staticmethod
     def _get_arg():
         name = EmulatorModel._vm_emulator_name()
         info = EmulatorModel._vm_emulator_info(name)

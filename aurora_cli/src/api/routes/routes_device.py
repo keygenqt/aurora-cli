@@ -32,7 +32,7 @@ def search_route_device(route: str) -> bool:
     match get_route_root(route):
         case '/device/list':
             echo_stdout(OutResult(
-                value=[device.to_dict() for device in DeviceModel.get_lists_devices()]
+                value=[device.to_dict() for device in DeviceModel.get_models_list()]
             ))
         case '/device/command':
             device_command_common(

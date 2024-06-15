@@ -17,8 +17,11 @@ limitations under the License.
 import shutil
 from pathlib import Path
 
+from aurora_cli.src.base.common.features.flutter_features import flutter_enable_custom_device
 from aurora_cli.src.base.common.features.request_version import request_versions_flutter
 from aurora_cli.src.base.common.features.search_installed import search_installed_flutter
+from aurora_cli.src.base.models.device_model import DeviceModel
+from aurora_cli.src.base.models.emulator_model import EmulatorModel
 from aurora_cli.src.base.models.flutter_model import FlutterModel
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.success import TextSuccess
@@ -66,3 +69,18 @@ def flutter_remove_common(model: FlutterModel):
     file_remove_line(Path.home() / '.bashrc', path)
     echo_stdout(OutResult(TextSuccess.flutter_remove_success(version)))
     disk_cache_clear()
+
+
+def flutter_add_custom_devices(model: FlutterModel):
+    def out_check_result(out: OutResult):
+        echo_stdout(out)
+        if out.is_error():
+            app_exit()
+
+    out_check_result(flutter_enable_custom_device(model.get_tool_flutter()))
+
+    emulators = EmulatorModel.get_models_list()
+    devices = DeviceModel.get_models_list()
+
+    print(emulators)
+    print(devices)

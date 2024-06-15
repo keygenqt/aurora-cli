@@ -233,5 +233,9 @@ class TextSuccessRu(Enum):
         return f'<green>Сборка проекта прошла успешно:</green> {new_line}' + ''.join(paths)
 
     @staticmethod
+    def flutter_enable_custom_device_success():
+        return '<green>Успешно активированы кастомные устройства.</green>'
+
+    @staticmethod
     def vscode_extension_install_success(version: str):
         return f'<green>Расширение</green> {version} <green>было успешно установлено.</green>'
