@@ -223,11 +223,6 @@ class TextInfo(Enum):
 
     @staticmethod
     @localization
-    def vscode_extensions_python(extensions: []):
-        return '<blue>Extensions for working with Python will be installed:</blue>\n' + '\n'.join(extensions)
-
-    @staticmethod
-    @localization
     def vscode_extensions_cpp(extensions: []):
         return '<blue>Extensions for working with C++ will be installed:</blue>\n' + '\n'.join(extensions)
 
@@ -255,11 +250,6 @@ class TextInfo(Enum):
     @localization
     def vscode_extensions_flutter_installed():
         return '<blue>Extensions for working with Flutter already installed.</blue>'
-
-    @staticmethod
-    @localization
-    def vscode_extensions_python_installed():
-        return '<blue>Extensions for working with Python already installed.</blue>'
 
     @staticmethod
     @localization

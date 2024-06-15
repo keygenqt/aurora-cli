@@ -17,7 +17,6 @@ limitations under the License.
 from aurora_cli.src.base.common.groups.vscode.vscode_features import (
     vscode_extensions_list_common,
     vscode_extensions_flutter_check_common,
-    vscode_extensions_python_check_common,
     vscode_extensions_cpp_check_common,
     vscode_extensions_other_check_common, vscode_extensions_install, vscode_settings_common
 )
@@ -31,8 +30,6 @@ def search_route_vscode(route: str) -> bool:
             echo_stdout(OutResult(value=vscode_extensions_list_common()))
         case '/vscode/extensions/check/flutter':
             echo_stdout(OutResult(value=vscode_extensions_flutter_check_common()))
-        case '/vscode/extensions/check/python':
-            echo_stdout(OutResult(value=vscode_extensions_python_check_common()))
         case '/vscode/extensions/check/cpp':
             echo_stdout(OutResult(value=vscode_extensions_cpp_check_common()))
         case '/vscode/extensions/check/other':

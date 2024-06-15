@@ -179,10 +179,6 @@ class TextInfoRu(Enum):
         return '<blue>Будут установлены расширения для работы с Flutter:</blue>\n' + '\n'.join(extensions)
 
     @staticmethod
-    def vscode_extensions_python(extensions: []):
-        return '<blue>Будут установлены расширения для работы с Python:</blue>\n' + '\n'.join(extensions)
-
-    @staticmethod
     def vscode_extensions_cpp(extensions: []):
         return '<blue>Будут установлены расширения для работы с C++:</blue>\n' + '\n'.join(extensions)
 
@@ -205,10 +201,6 @@ class TextInfoRu(Enum):
     @staticmethod
     def vscode_extensions_flutter_installed():
         return '<blue>Расширения для работы с Flutter уже установлены.</blue>'
-
-    @staticmethod
-    def vscode_extensions_python_installed():
-        return '<blue>Расширения для работы с Python уже установлены.</blue>'
 
     @staticmethod
     def vscode_extensions_cpp_installed():

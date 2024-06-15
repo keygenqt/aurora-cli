@@ -40,20 +40,6 @@ def vscode_extensions_flutter_check_common(extensions: list | None = None) -> li
     return install
 
 
-def vscode_extensions_python_check_common(extensions: list | None = None) -> list:
-    if extensions is None:
-        extensions = shell_vscode_list_extensions()
-    install = []
-    for extension in [
-        'ms-python.debugpy',
-        'ms-python.python',
-        'ms-python.vscode-pylance',
-    ]:
-        if extension not in extensions:
-            install.append(extension)
-    return install
-
-
 def vscode_extensions_cpp_check_common(extensions: list | None = None) -> list:
     if extensions is None:
         extensions = shell_vscode_list_extensions()
@@ -77,8 +63,6 @@ def vscode_extensions_other_check_common(extensions: list | None = None) -> list
         extensions = shell_vscode_list_extensions()
     install = []
     for extension in [
-        'james-yu.latex-workshop',
-        'ms-azuretools.vscode-docker',
         'streetsidesoftware.code-spell-checker',
         'streetsidesoftware.code-spell-checker-russian',
         'ybaumes.highlight-trailing-white-spaces',

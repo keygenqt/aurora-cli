@@ -47,15 +47,6 @@ def tuning(verbose: bool):
     else:
         echo_stdout(OutResultInfo(TextInfo.vscode_extensions_flutter_installed()))
 
-    # Python
-    install = vscode_extensions_python_check_common(extensions)
-    if install:
-        echo_stdout(OutResultInfo(TextInfo.vscode_extensions_python(install)))
-        if click.confirm(TextPrompt.select_continue()):
-            vscode_extensions_install(install)
-    else:
-        echo_stdout(OutResultInfo(TextInfo.vscode_extensions_python_installed()))
-
     # C++
     install = vscode_extensions_cpp_check_common(extensions)
     if install:
