@@ -102,11 +102,13 @@ class AppConfig:
         for item in self._data_config['devices']:
             path_file = path_convert_relative(item['auth'])
             if path_file and path_file.is_file():
-                item['auth'] = path_file
+                auth = path_file
+            else:
+                auth = item['auth']
             devices.append(DeviceModel(
                 host=item['host'],
                 port=item['port'],
-                auth=item['auth'],
+                auth=auth,
                 devel_su=item['devel-su'],
             ))
         return devices

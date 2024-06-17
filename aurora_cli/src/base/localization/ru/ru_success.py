@@ -239,3 +239,7 @@ class TextSuccessRu(Enum):
     @staticmethod
     def vscode_extension_install_success(version: str):
         return f'<green>Расширение</green> {version} <green>было успешно установлено.</green>'
+
+    @staticmethod
+    def ssh_copy_id_success():
+        return '<green>Ключ успешно зарегистрирован на устройстве.</green>'

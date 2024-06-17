@@ -153,6 +153,7 @@ def group_flutter_debug_dart(ctx: {}, index: int, emulator: bool, yes: bool, ver
         if not check_dependency_sshpass():
             echo_stderr(AppTexts.error_dependency_sshpass())
             exit(1)
+        # ssh-copy-id defaultuser@192.168.2.15
         pc_command([
             'sshpass',
             '-p{}'.format(device_pass),
@@ -174,6 +175,7 @@ def group_flutter_debug_dart(ctx: {}, index: int, emulator: bool, yes: bool, ver
                 '-p2223'
             ], VerboseType.verbose)
         else:
+            # ssh -NfL 42309:127.0.0.1:42309 defaultuser@192.168.2.15
             pc_command([
                 'ssh',
                 '-NfL',

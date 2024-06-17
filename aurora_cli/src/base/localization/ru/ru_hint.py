@@ -114,3 +114,11 @@ class TextHintRU(Enum):
     @staticmethod
     def psdk_keys_info():
         return '<i>В конфигурационный файл приложение вы можете добавить ваши ключи, если такие имеются.</i>'
+
+    @staticmethod
+    def ssh_key():
+        return '<i>Для примера: auth: ~/.ssh/id_rsa. Создать ключ можно командой: ssh-keygen -t rsa</i>'
+
+    @staticmethod
+    def ssh_copy_id():
+        return '<i>Для регистрации ключ на девайсе воспользуйтесь командой:</i> aurora-cli device ssh-copy-id'

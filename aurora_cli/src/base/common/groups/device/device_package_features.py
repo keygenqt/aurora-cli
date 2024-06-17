@@ -26,14 +26,15 @@ from aurora_cli.src.base.models.device_model import DeviceModel
 def device_package_run_common(
         model: DeviceModel,
         package: str,
-): ssh_run_common(model, package)
+        debug: bool,
+): ssh_run_common(model, package, debug)
 
 
 def device_package_install_common(
         model: DeviceModel,
         path: str,
         apm: bool,
-): ssh_install_common(model, path, apm)
+): ssh_install_common(model, path, apm, model.devel_su)
 
 
 def device_package_remove_common(

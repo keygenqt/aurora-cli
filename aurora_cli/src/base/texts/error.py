@@ -401,3 +401,20 @@ class TextError(Enum):
     @localization
     def vscode_extension_install_error():
         return '<red>Failed install extension.</red>'
+
+    @staticmethod
+    @localization
+    @hint(Hint.ssh_key)
+    def ssh_copy_id_without_key():
+        return '<red>In the device auth field, specify path to the ssh key in the application configuration file.</red>'
+
+    @staticmethod
+    @localization
+    def ssh_copy_id_error():
+        return '<red>Failed to register the key on the device.</red>'
+
+    @staticmethod
+    @localization
+    @hint(Hint.ssh_copy_id)
+    def ssh_run_debug_error():
+        return '<red>To run the application in debug mode, the connection must be via an ssh key.</red>'

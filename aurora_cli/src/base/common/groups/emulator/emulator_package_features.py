@@ -27,9 +27,10 @@ from aurora_cli.src.base.models.emulator_model import EmulatorModel
 def emulator_package_run_common(
         model: EmulatorModel,
         package: str,
+        debug: bool,
 ):
     emulator_tool_check_is_not_run(model)
-    ssh_run_common(model, package)
+    ssh_run_common(model, package, debug)
 
 
 def emulator_package_install_common(

@@ -36,17 +36,19 @@ def subgroup_device_package():
 
 @subgroup_device_package.command(name='run', help=TextCommand.command_device_package_run())
 @click.option('-p', '--package', type=click.STRING, required=True, help=TextArgument.argument_package_name())
+@click.option('-d', '--debug', is_flag=True, help=TextArgument.argument_debug())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_run(
         package: str,
+        debug: bool,
         select: bool,
         index: int,
         verbose: bool
 ):
     model = cli_device_tool_select_model(select, index)
-    device_package_run_common(model, package)
+    device_package_run_common(model, package, debug)
     echo_verbose(verbose)
 
 

@@ -22,3 +22,11 @@ class ModelClient:
     @abstractmethod
     def get_ssh_client(self):
         pass
+
+    @abstractmethod
+    def get_host(self) -> str:
+        pass
+
+    @abstractmethod
+    def is_password(self) -> bool:
+        pass

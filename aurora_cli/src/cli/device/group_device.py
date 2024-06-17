@@ -18,7 +18,7 @@ import click
 
 from aurora_cli.src.base.common.groups.device.device_features import (
     device_command_common,
-    device_upload_common
+    device_upload_common, device_ssh_copy_id_common
 )
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.texts.app_argument import TextArgument
@@ -68,4 +68,18 @@ def upload(
 ):
     model = cli_device_tool_select_model(select, index)
     device_upload_common(model, path)
+    echo_verbose(verbose)
+
+
+@group_device.command(name='ssh-copy-id', help=TextCommand.command_device_ssh_copy_id())
+@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
+@click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
+def ssh_copy_id(
+        select: bool,
+        index: int,
+        verbose: bool
+):
+    model = cli_device_tool_select_model(select, index)
+    device_ssh_copy_id_common(model)
     echo_verbose(verbose)

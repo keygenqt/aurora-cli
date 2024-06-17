@@ -36,13 +36,15 @@ def subgroup_emulator_package():
 
 @subgroup_emulator_package.command(name='run', help=TextCommand.command_emulator_package_run())
 @click.option('-p', '--package', type=click.STRING, required=True, help=TextArgument.argument_package_name())
+@click.option('-d', '--debug', is_flag=True, help=TextArgument.argument_debug())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_run(
         package: str,
+        debug: bool,
         verbose: bool
 ):
     model = cli_emulator_tool_select_model()
-    emulator_package_run_common(model, package)
+    emulator_package_run_common(model, package, debug)
     echo_verbose(verbose)
 
 

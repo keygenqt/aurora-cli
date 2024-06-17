@@ -49,6 +49,7 @@ def ssh_command(
 def ssh_run(
         client: SSHClient,
         package: str,
+        debug: bool,
         listen_stdout: Callable[[OutResult | None], None],
         listen_stderr: Callable[[OutResult | None], None],
         close: bool = True
@@ -60,9 +61,14 @@ def ssh_run(
             return True
         return False
 
+    if debug:
+        execute = f'/usr/bin/{package}'
+    else:
+        execute = f'invoker --type=qt5 {package}'
+
     stdout, stderr = ssh_exec_command(
         client=client,
-        execute=f'invoker --type=qt5 {package}',
+        execute=execute,
         listen_stdout=lambda value, index: listen_stdout(
             None if check_is_error(value) else OutResult(value=value, index=index)
         ),

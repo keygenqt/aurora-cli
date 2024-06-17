@@ -282,3 +282,8 @@ Good luck 👋'''
     @localization
     def vscode_extension_install_success(version: str):
         return f'<green>Extension</green> {version} <green>was successfully installed.</green>'
+
+    @staticmethod
+    @localization
+    def ssh_copy_id_success():
+        return '<green>The key has been successfully registered on the device.</green>'

@@ -14,6 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
+import fcntl
+import json
 import shutil
 from pathlib import Path
 
@@ -23,6 +25,7 @@ from aurora_cli.src.base.common.features.search_installed import search_installe
 from aurora_cli.src.base.models.device_model import DeviceModel
 from aurora_cli.src.base.models.emulator_model import EmulatorModel
 from aurora_cli.src.base.models.flutter_model import FlutterModel
+from aurora_cli.src.base.out.flutter_custom_devices import gen_custom_device
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
@@ -96,5 +99,27 @@ def flutter_add_custom_devices(model: FlutterModel):
     if not path_config.is_file():
         path_config.write_text('{}')
 
-    print(emulators)
-    print(devices)
+    with open(path_config, 'r+') as file:
+        fcntl.lockf(file, fcntl.LOCK_EX)
+        config = json.loads(file.read())
+        devices = []
+
+        if 'custom-devices' in config.keys():
+            for device in config['custom-devices']:
+                if 'aurora-' not in device['id']:
+                    devices.append(device)
+
+        config['custom-devices'] = []
+
+        for emulator in emulators:
+            config['custom-devices'].append(gen_custom_device(
+                device_id='aurora-emulator',
+                device_ip='localhost'
+            ))
+
+        for device in devices:
+            config['custom-devices'].append(device)
+
+        file.seek(0)
+        file.write(json.dumps(config, indent=2, ensure_ascii=False))
+        file.truncate()

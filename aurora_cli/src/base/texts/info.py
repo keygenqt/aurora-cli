@@ -265,3 +265,8 @@ class TextInfo(Enum):
     @localization
     def devices_not_found():
         return '<blue>No devices found.</blue>'
+
+    @staticmethod
+    @localization
+    def ssh_copy_id_password():
+        return '<blue>Enter the ssh connection password, it can be found in the device settings.</blue>'

@@ -26,6 +26,24 @@ from aurora_cli.src.base.utils.percent_cli import percent_start, percent_counter
 from aurora_cli.src.base.utils.shell import shell_exec_command, shell_check_error_out
 
 
+def shell_ssh_copy_id(
+        ip: str,
+        ssh_key: Path,
+) -> OutResult:
+    stdout, stderr = shell_exec_command([
+        'ssh-copy-id',
+        '-i',
+        str(ssh_key),
+        f'defaultuser@{ip}',
+    ])
+
+    result = shell_check_error_out(stdout, stderr, ['Permission denied'])
+    if result.is_error():
+        return OutResultError(TextError.ssh_copy_id_error())
+
+    return OutResult(TextSuccess.ssh_copy_id_success())
+
+
 def shell_dart_format(
         dart: str,
         path: str

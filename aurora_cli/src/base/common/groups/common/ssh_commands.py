@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import subprocess
 
 from paramiko.client import SSHClient
 
@@ -24,12 +25,13 @@ from aurora_cli.src.base.common.features.ssh_features import (
     ssh_package_remove
 )
 from aurora_cli.src.base.interface.model_client import ModelClient
+from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
 from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.argv import argv_is_test, argv_is_api
-from aurora_cli.src.base.utils.output import echo_stdout, OutResult
+from aurora_cli.src.base.utils.output import echo_stdout, OutResult, OutResultError
 
 
 def _get_ssh_client(model: ModelClient) -> SSHClient:
@@ -89,15 +91,26 @@ def ssh_upload_common(
 def ssh_run_common(
         model: ModelClient,
         package: str,
+        debug: bool,
 ):
+    if debug and model.is_password():
+        echo_stdout(OutResultError(TextError.ssh_run_debug_error()))
+        app_exit(1)
+
     client = _get_ssh_client(model)
 
     def echo_stdout_with_check_close(stdout: OutResult | None):
+        if debug and 'The Dart VM service is listening on' in stdout.value:
+            url = stdout.value.split(' ')[-1]
+            port = url.split('/')[2].split(':')[-1]
+            subprocess.call(['ssh', '-NfL', f'{port}:127.0.0.1:{port}', f'defaultuser@{model.get_host()}'])
+
         echo_stdout(stdout)
 
     result = ssh_run(
         client=client,
         package=package,
+        debug=debug,
         listen_stdout=lambda stdout: echo_stdout_with_check_close(stdout),
         listen_stderr=lambda stderr: echo_stdout(stderr)
     )

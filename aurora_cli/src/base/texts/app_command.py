@@ -32,6 +32,11 @@ class TextCommand(Enum):
 
     @staticmethod
     @localization
+    def command_device_ssh_copy_id():
+        return 'Copy ssh keys to device.'
+
+    @staticmethod
+    @localization
     def command_device_package_run():
         return 'Run package on device in container.'
 

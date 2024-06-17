@@ -70,6 +70,12 @@ class EmulatorModel(ModelClient):
     def emulator_ssh_key(self) -> Path | None:
         return self.path.parent.parent.parent / 'vmshare' / 'ssh' / 'private_keys' / 'sdk'
 
+    def get_host(self) -> str:
+        return 'localhost'
+
+    def is_password(self) -> bool:
+        return False
+
     def get_ssh_client(self) -> SSHClient | OutResult:
         if not self.is_on:
             return OutResultError(TextError.emulator_not_found_running())

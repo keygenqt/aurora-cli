@@ -43,6 +43,8 @@ class Hint(Enum):
     use_select = 'use_select'
     use_verbose = 'use_verbose'
     use_apm = 'use_apm'
+    ssh_key = 'ssh_key'
+    ssh_copy_id = 'ssh_copy_id'
 
 
 def hint(*hints: Hint):
@@ -183,3 +185,13 @@ class TextHint(Enum):
     @localization
     def psdk_keys_info():
         return '<i>You can add your keys, if any, to the application configuration file.</i>'
+
+    @staticmethod
+    @localization
+    def ssh_key():
+        return '<i>For example: auth: ~/.ssh/id_rsa. You can create a key using the command: ssh-keygen -t rsa</i>'
+
+    @staticmethod
+    @localization
+    def ssh_copy_id():
+        return '<i>To register the key on the device, use the command:</i> aurora-cli device ssh-copy-id'

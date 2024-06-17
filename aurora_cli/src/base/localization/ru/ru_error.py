@@ -305,3 +305,15 @@ class TextErrorRu(Enum):
     @staticmethod
     def vscode_extension_install_error():
         return '<red>Не удалось установить расширение.</red>'
+
+    @staticmethod
+    def ssh_copy_id_without_key():
+        return '<red>В поле auth устройства, укажите путь к ssh ключу в файле конфигурации приложения.</red>'
+
+    @staticmethod
+    def ssh_copy_id_error():
+        return '<red>Не удалось зарегистрировать ключ на устройстве.</red>'
+
+    @staticmethod
+    def ssh_run_debug_error():
+        return '<red>Для запуска приложения в режиме debug подключение должно быть через ssh ключ.</red>'

@@ -213,3 +213,7 @@ class TextInfoRu(Enum):
     @staticmethod
     def devices_not_found():
         return '<blue>Устройства не найдены.</blue>'
+
+    @staticmethod
+    def ssh_copy_id_password():
+        return '<blue>Введите пароль подключения по ssh, его можно найти в настройках устройства.</blue>'

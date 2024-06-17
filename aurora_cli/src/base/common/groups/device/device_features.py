@@ -14,8 +14,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
+from aurora_cli.src.base.common.features.shell_features import shell_ssh_copy_id
 from aurora_cli.src.base.common.groups.common.ssh_commands import ssh_command_common, ssh_upload_common
 from aurora_cli.src.base.models.device_model import DeviceModel
+from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.texts.info import TextInfo
+from aurora_cli.src.base.utils.app import app_exit
+from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResultInfo
 
 
 def device_command_common(
@@ -28,3 +33,14 @@ def device_upload_common(
         model: DeviceModel,
         path: str,
 ): ssh_upload_common(model, path)
+
+
+def device_ssh_copy_id_common(
+        model: DeviceModel,
+):
+    if model.is_password():
+        echo_stdout(OutResultError(TextError.ssh_copy_id_without_key()))
+        app_exit(1)
+
+    echo_stdout(OutResultInfo(TextInfo.ssh_copy_id_password()))
+    echo_stdout(shell_ssh_copy_id(model.host, model.auth))
