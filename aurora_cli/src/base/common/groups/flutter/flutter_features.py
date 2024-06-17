@@ -111,6 +111,7 @@ def flutter_add_custom_devices(model: FlutterModel):
 
         config['custom-devices'] = []
 
+        # @todo Доработать добавление - нужно для подключение дебага
         for emulator in emulators:
             config['custom-devices'].append(gen_custom_device(
                 device_id='aurora-emulator',

@@ -15,7 +15,7 @@ limitations under the License.
 """
 
 from dataclasses import dataclass
-from pathlib import Path, PosixPath
+from pathlib import Path
 
 import click
 from paramiko.client import SSHClient
@@ -66,6 +66,14 @@ class DeviceModel(ModelClient):
 
     def get_host(self) -> str:
         return self.host
+
+    def get_port(self) -> int:
+        return self.port
+
+    def get_ssh_key(self) -> Path | None:
+        if self.is_password():
+            return None
+        return self.auth
 
     def is_password(self) -> bool:
         return type(self.auth) is str

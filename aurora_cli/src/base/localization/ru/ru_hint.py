@@ -122,3 +122,7 @@ class TextHintRU(Enum):
     @staticmethod
     def ssh_copy_id():
         return '<i>Для регистрации ключ на девайсе воспользуйтесь командой:</i> aurora-cli device ssh-copy-id'
+
+    @staticmethod
+    def ssh_forward_port():
+        return '<i>Попробуйте удалить старое соединение:</i> rm ~/.ssh/known_hosts'

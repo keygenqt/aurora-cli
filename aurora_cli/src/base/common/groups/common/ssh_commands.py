@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-import subprocess
 
 from paramiko.client import SSHClient
 
@@ -32,6 +31,7 @@ from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
 from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.argv import argv_is_test, argv_is_api
 from aurora_cli.src.base.utils.output import echo_stdout, OutResult, OutResultError
+from aurora_cli.src.base.utils.shell import shell_exec_command
 
 
 def _get_ssh_client(model: ModelClient) -> SSHClient:
@@ -93,6 +93,7 @@ def ssh_run_common(
         package: str,
         debug: bool,
 ):
+    # @todo - Чекнуть по подключение по паролю.
     if debug and model.is_password():
         echo_stdout(OutResultError(TextError.ssh_run_debug_error()))
         app_exit(1)
@@ -103,7 +104,17 @@ def ssh_run_common(
         if debug and 'The Dart VM service is listening on' in stdout.value:
             url = stdout.value.split(' ')[-1]
             port = url.split('/')[2].split(':')[-1]
-            subprocess.call(['ssh', '-NfL', f'{port}:127.0.0.1:{port}', f'defaultuser@{model.get_host()}'])
+            _stdout, _stderr = shell_exec_command([
+                'ssh',
+                '-i',
+                str(model.get_ssh_key()),
+                '-NfL',
+                f'{port}:127.0.0.1:{port}',
+                f'defaultuser@{model.get_host()}',
+                f'-p{model.get_port()}'
+            ])
+            if _stdout and '@@@@@@@@@' in _stdout[0]:
+                echo_stdout(OutResultError(TextError.ssh_forward_port_error()))
 
         echo_stdout(stdout)
 

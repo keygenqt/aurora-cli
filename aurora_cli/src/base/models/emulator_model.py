@@ -67,11 +67,14 @@ class EmulatorModel(ModelClient):
             app_exit()
         return name, info['info_path'], EmulatorModel._vm_emulator_is_on(name), info['is_record']
 
-    def emulator_ssh_key(self) -> Path | None:
-        return self.path.parent.parent.parent / 'vmshare' / 'ssh' / 'private_keys' / 'sdk'
-
     def get_host(self) -> str:
-        return 'localhost'
+        return '127.0.0.1'
+
+    def get_port(self) -> int:
+        return self.port
+
+    def get_ssh_key(self) -> Path | None:
+        return self.path.parent.parent.parent / 'vmshare' / 'ssh' / 'private_keys' / 'sdk'
 
     def is_password(self) -> bool:
         return False
@@ -83,7 +86,7 @@ class EmulatorModel(ModelClient):
             self.host,
             self.user,
             self.port,
-            self.emulator_ssh_key()
+            self.get_ssh_key()
         )
         if not client:
             return OutResultError(TextError.ssh_connect_emulator_error())

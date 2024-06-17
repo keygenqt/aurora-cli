@@ -45,6 +45,7 @@ class Hint(Enum):
     use_apm = 'use_apm'
     ssh_key = 'ssh_key'
     ssh_copy_id = 'ssh_copy_id'
+    ssh_forward_port = 'ssh_forward_port'
 
 
 def hint(*hints: Hint):
@@ -195,3 +196,8 @@ class TextHint(Enum):
     @localization
     def ssh_copy_id():
         return '<i>To register the key on the device, use the command:</i> aurora-cli device ssh-copy-id'
+
+    @staticmethod
+    @localization
+    def ssh_forward_port():
+        return '<i>Try deleting the old connection:</i> rm ~/.ssh/known_hosts'

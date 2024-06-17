@@ -317,3 +317,7 @@ class TextErrorRu(Enum):
     @staticmethod
     def ssh_run_debug_error():
         return '<red>Для запуска приложения в режиме debug подключение должно быть через ssh ключ.</red>'
+
+    @staticmethod
+    def ssh_forward_port_error():
+        return '<red>Не удалось пробросить ssh порты.</red>'

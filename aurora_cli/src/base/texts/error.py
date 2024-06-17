@@ -418,3 +418,9 @@ class TextError(Enum):
     @hint(Hint.ssh_copy_id)
     def ssh_run_debug_error():
         return '<red>To run the application in debug mode, the connection must be via an ssh key.</red>'
+
+    @staticmethod
+    @localization
+    @hint(Hint.ssh_forward_port)
+    def ssh_forward_port_error():
+        return '<red>Failed to forward ssh ports.</red>'
