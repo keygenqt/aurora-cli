@@ -27,6 +27,7 @@ from aurora_cli.src.base.models.emulator_model import EmulatorModel
 from aurora_cli.src.base.models.flutter_model import FlutterModel
 from aurora_cli.src.base.out.flutter_custom_devices import gen_custom_device
 from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.texts.hint import TextHint
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.app import app_exit
@@ -83,10 +84,10 @@ def flutter_add_custom_devices(model: FlutterModel):
 
     out_check_result(flutter_enable_custom_device(model.get_tool_flutter()))
 
-    emulators = EmulatorModel.get_models_list()
-    devices = DeviceModel.get_models_list()
+    config_emulators = EmulatorModel.get_models_list()
+    config_devices = DeviceModel.get_models_list()
 
-    if not emulators and not devices:
+    if not config_emulators and not config_devices:
         echo_stdout(OutResultInfo(TextInfo.devices_not_found()))
         app_exit()
 
@@ -111,12 +112,37 @@ def flutter_add_custom_devices(model: FlutterModel):
 
         config['custom-devices'] = []
 
-        # @todo Доработать добавление - нужно для подключение дебага
-        for emulator in emulators:
+        for emulator in config_emulators:
+            platform_name, platform_arch = emulator.get_emulator_info()
             config['custom-devices'].append(gen_custom_device(
-                device_id='aurora-emulator',
-                device_ip='localhost'
+                key='Aurora Emulator',
+                ip=emulator.get_host(),
+                port=emulator.get_port(),
+                ssh_key=emulator.get_ssh_key(),
+                platform_name=platform_name,
+                platform_arch=platform_arch
             ))
+            echo_stdout(OutResult(TextSuccess.devices_add_to_config_emulator()))
+
+        not_added = False
+        for device in config_devices:
+            if device.is_password():
+                echo_stdout(OutResultInfo(TextInfo.devices_password_not_connect(device.get_host())))
+                not_added = True
+            else:
+                platform_name, platform_arch = device.get_device_info()
+                config['custom-devices'].append(gen_custom_device(
+                    key=f'Aurora Device ({device.get_host()})',
+                    ip=device.get_host(),
+                    port=device.get_port(),
+                    ssh_key=device.get_ssh_key(),
+                    platform_name=platform_name,
+                    platform_arch=platform_arch
+                ))
+                echo_stdout(OutResult(TextSuccess.devices_add_to_config_devices(device.get_host())))
+
+        if not_added:
+            echo_stdout(OutResultInfo(TextHint.ssh_copy_id()))
 
         for device in devices:
             config['custom-devices'].append(device)

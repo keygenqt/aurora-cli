@@ -73,6 +73,11 @@ class EmulatorModel(ModelClient):
     def get_port(self) -> int:
         return self.port
 
+    def get_emulator_info(self):
+        platform_name = self.name.replace('-base', '')
+        platform_arch = 'aurora-x64'
+        return platform_name, platform_arch
+
     def get_ssh_key(self) -> Path | None:
         return self.path.parent.parent.parent / 'vmshare' / 'ssh' / 'private_keys' / 'sdk'
 
@@ -136,6 +141,7 @@ class EmulatorModel(ModelClient):
             'showvminfo',
             emulator_name,
         ])
+
         for line in stdout:
             if 'Snapshot folder:' in line:
                 info_path = Path(os.path.dirname(line.replace('Snapshot folder:', '').strip()))

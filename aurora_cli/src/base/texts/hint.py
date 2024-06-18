@@ -201,3 +201,9 @@ class TextHint(Enum):
     @localization
     def ssh_forward_port():
         return '<i>Try deleting the old connection:</i> rm ~/.ssh/known_hosts'
+
+    @staticmethod
+    @localization
+    def custom_devices():
+        return ('<i>To run the debug, you will need to add custom-devices if you have not already done so:</i> '
+                'aurora-cli flutter custom-devices')

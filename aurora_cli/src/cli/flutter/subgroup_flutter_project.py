@@ -22,7 +22,6 @@ from aurora_cli.src.base.common.groups.flutter.flutter_project_features import (
     flutter_project_report_common,
     flutter_project_format_common,
     flutter_project_build_common,
-    flutter_project_debug_common,
     flutter_project_icons_common,
 )
 from aurora_cli.src.base.configuration.app_config import AppConfig
@@ -114,23 +113,6 @@ def project_build(
         is_run=run,
     )
 
-    echo_verbose(verbose)
-
-
-@subgroup_flutter_project.command(name='debug', help=TextCommand.command_project_debug())
-@click.option('-p', '--path', type=click.STRING, required=False, help=TextArgument.argument_path_to_project())
-@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
-@click.option('-i', '--index', type=click.INT, default=None, help=TextArgument.argument_index())
-@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def project_debug(
-        path: str | None,
-        select: bool,
-        index: int | None,
-        verbose: bool
-):
-    path = Path(path) if path else Path.cwd()
-    model = cli_flutter_tool_select_model(select, index)
-    flutter_project_debug_common(model, path)
     echo_verbose(verbose)
 
 

@@ -26,7 +26,6 @@ from aurora_cli.src.base.common.groups.flutter.flutter_project_features import (
     flutter_project_report_common,
     flutter_project_format_common,
     flutter_project_build_common,
-    flutter_project_debug_common,
     flutter_project_icons_common,
 )
 from aurora_cli.src.base.models.device_model import DeviceModel
@@ -75,11 +74,6 @@ def search_route_flutter(route: str) -> bool:
                 is_install=get_arg_bool(route, 'is_install'),
                 is_run=get_arg_bool(route, 'is_run'),
                 is_bar=False,
-            )
-        case '/flutter/project/debug':
-            flutter_project_debug_common(
-                model=FlutterModel.get_model_by_version(get_arg_str(route, 'version')),
-                project=Path(get_arg_str(route, 'path')),
             )
         case '/flutter/project/report':
             flutter_project_report_common(

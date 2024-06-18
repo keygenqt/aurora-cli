@@ -215,22 +215,14 @@ def flutter_project_build_common(
             device_package_run_common(
                 model=DeviceModel.get_model_by_host(model_device.host),
                 package=package,
+                debug=debug
             )
         else:
             emulator_package_run_common(
                 model=EmulatorModel.get_model_user(),
                 package=package,
+                debug=debug
             )
-
-
-def flutter_project_debug_common(
-        model: FlutterModel,
-        project: Path,
-):
-    flutter_tool_check_is_project(project)
-
-    # @todo
-    print('Coming soon')
 
 
 def flutter_project_report_common(

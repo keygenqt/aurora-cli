@@ -27,7 +27,9 @@ from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
-from aurora_cli.src.base.utils.output import echo_verbose
+from aurora_cli.src.base.texts.info import TextInfo
+from aurora_cli.src.base.texts.prompt import TextPrompt
+from aurora_cli.src.base.utils.output import echo_verbose, echo_stdout, OutResultInfo
 from aurora_cli.src.base.utils.prompt import prompt_flutter_select_version
 from aurora_cli.src.cli.flutter.__tools import cli_flutter_tool_select_model
 from aurora_cli.src.cli.flutter.subgroup_flutter_project import subgroup_flutter_project
@@ -86,6 +88,15 @@ def custom_devices(
         index: int | None,
         verbose: bool
 ):
+    echo_stdout(OutResultInfo(TextInfo.devices_turn_on()))
+
+    click.prompt(
+        text=TextPrompt.is_ready(),
+        prompt_suffix='',
+        default='Enter',
+        hide_input=True
+    )
+
     model = cli_flutter_tool_select_model(select, index)
     flutter_add_custom_devices(model)
     echo_verbose(verbose)

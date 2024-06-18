@@ -13,9 +13,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import fcntl
+import json
+from pathlib import Path
 
 from paramiko.client import SSHClient
 
+from aurora_cli.src.base.common.features.search_files import search_file_for_check_is_flutter_project
 from aurora_cli.src.base.common.features.ssh_features import (
     ssh_command,
     ssh_run,
@@ -25,12 +29,13 @@ from aurora_cli.src.base.common.features.ssh_features import (
 )
 from aurora_cli.src.base.interface.model_client import ModelClient
 from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.texts.hint import TextHint
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
 from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.argv import argv_is_test, argv_is_api
-from aurora_cli.src.base.utils.output import echo_stdout, OutResult, OutResultError
+from aurora_cli.src.base.utils.output import echo_stdout, OutResult, OutResultError, OutResultInfo
 from aurora_cli.src.base.utils.shell import shell_exec_command
 
 
@@ -93,12 +98,48 @@ def ssh_run_common(
         package: str,
         debug: bool,
 ):
-    # @todo - Чекнуть по подключение по паролю.
     if debug and model.is_password():
         echo_stdout(OutResultError(TextError.ssh_run_debug_error()))
         app_exit(1)
 
     client = _get_ssh_client(model)
+
+    def update_launch_is_project_flutter(url: str) -> bool:
+        path_project = Path.cwd()
+        if search_file_for_check_is_flutter_project(path_project):
+            path_folder = path_project / '.vscode'
+            path_launch = path_folder / 'launch.json'
+
+            if not path_folder.is_dir():
+                path_folder.mkdir(parents=True, exist_ok=True)
+
+            if not path_launch.is_file():
+                path_launch.write_text('{}')
+
+            with open(path_launch, 'r+') as file:
+                fcntl.lockf(file, fcntl.LOCK_EX)
+                launch = json.loads(file.read())
+                configurations = [{
+                    'name': 'Aurora OS Dart Debug',
+                    'type': 'dart',
+                    'request': 'attach',
+                    'vmServiceUri': url,
+                    'program': 'lib/main.dart',
+                }]
+
+                if 'configurations' in launch.keys():
+                    for item in launch['configurations']:
+                        if 'Aurora OS Dart Debug' != item['name']:
+                            configurations.append(item)
+
+                launch['configurations'] = configurations
+
+                file.seek(0)
+                file.write(json.dumps(launch, indent=2, ensure_ascii=False))
+                file.truncate()
+            return True
+
+        return False
 
     def echo_stdout_with_check_close(stdout: OutResult | None):
         if debug and 'The Dart VM service is listening on' in stdout.value:
@@ -115,6 +156,13 @@ def ssh_run_common(
             ])
             if _stdout and '@@@@@@@@@' in _stdout[0]:
                 echo_stdout(OutResultError(TextError.ssh_forward_port_error()))
+            else:
+                echo_stdout(OutResult(TextSuccess.ssh_forward_port_success()))
+                if not update_launch_is_project_flutter(url):
+                    echo_stdout(OutResultInfo(TextInfo.ssh_forward_port_info(url)))
+                else:
+                    echo_stdout(OutResultInfo(TextInfo.update_launch_json()))
+                echo_stdout(OutResultInfo(TextHint.custom_devices()))
 
         echo_stdout(stdout)
 

@@ -270,3 +270,38 @@ class TextInfo(Enum):
     @localization
     def ssh_copy_id_password():
         return '<blue>Enter the ssh connection password, it can be found in the device settings.</blue>'
+
+    @staticmethod
+    @localization
+    def ssh_forward_port_info(url: str):
+        return ('<blue>To connect to the debug via vscode, add</blue>'
+                ' launch.json '
+                '<blue>with the following content:</blue>'
+                '\n{'
+                '\n   "configurations": ['
+                '\n       {'
+                '\n           "name": "Aurora OS Dart Debug",'
+                '\n           "type": "dart",'
+                '\n           "request": "attach",'
+                f'\n           "vmServiceUri": "{url}",'
+                '\n           "program": "lib/main.dart"'
+                '\n       }'
+                '\n   ]'
+                '\n}')
+
+    @staticmethod
+    @localization
+    def devices_password_not_connect(host: str):
+        return (f'<blue>The device</blue>'
+                f' {host} '
+                f'<blue>connected using a password will not be added, use ssh key in auth.</blue>')
+
+    @staticmethod
+    @localization
+    def devices_turn_on():
+        return '<blue>To obtain the necessary information about the device, they must be connected...</blue>'
+
+    @staticmethod
+    @localization
+    def update_launch_json():
+        return '<blue>File</blue> launch.json <blue>has been updated, you can run the debug in VS Code.</blue>'

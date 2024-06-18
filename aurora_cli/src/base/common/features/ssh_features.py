@@ -234,3 +234,41 @@ def ssh_package_remove(
         )
 
     return OutResult(TextSuccess.ssh_remove_rpm())
+
+
+def ssh_get_device_platform_name(
+        client: SSHClient,
+        close: bool = True
+) -> str | None:
+    execute = 'cat /etc/os-release'
+    stdout, stderr = ssh_exec_command(client, execute)
+
+    if close:
+        client.close()
+
+    if stderr:
+        return None
+    for line in stdout:
+        if 'VERSION_ID=' in line:
+            return line.split('=')[-1]
+    return None
+
+
+def ssh_get_device_platform_arch(
+        client: SSHClient,
+        close: bool = True
+) -> str | None:
+    execute = 'cat /etc/rpm/platform'
+    stdout, stderr = ssh_exec_command(client, execute)
+
+    if close:
+        client.close()
+
+    if stderr:
+        return None
+    for line in stdout:
+        if 'armv7hl' in line:
+            return 'aurora-arm'
+        if 'aarch64' in line:
+            return 'aurora-arm64'
+    return 'aurora-arm'

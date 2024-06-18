@@ -243,3 +243,17 @@ class TextSuccessRu(Enum):
     @staticmethod
     def ssh_copy_id_success():
         return '<green>Ключ успешно зарегистрирован на устройстве.</green>'
+
+    @staticmethod
+    def ssh_forward_port_success():
+        return '<green>Порт был успешно проброшен.</green>'
+
+    @staticmethod
+    def devices_add_to_config_emulator():
+        return '<green>Эмулятор ОС Аврора был успешно добавлен на пользовательские устройства Flutter.</green>'
+
+    @staticmethod
+    def devices_add_to_config_devices(host: str):
+        return (f'<green>Устройство ОС Аврора</green>'
+                f' {host} '
+                f'<green>успешно было добавлено в custom-device Flutter.</green>')

@@ -20,6 +20,7 @@ from pathlib import Path
 import click
 from paramiko.client import SSHClient
 
+from aurora_cli.src.base.common.features.ssh_features import ssh_get_device_platform_name, ssh_get_device_platform_arch
 from aurora_cli.src.base.interface.model_client import ModelClient
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.utils.app import app_exit
@@ -69,6 +70,24 @@ class DeviceModel(ModelClient):
 
     def get_port(self) -> int:
         return self.port
+
+    def get_device_info(self):
+        platform_name = 'AuroraOS-unknown'
+        platform_arch = 'aurora-arm'
+
+        result = self.get_ssh_client()
+        if result.is_error():
+            return platform_name, platform_arch
+
+        _name = ssh_get_device_platform_name(result.value, close=False)
+        _arch = ssh_get_device_platform_arch(result.value, close=True)
+
+        if _name is not None:
+            platform_name = f'AuroraOS-{_name}'
+        if _arch is not None:
+            platform_arch = _arch
+
+        return platform_name, platform_arch
 
     def get_ssh_key(self) -> Path | None:
         if self.is_password():

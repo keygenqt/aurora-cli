@@ -126,3 +126,8 @@ class TextHintRU(Enum):
     @staticmethod
     def ssh_forward_port():
         return '<i>Попробуйте удалить старое соединение:</i> rm ~/.ssh/known_hosts'
+
+    @staticmethod
+    def custom_devices():
+        return ('<i>Для запуска debug потребуется добавить custom-devices, если вы еще этого не сделали:</i> '
+                'aurora-cli flutter custom-devices')

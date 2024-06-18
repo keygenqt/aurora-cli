@@ -35,4 +35,9 @@ class TextPrompt(Enum):
     def select_continue():
         return 'Do you want to continue?'
 
+    @staticmethod
+    @localization
+    def is_ready():
+        return 'Are you ready to continue?'
+
 

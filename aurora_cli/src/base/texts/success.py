@@ -287,3 +287,20 @@ Good luck 👋'''
     @localization
     def ssh_copy_id_success():
         return '<green>The key has been successfully registered on the device.</green>'
+
+    @staticmethod
+    @localization
+    def ssh_forward_port_success():
+        return '<green>The port was successfully forwarded.</green>'
+
+    @staticmethod
+    @localization
+    def devices_add_to_config_emulator():
+        return '<green>Aurora Emulator was successfully added to custom-devices Flutter.</green>'
+
+    @staticmethod
+    @localization
+    def devices_add_to_config_devices(host: str):
+        return (f'<green>Aurora Device</green>'
+                f' {host} '
+                f'<green>was successfully added to custom-devices Flutter.</green>')
