@@ -13,20 +13,20 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-import fcntl
-import json
-from pathlib import Path
 
 from paramiko.client import SSHClient
 
-from aurora_cli.src.base.common.features.search_files import search_file_for_check_is_flutter_project
+from aurora_cli.src.base.common.features.search_files import search_file_for_check_is_flutter_project, \
+    search_file_for_check_is_aurora_project
+from aurora_cli.src.base.common.features.shell_vscode import update_launch_debug_gdb, update_launch_debug_dart
 from aurora_cli.src.base.common.features.ssh_features import (
     ssh_command,
     ssh_run,
     ssh_upload,
     ssh_rpm_install,
-    ssh_package_remove
+    ssh_package_remove, ssh_download
 )
+from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.interface.model_client import ModelClient
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.hint import TextHint
@@ -36,7 +36,9 @@ from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
 from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.argv import argv_is_test, argv_is_api
 from aurora_cli.src.base.utils.output import echo_stdout, OutResult, OutResultError, OutResultInfo
+from aurora_cli.src.base.utils.path import path_convert_relative
 from aurora_cli.src.base.utils.shell import shell_exec_command
+from aurora_cli.src.base.utils.tests import tests_exit
 
 
 def _get_ssh_client(model: ModelClient) -> SSHClient:
@@ -96,80 +98,93 @@ def ssh_upload_common(
 def ssh_run_common(
         model: ModelClient,
         package: str,
-        debug: bool,
+        mode_debug: str | None,  # dart/gdb
+        path_project: str
 ):
-    if debug and model.is_password():
+    tests_exit()
+
+    if mode_debug and model.is_password():
         echo_stdout(OutResultError(TextError.ssh_run_debug_error()))
-        app_exit(1)
+        app_exit()
 
     client = _get_ssh_client(model)
+    project = path_convert_relative(path_project)
+    is_project_flutter = search_file_for_check_is_flutter_project(project)
+    is_project_aurora = search_file_for_check_is_aurora_project(project)
 
-    def update_launch_is_project_flutter(url: str) -> bool:
-        path_project = Path.cwd()
-        if search_file_for_check_is_flutter_project(path_project):
-            path_folder = path_project / '.vscode'
-            path_launch = path_folder / 'launch.json'
+    if is_project_aurora:
+        echo_stdout(OutResultInfo(TextInfo.ssh_run_debug_aurora()))
 
-            if not path_folder.is_dir():
-                path_folder.mkdir(parents=True, exist_ok=True)
+    if mode_debug == 'gdb':
+        download_bin_path_result = ssh_download(
+            path_remote=f'/usr/bin/{package}',
+            path_local=f'{AppConfig.get_tempdir()}/{package}',
+            client=client,
+            force=True,
+            close=False
+        )
+        if download_bin_path_result.is_error():
+            echo_stdout(download_bin_path_result)
+        else:
+            if is_project_flutter:
+                update_launch_debug_gdb(
+                    host=model.get_host(),
+                    binary=download_bin_path_result.value['localpath'],
+                    package=package,
+                    project=project,
+                )
+                echo_stdout(OutResultInfo(TextInfo.update_launch_json_gdb()))
+                echo_stdout(OutResultInfo(TextHint.custom_devices()))
+            else:
+                echo_stdout(OutResultInfo(TextInfo.ssh_debug_without_project_gdb(
+                    binary=download_bin_path_result.value['localpath'],
+                    host=model.get_host(),
+                    package=package,
+                )))
 
-            if not path_launch.is_file():
-                path_launch.write_text('{}')
-
-            with open(path_launch, 'r+') as file:
-                fcntl.lockf(file, fcntl.LOCK_EX)
-                launch = json.loads(file.read())
-                configurations = [{
-                    'name': 'Aurora OS Dart Debug',
-                    'type': 'dart',
-                    'request': 'attach',
-                    'vmServiceUri': url,
-                    'program': 'lib/main.dart',
-                }]
-
-                if 'configurations' in launch.keys():
-                    for item in launch['configurations']:
-                        if 'Aurora OS Dart Debug' != item['name']:
-                            configurations.append(item)
-
-                launch['configurations'] = configurations
-
-                file.seek(0)
-                file.write(json.dumps(launch, indent=2, ensure_ascii=False))
-                file.truncate()
-            return True
-
-        return False
+    def forward_port(port):
+        _stdout, _stderr = shell_exec_command([
+            'ssh',
+            '-i',
+            str(model.get_ssh_key()),
+            '-NfL',
+            f'{port}:127.0.0.1:{port}',
+            f'defaultuser@{model.get_host()}',
+            f'-p{model.get_port()}'
+        ])
+        if _stdout and '@@@@@@@@@' in _stdout[0]:
+            echo_stdout(OutResultError(TextError.ssh_forward_port_error()))
+        else:
+            echo_stdout(OutResult(TextSuccess.ssh_forward_port_success()))
 
     def echo_stdout_with_check_close(stdout: OutResult | None):
-        if debug and 'The Dart VM service is listening on' in stdout.value:
+
+        if mode_debug == 'gdb' and 'Listening on port' in stdout.value:
+            port = stdout.value.split(' ')[-1]
+            forward_port(port)
+            echo_stdout(OutResult(TextSuccess.ssh_gdb_server_start_success()))
+
+        if mode_debug == 'dart' and 'The Dart VM service is listening on' in stdout.value:
             url = stdout.value.split(' ')[-1]
             port = url.split('/')[2].split(':')[-1]
-            _stdout, _stderr = shell_exec_command([
-                'ssh',
-                '-i',
-                str(model.get_ssh_key()),
-                '-NfL',
-                f'{port}:127.0.0.1:{port}',
-                f'defaultuser@{model.get_host()}',
-                f'-p{model.get_port()}'
-            ])
-            if _stdout and '@@@@@@@@@' in _stdout[0]:
-                echo_stdout(OutResultError(TextError.ssh_forward_port_error()))
-            else:
-                echo_stdout(OutResult(TextSuccess.ssh_forward_port_success()))
-                if not update_launch_is_project_flutter(url):
-                    echo_stdout(OutResultInfo(TextInfo.ssh_forward_port_info(url)))
-                else:
-                    echo_stdout(OutResultInfo(TextInfo.update_launch_json()))
+            forward_port(port)
+
+            if is_project_flutter:
+                update_launch_debug_dart(
+                    url=url,
+                    project=project,
+                )
+                echo_stdout(OutResultInfo(TextInfo.update_launch_json_dart()))
                 echo_stdout(OutResultInfo(TextHint.custom_devices()))
+            else:
+                echo_stdout(OutResultInfo(TextInfo.ssh_debug_without_project_dart(url)))
 
         echo_stdout(stdout)
 
     result = ssh_run(
         client=client,
         package=package,
-        debug=debug,
+        mode_debug=mode_debug,
         listen_stdout=lambda stdout: echo_stdout_with_check_close(stdout),
         listen_stderr=lambda stderr: echo_stdout(stderr)
     )

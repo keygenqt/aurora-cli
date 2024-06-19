@@ -44,13 +44,15 @@ from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
 from aurora_cli.src.base.utils.app import app_exit
-from aurora_cli.src.base.utils.output import echo_stdout, OutResult, OutResultError, OutResultInfo
+from aurora_cli.src.base.utils.output import echo_stdout, OutResult, OutResultError, OutResultInfo, echo_verbose
+from aurora_cli.src.base.utils.tests import tests_exit
 
 
 def psdk_project_format_common(
         project: Path,
         is_bar: bool = True
 ):
+    tests_exit()
     psdk_tool_check_is_project(project)
 
     files_h = project.rglob('*.h')
@@ -82,8 +84,10 @@ def psdk_project_build_common(
         is_apm: bool,
         is_install: bool,
         is_run: bool,
+        verbose: bool,
         is_bar: bool = True
 ):
+    tests_exit()
     psdk_tool_check_is_project(project)
 
     if is_install and is_apm and debug:
@@ -163,34 +167,29 @@ def psdk_project_build_common(
                 )
 
     if is_run:
+        echo_verbose(verbose)
         sleep(2)
         if model_device:
             device_package_run_common(
                 model=DeviceModel.get_model_by_host(model_device.host),
                 package=package,
+                mode_debug=None,
+                path_project=str(project)
             )
         else:
             emulator_package_run_common(
                 model=EmulatorModel.get_model_user(),
                 package=package,
+                mode_debug=None,
+                path_project=str(project)
             )
-
-
-def psdk_project_debug_common(
-        model: PsdkModel,
-        target: str,
-        project: Path,
-):
-    psdk_tool_check_is_project(project)
-
-    # @todo
-    print('Coming soon')
 
 
 def psdk_project_icons_common(
         project: Path,
         image: Path
 ):
+    tests_exit()
     psdk_tool_check_is_project(project)
     path_icons = project / 'icons'
     result = image_crop_for_project(image, path_icons, search_project_application_id(project))

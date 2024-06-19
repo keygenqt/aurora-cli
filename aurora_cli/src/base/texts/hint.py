@@ -46,6 +46,7 @@ class Hint(Enum):
     ssh_key = 'ssh_key'
     ssh_copy_id = 'ssh_copy_id'
     ssh_forward_port = 'ssh_forward_port'
+    debug_aurora = 'debug_aurora'
 
 
 def hint(*hints: Hint):
@@ -207,3 +208,9 @@ class TextHint(Enum):
     def custom_devices():
         return ('<i>To run the debug, you will need to add custom-devices if you have not already done so:</i> '
                 'aurora-cli flutter custom-devices')
+
+    @staticmethod
+    @localization
+    def debug_aurora():
+        return ('<i>To debug Aurora applications, use Aurora SDK:</i> '
+                'https://developer.auroraos.ru/doc/software_development/sdk')

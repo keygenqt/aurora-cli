@@ -27,10 +27,11 @@ from aurora_cli.src.base.models.emulator_model import EmulatorModel
 def emulator_package_run_common(
         model: EmulatorModel,
         package: str,
-        debug: bool,
+        mode_debug: str | None,  # dart/gdb
+        path_project: str
 ):
     emulator_tool_check_is_not_run(model)
-    ssh_run_common(model, package, debug)
+    ssh_run_common(model, package, mode_debug, path_project)
 
 
 def emulator_package_install_common(

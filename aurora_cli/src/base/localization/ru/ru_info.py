@@ -219,21 +219,51 @@ class TextInfoRu(Enum):
         return '<blue>Введите пароль подключения по ssh, его можно найти в настройках устройства.</blue>'
 
     @staticmethod
-    def ssh_forward_port_info(url: str):
-        return ('<blue>Для подключения к debug через vscode, добавьте</blue>'
+    def ssh_debug_without_project_gdb(bin_path: str, host: str, package: str):
+        return ('<blue>Для подключения к GDB debug через VS Code, добавьте</blue>'
                 ' launch.json '
                 '<blue>с таким содержимым:</blue>'
                 '\n{'
                 '\n   "configurations": ['
                 '\n       {'
-                '\n           "name": "Aurora OS Dart Debug",'
+                '\n           "name": "Flutter Aurora OS GDB Debug",'
+                '\n           "type": "cppdbg",'
+                '\n           "request": "launch",'
+                f'\n           "program": "{bin_path}",'
+                '\n           "MIMode": "gdb",'
+                '\n           "miDebuggerPath": "/usr/bin/gdb-multiarch",'
+                f'\n           "miDebuggerServerAddress": "{host}:2345",'
+                '\n           "useExtendedRemote": true,'
+                '\n           "cwd": "${workspaceRoot}",'
+                '\n       }'
+                '\n   ]'
+                '\n}'
+                '\n<blue>и добавьте файл инициализации</blue>'
+                ' .gdbinit '
+                '<blue>в корень проекта:</blue>'
+                '\nhandle SIGILL pass nostop noprint'
+                f'\nset remote exec-file /usr/bin/{package}\n'
+                '\n<blue>Или просто запустите приложение из корня проекта, '
+                'все добавиться автоматически.</blue>')
+
+    @staticmethod
+    def ssh_debug_without_project_dart(dart_vm_url: str):
+        return ('<blue>Для подключения к Dart debug через VS Code, добавьте</blue>'
+                ' launch.json '
+                '<blue>с таким содержимым:</blue>'
+                '\n{'
+                '\n   "configurations": ['
+                '\n       {'
+                '\n           "name": "Flutter Aurora OS Dart Debug",'
                 '\n           "type": "dart",'
                 '\n           "request": "attach",'
-                f'\n           "vmServiceUri": "{url}",'
+                f'\n           "vmServiceUri": "{dart_vm_url}",'
                 '\n           "program": "lib/main.dart"'
                 '\n       }'
                 '\n   ]'
-                '\n}')
+                '\n}'
+                '\n<blue>Или просто запустите приложение из корня проекта, '
+                'все добавиться автоматически.</blue>')
 
     @staticmethod
     def devices_password_not_connect(host: str):
@@ -246,5 +276,21 @@ class TextInfoRu(Enum):
         return '<blue>Для получения необходимой информации о устройстве они должны быть подключены.</blue>'
 
     @staticmethod
-    def update_launch_json():
-        return '<blue>Файл</blue> launch.json <blue>был обновлен, можно запускать debug в VS Code.</blue>'
+    def update_launch_json_gdb():
+        return '<blue>Файл</blue> launch.json <blue>был обновлен, можно запускать GDB debug в VS Code.</blue>'
+
+    @staticmethod
+    def update_launch_json_dart():
+        return '<blue>Файл</blue> launch.json <blue>был обновлен, можно запускать Dart debug в VS Code.</blue>'
+
+    @staticmethod
+    def ssh_run_debug_aurora():
+        return '<yellow>Debug для Аврора приложения не предусмотрен, только для приложений Flutter.</yellow>'
+
+    @staticmethod
+    def run_debug_application():
+        return '<blue>Приложения будет запущено вне песочницы.</blue>'
+
+    @staticmethod
+    def run_mode_debug_info():
+        return '<blue>Приложение должно было быть собрано в debug режиме.</blue>'

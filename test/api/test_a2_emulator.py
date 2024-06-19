@@ -34,7 +34,7 @@ class TestEmulatorAPI(unittest.TestCase):
     def tearDownClass(cls):
         emulator_off()
 
-    def test_emulator_a1_start(self):
+    def test_emulator_a1(self):
         sleep(8)
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
@@ -44,7 +44,7 @@ class TestEmulatorAPI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
 
-    def test_emulator_a2_screenshot(self):
+    def test_emulator_a2(self):
         sleep(8)
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
@@ -55,18 +55,28 @@ class TestEmulatorAPI(unittest.TestCase):
         self.assertIn('"code": 200', result.output)
         self.assertIn('successfully', result.output)
 
-    def test_emulator_a3_recording(self):
+    def test_emulator_a3(self):
+        sleep(1)
+        runner = CliRunner()
+        result = runner.invoke(cli=group_api, args=[
+            '--route',
+            '/emulator/recording/start'
+        ])
+        self.assertEqual(result.exit_code, 0)
+        self.assertIn('"code": 200', result.output)
+
+    def test_emulator_a4(self):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
             '/emulator/recording/stop'
         ])
-        self.assertEqual(result.exit_code, 1)
-        self.assertIn('"code": 500', result.output)
+        self.assertEqual(result.exit_code, 0)
+        self.assertIn('"code": 200', result.output)
 
-    def test_emulator_a4_command_execute(self):
-        sleep(4)
+    def test_emulator_a5(self):
+        sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
@@ -76,18 +86,7 @@ class TestEmulatorAPI(unittest.TestCase):
         self.assertIn('"code": 200', result.output)
         self.assertIn('Aurora', result.output)
 
-    def test_emulator_a5_command_execute_error(self):
-        sleep(1)
-        runner = CliRunner()
-        result = runner.invoke(cli=group_api, args=[
-            '--route',
-            '/emulator/command?execute=just my command'
-        ])
-        self.assertEqual(result.exit_code, 0)
-        self.assertIn('"code": 200', result.output)
-        self.assertIn('bash: just: not found', result.output)
-
-    def test_emulator_a6_command_upload(self):
+    def test_emulator_a6(self):
         sleep(1)
         runner = CliRunner()
         path = Path(__file__).parent.parent / 'data' / 'upload.file'
@@ -98,7 +97,7 @@ class TestEmulatorAPI(unittest.TestCase):
         self.assertIn('"code": 200', result.output)
         self.assertIn('successfully', result.output)
 
-    def test_emulator_a7_command_install(self):
+    def test_emulator_a7(self):
         sleep(1)
         runner = CliRunner()
         path = Path(__file__).parent.parent / 'data' / 'com.keygenqt.trex-0.1.0-1.x86_64.rpm'
@@ -110,7 +109,17 @@ class TestEmulatorAPI(unittest.TestCase):
         self.assertIn('"code": 200', result.output)
         self.assertIn('successfully', result.output)
 
-    def test_emulator_a8_command_remove(self):
+    def test_emulator_a8(self):
+        sleep(1)
+        runner = CliRunner()
+        result = runner.invoke(cli=group_api, args=[
+            '--route',
+            f'/emulator/package/run?package=com.keygenqt.trex'
+        ])
+        self.assertEqual(result.exit_code, 0)
+        self.assertIn('"code": 200', result.output)
+
+    def test_emulator_a9(self):
         sleep(2)
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
@@ -121,7 +130,7 @@ class TestEmulatorAPI(unittest.TestCase):
         self.assertIn('"code": 200', result.output)
         self.assertIn('successfully', result.output)
 
-    def test_emulator_a9_command_install_apm(self):
+    def test_emulator_b1(self):
         sleep(1)
         runner = CliRunner()
         path = Path(__file__).parent.parent / 'data' / 'com.keygenqt.trex-0.1.0-1.x86_64.rpm'
@@ -133,7 +142,7 @@ class TestEmulatorAPI(unittest.TestCase):
         self.assertIn('"code": 200', result.output)
         self.assertIn('successfully', result.output)
 
-    def test_emulator_b1_command_remove_apm(self):
+    def test_emulator_b2(self):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[

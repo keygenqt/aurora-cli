@@ -24,6 +24,7 @@ from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.output import OutResult, echo_stdout, OutResultError, OutResultInfo
 from aurora_cli.src.base.utils.prompt import prompt_model_select
+from aurora_cli.src.base.utils.tests import tests_exit
 
 
 @dataclass
@@ -60,6 +61,7 @@ class PsdkModel:
 
     @staticmethod
     def get_model_by_version(version: str):
+        tests_exit()
         try:
             list_index = PsdkModel.get_versions_psdk().index(version)
             path_tool = PsdkModel.get_tools_psdk()[list_index]

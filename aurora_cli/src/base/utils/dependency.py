@@ -33,6 +33,7 @@ class DependencyApps(Enum):
     clang_format = 'clang-format'
     tar = 'tar'
     vscode = 'vscode'
+    gdb_multiarch = 'gdb-multiarch'
 
 
 def check_dependency(*apps: DependencyApps):
@@ -66,6 +67,8 @@ def _check_dependency(*apps: DependencyApps):
                 _check_dependency_tar()
             case DependencyApps.vscode:
                 _check_dependency_vscode()
+            case DependencyApps.gdb_multiarch:
+                _check_dependency_gdb_multiarch()
 
 
 def _check_dependency_vboxmanage():
@@ -129,4 +132,12 @@ def _check_dependency_vscode():
         subprocess.run(['code', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except (Exception,):
         echo_stdout(OutResultError(TextError.dependency_not_found('vscode')))
+        app_exit()
+
+
+def _check_dependency_gdb_multiarch():
+    try:
+        subprocess.run(['gdb-multiarch', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except (Exception,):
+        echo_stdout(OutResultError(TextError.dependency_not_found('gdb-multiarch')))
         app_exit()

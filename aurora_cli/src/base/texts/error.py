@@ -109,12 +109,22 @@ class TextError(Enum):
     @staticmethod
     @localization
     def ssh_upload_error():
-        return '<red>Failed to upload files.</red>'
+        return '<red>Failed to upload file.</red>'
+
+    @staticmethod
+    @localization
+    def ssh_download_error():
+        return '<red>Failed to download file.</red>'
 
     @staticmethod
     @localization
     def file_not_found_error(path: str):
         return f'<red>File not found:</red> {path}'
+
+    @staticmethod
+    @localization
+    def file_already_exists_error(path: str):
+        return f'<red>The file already exists:</red> {path}'
 
     @staticmethod
     @localization
@@ -386,6 +396,11 @@ class TextError(Enum):
     @localization
     def debug_apm_error():
         return '<red>Installation of debug packages for apm is not available.</red>'
+
+    @staticmethod
+    @localization
+    def debug_mode_error():
+        return '<red>To run the application in this mode,</red> --debug <red>build is required.</red>'
 
     @staticmethod
     @localization

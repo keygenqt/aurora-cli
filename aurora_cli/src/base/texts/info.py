@@ -273,21 +273,52 @@ class TextInfo(Enum):
 
     @staticmethod
     @localization
-    def ssh_forward_port_info(url: str):
-        return ('<blue>To connect to the debug via vscode, add</blue>'
+    def ssh_debug_without_project_gdb(binary: str, host: str, package: str):
+        return ('<blue>To connect to the GDB debug via vscode, add</blue>'
                 ' launch.json '
                 '<blue>with the following content:</blue>'
                 '\n{'
                 '\n   "configurations": ['
                 '\n       {'
-                '\n           "name": "Aurora OS Dart Debug",'
+                '\n           "name": "Flutter Aurora OS GDB Debug",'
+                '\n           "type": "cppdbg",'
+                '\n           "request": "launch",'
+                f'\n           "program": "{binary}",'
+                '\n           "MIMode": "gdb",'
+                '\n           "miDebuggerPath": "/usr/bin/gdb-multiarch",'
+                f'\n           "miDebuggerServerAddress": "{host}:2345",'
+                '\n           "useExtendedRemote": true,'
+                '\n           "cwd": "${workspaceRoot}",'
+                '\n       }'
+                '\n   ]'
+                '\n}'
+                '\n<blue>and for GDB debug add init file</blue>'
+                ' .gdbinit '
+                '<blue>to root project:</blue>'
+                '\nhandle SIGILL pass nostop noprint'
+                f'\nset remote exec-file /usr/bin/{package}\n'
+                '\n<blue>Or just run the application from the root of the project, '
+                'everything will be added automatically.</blue>')
+
+    @staticmethod
+    @localization
+    def ssh_debug_without_project_dart(dart_vm_url: str):
+        return ('<blue>To connect to the Dart debug via vscode, add</blue>'
+                ' launch.json '
+                '<blue>with the following content:</blue>'
+                '\n{'
+                '\n   "configurations": ['
+                '\n       {'
+                '\n           "name": "Flutter Aurora OS Dart Debug",'
                 '\n           "type": "dart",'
                 '\n           "request": "attach",'
-                f'\n           "vmServiceUri": "{url}",'
+                f'\n           "vmServiceUri": "{dart_vm_url}",'
                 '\n           "program": "lib/main.dart"'
                 '\n       }'
                 '\n   ]'
-                '\n}')
+                '\n}'
+                '\n<blue>Or just run the application from the root of the project, '
+                'everything will be added automatically.</blue>')
 
     @staticmethod
     @localization
@@ -303,5 +334,26 @@ class TextInfo(Enum):
 
     @staticmethod
     @localization
-    def update_launch_json():
-        return '<blue>File</blue> launch.json <blue>has been updated, you can run the debug in VS Code.</blue>'
+    def update_launch_json_gdb():
+        return '<blue>File</blue> launch.json <blue>has been updated, you can run the GDB debug in VS Code.</blue>'
+
+    @staticmethod
+    @localization
+    def update_launch_json_dart():
+        return '<blue>File</blue> launch.json <blue>has been updated, you can run the Dart debug in VS Code.</blue>'
+
+    @staticmethod
+    @localization
+    @hint(Hint.debug_aurora)
+    def ssh_run_debug_aurora():
+        return '<yellow>There is no debugging for the Aurora application, only for Flutter.</yellow>'
+
+    @staticmethod
+    @localization
+    def run_debug_application():
+        return '<blue>The application will run outside the sandbox.</blue>'
+
+    @staticmethod
+    @localization
+    def run_mode_debug_info():
+        return '<blue>The Flutter application had to be built in debug mode.</blue>'

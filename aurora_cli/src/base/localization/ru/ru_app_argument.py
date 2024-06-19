@@ -101,3 +101,7 @@ class TextArgumentRu(Enum):
     @staticmethod
     def argument_mode_build():
         return 'Тип сборки проекта.'
+
+    @staticmethod
+    def argument_run_mode():
+        return 'Режим запуска приложения.'

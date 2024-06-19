@@ -26,27 +26,34 @@ from aurora_cli.src.base.models.psdk_model import PsdkModel
 from aurora_cli.src.base.models.sign_model import SignModel
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultInfo
+from aurora_cli.src.base.utils.tests import tests_exit
 
 
 def psdk_package_search_common(
         model: PsdkModel,
         target: str,
         package: str,
-): echo_stdout(shell_psdk_package_search(model.get_tool_path(), target, package))
+):
+    tests_exit()
+    echo_stdout(shell_psdk_package_search(model.get_tool_path(), target, package))
 
 
 def psdk_package_install_common(
         model: PsdkModel,
         target: str,
         path: str,
-): echo_stdout(shell_psdk_package_install(model.get_tool_path(), target, path))
+):
+    tests_exit()
+    echo_stdout(shell_psdk_package_install(model.get_tool_path(), target, path))
 
 
 def psdk_package_remove_common(
         model: PsdkModel,
         target: str,
         package: str,
-): echo_stdout(shell_psdk_package_remove(model.get_tool_path(), target, package))
+):
+    tests_exit()
+    echo_stdout(shell_psdk_package_remove(model.get_tool_path(), target, package))
 
 
 def psdk_package_validate_common(
@@ -54,7 +61,9 @@ def psdk_package_validate_common(
         target: str,
         path: str,
         profile: str,
-): echo_stdout(shell_psdk_package_validate(model.get_tool_path(), target, path, profile))
+):
+    tests_exit()
+    echo_stdout(shell_psdk_package_validate(model.get_tool_path(), target, path, profile))
 
 
 def psdk_package_sign_common(
@@ -63,6 +72,7 @@ def psdk_package_sign_common(
         paths: [str],
         is_bar: bool = True
 ):
+    tests_exit()
     if not model_keys:
         echo_stdout(OutResultInfo(TextInfo.psdk_sign_use_public_keys()))
         keys = psdk_tool_get_open_keys(is_bar)

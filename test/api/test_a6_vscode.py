@@ -23,79 +23,61 @@ from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
 
 
 # noinspection PyTypeChecker
-class TestFlutterAPI(unittest.TestCase):
+class TestSdkAPI(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         disk_cache_clear()
 
-    def test_flutter_a1(self):
+    def test_sdk_a1(self):
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            '/flutter/available'
+            '/vscode/extensions/list'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
 
-    def test_flutter_a2(self):
+    def test_sdk_a2(self):
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            '/flutter/installed'
+            '/vscode/extensions/check/flutter'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
 
-    def test_flutter_a3(self):
+    def test_sdk_a3(self):
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            '/flutter/install?version=1'
+            '/vscode/extensions/check/cpp'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
 
-    def test_flutter_a4(self):
+    def test_sdk_a4(self):
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            '/flutter/remove?version=1'
+            '/vscode/extensions/check/other'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
 
-    def test_flutter_a5(self):
+    def test_sdk_a5(self):
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            '/flutter/project/format?version=1&path=/home'
+            '/vscode/extensions/install?extension=test'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
 
-    def test_flutter_a6(self):
+    def test_sdk_a6(self):
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            '/flutter/project/report?version=1&path=/home'
-        ])
-        self.assertEqual(result.exit_code, 0)
-        self.assertIn('"code": 200', result.output)
-
-    def test_flutter_a7(self):
-        runner = CliRunner()
-        result = runner.invoke(cli=group_api, args=[
-            '--route',
-            '/flutter/project/icons?path=/image.png&image=/home'
-        ])
-        self.assertEqual(result.exit_code, 0)
-        self.assertIn('"code": 200', result.output)
-
-    def test_flutter_a8(self):
-        runner = CliRunner()
-        result = runner.invoke(cli=group_api, args=[
-            '--route',
-            '/flutter/project/build?target=1&path=/home&flutter_version=1&psdk_version=1&key_name=1'
+            '/vscode/settings/update'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)

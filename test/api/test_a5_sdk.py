@@ -28,11 +28,38 @@ class TestSdkAPI(unittest.TestCase):
     def setUpClass(cls):
         disk_cache_clear()
 
-    def test_sdk_a1_available(self):
+    def test_sdk_a1(self):
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
             '/sdk/available'
+        ])
+        self.assertEqual(result.exit_code, 0)
+        self.assertIn('"code": 200', result.output)
+
+    def test_sdk_a2(self):
+        runner = CliRunner()
+        result = runner.invoke(cli=group_api, args=[
+            '--route',
+            '/sdk/installed'
+        ])
+        self.assertEqual(result.exit_code, 0)
+        self.assertIn('"code": 200', result.output)
+
+    def test_sdk_a3(self):
+        runner = CliRunner()
+        result = runner.invoke(cli=group_api, args=[
+            '--route',
+            '/sdk/installed'
+        ])
+        self.assertEqual(result.exit_code, 0)
+        self.assertIn('"code": 200', result.output)
+
+    def test_sdk_a4(self):
+        runner = CliRunner()
+        result = runner.invoke(cli=group_api, args=[
+            '--route',
+            '/sdk/tool'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)

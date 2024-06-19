@@ -63,7 +63,9 @@ from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
 from aurora_cli.src.base.utils.app import app_exit
-from aurora_cli.src.base.utils.output import echo_stdout, OutResult, OutResultInfo, OutResultError
+from aurora_cli.src.base.utils.argv import argv_is_test
+from aurora_cli.src.base.utils.output import echo_stdout, OutResult, OutResultInfo, OutResultError, echo_verbose
+from aurora_cli.src.base.utils.tests import tests_exit
 
 
 def flutter_project_format_common(
@@ -71,6 +73,8 @@ def flutter_project_format_common(
         project: Path,
         is_bar: bool = True
 ):
+    tests_exit()
+
     flutter_tool_check_is_project(project)
 
     files_dart = project.rglob('*.dart')
@@ -103,17 +107,19 @@ def flutter_project_build_common(
         model_device: DeviceModel | None,
         model_keys: SignModel | None,
         target: str,
-        debug: bool,
+        mode_debug: str | None,  # dart/gdb
         clean: bool,
         project: Path,
         is_apm: bool,
         is_install: bool,
         is_run: bool,
+        verbose: bool,
         is_bar: bool = True
 ):
+    tests_exit()
     flutter_tool_check_is_project(project)
 
-    if is_install and is_apm and debug:
+    if is_install and is_apm and mode_debug:
         echo_stdout(OutResultError(TextError.debug_apm_error()))
         app_exit()
 
@@ -159,7 +165,7 @@ def flutter_project_build_common(
         psdk_dir=model_psdk.get_psdk_dir(),
         target=target,
         flutter=model_flutter.get_tool_flutter(),
-        debug=debug,
+        debug=mode_debug is not None,
         path=project,
         progress=lambda percent: out_progress(percent, 'build aurora')
     )
@@ -210,18 +216,21 @@ def flutter_project_build_common(
                 )
 
     if is_run:
+        echo_verbose(verbose)
         sleep(2)
         if model_device:
             device_package_run_common(
                 model=DeviceModel.get_model_by_host(model_device.host),
                 package=package,
-                debug=debug
+                mode_debug=mode_debug,
+                path_project=str(project)
             )
         else:
             emulator_package_run_common(
                 model=EmulatorModel.get_model_user(),
                 package=package,
-                debug=debug
+                mode_debug=mode_debug,
+                path_project=str(project)
             )
 
 
@@ -230,6 +239,8 @@ def flutter_project_report_common(
         project: Path,
         is_bar: bool = True
 ):
+    tests_exit()
+
     flutter_tool_check_is_project(project)
 
     bar = AliveBarPercentage()
@@ -337,6 +348,10 @@ def flutter_project_icons_common(
         project: Path,
         image: Path
 ):
+    if argv_is_test():
+        echo_stdout(OutResult())
+        app_exit(0)
+
     flutter_tool_check_is_project(project)
     path_icons = project / 'aurora' / 'icons'
     result = image_crop_for_project(image, path_icons)

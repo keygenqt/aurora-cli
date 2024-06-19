@@ -35,7 +35,7 @@ class TestEmulatorCLI(unittest.TestCase):
     def tearDownClass(cls):
         emulator_off()
 
-    def test_emulator_a1_start(self):
+    def test_emulator_a1(self):
         sleep(8)
         runner = CliRunner()
         result = runner.invoke(cli=group_emulator, args=[
@@ -44,7 +44,7 @@ class TestEmulatorCLI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('started successfully', result.output)
 
-    def test_emulator_a2_screenshot(self):
+    def test_emulator_a2(self):
         sleep(8)
         runner = CliRunner()
         result = runner.invoke(cli=group_emulator, args=[
@@ -53,7 +53,7 @@ class TestEmulatorCLI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('taken successfully', result.output)
 
-    def test_emulator_a3_recording(self):
+    def test_emulator_a3(self):
         sleep(8)
         runner = CliRunner()
         result = runner.invoke(cli=group_emulator, input='', args=[
@@ -63,7 +63,7 @@ class TestEmulatorCLI(unittest.TestCase):
         self.assertIn('recording activated', result.output)
         self.assertIn('has stopped', result.output)
 
-    def test_emulator_a4_command_execute(self):
+    def test_emulator_a4(self):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_emulator, args=[
@@ -73,7 +73,7 @@ class TestEmulatorCLI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('Aurora', result.output)
 
-    def test_emulator_a5_command_execute_error(self):
+    def test_emulator_a5(self):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_emulator, args=[
@@ -83,7 +83,7 @@ class TestEmulatorCLI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('bash: just: not found', result.output)
 
-    def test_emulator_a6_command_upload(self):
+    def test_emulator_a6(self):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_emulator, args=[
@@ -93,7 +93,7 @@ class TestEmulatorCLI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('successfully uploaded', result.output)
 
-    def test_emulator_a7_command_install(self):
+    def test_emulator_a7(self):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=subgroup_emulator_package, args=[
@@ -103,7 +103,16 @@ class TestEmulatorCLI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('installed successfully', result.output)
 
-    def test_emulator_a8_command_remove(self):
+    def test_emulator_a8(self):
+        sleep(1)
+        runner = CliRunner()
+        result = runner.invoke(cli=subgroup_emulator_package, args=[
+            'run',
+            '--package', 'com.keygenqt.trex'
+        ])
+        self.assertEqual(result.exit_code, 0)
+
+    def test_emulator_a9(self):
         sleep(2)
         runner = CliRunner()
         result = runner.invoke(cli=subgroup_emulator_package, args=[
@@ -113,7 +122,7 @@ class TestEmulatorCLI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('successfully removed', result.output)
 
-    def test_emulator_a9_command_install_apm(self):
+    def test_emulator_b1(self):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=subgroup_emulator_package, args=[
@@ -124,7 +133,7 @@ class TestEmulatorCLI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('installed successfully', result.output)
 
-    def test_emulator_b1_command_remove_apm(self):
+    def test_emulator_b2(self):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=subgroup_emulator_package, args=[

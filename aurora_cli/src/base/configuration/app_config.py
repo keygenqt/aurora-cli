@@ -20,6 +20,7 @@ from typing import AnyStr
 import click
 
 from aurora_cli.src.base.configuration.loader_config import ConfigLoader
+from aurora_cli.src.base.constants.app import PATH_TEMP
 from aurora_cli.src.base.constants.config import CONFIG_DEFAULT, CONFIG_PATH
 from aurora_cli.src.base.models.device_model import DeviceModel
 from aurora_cli.src.base.models.sign_model import SignModel
@@ -83,6 +84,13 @@ class AppConfig:
                     echo_stdout(output, prefix='- ')
             exit(1)
         return AppConfig(loader.get_data())
+
+    @staticmethod
+    def get_tempdir() -> Path:
+        path_file = path_convert_relative(PATH_TEMP)
+        if not path_file.is_dir():
+            path_file.mkdir(parents=True, exist_ok=True)
+        return path_file
 
     def get_workdir(self) -> str | None:
         return self._data_config['workdir']

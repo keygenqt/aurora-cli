@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+from pathlib import Path
 
 from aurora_cli.src.base.common.groups.emulator.emulator_features import (
     emulator_command_common,
@@ -28,7 +29,7 @@ from aurora_cli.src.base.common.groups.emulator.emulator_package_features import
     emulator_package_remove_common
 )
 from aurora_cli.src.base.models.emulator_model import EmulatorModel
-from aurora_cli.src.base.utils.route import get_route_root, get_arg_bool, get_arg_str
+from aurora_cli.src.base.utils.route import get_route_root, get_arg_bool, get_arg_str, get_arg_str_optional
 
 
 def search_route_emulator(route: str) -> bool:
@@ -44,9 +45,12 @@ def search_route_emulator(route: str) -> bool:
                 path=get_arg_str(route, 'path'),
             )
         case '/emulator/package/run':
+            path_project = get_arg_str_optional(route, 'path')
             emulator_package_run_common(
                 model=EmulatorModel.get_model_user(),
                 package=get_arg_str(route, 'package'),
+                mode_debug=get_arg_str_optional(route, 'mode_debug'),
+                path_project=path_project if path_project else str(Path.cwd()),
             )
         case '/emulator/package/install':
             emulator_package_install_common(

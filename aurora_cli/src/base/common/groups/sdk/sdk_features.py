@@ -30,6 +30,7 @@ from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
 from aurora_cli.src.base.utils.download import check_downloads, downloads
 from aurora_cli.src.base.utils.output import echo_stdout, OutResult, OutResultError
 from aurora_cli.src.base.utils.shell import shell_exec_app
+from aurora_cli.src.base.utils.tests import tests_exit
 from aurora_cli.src.base.utils.url import get_url_version_sdk
 
 
@@ -38,6 +39,7 @@ def sdk_available_common():
 
 
 def sdk_installed_common():
+    tests_exit()
     echo_stdout(search_installed_sdk())
 
 
@@ -46,6 +48,7 @@ def sdk_install_common(
         offline: bool,
         is_bar: bool = True
 ):
+    tests_exit()
     if SdkModel.get_versions_sdk():
         echo_stdout(OutResultError(TextError.sdk_already_installed_error()))
         app_exit()
@@ -74,6 +77,7 @@ def sdk_install_common(
 
 
 def sdk_tool_common(model: SdkModel):
+    tests_exit()
     tool = model.get_tool_path()
     if shell_exec_app(tool):
         echo_stdout(OutResult(TextSuccess.shell_run_app_success(tool.name)))

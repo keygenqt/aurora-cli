@@ -44,6 +44,7 @@ from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
 from aurora_cli.src.base.utils.download import check_downloads, downloads
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResultInfo, OutResult
+from aurora_cli.src.base.utils.tests import tests_exit
 from aurora_cli.src.base.utils.text_file import file_remove_line
 from aurora_cli.src.base.utils.url import get_url_version_psdk
 
@@ -64,6 +65,7 @@ def psdk_install_common(
         version: str,
         is_bar: bool = True
 ):
+    tests_exit()
     # url major version
     version_url = get_url_version_psdk(version)
     # get full latest version
@@ -167,6 +169,7 @@ def psdk_install_common(
 
 
 def psdk_remove_common(model: PsdkModel):
+    tests_exit()
     echo_stdout(OutResultInfo(TextInfo.psdk_remove_start()))
     result = shell_remove_root_folder(model.get_path())
     if result.is_error():
@@ -180,4 +183,6 @@ def psdk_remove_common(model: PsdkModel):
 def psdk_clear_common(
         model: PsdkModel,
         target: str,
-): echo_stdout(shell_psdk_clear(model.get_tool_path(), target))
+):
+    tests_exit()
+    echo_stdout(shell_psdk_clear(model.get_tool_path(), target))

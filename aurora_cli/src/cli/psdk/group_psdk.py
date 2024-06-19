@@ -30,6 +30,7 @@ from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
 from aurora_cli.src.base.utils.output import echo_verbose
 from aurora_cli.src.base.utils.prompt import prompt_psdk_select_version
+from aurora_cli.src.base.utils.tests import tests_exit
 from aurora_cli.src.cli.psdk.__tools import cli_psdk_tool_select_model_psdk, cli_psdk_tool_select_target_psdk
 from aurora_cli.src.cli.psdk.subgroup_psdk_package import subgroup_psdk_package
 from aurora_cli.src.cli.psdk.subgroup_psdk_project import subgroup_psdk_project
@@ -62,7 +63,7 @@ def installed(verbose: bool):
     echo_verbose(verbose)
 
 
-@group_psdk.command(help=TextCommand.command_psdk_targets())
+@group_psdk.command(name='targets', help=TextCommand.command_psdk_targets())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
@@ -89,13 +90,10 @@ def install(
 
 
 @group_psdk.command(name='remove', help=TextCommand.command_psdk_remove())
-@click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def remove(
-        index: int,
-        verbose: bool
-):
-    model = cli_psdk_tool_select_model_psdk(True, index)
+def remove(verbose: bool):
+    tests_exit()
+    model = cli_psdk_tool_select_model_psdk(True, None)
     psdk_remove_common(model)
     echo_verbose(verbose)
 

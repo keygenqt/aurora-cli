@@ -26,7 +26,7 @@ from aurora_cli.src.cli.device.subgroup_device_package import subgroup_device_pa
 
 # noinspection PyTypeChecker
 class TestDeviceCLI(unittest.TestCase):
-    def test_device_a1_command_execute(self):
+    def test_device_a1(self):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_device, args=[
@@ -36,7 +36,7 @@ class TestDeviceCLI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('Aurora', result.output)
 
-    def test_device_a2_command_execute_index(self):
+    def test_device_a2(self):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_device, args=[
@@ -47,7 +47,7 @@ class TestDeviceCLI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('Aurora', result.output)
 
-    def test_device_a3_command_execute_select_index(self):
+    def test_device_a3(self):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_device, args=[
@@ -59,7 +59,7 @@ class TestDeviceCLI(unittest.TestCase):
         self.assertEqual(result.exit_code, 1)
         self.assertIn('Select one thing', result.output)
 
-    def test_device_a4_command_execute_error(self):
+    def test_device_a4(self):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_device, args=[
@@ -69,7 +69,7 @@ class TestDeviceCLI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('bash: just: not found', result.output)
 
-    def test_device_a5_command_upload(self):
+    def test_device_a5(self):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_device, args=[
@@ -79,7 +79,7 @@ class TestDeviceCLI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('successfully uploaded', result.output)
 
-    def test_device_a6_command_install(self):
+    def test_device_a6(self):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=subgroup_device_package, args=[
@@ -90,7 +90,7 @@ class TestDeviceCLI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('installed successfully', result.output)
 
-    def test_device_a7_command_remove(self):
+    def test_device_a7(self):
         sleep(2)
         runner = CliRunner()
         result = runner.invoke(cli=subgroup_device_package, args=[

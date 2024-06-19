@@ -34,6 +34,7 @@ from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
 from aurora_cli.src.base.utils.git import git_clone
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResult, OutResultInfo
+from aurora_cli.src.base.utils.tests import tests_exit
 from aurora_cli.src.base.utils.text_file import file_remove_line
 from aurora_cli.src.base.utils.url import get_url_git_flutter
 
@@ -50,6 +51,7 @@ def flutter_install_common(
         version: str,
         is_bar: bool = True
 ):
+    tests_exit()
     # url major version
     git_url = get_url_git_flutter()
     # path install
@@ -68,6 +70,7 @@ def flutter_install_common(
 
 
 def flutter_remove_common(model: FlutterModel):
+    tests_exit()
     path: str = model.get_path()
     version: str = model.get_version()
     shutil.rmtree(path)

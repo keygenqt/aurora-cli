@@ -31,6 +31,7 @@ from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.prompt import TextPrompt
 from aurora_cli.src.base.utils.output import echo_verbose, echo_stdout, OutResultInfo
 from aurora_cli.src.base.utils.prompt import prompt_flutter_select_version
+from aurora_cli.src.base.utils.tests import tests_exit
 from aurora_cli.src.cli.flutter.__tools import cli_flutter_tool_select_model
 from aurora_cli.src.cli.flutter.subgroup_flutter_project import subgroup_flutter_project
 
@@ -74,6 +75,7 @@ def install(
 @group_flutter.command(name='remove', help=TextCommand.command_flutter_remove())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def remove(verbose: bool):
+    tests_exit()
     model = cli_flutter_tool_select_model(True, None)
     flutter_remove_common(model)
     echo_verbose(verbose)

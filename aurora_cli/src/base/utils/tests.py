@@ -14,18 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-import click
-
-from aurora_cli.src.support.output import echo_stdout
-from aurora_cli.src.support.texts import AppTexts
-from aurora_cli.src.support.versions import get_versions_sdk
+from aurora_cli.src.base.utils.app import app_exit
+from aurora_cli.src.base.utils.argv import argv_is_test
+from aurora_cli.src.base.utils.output import echo_stdout, OutResult
 
 
-@click.group(name='available', invoke_without_command=True)
-@click.option('-a', '--show-all', is_flag=True, default=False, help="Show all versions")
-def psdk_available(show_all: bool):
-    """Get available version Aurora Platform SDK."""
-
-    versions = get_versions_sdk(show_all)
-
-    echo_stdout(AppTexts.psdk_versions(versions))
+def tests_exit():
+    if argv_is_test():
+        echo_stdout(OutResult())
+        app_exit(0)

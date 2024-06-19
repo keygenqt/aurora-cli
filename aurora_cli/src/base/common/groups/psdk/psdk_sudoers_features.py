@@ -28,6 +28,7 @@ from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.output import echo_stdout
 from aurora_cli.src.base.utils.shell import shell_exec_command
+from aurora_cli.src.base.utils.tests import tests_exit
 from aurora_cli.src.base.utils.text_file import (
     file_exist_in_line,
     file_permissions_777,
@@ -37,6 +38,7 @@ from aurora_cli.src.base.utils.text_file import (
 
 
 def psdk_sudoers_add_common(model: PsdkModel):
+    tests_exit()
     for item in [[MER_SDK_CHROOT_PATH, MER_SDK_CHROOT_DATA], [SDK_CHROOT_PATH, SDK_CHROOT_DATA]]:
         path = Path(item[0])
         tool = Path(model.get_tool_path())
@@ -55,6 +57,7 @@ def psdk_sudoers_add_common(model: PsdkModel):
 
 
 def psdk_sudoers_remove_common(model: PsdkModel):
+    tests_exit()
     for path in [MER_SDK_CHROOT_PATH, SDK_CHROOT_PATH]:
         path = Path(path)
         tool = Path(model.get_tool_path())

@@ -21,6 +21,7 @@ from aurora_cli.src.base.common.features.shell_vscode import shell_vscode_list_e
     shell_vscode_extension_install
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultInfo
+from aurora_cli.src.base.utils.tests import tests_exit
 
 
 def vscode_extensions_list_common() -> list:
@@ -73,6 +74,7 @@ def vscode_extensions_other_check_common(extensions: list | None = None) -> list
 
 
 def vscode_extensions_install(extensions: list):
+    tests_exit()
     for extension in extensions:
         echo_stdout(OutResultInfo(TextInfo.vscode_extensions_installing(extension)))
         result = shell_vscode_extension_install(extension)
@@ -80,6 +82,7 @@ def vscode_extensions_install(extensions: list):
 
 
 def vscode_settings_common():
+    tests_exit()
     is_update = False
     extensions = shell_vscode_list_extensions()
     path_folder = Path.home() / '.config' / 'Code' / 'User'

@@ -124,3 +124,8 @@ class TextArgument(Enum):
     @localization
     def argument_mode_build():
         return 'Mode build project.'
+
+    @staticmethod
+    @localization
+    def argument_run_mode():
+        return 'Application launch mode.'

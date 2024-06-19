@@ -49,7 +49,7 @@ def ssh_command(
 def ssh_run(
         client: SSHClient,
         package: str,
-        debug: bool,
+        mode_debug: str | None,  # dart/gdb
         listen_stdout: Callable[[OutResult | None], None],
         listen_stderr: Callable[[OutResult | None], None],
         close: bool = True
@@ -61,8 +61,11 @@ def ssh_run(
             return True
         return False
 
-    if debug:
-        execute = f'/usr/bin/{package}'
+    if mode_debug:
+        if mode_debug == 'dart':
+            execute = f'/usr/bin/{package}'
+        else:
+            execute = f'gdbserver --multi :2345'
     else:
         execute = f'invoker --type=qt5 {package}'
 
@@ -88,6 +91,44 @@ def ssh_run(
     return OutResult(TextSuccess.ssh_run_package(package))
 
 
+def ssh_download(
+        client: SSHClient,
+        path_remote: str,
+        path_local: str,
+        force: bool = False,
+        close: bool = True
+) -> OutResult:
+    try:
+        path_local = path_convert_relative(path_local)
+
+        if path_local.is_file():
+            if force:
+                path_local.unlink(missing_ok=True)
+            else:
+                return OutResultError(TextError.file_already_exists_error(str(path_local)))
+
+        client.open_sftp().get(
+            remotepath=path_remote,
+            localpath=path_local,
+        )
+        if close:
+            client.close()
+        return OutResult(
+            message=TextSuccess.ssh_download_success(str(path_local)),
+            value={
+                'localpath': str(path_local),
+                'remotepath': str(path_remote),
+            }
+        )
+    except Exception as e:
+        print(e)
+
+        return OutResultError(
+            message=TextError.ssh_download_error(),
+            value=str(e)
+        )
+
+
 def ssh_upload(
         client: SSHClient,
         path: str,
@@ -97,13 +138,14 @@ def ssh_upload(
     cache_progress = []
 
     def call_calculate_progress(transferred: int, total: int):
-        progress = int(transferred * 100 / total) if total != 0 else 0
-        if progress not in cache_progress:
-            cache_progress.append(progress)
-            listen_progress(OutResultInfo(
-                message=TextInfo.shh_upload_progress(),
-                value=progress
-            ))
+        if listen_progress:
+            progress = int(transferred * 100 / total) if total != 0 else 0
+            if progress not in cache_progress:
+                cache_progress.append(progress)
+                listen_progress(OutResultInfo(
+                    message=TextInfo.shh_upload_progress(),
+                    value=progress
+                ))
 
     file_path = path_convert_relative(path)
 

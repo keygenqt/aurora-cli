@@ -131,3 +131,8 @@ class TextHintRU(Enum):
     def custom_devices():
         return ('<i>Для запуска debug потребуется добавить custom-devices, если вы еще этого не сделали:</i> '
                 'aurora-cli flutter custom-devices')
+
+    @staticmethod
+    def debug_aurora():
+        return ('<i>Для debug Аврора приложений воспользуйтесь Аврора SDK:</i> '
+                'https://developer.auroraos.ru/doc/software_development/sdk')

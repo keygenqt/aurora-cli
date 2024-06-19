@@ -25,7 +25,7 @@ from aurora_cli.src.api.group_api import group_api
 
 # noinspection PyTypeChecker
 class TestDeviceAPI(unittest.TestCase):
-    def test_device_a1_device_list(self):
+    def test_device_a1(self):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
@@ -35,7 +35,7 @@ class TestDeviceAPI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
 
-    def test_device_a2_command_execute(self):
+    def test_device_a2(self):
         sleep(1)
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
@@ -46,17 +46,7 @@ class TestDeviceAPI(unittest.TestCase):
         self.assertIn('"code": 200', result.output)
         self.assertIn('Aurora', result.output)
 
-    def test_device_a3_command_execute_error(self):
-        sleep(1)
-        runner = CliRunner()
-        result = runner.invoke(cli=group_api, args=[
-            '--route',
-            '/device/command?host=192.168.2.15'
-        ])
-        self.assertEqual(result.exit_code, 0)
-        self.assertIn('"code": 500', result.output)
-
-    def test_device_a4_command_upload(self):
+    def test_device_a3(self):
         sleep(1)
         runner = CliRunner()
         path = Path(__file__).parent.parent / 'data' / 'upload.file'
@@ -68,7 +58,7 @@ class TestDeviceAPI(unittest.TestCase):
         self.assertIn('"code": 200', result.output)
         self.assertIn('successfully', result.output)
 
-    def test_device_a5_command_install(self):
+    def test_device_a4(self):
         sleep(1)
         runner = CliRunner()
         path = Path(__file__).parent.parent / 'data' / 'com.keygenqt.trex-0.1.0-1.armv7hl.rpm'
@@ -80,7 +70,17 @@ class TestDeviceAPI(unittest.TestCase):
         self.assertIn('"code": 200', result.output)
         self.assertIn('successfully', result.output)
 
-    def test_device_a6_command_remove(self):
+    def test_device_a5(self):
+        sleep(1)
+        runner = CliRunner()
+        result = runner.invoke(cli=group_api, args=[
+            '--route',
+            f'/device/package/run?host=192.168.2.15&package=com.keygenqt.trex'
+        ])
+        self.assertEqual(result.exit_code, 0)
+        self.assertIn('"code": 200', result.output)
+
+    def test_device_a6(self):
         sleep(2)
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[

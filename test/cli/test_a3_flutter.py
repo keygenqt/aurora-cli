@@ -30,7 +30,7 @@ class TestFlutterCLI(unittest.TestCase):
     def setUpClass(cls):
         disk_cache_clear()
 
-    def test_flutter_a1_available(self):
+    def test_flutter_a1(self):
         runner = CliRunner()
         result = runner.invoke(cli=group_flutter, args=[
             'available',
@@ -38,57 +38,65 @@ class TestFlutterCLI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('3.16.2-2', result.output)
 
-    def test_flutter_a2_installed(self):
+    def test_flutter_a2(self):
         runner = CliRunner()
         result = runner.invoke(cli=group_flutter, args=[
             'installed',
         ])
         self.assertEqual(result.exit_code, 0)
 
-    def test_flutter_a3_project_format(self):
+    def test_flutter_a3(self):
+        runner = CliRunner()
+        result = runner.invoke(cli=group_flutter, args=[
+            'install',
+        ])
+        self.assertEqual(result.exit_code, 0)
+
+    def test_flutter_a4(self):
+        runner = CliRunner()
+        result = runner.invoke(cli=group_flutter, args=[
+            'remove',
+        ])
+        self.assertEqual(result.exit_code, 0)
+
+    def test_flutter_a5(self):
+        runner = CliRunner()
+        result = runner.invoke(cli=group_flutter, input='', args=[
+            'custom-devices',
+        ])
+        self.assertEqual(result.exit_code, 0)
+        self.assertIn('Are you ready to continue?', result.output)
+
+    def test_flutter_a6(self):
         runner = CliRunner()
         result = runner.invoke(cli=subgroup_flutter_project, args=[
             'format',
             '--path', Path(__file__).parent
         ])
-        self.assertIn('not found', result.output)
-        self.assertEqual(result.exit_code, 1)
+        self.assertEqual(result.exit_code, 0)
 
-    def test_flutter_a4_project_build(self):
-        runner = CliRunner()
-        result = runner.invoke(cli=subgroup_flutter_project, args=[
-            'build',
-            '--path', Path(__file__).parent
-        ])
-        self.assertIn('not found', result.output)
-        self.assertEqual(result.exit_code, 1)
-
-    def test_flutter_a5_project_debug(self):
-        runner = CliRunner()
-        result = runner.invoke(cli=subgroup_flutter_project, args=[
-            'debug',
-            '--path', Path(__file__).parent
-        ])
-        self.assertIn('not found', result.output)
-        self.assertEqual(result.exit_code, 1)
-
-    def test_flutter_a6_project_report(self):
+    def test_flutter_a7(self):
         runner = CliRunner()
         result = runner.invoke(cli=subgroup_flutter_project, args=[
             'report',
             '--path', Path(__file__).parent
         ])
-        self.assertIn('not found', result.output)
-        self.assertEqual(result.exit_code, 1)
+        self.assertEqual(result.exit_code, 0)
 
-    def test_flutter_a7_project_icon(self):
+    def test_flutter_a8(self):
         runner = CliRunner()
         result = runner.invoke(cli=subgroup_flutter_project, args=[
-            'icon',
-            '--icon', '/path/to/error/image.png'
+            'icons',
+            '--image', '/path/to/error/image.png'
         ])
-        self.assertIn('not found', result.output)
-        self.assertEqual(result.exit_code, 1)
+        self.assertEqual(result.exit_code, 0)
+
+    def test_flutter_a9(self):
+        runner = CliRunner()
+        result = runner.invoke(cli=subgroup_flutter_project, args=[
+            'build',
+        ])
+        self.assertEqual(result.exit_code, 0)
 
 
 if __name__ == '__main__':

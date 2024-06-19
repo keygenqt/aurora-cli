@@ -19,7 +19,7 @@ import traceback
 
 import click
 
-from aurora_cli.src.base.utils.argv import argv_is_verbose
+from aurora_cli.src.base.utils.argv import argv_is_verbose, argv_is_test
 from aurora_cli.src.base.utils.exceptions import AppExit
 
 
@@ -37,4 +37,7 @@ def app_language() -> str:
 
 
 def app_exit(code: int = 1):
-    raise AppExit(code)
+    if argv_is_test():
+        exit(code)
+    else:
+        raise AppExit(code)

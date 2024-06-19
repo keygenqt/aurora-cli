@@ -13,6 +13,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import fcntl
+import json
+from pathlib import Path
+
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.dependency import check_dependency, DependencyApps
@@ -44,3 +48,91 @@ def shell_vscode_extension_install(extension: str) -> OutResult:
     version = stdout[-1].split(' ')[2]
 
     return OutResult(TextSuccess.vscode_extension_install_success(version))
+
+
+def update_launch_debug_dart(
+        url: str,
+        project: Path
+):
+    path_folder = project / '.vscode'
+    path_launch = path_folder / 'launch.json'
+
+    if not path_folder.is_dir():
+        path_folder.mkdir(parents=True, exist_ok=True)
+
+    if not path_launch.is_file():
+        path_launch.write_text('{}')
+
+    with open(path_launch, 'r+') as file:
+        fcntl.lockf(file, fcntl.LOCK_EX)
+        launch = json.loads(file.read())
+        configurations = [
+            {
+                'name': 'Flutter Aurora OS Dart Debug',
+                'type': 'dart',
+                'request': 'attach',
+                'vmServiceUri': url,
+                'program': 'lib/main.dart',
+            }
+        ]
+
+        if 'configurations' in launch.keys():
+            for item in launch['configurations']:
+                if 'Flutter Aurora OS Dart Debug' != item['name']:
+                    configurations.append(item)
+
+        launch['configurations'] = configurations
+
+        file.seek(0)
+        file.write(json.dumps(launch, indent=2, ensure_ascii=False))
+        file.truncate()
+
+
+@check_dependency(DependencyApps.gdb_multiarch)
+def update_launch_debug_gdb(
+        host: str,
+        binary: str,
+        package: str,
+        project: Path,
+):
+    path_folder = project / '.vscode'
+    path_launch = path_folder / 'launch.json'
+    path_gdbinit = project / '.gdbinit'
+
+    if not path_folder.is_dir():
+        path_folder.mkdir(parents=True, exist_ok=True)
+
+    if not path_launch.is_file():
+        path_launch.write_text('{}')
+
+    with open(path_gdbinit, 'w') as file:
+        print(f'handle SIGILL pass nostop noprint\n'
+              f'set remote exec-file /usr/bin/{package}', file=file)
+
+    with open(path_launch, 'r+') as file:
+        fcntl.lockf(file, fcntl.LOCK_EX)
+        launch = json.loads(file.read())
+        configurations = [
+            {
+                'name': 'Flutter Aurora OS GDB Debug',
+                'type': 'cppdbg',
+                'request': 'launch',
+                'program': binary,
+                'MIMode': 'gdb',
+                'miDebuggerPath': '/usr/bin/gdb-multiarch',
+                'miDebuggerServerAddress': f'{host}:2345',
+                'useExtendedRemote': True,
+                'cwd': '${workspaceRoot}',
+            }
+        ]
+
+        if 'configurations' in launch.keys():
+            for item in launch['configurations']:
+                if 'Flutter Aurora OS GDB Debug' != item['name']:
+                    configurations.append(item)
+
+        launch['configurations'] = configurations
+
+        file.seek(0)
+        file.write(json.dumps(launch, indent=2, ensure_ascii=False))
+        file.truncate()

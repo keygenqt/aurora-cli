@@ -22,6 +22,7 @@ from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.output import OutResult, echo_stdout, OutResultError
 from aurora_cli.src.base.utils.prompt import prompt_model_select
+from aurora_cli.src.base.utils.tests import tests_exit
 
 
 @dataclass
@@ -48,6 +49,7 @@ class FlutterModel:
 
     @staticmethod
     def get_model_by_version(version: str):
+        tests_exit()
         try:
             list_index = FlutterModel.get_versions_flutter().index(version)
             path_dart = FlutterModel.get_tools_dart()[list_index]

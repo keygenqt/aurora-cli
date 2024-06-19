@@ -68,7 +68,8 @@ def project_format(
 @click.option('-c', '--clean', is_flag=True, help=TextArgument.argument_clean())
 @click.option('-i', '--install', is_flag=True, help=TextArgument.argument_install())
 @click.option('-a', '--apm', is_flag=True, help=TextArgument.argument_apm())
-@click.option('-r', '--run', is_flag=True, help=TextArgument.argument_run())
+@click.option('-r', '--run', type=click.Choice(['sandbox', 'dart', 'gdb'], case_sensitive=False),
+              help=TextArgument.argument_debug())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def project_build(
@@ -77,13 +78,17 @@ def project_build(
         clean: bool,
         install: bool,
         apm: bool,
-        run: bool,
+        run: str,
         select: bool,
         verbose: bool
 ):
     if install and apm and debug:
         echo_stdout(OutResultError(TextError.debug_apm_error()))
         app_exit()
+
+    if not debug and (run == 'dart' or run == 'gdb'):
+        echo_stdout(OutResultError(TextError.debug_mode_error()))
+        app_exit(1)
 
     path = Path(path) if path else Path.cwd()
     model_flutter = cli_flutter_tool_select_model(select, None)
@@ -99,18 +104,23 @@ def project_build(
     if (install or run) and '86_64' not in target:
         model_device = cli_device_tool_select_model(select, None)
 
+    mode_debug = None
+    if debug and run != 'sandbox':
+        mode_debug = run
+
     flutter_project_build_common(
         model_flutter=model_flutter,
         model_psdk=model_psdk,
         model_device=model_device,
         model_keys=model_keys,
         target=target,
-        debug=debug,
+        mode_debug=mode_debug,
         clean=clean,
         project=path,
         is_install=install,
         is_apm=apm,
-        is_run=run,
+        is_run=run is not None,
+        verbose=verbose
     )
 
     echo_verbose(verbose)
@@ -134,7 +144,7 @@ def project_report(
 
 
 @subgroup_flutter_project.command(name='icons', help=TextCommand.command_project_icon())
-@click.option('-i', '--image', type=click.STRING, help=TextArgument.argument_path_to_image())
+@click.option('-i', '--image', type=click.STRING, required=True, help=TextArgument.argument_path_to_image())
 @click.option('-p', '--path', type=click.STRING, required=False, help=TextArgument.argument_path_to_project())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def project_icons(

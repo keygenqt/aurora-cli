@@ -53,6 +53,10 @@ class TextSuccessRu(Enum):
         return f'<green>Файл был успешно загружен:</green> {remote_path}'
 
     @staticmethod
+    def ssh_download_success(local_path: str):
+        return f'<green>Файл был успешно скачан:</green> {local_path}'
+
+    @staticmethod
     def ssh_install_rpm(file_name: str):
         return f'<green>Пакет</green> {file_name} <green>был успешно установлен.</green>'
 
@@ -247,6 +251,10 @@ class TextSuccessRu(Enum):
     @staticmethod
     def ssh_forward_port_success():
         return '<green>Порт был успешно проброшен.</green>'
+
+    @staticmethod
+    def ssh_gdb_server_start_success():
+        return '<green>Сервер GDB успешно запущен.</green>'
 
     @staticmethod
     def devices_add_to_config_emulator():

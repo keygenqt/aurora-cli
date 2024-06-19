@@ -84,11 +84,19 @@ class TextErrorRu(Enum):
 
     @staticmethod
     def ssh_upload_error():
-        return '<red>Не удалось загрузить файлы.</red>'
+        return '<red>Не удалось загрузить файл.</red>'
+
+    @staticmethod
+    def ssh_download_error():
+        return '<red>Не удалось загрузить файл.</red>'
 
     @staticmethod
     def file_not_found_error(path: str):
         return f'<red>Файл не найден:</red> {path}'
+
+    @staticmethod
+    def file_already_exists_error(path: str):
+        return f'<red>Файл уже существует:</red> {path}'
 
     @staticmethod
     def file_read_error(path: str):
@@ -293,6 +301,10 @@ class TextErrorRu(Enum):
     @staticmethod
     def debug_apm_error():
         return '<red>Установка debug пакетов для apm не доступна.</red>'
+
+    @staticmethod
+    def debug_mode_error():
+        return '<red>Для запуска приложения в этом режиме требуется сборка с флагом:</red> --debug'
 
     @staticmethod
     def flutter_read_json_error():

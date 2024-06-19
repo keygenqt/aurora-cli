@@ -63,6 +63,11 @@ class TextSuccess(Enum):
 
     @staticmethod
     @localization
+    def ssh_download_success(local_path: str):
+        return f'<green>The file was successfully download:</green> {local_path}'
+
+    @staticmethod
+    @localization
     def ssh_install_rpm(file_name: str):
         return f'<green>Package</green> {file_name} <green>was installed successfully.</green>'
 
@@ -292,6 +297,11 @@ Good luck 👋'''
     @localization
     def ssh_forward_port_success():
         return '<green>The port was successfully forwarded.</green>'
+
+    @staticmethod
+    @localization
+    def ssh_gdb_server_start_success():
+        return '<green>The server GDB has started successfully.</green>'
 
     @staticmethod
     @localization

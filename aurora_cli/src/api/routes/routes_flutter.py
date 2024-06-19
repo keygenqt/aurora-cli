@@ -52,9 +52,9 @@ def search_route_flutter(route: str) -> bool:
             )
         case '/flutter/project/format':
             flutter_project_format_common(
-                model=FlutterModel.get_model_by_version(get_arg_str(route, 'version')),
                 project=Path(get_arg_str(route, 'path')),
-                is_bar=False
+                is_bar=False,
+                model=FlutterModel.get_model_by_version(get_arg_str(route, 'version')),
             )
         case '/flutter/project/build':
             model_device = None
@@ -62,26 +62,27 @@ def search_route_flutter(route: str) -> bool:
             if host:
                 model_device = DeviceModel.get_model_by_host(host)
             flutter_project_build_common(
-                model_flutter=FlutterModel.get_model_by_version(get_arg_str(route, 'version')),
-                model_psdk=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
                 model_device=model_device,
-                model_keys=SignModel.get_model_by_name(get_arg_str_optional(route, 'name')),
                 target=get_arg_str(route, 'target'),
-                debug=get_arg_bool(route, 'debug'),
+                mode_debug=get_arg_str_optional(route, 'mode_debug'),
                 clean=get_arg_bool(route, 'clean'),
                 project=Path(get_arg_str(route, 'path')),
                 is_apm=get_arg_bool(route, 'is_apm'),
                 is_install=get_arg_bool(route, 'is_install'),
                 is_run=get_arg_bool(route, 'is_run'),
+                verbose=get_arg_bool(route, 'verbose'),
                 is_bar=False,
+                model_flutter=FlutterModel.get_model_by_version(get_arg_str(route, 'flutter_version')),
+                model_psdk=PsdkModel.get_model_by_version(get_arg_str(route, 'psdk_version')),
+                model_keys=SignModel.get_model_by_name(get_arg_str_optional(route, 'key_name')),
             )
         case '/flutter/project/report':
             flutter_project_report_common(
-                model=FlutterModel.get_model_by_version(get_arg_str(route, 'version')),
                 project=Path(get_arg_str(route, 'path')),
-                is_bar=False
+                is_bar=False,
+                model=FlutterModel.get_model_by_version(get_arg_str(route, 'version')),
             )
-        case '/flutter/project/icon':
+        case '/flutter/project/icons':
             flutter_project_icons_common(
                 project=Path(get_arg_str(route, 'path')),
                 image=Path(get_arg_str(route, 'image')),

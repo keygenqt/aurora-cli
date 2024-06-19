@@ -20,7 +20,6 @@ import click
 
 from aurora_cli.src.base.common.groups.psdk.psdk_project_features import (
     psdk_project_format_common,
-    psdk_project_debug_common,
     psdk_project_build_common,
     psdk_project_icons_common
 )
@@ -102,26 +101,9 @@ def project_build(
         is_install=install,
         is_apm=apm,
         is_run=run,
+        verbose=verbose,
     )
 
-    echo_verbose(verbose)
-
-
-@subgroup_psdk_project.command(name='debug', help=TextCommand.command_project_debug())
-@click.option('-p', '--path', type=click.STRING, required=False, help=TextArgument.argument_path_to_project())
-@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
-@click.option('-i', '--index', type=click.INT, default=None, help=TextArgument.argument_index())
-@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def project_debug(
-        path: str | None,
-        select: bool,
-        index: int | None,
-        verbose: bool
-):
-    path = Path(path) if path else Path.cwd()
-    model = cli_psdk_tool_select_model_psdk(select, index)
-    target = cli_psdk_tool_select_target_psdk(model)
-    psdk_project_debug_common(model, target, path)
     echo_verbose(verbose)
 
 

@@ -117,7 +117,7 @@ def emulator_recording_start_common(model: EmulatorModel):
 @check_dependency(DependencyApps.vboxmanage, DependencyApps.ffmpeg)
 def emulator_recording_stop_common(
         model: EmulatorModel,
-        save: bool
+        save: bool = True
 ):
     emulator_tool_check_is_not_run(model)
     if not model.is_record:
