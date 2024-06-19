@@ -17,15 +17,15 @@ limitations under the License.
 APP_FOLDER = '~/.aurora-cli'
 
 # Default path config
-CONFIG_PATH = f'{APP_FOLDER}/new_configuration.yaml'  # @todo
+CONFIG_PATH = f'{APP_FOLDER}/configuration3.yaml'
 
 # Default config
 CONFIG_DEFAULT = """## Application configuration file Aurora CLI
-## Version config: 1.0.0
+## Version config: 3.0.0
 
 ## The parameter sets the path to install psdk and search sdk
 ## Specify an existing directory
-workdir: ~/Aurora
+workdir: ~/
 
 ## Path to sign keys
 ## name - The name you will see in the list
