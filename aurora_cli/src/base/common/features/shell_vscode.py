@@ -54,7 +54,11 @@ def update_launch_debug_dart(
         url: str,
         project: Path
 ):
-    path_folder = project / '.vscode'
+    project_path = project
+    if project_path.name == 'example':
+        project_path = project.parent
+
+    path_folder = project_path / '.vscode'
     path_launch = path_folder / 'launch.json'
 
     if not path_folder.is_dir():
@@ -72,7 +76,7 @@ def update_launch_debug_dart(
                 'type': 'dart',
                 'request': 'attach',
                 'vmServiceUri': url,
-                'program': 'lib/main.dart',
+                'program': 'lib/main.dart' if project_path == project else 'example/lib/main.dart',
             }
         ]
 
@@ -95,9 +99,13 @@ def update_launch_debug_gdb(
         package: str,
         project: Path,
 ):
-    path_folder = project / '.vscode'
+    project_path = project
+    if project_path.name == 'example':
+        project_path = project.parent
+
+    path_folder = project_path / '.vscode'
     path_launch = path_folder / 'launch.json'
-    path_gdbinit = project / '.gdbinit'
+    path_gdbinit = project_path / '.gdbinit'
 
     if not path_folder.is_dir():
         path_folder.mkdir(parents=True, exist_ok=True)

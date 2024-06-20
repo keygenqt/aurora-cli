@@ -119,6 +119,9 @@ def flutter_project_build_common(
     tests_exit()
     flutter_tool_check_is_project(project)
 
+    if (project / 'example').is_dir():
+        project = project / 'example'
+
     if is_install and is_apm and mode_debug:
         echo_stdout(OutResultError(TextError.debug_apm_error()))
         app_exit()
@@ -353,6 +356,10 @@ def flutter_project_icons_common(
         app_exit(0)
 
     flutter_tool_check_is_project(project)
+
+    if (project / 'example').is_dir():
+        project = project / 'example'
+
     path_icons = project / 'aurora' / 'icons'
     result = image_crop_for_project(image, path_icons)
     echo_stdout(result)

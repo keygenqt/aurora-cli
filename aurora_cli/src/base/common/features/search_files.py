@@ -40,7 +40,7 @@ def search_file_for_check_is_flutter_project(path: Path) -> bool:
     desktop = search_files(path, '*.desktop')
     pubspec = search_files(path, 'pubspec.yaml')
     dart = search_files(path, '*.dart')
-    return len(desktop) != 0 and len(dart) != 0 and len(pubspec) == 1
+    return len(desktop) != 0 and len(dart) != 0 and len(pubspec) != 0
 
 
 def search_file_for_check_is_aurora_project(path: Path) -> bool:
