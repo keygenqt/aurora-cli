@@ -307,6 +307,10 @@ class TextErrorRu(Enum):
         return '<red>Для запуска приложения в этом режиме требуется сборка с флагом:</red> --debug'
 
     @staticmethod
+    def debug_apm_gdb_error():
+        return '<red>Установка через</red> --apm <red>не поддерживаем debug по GDB.</red>'
+
+    @staticmethod
     def flutter_read_json_error():
         return '<red>Не удалось получить данные пакетов.</red>'
 

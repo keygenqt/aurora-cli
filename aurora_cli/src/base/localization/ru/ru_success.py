@@ -241,8 +241,11 @@ class TextSuccessRu(Enum):
         return '<green>Успешно активированы кастомные устройства.</green>'
 
     @staticmethod
-    def vscode_extension_install_success(version: str):
-        return f'<green>Расширение</green> {version} <green>было успешно установлено.</green>'
+    def vscode_extension_install_success(version: str | None = None):
+        if version:
+            return f'<green>Расширение</green> {version} <green>было успешно установлено.</green>'
+        else:
+            return f'<green>Расширение было успешно установлено.</green>'
 
     @staticmethod
     def ssh_copy_id_success():

@@ -223,7 +223,7 @@ class TextCommand(Enum):
     @staticmethod
     @localization
     def command_vscode_tuning():
-        return 'Tuning Visual Studio Code.'
+        return 'Installing VS Code extensions that are necessary for work.'
 
     @staticmethod
     @localization

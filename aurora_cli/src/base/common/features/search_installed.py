@@ -26,7 +26,7 @@ from aurora_cli.src.base.models.workdir_model import WorkdirModel
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.utils.disk_cache import disk_cache
-from aurora_cli.src.base.utils.output import OutResult, OutResultError
+from aurora_cli.src.base.utils.output import OutResult, OutResultError, echo_stdout, OutResultInfo
 from aurora_cli.src.base.utils.path import path_convert_relative
 
 
@@ -34,7 +34,7 @@ from aurora_cli.src.base.utils.path import path_convert_relative
 def search_installed_flutter() -> OutResult:
     path = path_convert_relative('~/.local/opt')
     files = search_files(path, 'flutter-*/bin/flutter')
-
+    echo_stdout(OutResultInfo(TextInfo.search_installed_flutter_sdk(str(path))))
     versions = []
     flutters = []
     darts = []
@@ -58,6 +58,7 @@ def search_installed_flutter() -> OutResult:
 @disk_cache()
 def search_installed_psdk() -> OutResult:
     workdir = WorkdirModel.get_workdir()
+    echo_stdout(OutResultInfo(TextInfo.search_installed_aurora_psdk(str(workdir))))
     files = search_files(workdir, 'sdks/aurora_psdk/etc/os-release')
     versions = []
     tools = []
@@ -80,6 +81,7 @@ def search_installed_psdk() -> OutResult:
 @disk_cache()
 def search_installed_sdk() -> OutResult:
     workdir = WorkdirModel.get_workdir()
+    echo_stdout(OutResultInfo(TextInfo.search_installed_aurora_sdk(str(workdir))))
     files = search_files(workdir, 'sdk-release')
     versions = []
     tools = []

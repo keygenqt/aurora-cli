@@ -122,8 +122,8 @@ def flutter_project_build_common(
     if (project / 'example').is_dir():
         project = project / 'example'
 
-    if is_install and is_apm and mode_debug:
-        echo_stdout(OutResultError(TextError.debug_apm_error()))
+    if is_apm and mode_debug == 'gdb':
+        echo_stdout(OutResultError(TextError.debug_apm_gdb_error()))
         app_exit()
 
     package = search_project_application_id(project)
@@ -185,6 +185,10 @@ def flutter_project_build_common(
     if is_install:
         # sign rpm
         psdk_package_sign_common(model_psdk, model_keys, rpms)
+        if mode_debug and is_apm:
+            echo_stdout(OutResultInfo(TextInfo.install_debug_apm_dart_debug()))
+            rpms = [rpms[-1]]
+
         for rpm in rpms:
             # remove package if exit
             if is_apm:

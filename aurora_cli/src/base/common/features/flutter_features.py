@@ -165,6 +165,9 @@ def flutter_project_build(
         else:
             builds_paths[-1] += build
 
+    builds_paths.sort()
+    builds_paths.reverse()
+
     return OutResult(TextSuccess.flutter_build_success(builds_paths), value=builds_paths)
 
 

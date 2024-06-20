@@ -21,6 +21,7 @@ from enum import Enum
 import click
 
 from aurora_cli.src.base.texts.info import TextInfo
+from aurora_cli.src.base.utils.app import app_crash_out
 from aurora_cli.src.base.utils.argv import argv_is_api
 from aurora_cli.src.base.utils.text import text_colorize_clear, text_colorize
 from aurora_cli.src.base.utils.verbose import verbose_seize_map
@@ -105,7 +106,7 @@ def _echo_stdout_json(out: OutResult | None):
         click.echo(json.dumps(data, indent=2, ensure_ascii=False))
 
 
-def echo_verbose(verbose: bool):
+def echo_verbose(verbose: bool, exception=None):
     if verbose:
         if argv_is_api():
             data = {'verbose': verbose_seize_map()}
@@ -119,3 +120,5 @@ def echo_verbose(verbose: bool):
                     echo_stdout(OutResult('\n'.join(exec_command['stdout'])))
                 if 'stderr' in exec_command and exec_command['stderr']:
                     echo_stdout(OutResult('\n'.join(exec_command['stderr'])))
+    if exception:
+        app_crash_out(exception)

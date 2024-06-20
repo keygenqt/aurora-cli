@@ -47,6 +47,7 @@ class Hint(Enum):
     ssh_copy_id = 'ssh_copy_id'
     ssh_forward_port = 'ssh_forward_port'
     debug_aurora = 'debug_aurora'
+    workdir = 'workdir'
 
 
 def hint(*hints: Hint):
@@ -214,3 +215,8 @@ class TextHint(Enum):
     def debug_aurora():
         return ('<i>To debug Aurora applications, use Aurora SDK:</i> '
                 'https://developer.auroraos.ru/doc/software_development/sdk')
+
+    @staticmethod
+    @localization
+    def workdir():
+        return '<i>You can specify</i> workdir <i>in the configuration file, this will make the search easier.</i>'

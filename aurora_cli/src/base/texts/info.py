@@ -357,3 +357,25 @@ class TextInfo(Enum):
     @localization
     def run_mode_debug_info():
         return '<blue>The Flutter application had to be built in debug mode.</blue>'
+
+    @staticmethod
+    @localization
+    def search_installed_flutter_sdk(path: str):
+        return f'<blue>Directory search</blue> {path} <blue>Flutter SDK...</blue>'
+
+    @staticmethod
+    @localization
+    @hint(Hint.workdir)
+    def search_installed_aurora_psdk(path: str):
+        return f'<blue>Directory search</blue> {path} <blue>Aurora Platform SDK...</blue>'
+
+    @staticmethod
+    @localization
+    @hint(Hint.workdir)
+    def search_installed_aurora_sdk(path: str):
+        return f'<blue>Directory search</blue> {path} <blue>Aurora SDK...</blue>'
+
+    @staticmethod
+    @localization
+    def install_debug_apm_dart_debug():
+        return '<yellow>Only the main package will be installed via apm; this is enough for Dart debug.</yellow>'

@@ -24,7 +24,7 @@ from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_group import TextGroup
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.utils.abort import abort_text_end, abort_text_start
-from aurora_cli.src.base.utils.app import app_crash_out
+from aurora_cli.src.base.utils.app import app_crash_out, app_crash_handler
 from aurora_cli.src.base.utils.argv import argv_is_verbose
 from aurora_cli.src.base.utils.capturing_std import CapturingStderr, CapturingStdout
 from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
@@ -81,7 +81,11 @@ def _init_groups():
     main.add_command(group_vscode)
 
 
+# Init app commands
 _init_groups()
+
+# Catch traceback
+app_crash_handler(lambda exception: echo_verbose(argv_is_verbose(), exception))
 
 if __name__ == '__main__':
     try:

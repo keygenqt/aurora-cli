@@ -294,3 +294,19 @@ class TextInfoRu(Enum):
     @staticmethod
     def run_mode_debug_info():
         return '<blue>Приложение должно было быть собрано в debug режиме.</blue>'
+
+    @staticmethod
+    def search_installed_flutter_sdk(path: str):
+        return f'<blue>Поиск в каталоге</blue> {path} <blue>Flutter SDK...</blue>'
+
+    @staticmethod
+    def search_installed_aurora_psdk(path: str):
+        return f'<blue>Поиск в каталоге</blue> {path} <blue>Aurora Platform SDK...</blue>'
+
+    @staticmethod
+    def search_installed_aurora_sdk(path: str):
+        return f'<blue>Поиск в каталоге</blue> {path} <blue>Aurora SDK...</blue>'
+
+    @staticmethod
+    def install_debug_apm_dart_debug():
+        return '<yellow>Через apm будет установлен только основной пакет, для Dart debug этого достаточно.</yellow>'

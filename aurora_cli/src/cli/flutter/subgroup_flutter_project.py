@@ -82,9 +82,9 @@ def project_build(
         select: bool,
         verbose: bool
 ):
-    if install and apm and debug:
-        echo_stdout(OutResultError(TextError.debug_apm_error()))
-        app_exit()
+    if apm and run == 'gdb':
+        echo_stdout(OutResultError(TextError.debug_apm_gdb_error()))
+        app_exit(1)
 
     if not debug and (run == 'dart' or run == 'gdb'):
         echo_stdout(OutResultError(TextError.debug_mode_error()))

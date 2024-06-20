@@ -63,7 +63,7 @@ def ssh_run(
 
     if mode_debug:
         if mode_debug == 'dart':
-            execute = f'/usr/bin/{package}'
+            execute = f'env LD_LIBRARY_PATH=/opt/app/{package}/current/data/lib /usr/bin/{package}'
         else:
             execute = f'gdbserver --multi :2345'
     else:

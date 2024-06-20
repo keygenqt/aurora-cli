@@ -45,9 +45,11 @@ def shell_vscode_extension_install(extension: str) -> OutResult:
     if stderr and 'successfully' not in stdout[-1]:
         return OutResultError(TextError.vscode_extension_install_error())
 
-    version = stdout[-1].split(' ')[2]
-
-    return OutResult(TextSuccess.vscode_extension_install_success(version))
+    try:
+        version = stdout[-1].split(' ')[2]
+        return OutResult(TextSuccess.vscode_extension_install_success(version))
+    except (Exception,):
+        return OutResult(TextSuccess.vscode_extension_install_success())
 
 
 def update_launch_debug_dart(

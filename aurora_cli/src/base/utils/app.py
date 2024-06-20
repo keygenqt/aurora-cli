@@ -15,7 +15,9 @@ limitations under the License.
 """
 
 import os
+import sys
 import traceback
+from typing import Callable
 
 import click
 
@@ -27,6 +29,16 @@ def app_crash_out(e: Exception):
     print(click.style('An unexpected error occurred in the application.', fg='red'))
     if argv_is_verbose():
         traceback.print_exception(e)
+
+
+def app_crash_handler(callback: Callable[[sys.exception], None]):
+    def exception_handler(exception_type, exception, _):
+        if exception_type is AppExit:
+            callback(None)
+        else:
+            callback(exception)
+
+    sys.excepthook = exception_handler
 
 
 def app_language() -> str:

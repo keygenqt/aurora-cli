@@ -136,3 +136,7 @@ class TextHintRU(Enum):
     def debug_aurora():
         return ('<i>Для debug Аврора приложений воспользуйтесь Аврора SDK:</i> '
                 'https://developer.auroraos.ru/doc/software_development/sdk')
+
+    @staticmethod
+    def workdir():
+        return '<i>В конфигурационном файле можно указать</i> workdir <i>это облегчит поиск.</i>'

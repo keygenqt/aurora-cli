@@ -285,8 +285,11 @@ Good luck 👋'''
 
     @staticmethod
     @localization
-    def vscode_extension_install_success(version: str):
-        return f'<green>Extension</green> {version} <green>was successfully installed.</green>'
+    def vscode_extension_install_success(version: str | None = None):
+        if version:
+            return f'<green>Extension</green> {version} <green>was successfully installed.</green>'
+        else:
+            return f'<green>Extension was successfully installed.</green>'
 
     @staticmethod
     @localization
