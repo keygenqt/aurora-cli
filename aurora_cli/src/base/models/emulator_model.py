@@ -76,7 +76,10 @@ class EmulatorModel(ModelClient):
     def get_emulator_info(self):
         platform_name = self.name.replace('-base', '')
         platform_arch = 'aurora-x64'
-        return platform_name, platform_arch
+
+        # @todo fix for 3.16.2-2
+        # return platform_name, platform_arch
+        return platform_name, None
 
     def get_ssh_key(self) -> Path | None:
         return self.path.parent.parent.parent / 'vmshare' / 'ssh' / 'private_keys' / 'sdk'
