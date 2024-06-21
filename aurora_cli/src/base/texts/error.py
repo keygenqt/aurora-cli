@@ -444,3 +444,8 @@ class TextError(Enum):
     @hint(Hint.ssh_forward_port)
     def ssh_forward_port_error():
         return '<red>Failed to forward ssh ports.</red>'
+
+    @staticmethod
+    @localization
+    def run_emulator_arch_error():
+        return '<red>The architecture for installing the application on the emulator is not suitable.</red>'

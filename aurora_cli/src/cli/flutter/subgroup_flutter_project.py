@@ -69,7 +69,7 @@ def project_format(
 @click.option('-i', '--install', is_flag=True, help=TextArgument.argument_install())
 @click.option('-a', '--apm', is_flag=True, help=TextArgument.argument_apm())
 @click.option('-r', '--run', type=click.Choice(['sandbox', 'dart', 'gdb'], case_sensitive=False),
-              help=TextArgument.argument_debug())
+              help=TextArgument.argument_run())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def project_build(

@@ -108,7 +108,7 @@ def search_route_psdk(route: str) -> bool:
                 paths=[get_arg_str(route, 'path')],
                 is_bar=False,
                 model_psdk=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
-                model_keys=SignModel.get_model_by_name(get_arg_str_optional(route, 'name')),
+                model_keys=SignModel.get_model_by_name(get_arg_str_optional(route, 'key')),
             )
         case '/psdk/project/format':
             psdk_project_format_common(
@@ -126,13 +126,13 @@ def search_route_psdk(route: str) -> bool:
                 debug=get_arg_bool(route, 'debug'),
                 clean=get_arg_bool(route, 'clean'),
                 project=Path(get_arg_str(route, 'path')),
-                is_apm=get_arg_bool(route, 'is_apm'),
-                is_install=get_arg_bool(route, 'is_install'),
-                is_run=get_arg_bool(route, 'is_run'),
+                is_apm=get_arg_bool(route, 'apm'),
+                is_install=get_arg_bool(route, 'install'),
+                is_run=get_arg_bool(route, 'run'),
                 verbose=get_arg_bool(route, 'verbose'),
                 is_bar=False,
                 model_psdk=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
-                model_keys=SignModel.get_model_by_name(get_arg_str_optional(route, 'name')),
+                model_keys=SignModel.get_model_by_name(get_arg_str_optional(route, 'key')),
             )
         case '/psdk/project/icons':
             psdk_project_icons_common(

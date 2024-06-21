@@ -19,6 +19,10 @@ from enum import Enum
 
 class TextCommandRu(Enum):
     @staticmethod
+    def command_device_list():
+        return 'Получить список устройств.'
+
+    @staticmethod
     def command_device_command():
         return 'Выполните команду на устройстве.'
 
@@ -28,7 +32,7 @@ class TextCommandRu(Enum):
 
     @staticmethod
     def command_device_package_run():
-        return 'Запустите пакет на устройстве в контейнере.'
+        return 'Запустите пакет на устройстве.'
 
     @staticmethod
     def command_device_package_install():
@@ -51,6 +55,14 @@ class TextCommandRu(Enum):
         return 'Запись видео с эмулятора.'
 
     @staticmethod
+    def command_emulator_recording_start():
+        return 'Старт записи видео с эмулятора.'
+
+    @staticmethod
+    def command_emulator_recording_stop():
+        return 'Остановка записи видео с эмулятора..'
+
+    @staticmethod
     def command_emulator_command():
         return 'Выполните команду на эмуляторе.'
 
@@ -60,7 +72,7 @@ class TextCommandRu(Enum):
 
     @staticmethod
     def command_emulator_package_run():
-        return 'Запустите пакет на эмуляторе в контейнере.'
+        return 'Запустите пакет на эмуляторе.'
 
     @staticmethod
     def command_emulator_package_install():
@@ -181,3 +193,27 @@ class TextCommandRu(Enum):
     @staticmethod
     def command_flutter_custom_devices():
         return 'Добавьте устройства с ОС Aurora во Flutter.'
+
+    @staticmethod
+    def command_vscode_extensions_list():
+        return 'Получить список расширений VS Code.'
+
+    @staticmethod
+    def command_vscode_extensions_check_flutter():
+        return 'Получить список расширений Flutter необходимых для работы с VS Code.'
+
+    @staticmethod
+    def command_vscode_extensions_check_cpp():
+        return 'Получить список расширений C++ необходимых для работы с VS Code.'
+
+    @staticmethod
+    def command_vscode_extensions_check_other():
+        return 'Получить список других расширений необходимых для работы с VS Code.'
+
+    @staticmethod
+    def command_vscode_extension_install():
+        return 'Установка расширения VS Code.'
+
+    @staticmethod
+    def command_vscode_settings_update():
+        return 'Обновить настройки VS Code.'

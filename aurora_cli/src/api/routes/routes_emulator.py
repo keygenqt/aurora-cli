@@ -49,7 +49,7 @@ def search_route_emulator(route: str) -> bool:
             emulator_package_run_common(
                 model=EmulatorModel.get_model_user(),
                 package=get_arg_str(route, 'package'),
-                mode_debug=get_arg_str_optional(route, 'mode_debug'),
+                mode_debug=get_arg_str_optional(route, 'mode'),
                 path_project=path_project if path_project else str(Path.cwd()),
             )
         case '/emulator/package/install':

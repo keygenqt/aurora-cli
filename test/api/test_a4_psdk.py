@@ -140,7 +140,7 @@ class TestPsdkAPI(unittest.TestCase):
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            '/psdk/package/sign?path=1&version=1&name=1'
+            '/psdk/package/sign?path=1&version=1&key=1'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)

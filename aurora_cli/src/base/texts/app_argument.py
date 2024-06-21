@@ -22,6 +22,11 @@ from aurora_cli.src.base.localization.localization import localization
 class TextArgument(Enum):
     @staticmethod
     @localization
+    def argument_optional():
+        return 'optional'
+
+    @staticmethod
+    @localization
     def argument_config():
         return 'Specify config path.'
 
@@ -98,7 +103,7 @@ class TextArgument(Enum):
     @staticmethod
     @localization
     def argument_sdk_installer_type():
-        return 'Download offline type installer (online = default).'
+        return 'Download offline type installer.'
 
     @staticmethod
     @localization
@@ -129,3 +134,33 @@ class TextArgument(Enum):
     @localization
     def argument_run_mode():
         return 'Application launch mode.'
+
+    @staticmethod
+    @localization
+    def argument_host_device():
+        return 'IP address device.'
+
+    @staticmethod
+    @localization
+    def argument_flutter_version():
+        return 'Installed version of Flutter.'
+
+    @staticmethod
+    @localization
+    def argument_psdk_version():
+        return 'Installed version of Aurora Platform SDK.'
+
+    @staticmethod
+    @localization
+    def argument_target_name():
+        return 'Target name installed version of Aurora Platform SDK.'
+
+    @staticmethod
+    @localization
+    def argument_key_sign_name():
+        return 'Name key for sign package from config application.'
+
+    @staticmethod
+    @localization
+    def argument_vscode_extension():
+        return 'Name of the VS Code extension.'

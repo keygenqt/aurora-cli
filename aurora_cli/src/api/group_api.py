@@ -25,15 +25,267 @@ from aurora_cli.src.api.routes.routes_psdk import search_route_psdk
 from aurora_cli.src.api.routes.routes_sdk import search_route_sdk
 from aurora_cli.src.api.routes.routes_vscode import search_route_vscode
 from aurora_cli.src.base.configuration.app_config import AppConfig
+from aurora_cli.src.base.texts.app_argument import TextArgument
+from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.utils.argv import argv_is_test
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, echo_verbose
 from aurora_cli.src.base.utils.route import get_arg_bool
+from aurora_cli.src.base.utils.text import text_multiline_help
+
+help_routes = f'''
+-- /device --------------------------------------------------
+
+{TextCommand.command_device_list()}
+/device/list
+
+{TextCommand.command_device_command()}
+/device/command
+  • host - {TextArgument.argument_host_device()}
+  • execute - {TextArgument.argument_execute_device()}
+
+{TextCommand.command_device_upload()}
+/device/upload
+  • host - {TextArgument.argument_host_device()}
+  • path - {TextArgument.argument_path()}
+    
+{TextCommand.command_device_package_run()}
+/device/package/run
+  • host - {TextArgument.argument_host_device()}
+  • package - {TextArgument.argument_package_name()}
+  • mode [dart, gdb] ({TextArgument.argument_optional()}) - {TextArgument.argument_run_mode()}
+  • project ({TextArgument.argument_optional()}) - {TextArgument.argument_path_to_project()}
+    
+{TextCommand.command_device_package_install()}
+/device/package/install
+  • host - {TextArgument.argument_host_device()}
+  • path - {TextArgument.argument_path()}
+  • apm [default = false, true] - {TextArgument.argument_apm()}
+    
+{TextCommand.command_device_package_remove()}
+/device/package/remove
+  • host - {TextArgument.argument_host_device()}
+  • package - {TextArgument.argument_package_name()}
+  • apm [default = false, true] - {TextArgument.argument_apm()}
+
+-- /emulator -------------------------------------------------
+
+{TextCommand.command_emulator_start()}
+/emulator/start
+
+{TextCommand.command_emulator_screenshot()}
+/emulator/screenshot
+
+{TextCommand.command_emulator_recording_start()}
+/emulator/recording/start
+
+{TextCommand.command_emulator_recording_stop()}
+/emulator/recording/stop
+
+{TextCommand.command_emulator_command()}
+/emulator/command
+  • execute - {TextArgument.argument_execute_emulator()}
+
+{TextCommand.command_emulator_upload()}
+/emulator/upload
+  • path - {TextArgument.argument_path()}
+    
+{TextCommand.command_emulator_package_run()}
+/emulator/package/run
+  • package - {TextArgument.argument_package_name()}
+  • mode [dart, gdb] ({TextArgument.argument_optional()}) - {TextArgument.argument_run_mode()}
+  • project ({TextArgument.argument_optional()}) - {TextArgument.argument_path_to_project()}
+    
+{TextCommand.command_emulator_package_install()}
+/emulator/package/install
+  • path - {TextArgument.argument_path()}
+  • apm [default = false, true] - {TextArgument.argument_apm()}
+    
+{TextCommand.command_emulator_package_remove()}
+/emulator/package/remove
+  • package - {TextArgument.argument_package_name()}
+  • apm [default = false, true] - {TextArgument.argument_apm()}
+
+-- /flutter --------------------------------------------------
+
+{TextCommand.command_flutter_available()}
+/flutter/available
+
+{TextCommand.command_flutter_installed()}
+/flutter/installed
+
+{TextCommand.command_flutter_install()}
+/flutter/install
+  • version - {TextArgument.argument_flutter_version()}
+
+{TextCommand.command_flutter_remove()}
+/flutter/remove
+  • version - {TextArgument.argument_flutter_version()}
+
+{TextCommand.command_flutter_custom_devices()}
+/flutter/custom-devices
+  • version - {TextArgument.argument_flutter_version()}
+
+{TextCommand.command_project_format()}
+/flutter/project/format
+  • version - {TextArgument.argument_flutter_version()}
+  • path - {TextArgument.argument_path_to_project()}
+
+{TextCommand.command_project_build()}
+/flutter/project/build
+  • version - {TextArgument.argument_flutter_version()}
+  • psdk - {TextArgument.argument_psdk_version()}
+  • target - {TextArgument.argument_target_name()}
+  • path - {TextArgument.argument_path_to_project()}
+  • clean [default = false, true] - {TextArgument.argument_clean()}
+  • install [default = false, true] - {TextArgument.argument_install()}
+  • apm [default = false, true] - {TextArgument.argument_apm()}
+  • run [default = false, true] - {TextArgument.argument_run()}
+  • verbose [default = false, true] - {TextArgument.argument_verbose()}
+  • mode [dart, gdb] ({TextArgument.argument_optional()}) - {TextArgument.argument_debug()}
+  • host ({TextArgument.argument_optional()}) - {TextArgument.argument_host_device()}
+  • key ({TextArgument.argument_optional()}) - {TextArgument.argument_key_sign_name()}
+
+{TextCommand.command_flutter_project_report()}
+/flutter/project/report
+  • version - {TextArgument.argument_flutter_version()}
+  • path - {TextArgument.argument_path_to_project()}
+
+{TextCommand.command_project_icon()}
+/flutter/project/icons
+  • image - {TextArgument.argument_path_to_image()}
+  • path - {TextArgument.argument_path_to_project()}
+  
+-- /psdk -----------------------------------------------------
+
+{TextCommand.command_psdk_available()}
+/psdk/available
+
+{TextCommand.command_psdk_installed()}
+/psdk/installed
+
+{TextCommand.command_psdk_targets()}
+/psdk/targets
+  • version - {TextArgument.argument_psdk_version()}
+
+{TextCommand.command_psdk_install()}
+/psdk/install
+  • version - {TextArgument.argument_psdk_version()}
+
+{TextCommand.command_psdk_remove()}
+/psdk/remove
+  • version - {TextArgument.argument_psdk_version()}
+
+{TextCommand.command_psdk_clear()}
+/psdk/clear
+  • version - {TextArgument.argument_psdk_version()}
+  • target - {TextArgument.argument_target_name()}
+
+{TextCommand.command_psdk_sudoers_add()}
+/psdk/sudoers/add
+  • version - {TextArgument.argument_psdk_version()}
+
+{TextCommand.command_psdk_sudoers_remove()}
+/psdk/sudoers/remove
+  • version - {TextArgument.argument_psdk_version()}
+
+{TextCommand.command_psdk_package_search()}
+/psdk/package/search
+  • version - {TextArgument.argument_psdk_version()}
+  • target - {TextArgument.argument_target_name()}
+  • package - {TextArgument.argument_package_name()}
+
+{TextCommand.command_psdk_package_install()}
+/psdk/package/install
+  • version - {TextArgument.argument_psdk_version()}
+  • target - {TextArgument.argument_target_name()}
+  • path - {TextArgument.argument_path_rpm()}
+
+{TextCommand.command_psdk_package_remove()}
+/psdk/package/remove
+  • version - {TextArgument.argument_psdk_version()}
+  • target - {TextArgument.argument_target_name()}
+  • package - {TextArgument.argument_package_name()}
+
+{TextCommand.command_psdk_validate()}
+/psdk/package/validate
+  • version - {TextArgument.argument_psdk_version()}
+  • target - {TextArgument.argument_target_name()}
+  • path - {TextArgument.argument_path_rpm()}
+  • profile [regular, extended, mdm, antivirus, auth] - {TextArgument.argument_validate_profile()}
+
+{TextCommand.command_psdk_sign()}
+/psdk/package/sign
+  • version - {TextArgument.argument_psdk_version()}
+  • path - {TextArgument.argument_path_rpm()}
+  • key ({TextArgument.argument_optional()}) - {TextArgument.argument_key_sign_name()}
+
+{TextCommand.command_project_format()}
+/psdk/project/format
+  • path - {TextArgument.argument_path_to_project()}
+
+{TextCommand.command_project_build()}
+/psdk/project/build
+  • version - {TextArgument.argument_psdk_version()}
+  • target - {TextArgument.argument_target_name()}
+  • path - {TextArgument.argument_path_to_project()}
+  • clean [default = false, true] - {TextArgument.argument_clean()}
+  • install [default = false, true] - {TextArgument.argument_install()}
+  • apm [default = false, true] - {TextArgument.argument_apm()}
+  • run [default = false, true] - {TextArgument.argument_run()}
+  • debug [default = false, true] - {TextArgument.argument_debug()}
+  • verbose [default = false, true] - {TextArgument.argument_verbose()}
+  • host ({TextArgument.argument_optional()}) - {TextArgument.argument_host_device()}
+  • key ({TextArgument.argument_optional()}) - {TextArgument.argument_key_sign_name()}
+
+{TextCommand.command_project_icon()}
+/psdk/project/icons
+  • image - {TextArgument.argument_path_to_image()}
+  • path - {TextArgument.argument_path_to_project()}
+
+-- /sdk ------------------------------------------------------
+
+{TextCommand.command_sdk_available()}
+/sdk/available
+  
+{TextCommand.command_sdk_installed()}
+/sdk/installed
+  
+{TextCommand.command_sdk_install()}
+/sdk/install
+  • version - {TextArgument.argument_psdk_version()}
+  • offline [default = false, true] - {TextArgument.argument_sdk_installer_type()}
+  
+{TextCommand.command_sdk_tool()}
+/sdk/tool
+
+-- /vscode ---------------------------------------------------
+
+{TextCommand.command_vscode_extensions_list()}
+/vscode/extensions/list
+
+{TextCommand.command_vscode_extensions_check_flutter()}
+/vscode/extensions/check/flutter
+
+{TextCommand.command_vscode_extensions_check_cpp()}
+/vscode/extensions/check/cpp
+
+{TextCommand.command_vscode_extensions_check_other()}
+/vscode/extensions/check/other
+
+{TextCommand.command_vscode_extension_install()}
+/vscode/extensions/install
+  • extension - {TextArgument.argument_vscode_extension()}
+
+{TextCommand.command_vscode_settings_update()}
+/vscode/settings/update
+
+'''
 
 
 @click.group(name='api', invoke_without_command=True, help=TextGroup.group_api())
-@click.option('--route', help='Route API', type=click.STRING, required=True)
+@click.option('--route', help=text_multiline_help(help_routes), type=click.STRING, required=True)
 def group_api(route: str):
     if argv_is_test():
         sys.argv.append('api')

@@ -87,3 +87,13 @@ def text_colorize(text: str) -> str:
                 click.style(item.text, fg='reset' if tag == EchoTextColors.hint else tag.value))
 
     return click.style(text, fg='reset')
+
+
+def text_multiline_help(text: str) -> str:
+    out = []
+    for line in text.split('\n'):
+        if len(line.strip()) == 0:
+            out.append('\b')
+        else:
+            out.append(line.replace(' ', ' ') + str(' ' * (62 - len(line))))
+    return '\n'.join(out)

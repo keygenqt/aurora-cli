@@ -177,6 +177,9 @@ def flutter_project_build_common(
     rpms = result.value
 
     if (is_install or is_run) and model_device is None:
+        if 'x86_64' not in target:
+            echo_stdout(OutResultError(TextError.run_emulator_arch_error()))
+            app_exit()
         emulator = EmulatorModel.get_model_user()
         if not emulator.is_on:
             emulator_start_common(emulator)

@@ -22,6 +22,11 @@ from aurora_cli.src.base.localization.localization import localization
 class TextCommand(Enum):
     @staticmethod
     @localization
+    def command_device_list():
+        return 'Get list devices.'
+
+    @staticmethod
+    @localization
     def command_device_command():
         return 'Execute the command on the device.'
 
@@ -38,7 +43,7 @@ class TextCommand(Enum):
     @staticmethod
     @localization
     def command_device_package_run():
-        return 'Run package on device in container.'
+        return 'Run package on device.'
 
     @staticmethod
     @localization
@@ -67,6 +72,16 @@ class TextCommand(Enum):
 
     @staticmethod
     @localization
+    def command_emulator_recording_start():
+        return 'Start recording video from the emulator.'
+
+    @staticmethod
+    @localization
+    def command_emulator_recording_stop():
+        return 'Stop video recording from the emulator.'
+
+    @staticmethod
+    @localization
     def command_emulator_command():
         return 'Execute the command on the emulator.'
 
@@ -78,7 +93,7 @@ class TextCommand(Enum):
     @staticmethod
     @localization
     def command_emulator_package_run():
-        return 'Run package on emulator in container.'
+        return 'Run package on emulator.'
 
     @staticmethod
     @localization
@@ -229,3 +244,33 @@ class TextCommand(Enum):
     @localization
     def command_flutter_custom_devices():
         return 'Add devices Aurora OS to Flutter.'
+
+    @staticmethod
+    @localization
+    def command_vscode_extensions_list():
+        return 'Get a list of VS Code extensions.'
+
+    @staticmethod
+    @localization
+    def command_vscode_extensions_check_flutter():
+        return 'Get a list of Flutter extensions required to work with VS Code.'
+
+    @staticmethod
+    @localization
+    def command_vscode_extensions_check_cpp():
+        return 'Get a list of C++ extensions required to work with VS Code.'
+
+    @staticmethod
+    @localization
+    def command_vscode_extensions_check_other():
+        return 'Get a list other extensions required to work with VS Code.'
+
+    @staticmethod
+    @localization
+    def command_vscode_extension_install():
+        return 'Install VS Code extension.'
+
+    @staticmethod
+    @localization
+    def command_vscode_settings_update():
+        return 'Update VS Code settings.'

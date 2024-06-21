@@ -79,7 +79,7 @@ def flutter_remove_common(model: FlutterModel):
     disk_cache_clear()
 
 
-def flutter_add_custom_devices(model: FlutterModel):
+def flutter_add_custom_devices_common(model: FlutterModel):
     def out_check_result(out: OutResult):
         echo_stdout(out)
         if out.is_error():

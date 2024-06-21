@@ -21,7 +21,7 @@ from aurora_cli.src.base.common.groups.flutter.flutter_features import (
     flutter_installed_common,
     flutter_install_common,
     flutter_remove_common,
-    flutter_add_custom_devices,
+    flutter_add_custom_devices_common,
 )
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.texts.app_argument import TextArgument
@@ -100,5 +100,5 @@ def custom_devices(
     )
 
     model = cli_flutter_tool_select_model(select, index)
-    flutter_add_custom_devices(model)
+    flutter_add_custom_devices_common(model)
     echo_verbose(verbose)

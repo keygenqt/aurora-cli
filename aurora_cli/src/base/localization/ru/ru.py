@@ -59,6 +59,8 @@ def ru_click_help(text: str) -> str:
     return (text
             .replace('Show the version and exit.', 'Показать версию и выйти.')
             .replace('Show this message and exit.', 'Показать это сообщение и выйти.')
+            .replace('required', 'обязательно')
+            .replace('default', 'по умолчанию')
             .replace('Usage:', 'Применение:')
             .replace('Options:', 'Параметры:')
             .replace('Commands:', 'Команды:'))

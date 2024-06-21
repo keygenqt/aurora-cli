@@ -337,3 +337,7 @@ class TextErrorRu(Enum):
     @staticmethod
     def ssh_forward_port_error():
         return '<red>Не удалось пробросить ssh порты.</red>'
+
+    @staticmethod
+    def run_emulator_arch_error():
+        return '<red>Архитектура для установки приложения на эмулятор не подходит.</red>'

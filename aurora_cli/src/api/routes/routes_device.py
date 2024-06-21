@@ -46,10 +46,10 @@ def search_route_device(route: str) -> bool:
                 model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
             )
         case '/device/package/run':
-            path_project = get_arg_str_optional(route, 'path')
+            path_project = get_arg_str_optional(route, 'project')
             device_package_run_common(
                 package=get_arg_str(route, 'package'),
-                mode_debug=get_arg_str_optional(route, 'mode_debug'),
+                mode_debug=get_arg_str_optional(route, 'mode'),
                 path_project=path_project if path_project else str(Path.cwd()),
                 model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
             )

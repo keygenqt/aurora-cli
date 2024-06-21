@@ -86,7 +86,7 @@ class TestFlutterAPI(unittest.TestCase):
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
             '--route',
-            '/flutter/project/icons?path=/image.png&image=/home'
+            '/flutter/project/icons?image=/image.png&path=/home'
         ])
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)

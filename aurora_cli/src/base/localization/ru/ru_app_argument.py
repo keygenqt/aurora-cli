@@ -19,6 +19,10 @@ from enum import Enum
 
 class TextArgumentRu(Enum):
     @staticmethod
+    def argument_optional():
+        return 'необязательный'
+
+    @staticmethod
     def argument_config():
         return 'Указать путь конфигурации.'
 
@@ -80,7 +84,7 @@ class TextArgumentRu(Enum):
 
     @staticmethod
     def argument_sdk_installer_type():
-        return 'Загрузите установщик offline типа (online = по умолчанию).'
+        return 'Загрузите установщик offline типа.'
 
     @staticmethod
     def argument_validate_profile():
@@ -105,3 +109,27 @@ class TextArgumentRu(Enum):
     @staticmethod
     def argument_run_mode():
         return 'Режим запуска приложения.'
+
+    @staticmethod
+    def argument_host_device():
+        return 'IP-адрес устройства.'
+
+    @staticmethod
+    def argument_flutter_version():
+        return 'Установленная версия Flutter.'
+
+    @staticmethod
+    def argument_psdk_version():
+        return 'Установленная версия Aurora Platform SDK.'
+
+    @staticmethod
+    def argument_target_name():
+        return 'Имя цели установленной версии Aurora Platform SDK.'
+
+    @staticmethod
+    def argument_key_sign_name():
+        return 'Название ключа для подписи пакета из конфигурации приложения.'
+
+    @staticmethod
+    def argument_vscode_extension():
+        return 'Название расширения VS Code.'

@@ -17,7 +17,7 @@ limitations under the License.
 import os
 import sys
 import traceback
-from typing import Callable
+from typing import Callable, Any
 
 import click
 
@@ -31,7 +31,7 @@ def app_crash_out(e: Exception):
         traceback.print_exception(e)
 
 
-def app_crash_handler(callback: Callable[[sys.exception], None]):
+def app_crash_handler(callback: Callable[[Any], None]):
     def exception_handler(exception_type, exception, _):
         if exception_type is AppExit:
             callback(None)
