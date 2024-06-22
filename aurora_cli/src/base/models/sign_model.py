@@ -16,6 +16,7 @@ limitations under the License.
 
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 import click
 
@@ -33,7 +34,7 @@ class SignModel:
     @staticmethod
     def get_model_select(
             select: bool,
-            index: int | None,
+            index: Any,
     ) -> OutResult:
         return prompt_model_select(
             name='keys',
@@ -51,7 +52,7 @@ class SignModel:
         return SignModel(name, key, cert)
 
     @staticmethod
-    def get_model_by_name(name: str | None):
+    def get_model_by_name(name: Any):
         if not name:
             return None
         try:

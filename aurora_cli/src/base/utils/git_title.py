@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+from typing import Any
 
 from git import RemoteProgress
 
@@ -37,7 +38,7 @@ class TitleOpCode(RemoteProgress):
     }
 
     @classmethod
-    def _get_title(cls, op_code: int) -> str | None:
+    def _get_title(cls, op_code: int) -> Any:
         mask = op_code & cls.OP_MASK
         for key, value in cls.OP_CODE_NAMES.items():
             if key == mask:

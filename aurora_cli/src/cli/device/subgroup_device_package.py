@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 from pathlib import Path
+from typing import Any
 
 import click
 
@@ -45,7 +46,7 @@ def subgroup_device_package():
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_run(
         package: str,
-        mode: str | None,
+        mode: Any,
         select: bool,
         index: int,
         verbose: bool

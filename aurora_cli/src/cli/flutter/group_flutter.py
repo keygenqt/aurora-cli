@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+from typing import Any
 
 import click
 
@@ -87,7 +88,7 @@ def remove(verbose: bool):
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def custom_devices(
         select: bool,
-        index: int | None,
+        index: Any,
         verbose: bool
 ):
     echo_stdout(OutResultInfo(TextInfo.devices_turn_on()))

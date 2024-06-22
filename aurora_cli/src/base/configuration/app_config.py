@@ -15,7 +15,7 @@ limitations under the License.
 """
 
 from pathlib import Path
-from typing import AnyStr
+from typing import AnyStr, Any
 
 import click
 
@@ -42,7 +42,7 @@ class AppConfig:
             ctx.obj = AppConfig(ConfigLoader(CONFIG_DEFAULT).get_data())
 
     @staticmethod
-    def create(path: str | None):
+    def create(path: Any):
         arg_path = path_convert_relative(path)
         default_path = path_convert_relative(CONFIG_PATH)
         try:
@@ -92,7 +92,7 @@ class AppConfig:
             path_file.mkdir(parents=True, exist_ok=True)
         return path_file
 
-    def get_workdir(self) -> str | None:
+    def get_workdir(self) -> Any:
         return self._data_config['workdir']
 
     def get_keys(self) -> []:

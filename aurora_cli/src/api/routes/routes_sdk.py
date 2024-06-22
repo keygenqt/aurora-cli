@@ -25,19 +25,20 @@ from aurora_cli.src.base.utils.route import get_route_root, get_arg_bool, get_ar
 
 
 def search_route_sdk(route: str) -> bool:
-    match get_route_root(route):
-        case '/sdk/available':
-            sdk_available_common()
-        case '/sdk/installed':
-            sdk_installed_common()
-        case '/sdk/install':
-            sdk_install_common(
-                version=get_arg_str(route, 'version'),
-                offline=get_arg_bool(route, 'offline'),
-                is_bar=False
-            )
-        case '/sdk/tool':
-            sdk_tool_common(SdkModel.get_model())
-        case _:
-            return False
+    root = get_route_root(route)
+    if root == '/sdk/available':
+        sdk_available_common()
+    elif root == '/sdk/installed':
+        sdk_installed_common()
+    elif root == '/sdk/install':
+        sdk_install_common(
+            version=get_arg_str(route, 'version'),
+            offline=get_arg_bool(route, 'offline'),
+            is_bar=False
+        )
+    elif root == '/sdk/tool':
+        sdk_tool_common(SdkModel.get_model())
+    else:
+        return False
+
     return True

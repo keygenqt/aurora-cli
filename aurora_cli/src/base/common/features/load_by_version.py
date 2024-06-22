@@ -16,6 +16,7 @@ limitations under the License.
 
 import re
 from pathlib import Path
+from typing import Any
 
 from bs4 import BeautifulSoup
 
@@ -23,7 +24,7 @@ from aurora_cli.src.base.utils.request import request_get
 
 
 # Flutter
-def get_version_flutter_from_path(file: Path) -> str | None:
+def get_version_flutter_from_path(file: Path) -> Any:
     path_split = str(file).split('flutter-')
     if len(path_split) == 2:
         path_version = path_split[1].split('/')
@@ -33,7 +34,7 @@ def get_version_flutter_from_path(file: Path) -> str | None:
 
 
 # PSDK
-def get_version_psdk_from_file(file: Path) -> str | None:
+def get_version_psdk_from_file(file: Path) -> Any:
     with open(file) as f:
         for line in f:
             if 'VERSION_ID=' in line:
@@ -41,7 +42,7 @@ def get_version_psdk_from_file(file: Path) -> str | None:
     return None
 
 
-def get_tool_psdk_from_file_with_version(file_version: Path) -> Path | None:
+def get_tool_psdk_from_file_with_version(file_version: Path) -> Any:
     tool_path = file_version.parent.parent / 'sdk-chroot'
     if tool_path.is_file():
         return tool_path
@@ -49,7 +50,7 @@ def get_tool_psdk_from_file_with_version(file_version: Path) -> Path | None:
 
 
 # SDK
-def get_version_sdk_from_file(file: Path) -> str | None:
+def get_version_sdk_from_file(file: Path) -> Any:
     with open(file) as f:
         for line in f:
             if 'SDK_RELEASE=' in line:
@@ -57,7 +58,7 @@ def get_version_sdk_from_file(file: Path) -> str | None:
     return None
 
 
-def get_tool_sdk_from_file_with_version(file_version: Path) -> Path | None:
+def get_tool_sdk_from_file_with_version(file_version: Path) -> Any:
     tool_path = file_version.parent / 'SDKMaintenanceTool'
     if tool_path.is_file():
         return tool_path

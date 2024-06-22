@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+from typing import Any
 
 from paramiko.client import SSHClient
 
@@ -98,7 +99,7 @@ def ssh_upload_common(
 def ssh_run_common(
         model: ModelClient,
         package: str,
-        mode_debug: str | None,  # dart/gdb
+        mode_debug: Any,  # dart/gdb
         path_project: str
 ):
     tests_exit()
@@ -157,7 +158,7 @@ def ssh_run_common(
         else:
             echo_stdout(OutResult(TextSuccess.ssh_forward_port_success()))
 
-    def echo_stdout_with_check_close(stdout: OutResult | None):
+    def echo_stdout_with_check_close(stdout: Any):
 
         if mode_debug == 'gdb' and 'Listening on port' in stdout.value:
             port = stdout.value.split(' ')[-1]
@@ -196,7 +197,7 @@ def ssh_install_common(
         model: ModelClient,
         path: str,
         apm: bool,
-        devel_su: str | None = None
+        devel_su: Any = None
 ):
     client = _get_ssh_client(model)
 
@@ -229,7 +230,7 @@ def ssh_remove_common(
         model: ModelClient,
         package: str,
         apm: bool,
-        devel_su: str | None = None
+        devel_su: Any = None
 ):
     client = _get_ssh_client(model)
 

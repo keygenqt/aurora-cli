@@ -18,6 +18,7 @@ import os
 from datetime import datetime
 from os.path import basename
 from pathlib import Path
+from typing import Any
 
 
 def path_gen_file_name(
@@ -31,7 +32,7 @@ def path_gen_file_name(
     )
 
 
-def path_convert_relative(path: str | None) -> Path | None:
+def path_convert_relative(path: Any) -> Any:
     if path is None:
         return None
     if path.startswith('~/'):

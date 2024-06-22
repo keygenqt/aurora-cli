@@ -15,6 +15,7 @@ limitations under the License.
 """
 
 from enum import Enum
+from typing import Any
 
 from aurora_cli.src.base.localization.localization import localization
 
@@ -285,7 +286,7 @@ Good luck 👋'''
 
     @staticmethod
     @localization
-    def vscode_extension_install_success(version: str | None = None):
+    def vscode_extension_install_success(version: Any = None):
         if version:
             return f'<green>Extension</green> {version} <green>was successfully installed.</green>'
         else:

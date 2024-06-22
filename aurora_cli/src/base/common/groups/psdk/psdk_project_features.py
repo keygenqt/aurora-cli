@@ -15,6 +15,7 @@ limitations under the License.
 """
 from pathlib import Path
 from time import sleep
+from typing import Any
 
 from aurora_cli.src.base.common.features.image_features import image_crop_for_project
 from aurora_cli.src.base.common.features.psdk_features import psdk_project_build
@@ -75,8 +76,8 @@ def psdk_project_format_common(
 
 def psdk_project_build_common(
         model_psdk: PsdkModel,
-        model_device: DeviceModel | None,
-        model_keys: SignModel | None,
+        model_device: Any,
+        model_keys: Any,
         target: str,
         debug: bool,
         clean: bool,

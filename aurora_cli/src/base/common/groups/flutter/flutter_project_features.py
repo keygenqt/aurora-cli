@@ -18,6 +18,7 @@ import json
 import re
 from pathlib import Path
 from time import sleep
+from typing import Any
 
 from weasyprint import HTML
 
@@ -104,10 +105,10 @@ def flutter_project_format_common(
 def flutter_project_build_common(
         model_flutter: FlutterModel,
         model_psdk: PsdkModel,
-        model_device: DeviceModel | None,
-        model_keys: SignModel | None,
+        model_device: Any,
+        model_keys: Any,
         target: str,
-        mode_debug: str | None,  # dart/gdb
+        mode_debug: Any,  # dart/gdb
         clean: bool,
         project: Path,
         is_apm: bool,

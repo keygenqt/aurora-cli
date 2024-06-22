@@ -16,6 +16,7 @@ limitations under the License.
 
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 from aurora_cli.src.base.common.features.search_installed import search_installed_flutter
 from aurora_cli.src.base.texts.error import TextError
@@ -35,7 +36,7 @@ class FlutterModel:
     @staticmethod
     def get_model_select(
             select: bool,
-            index: int | None,
+            index: Any,
     ) -> OutResult:
         versions = FlutterModel.get_versions_flutter()
         if not versions:

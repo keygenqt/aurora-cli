@@ -15,12 +15,13 @@ limitations under the License.
 """
 
 from time import monotonic
+from typing import Any
 
 _commands_verbose_save = []
 _start_time = {}
 
 
-def verbose_command_start(command: str | list) -> str:
+def verbose_command_start(command: Any) -> str:
     if isinstance(command, list):
         command = ' '.join(command)
     global _start_time

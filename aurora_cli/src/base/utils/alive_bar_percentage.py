@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+from typing import Any
 
 from alive_progress import alive_bar
 
@@ -31,8 +32,8 @@ class AliveBarPercentage:
     def update(
             self,
             percentage: int,
-            title: str | None = None,
-            title_length: int | None = None,
+            title: Any = None,
+            title_length: Any = None,
     ):
         if not argv_is_test():
             if not self.alive_bar_instance:
@@ -43,8 +44,8 @@ class AliveBarPercentage:
 
     def _dispatch_bar(
             self,
-            title: str | None = None,
-            title_length: int | None = None
+            title: Any = None,
+            title_length: Any = None
     ):
         self.alive_bar_instance = alive_bar(
             manual=True,

@@ -16,6 +16,7 @@ limitations under the License.
 
 from abc import abstractmethod
 from pathlib import Path
+from typing import Any
 
 
 # Interface for model classes with ssh client
@@ -33,7 +34,7 @@ class ModelClient:
         pass
 
     @abstractmethod
-    def get_ssh_key(self) -> Path | None:
+    def get_ssh_key(self) -> Any:
         pass
 
     @abstractmethod

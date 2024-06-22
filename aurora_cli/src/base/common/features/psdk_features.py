@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 from pathlib import Path
-from typing import Callable
+from typing import Callable, Any
 
 from aurora_cli.src.base.common.features.search_files import search_aurora_project_builds_rpm
 from aurora_cli.src.base.texts.error import TextError
@@ -42,7 +42,7 @@ def psdk_project_build(
         'rpmlint session starts',
     ]
 
-    def get_arch() -> str | None:
+    def get_arch() -> Any:
         if 'aarch64' in target:
             return 'aarch64'
         if 'x86_64' in target:

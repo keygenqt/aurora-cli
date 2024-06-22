@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+from typing import Any
 
 import requests
 from requests import Response
@@ -28,7 +29,7 @@ from aurora_cli.src.base.utils.verbose import verbose_add_map, verbose_command_s
 def request_get(
         url: str,
         stream: bool = False
-) -> Response | OutResult:
+) -> Any:
     command = verbose_command_start(f'request: {url}')
     try:
         response = requests.get(url, stream=stream)

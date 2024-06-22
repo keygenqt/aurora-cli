@@ -25,21 +25,22 @@ from aurora_cli.src.base.utils.route import get_route_root, get_arg_str
 
 
 def search_route_vscode(route: str) -> bool:
-    match get_route_root(route):
-        case '/vscode/extensions/list':
-            echo_stdout(OutResult(value=vscode_extensions_list_common()))
-        case '/vscode/extensions/check/flutter':
-            echo_stdout(OutResult(value=vscode_extensions_flutter_check_common()))
-        case '/vscode/extensions/check/cpp':
-            echo_stdout(OutResult(value=vscode_extensions_cpp_check_common()))
-        case '/vscode/extensions/check/other':
-            echo_stdout(OutResult(value=vscode_extensions_other_check_common()))
-        case '/vscode/extensions/install':
-            vscode_extensions_install(
-                extensions=[get_arg_str(route, 'extension')]
-            )
-        case '/vscode/settings/update':
-            vscode_settings_common()
-        case _:
-            return False
+    root = get_route_root(route)
+    if root == '/vscode/extensions/list':
+        echo_stdout(OutResult(value=vscode_extensions_list_common()))
+    elif root == '/vscode/extensions/check/flutter':
+        echo_stdout(OutResult(value=vscode_extensions_flutter_check_common()))
+    elif root == '/vscode/extensions/check/cpp':
+        echo_stdout(OutResult(value=vscode_extensions_cpp_check_common()))
+    elif root == '/vscode/extensions/check/other':
+        echo_stdout(OutResult(value=vscode_extensions_other_check_common()))
+    elif root == '/vscode/extensions/install':
+        vscode_extensions_install(
+            extensions=[get_arg_str(route, 'extension')]
+        )
+    elif root == '/vscode/settings/update':
+        vscode_settings_common()
+    else:
+        return False
+
     return True

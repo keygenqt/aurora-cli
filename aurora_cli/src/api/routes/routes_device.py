@@ -30,41 +30,42 @@ from aurora_cli.src.base.utils.route import get_route_root, get_arg_bool, get_ar
 
 
 def search_route_device(route: str) -> bool:
-    match get_route_root(route):
-        case '/device/list':
-            echo_stdout(OutResult(
-                value=[device.to_dict() for device in DeviceModel.get_models_list()]
-            ))
-        case '/device/command':
-            device_command_common(
-                execute=get_arg_str(route, 'execute'),
-                model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
-            )
-        case '/device/upload':
-            device_upload_common(
-                path=get_arg_str(route, 'path'),
-                model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
-            )
-        case '/device/package/run':
-            path_project = get_arg_str_optional(route, 'project')
-            device_package_run_common(
-                package=get_arg_str(route, 'package'),
-                mode_debug=get_arg_str_optional(route, 'mode'),
-                path_project=path_project if path_project else str(Path.cwd()),
-                model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
-            )
-        case '/device/package/install':
-            device_package_install_common(
-                path=get_arg_str(route, 'path'),
-                apm=get_arg_bool(route, 'apm'),
-                model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
-            )
-        case '/device/package/remove':
-            device_package_remove_common(
-                package=get_arg_str(route, 'package'),
-                apm=get_arg_bool(route, 'apm'),
-                model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
-            )
-        case _:
-            return False
+    root = get_route_root(route)
+    if root == '/device/list':
+        echo_stdout(OutResult(
+            value=[device.to_dict() for device in DeviceModel.get_models_list()]
+        ))
+    elif root == '/device/command':
+        device_command_common(
+            execute=get_arg_str(route, 'execute'),
+            model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
+        )
+    elif root == '/device/upload':
+        device_upload_common(
+            path=get_arg_str(route, 'path'),
+            model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
+        )
+    elif root == '/device/package/run':
+        path_project = get_arg_str_optional(route, 'project')
+        device_package_run_common(
+            package=get_arg_str(route, 'package'),
+            mode_debug=get_arg_str_optional(route, 'mode'),
+            path_project=path_project if path_project else str(Path.cwd()),
+            model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
+        )
+    elif root == '/device/package/install':
+        device_package_install_common(
+            path=get_arg_str(route, 'path'),
+            apm=get_arg_bool(route, 'apm'),
+            model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
+        )
+    elif root == '/device/package/remove':
+        device_package_remove_common(
+            package=get_arg_str(route, 'package'),
+            apm=get_arg_bool(route, 'apm'),
+            model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
+        )
+    else:
+        return False
+
     return True

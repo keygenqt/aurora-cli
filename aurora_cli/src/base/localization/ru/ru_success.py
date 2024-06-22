@@ -15,6 +15,7 @@ limitations under the License.
 """
 
 from enum import Enum
+from typing import Any
 
 
 class TextSuccessRu(Enum):
@@ -241,7 +242,7 @@ class TextSuccessRu(Enum):
         return '<green>Успешно активированы кастомные устройства.</green>'
 
     @staticmethod
-    def vscode_extension_install_success(version: str | None = None):
+    def vscode_extension_install_success(version: Any = None):
         if version:
             return f'<green>Расширение</green> {version} <green>было успешно установлено.</green>'
         else:

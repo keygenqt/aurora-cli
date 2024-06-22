@@ -20,7 +20,7 @@ import signal
 import stat
 import subprocess
 from pathlib import Path
-from typing import Callable
+from typing import Any
 
 from cffi.backend_ctypes import unicode
 
@@ -34,7 +34,7 @@ from aurora_cli.src.base.utils.verbose import verbose_add_map, verbose_command_s
 def shell_exec_command(
         args: [],
         cwd: Path = Path.cwd(),
-        listen: Callable[[str], None] | None = None,
+        listen: Any = None,
         disable_sigint: bool = True,
 ) -> []:
     if not args:
@@ -54,7 +54,7 @@ def shell_exec_command(
             return True
         return False
 
-    def set_out(out: str, is_error: bool | None = None):
+    def set_out(out: str, is_error: Any = None):
         is_error = check_is_error(out) if is_error is None else is_error
         if is_error:
             stderr.append(out)
@@ -115,8 +115,8 @@ def shell_exec_app(path: Path) -> bool:
 
 def shell_check_error_out(
         stdout: list,
-        stderr: list | None = None,
-        search: list | None = None
+        stderr: Any = None,
+        search: Any = None
 ) -> OutResult:
     if stderr:
         return OutResultError(TextError.exec_command_error(), value=-1)

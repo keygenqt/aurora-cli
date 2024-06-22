@@ -15,6 +15,7 @@ limitations under the License.
 """
 
 from pathlib import Path
+from typing import Any
 
 from PIL import Image
 
@@ -26,7 +27,7 @@ from aurora_cli.src.base.utils.output import OutResult, OutResultError
 def image_crop_for_project(
         path_image: Path,
         path_folder: Path,
-        app_qt_id: str | None = None
+        app_qt_id: Any = None
 ) -> OutResult:
     sizes = [
         [172, 172],

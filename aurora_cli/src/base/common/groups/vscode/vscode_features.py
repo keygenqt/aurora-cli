@@ -16,6 +16,7 @@ limitations under the License.
 import fcntl
 import json
 from pathlib import Path
+from typing import Any
 
 from aurora_cli.src.base.common.features.shell_vscode import shell_vscode_list_extensions, \
     shell_vscode_extension_install
@@ -28,7 +29,7 @@ def vscode_extensions_list_common() -> list:
     return shell_vscode_list_extensions()
 
 
-def vscode_extensions_flutter_check_common(extensions: list | None = None) -> list:
+def vscode_extensions_flutter_check_common(extensions: Any = None) -> list:
     if extensions is None:
         extensions = shell_vscode_list_extensions()
     install = []
@@ -41,7 +42,7 @@ def vscode_extensions_flutter_check_common(extensions: list | None = None) -> li
     return install
 
 
-def vscode_extensions_cpp_check_common(extensions: list | None = None) -> list:
+def vscode_extensions_cpp_check_common(extensions: Any = None) -> list:
     if extensions is None:
         extensions = shell_vscode_list_extensions()
     install = []
@@ -59,7 +60,7 @@ def vscode_extensions_cpp_check_common(extensions: list | None = None) -> list:
     return install
 
 
-def vscode_extensions_other_check_common(extensions: list | None = None) -> list:
+def vscode_extensions_other_check_common(extensions: Any = None) -> list:
     if extensions is None:
         extensions = shell_vscode_list_extensions()
     install = []

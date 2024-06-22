@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+from typing import Any
 
 from aurora_cli.src.base.models.device_model import DeviceModel
 from aurora_cli.src.base.utils.app import app_exit
@@ -21,7 +22,7 @@ from aurora_cli.src.base.utils.output import echo_stdout
 
 def cli_device_tool_select_model(
         select: bool,
-        index: int | None,
+        index: Any,
 ) -> DeviceModel:
     result_model = DeviceModel.get_model_select(select, index)
     if result_model.is_error():

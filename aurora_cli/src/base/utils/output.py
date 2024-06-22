@@ -17,6 +17,7 @@ limitations under the License.
 import json
 from dataclasses import dataclass
 from enum import Enum
+from typing import Any
 
 import click
 
@@ -73,7 +74,7 @@ class OutResultInfo(OutResult):
 
 
 def echo_stdout(
-        out: OutResult | str | None,
+        out: Any,
         newlines: int = 1,
         prefix: str = '',
 ):
@@ -84,7 +85,7 @@ def echo_stdout(
 
 
 def _echo_stdout_shell(
-        out: OutResult | str | None,
+        out: Any,
         newlines: int = 1,
         prefix: str = ''
 ):
@@ -100,7 +101,7 @@ def _echo_stdout_shell(
                 click.echo(out.value)
 
 
-def _echo_stdout_json(out: OutResult | None):
+def _echo_stdout_json(out: Any):
     if out is not None:
         data = out.to_map()
         click.echo(json.dumps(data, indent=2, ensure_ascii=False))

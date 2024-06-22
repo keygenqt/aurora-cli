@@ -51,7 +51,7 @@ setuptools.setup(
         'pillow>=10.2.0',
         'diskcache>=5.6.3',
     ],
-    python_requires='>=3.8.2',
+    python_requires='>=3.8.10',
     entry_points={
         'console_scripts': [
             'aurora-cli = aurora_cli.__main__:main',

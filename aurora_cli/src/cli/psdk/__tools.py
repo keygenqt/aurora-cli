@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+from typing import Any
 
 from aurora_cli.src.base.models.psdk_model import PsdkModel
 from aurora_cli.src.base.models.sign_model import SignModel
@@ -22,7 +23,7 @@ from aurora_cli.src.base.utils.output import echo_stdout
 
 def cli_psdk_tool_select_model_psdk(
         select: bool,
-        index: int | None,
+        index: Any,
 ) -> PsdkModel:
     result_model = PsdkModel.get_model_select(select, index)
     if result_model.is_error():
@@ -41,8 +42,8 @@ def cli_psdk_tool_select_target_psdk(model: PsdkModel) -> str:
 
 def cli_psdk_tool_select_model_sign(
         select: bool,
-        index: int | None,
-) -> SignModel | None:
+        index: Any,
+) -> Any:
     result_model = SignModel.get_model_select(select, index)
     if result_model.is_error():
         return None

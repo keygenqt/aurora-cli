@@ -50,25 +50,24 @@ def check_dependency(*apps: DependencyApps):
 
 def _check_dependency(*apps: DependencyApps):
     for app in apps:
-        match app:
-            case DependencyApps.vboxmanage:
-                _check_dependency_vboxmanage()
-            case DependencyApps.ffmpeg:
-                _check_dependency_ffmpeg()
-            case DependencyApps.sudo:
-                _check_dependency_sudo()
-            case DependencyApps.git:
-                _check_dependency_git()
-            case DependencyApps.ssh:
-                _check_dependency_ssh()
-            case DependencyApps.clang_format:
-                _check_dependency_clang_format()
-            case DependencyApps.tar:
-                _check_dependency_tar()
-            case DependencyApps.vscode:
-                _check_dependency_vscode()
-            case DependencyApps.gdb_multiarch:
-                _check_dependency_gdb_multiarch()
+        if app == DependencyApps.vboxmanage:
+            _check_dependency_vboxmanage()
+        elif app == DependencyApps.ffmpeg:
+            _check_dependency_ffmpeg()
+        elif app == DependencyApps.sudo:
+            _check_dependency_sudo()
+        elif app == DependencyApps.git:
+            _check_dependency_git()
+        elif app == DependencyApps.ssh:
+            _check_dependency_ssh()
+        elif app == DependencyApps.clang_format:
+            _check_dependency_clang_format()
+        elif app == DependencyApps.tar:
+            _check_dependency_tar()
+        elif app == DependencyApps.vscode:
+            _check_dependency_vscode()
+        elif app == DependencyApps.gdb_multiarch:
+            _check_dependency_gdb_multiarch()
 
 
 def _check_dependency_vboxmanage():

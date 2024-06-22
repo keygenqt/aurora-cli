@@ -16,6 +16,7 @@ limitations under the License.
 
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 import click
 
@@ -28,7 +29,7 @@ class WorkdirModel:
     path: Path
 
     @staticmethod
-    def get_model(path: str | None):
+    def get_model(path: Any):
         if not path:
             path = '~/'
         return WorkdirModel(path_convert_relative(path))

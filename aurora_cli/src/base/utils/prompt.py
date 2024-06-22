@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+from typing import Any
 
 import click
 
@@ -28,7 +29,7 @@ from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.output import OutResultError, OutResult, echo_stdout
 
 
-def prompt_flutter_select_version(select: bool) -> str | None:
+def prompt_flutter_select_version(select: bool) -> Any:
     versions = request_versions_flutter()
     if versions.is_error():
         echo_stdout(versions)
@@ -40,7 +41,7 @@ def prompt_flutter_select_version(select: bool) -> str | None:
     return prompt_result.value
 
 
-def prompt_psdk_select_version(select: bool) -> str | None:
+def prompt_psdk_select_version(select: bool) -> Any:
     versions = request_versions_sdk()
     if versions.is_error():
         echo_stdout(versions)
@@ -52,7 +53,7 @@ def prompt_psdk_select_version(select: bool) -> str | None:
     return prompt_result.value
 
 
-def prompt_sdk_select_version(select: bool) -> str | None:
+def prompt_sdk_select_version(select: bool) -> Any:
     versions = request_versions_psdk()
     if versions.is_error():
         echo_stdout(versions)
@@ -68,7 +69,7 @@ def prompt_model_select(
         name: str,
         models: [],
         select: bool,
-        index: int | None,
+        index: Any,
 ) -> OutResult:
     def has_index(i: int, arr: []) -> bool:
         return i < 0 or len(arr) <= i

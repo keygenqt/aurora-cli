@@ -15,7 +15,7 @@ limitations under the License.
 """
 
 from pathlib import Path, PosixPath
-from typing import Callable
+from typing import Callable, Any
 
 import paramiko
 from paramiko.channel import ChannelFile
@@ -31,8 +31,8 @@ def ssh_client_connect(
         host: str,
         username: str,
         port: int,
-        auth: Path | str
-) -> SSHClient | None:
+        auth: Any
+) -> Any:
     try:
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())

@@ -16,6 +16,7 @@ limitations under the License.
 
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 from aurora_cli.src.base.common.features.search_installed import search_installed_psdk
 from aurora_cli.src.base.common.features.shell_features import shell_psdk_targets
@@ -36,7 +37,7 @@ class PsdkModel:
     @staticmethod
     def get_model_select(
             select: bool,
-            index: int | None,
+            index: Any,
     ) -> OutResult:
         versions = PsdkModel.get_versions_psdk()
         if not versions:

@@ -15,7 +15,7 @@ limitations under the License.
 """
 
 import os
-from typing import Callable
+from typing import Callable, Any
 
 from paramiko.client import SSHClient
 
@@ -49,9 +49,9 @@ def ssh_command(
 def ssh_run(
         client: SSHClient,
         package: str,
-        mode_debug: str | None,  # dart/gdb
-        listen_stdout: Callable[[OutResult | None], None],
-        listen_stderr: Callable[[OutResult | None], None],
+        mode_debug: Any,  # dart/gdb
+        listen_stdout: Callable[[Any], None],
+        listen_stderr: Callable[[Any], None],
         close: bool = True
 ) -> OutResult:
     def check_is_error(out: str) -> bool:
@@ -182,7 +182,7 @@ def ssh_rpm_install(
         path: str,
         apm: bool,
         listen_progress: Callable[[OutResult], None],
-        devel_su: str | None = None,
+        devel_su: Any = None,
         close: bool = True
 ) -> OutResult:
     def check_is_error(out: []) -> bool:
@@ -233,7 +233,7 @@ def ssh_package_remove(
         client: SSHClient,
         package: str,
         apm: bool,
-        devel_su: str | None = None,
+        devel_su: Any = None,
         close: bool = True
 ) -> OutResult:
     def check_is_error(out: []) -> bool:
@@ -281,7 +281,7 @@ def ssh_package_remove(
 def ssh_get_device_platform_name(
         client: SSHClient,
         close: bool = True
-) -> str | None:
+) -> Any:
     execute = 'cat /etc/os-release'
     stdout, stderr = ssh_exec_command(client, execute)
 
@@ -299,7 +299,7 @@ def ssh_get_device_platform_name(
 def ssh_get_device_platform_arch(
         client: SSHClient,
         close: bool = True
-) -> str | None:
+) -> Any:
     execute = 'cat /etc/rpm/platform'
     stdout, stderr = ssh_exec_command(client, execute)
 

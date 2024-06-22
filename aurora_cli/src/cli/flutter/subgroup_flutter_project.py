@@ -15,6 +15,7 @@ limitations under the License.
 """
 
 from pathlib import Path
+from typing import Any
 
 import click
 
@@ -51,9 +52,9 @@ def subgroup_flutter_project():
 @click.option('-i', '--index', type=click.INT, default=None, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def project_format(
-        path: str | None,
+        path: Any,
         select: bool,
-        index: int | None,
+        index: Any,
         verbose: bool
 ):
     path = Path(path) if path else Path.cwd()
@@ -73,7 +74,7 @@ def project_format(
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def project_build(
-        path: str | None,
+        path: Any,
         debug: bool,
         clean: bool,
         install: bool,
@@ -132,9 +133,9 @@ def project_build(
 @click.option('-i', '--index', type=click.INT, default=None, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def project_report(
-        path: str | None,
+        path: Any,
         select: bool,
-        index: int | None,
+        index: Any,
         verbose: bool
 ):
     path = Path(path) if path else Path.cwd()
@@ -149,7 +150,7 @@ def project_report(
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def project_icons(
         image: str,
-        path: str | None,
+        path: Any,
         verbose: bool
 ):
     path = Path(path) if path else Path.cwd()

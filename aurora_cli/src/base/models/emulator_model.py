@@ -17,6 +17,7 @@ limitations under the License.
 import os
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 from paramiko.client import SSHClient
 
@@ -81,13 +82,13 @@ class EmulatorModel(ModelClient):
         # return platform_name, platform_arch
         return platform_name, None
 
-    def get_ssh_key(self) -> Path | None:
+    def get_ssh_key(self) -> Any:
         return self.path.parent.parent.parent / 'vmshare' / 'ssh' / 'private_keys' / 'sdk'
 
     def is_password(self) -> bool:
         return False
 
-    def get_ssh_client(self) -> SSHClient | OutResult:
+    def get_ssh_client(self) -> Any:
         if not self.is_on:
             return OutResultError(TextError.emulator_not_found_running())
         client = ssh_client_connect(
@@ -103,7 +104,7 @@ class EmulatorModel(ModelClient):
 
     @staticmethod
     @check_dependency(DependencyApps.vboxmanage)
-    def _vm_emulator_name() -> str | None:
+    def _vm_emulator_name() -> Any:
         stdout, stderr = shell_exec_command([
             VM_MANAGE,
             'list',
@@ -118,7 +119,7 @@ class EmulatorModel(ModelClient):
 
     @staticmethod
     @check_dependency(DependencyApps.vboxmanage)
-    def _vm_emulator_is_on(emulator_name: str | None) -> bool:
+    def _vm_emulator_is_on(emulator_name: Any) -> bool:
         if not emulator_name:
             return False
         stdout, stderr = shell_exec_command([

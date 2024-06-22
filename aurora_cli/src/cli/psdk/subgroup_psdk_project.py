@@ -15,6 +15,7 @@ limitations under the License.
 """
 
 from pathlib import Path
+from typing import Any
 
 import click
 
@@ -47,7 +48,7 @@ def subgroup_psdk_project():
 @click.option('-p', '--path', type=click.STRING, required=False, help=TextArgument.argument_path_to_project())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def project_format(
-        path: str | None,
+        path: Any,
         verbose: bool
 ):
     path = Path(path) if path else Path.cwd()
@@ -65,7 +66,7 @@ def project_format(
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def project_build(
-        path: str | None,
+        path: Any,
         debug: bool,
         clean: bool,
         install: bool,
@@ -113,7 +114,7 @@ def project_build(
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def project_icons(
         image: str,
-        path: str | None,
+        path: Any,
         verbose: bool
 ):
     path = Path(path) if path else Path.cwd()

@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+from typing import Any
 
 from aurora_cli.src.base.common.groups.common.ssh_commands import (
     ssh_run_common,
@@ -27,7 +28,7 @@ from aurora_cli.src.base.models.emulator_model import EmulatorModel
 def emulator_package_run_common(
         model: EmulatorModel,
         package: str,
-        mode_debug: str | None,  # dart/gdb
+        mode_debug: Any,  # dart/gdb
         path_project: str
 ):
     emulator_tool_check_is_not_run(model)

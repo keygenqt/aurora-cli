@@ -15,6 +15,7 @@ limitations under the License.
 """
 
 from pathlib import Path
+from typing import Any
 
 from aurora_cli.src.base.utils.verbose import verbose_command_start, verbose_add_map
 
@@ -57,7 +58,7 @@ def search_aurora_project_builds_rpm(
     return reversed(search_files(path, f'*{arch}*.rpm'))
 
 
-def search_project_application_id(path: Path) -> str | None:
+def search_project_application_id(path: Path) -> Any:
     desktop = search_files(path, '*.desktop')
     if not desktop:
         return None
@@ -78,7 +79,7 @@ def search_project_application_id(path: Path) -> str | None:
 def search_flutter_project_pubspec_key(
         path: Path,
         key: str
-) -> str | None:
+) -> Any:
     pubspec = search_files(path, 'pubspec.yaml')
     if not pubspec:
         return None

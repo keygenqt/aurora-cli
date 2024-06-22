@@ -16,6 +16,7 @@ limitations under the License.
 
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 import click
 from paramiko.client import SSHClient
@@ -34,14 +35,14 @@ class DeviceModel(ModelClient):
     """Class device."""
     host: str
     port: int
-    auth: str | Path
-    devel_su: str | None = None
+    auth: Any
+    devel_su: Any = None
     user: str = 'defaultuser'
 
     @staticmethod
     def get_model_select(
             select: bool,
-            index: int | None,
+            index: Any,
     ) -> OutResult:
         return prompt_model_select(
             name='device',
@@ -91,7 +92,7 @@ class DeviceModel(ModelClient):
         # return platform_name, platform_arch
         return platform_name, None
 
-    def get_ssh_key(self) -> Path | None:
+    def get_ssh_key(self) -> Any:
         if self.is_password():
             return None
         return self.auth
@@ -99,7 +100,7 @@ class DeviceModel(ModelClient):
     def is_password(self) -> bool:
         return type(self.auth) is str
 
-    def get_ssh_client(self) -> SSHClient | OutResult:
+    def get_ssh_client(self) -> Any:
         client = ssh_client_connect(
             self.host,
             self.user,

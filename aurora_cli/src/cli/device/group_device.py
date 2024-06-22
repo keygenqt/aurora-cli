@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+from typing import Any
 
 import click
 
@@ -47,7 +48,7 @@ def group_device():
 def command(
         execute: str,
         select: bool,
-        index: int | None,
+        index: Any,
         verbose: bool
 ):
     model = cli_device_tool_select_model(select, index)
