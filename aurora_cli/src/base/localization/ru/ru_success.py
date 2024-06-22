@@ -117,7 +117,7 @@ class TextSuccessRu(Enum):
 
     <blue>flutter-aurora --version</blue>
 
-Удачи 👋'''
+Удачи!'''
 
     @staticmethod
     def flutter_remove_success(version: str):
@@ -210,7 +210,7 @@ class TextSuccessRu(Enum):
 
 Файлы скачаны в папку ~/Загрузки, если они вам больше не нужны, удалите их.
 
-Удачи 👋'''
+Удачи!'''
 
     @staticmethod
     def psdk_remove_success(version: str):
