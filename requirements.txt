@@ -6,6 +6,6 @@ paramiko>=3.4.0
 cffi>=1.16.0
 GitPython>=3.1.41
 beautifulsoup4>=4.12.3
-weasyprint>=61.1
+weasyprint>=61.2
 pillow>=10.2.0
 diskcache>=5.6.3

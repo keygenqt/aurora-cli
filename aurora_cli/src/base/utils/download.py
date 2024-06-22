@@ -15,7 +15,7 @@ limitations under the License.
 """
 
 import socket
-from collections.abc import Callable
+from typing import Callable
 from enum import Enum
 from pathlib import Path
 from threading import Thread
@@ -86,27 +86,26 @@ def downloads(
     bar = AliveBarPercentage()
 
     def bar_update(result: int):
-        match result:
-            case DownloadCode.start.value:
-                bar.stop()
-                echo_stdout(OutResultError(TextError.start_download_error()))
-                app_exit()
-            case DownloadCode.download.value:
-                bar.stop()
-                echo_stdout(OutResultError(TextError.download_error()))
-                app_exit()
-            case DownloadCode.interrupted.value:
-                bar.stop()
-                if not is_bar:
-                    echo_stdout(OutResultError(TextError.abort_download_error()))
-                abort.append(True)
-            case DownloadCode.end.value:
-                echo_stdout(OutResult(TextSuccess.download_success()))
-            case _:
-                if is_bar:
-                    bar.update(result)
-                else:
-                    echo_stdout(OutResultInfo(TextInfo.download_progress(), value=result))
+        if result == DownloadCode.start.value:
+            bar.stop()
+            echo_stdout(OutResultError(TextError.start_download_error()))
+            app_exit()
+        elif result == DownloadCode.download.value:
+            bar.stop()
+            echo_stdout(OutResultError(TextError.download_error()))
+            app_exit()
+        elif result == DownloadCode.interrupted.value:
+            bar.stop()
+            if not is_bar:
+                echo_stdout(OutResultError(TextError.abort_download_error()))
+            abort.append(True)
+        elif result == DownloadCode.end.value:
+            echo_stdout(OutResult(TextSuccess.download_success()))
+        else:
+            if is_bar:
+                bar.update(result)
+            else:
+                echo_stdout(OutResultInfo(TextInfo.download_progress(), value=result))
 
     _downloads(urls, lambda result: bar_update(result))
 

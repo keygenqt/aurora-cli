@@ -15,7 +15,7 @@ limitations under the License.
 """
 
 import signal
-from collections.abc import Callable
+from typing import Callable
 
 from aurora_cli.src.base.localization.localization import localization_abort
 
