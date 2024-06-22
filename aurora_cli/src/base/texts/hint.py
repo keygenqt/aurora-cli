@@ -96,7 +96,7 @@ class TextHint(Enum):
     @staticmethod
     @localization
     def route_error_hint():
-        return '<i>The application has an API for use in other applications, and a CLI is provided for people.</i>'
+        return '<i>The application has an API for use in other applications, and the CLI is provided for people.</i>'
 
     @staticmethod
     @localization
@@ -182,12 +182,12 @@ class TextHint(Enum):
     def use_apm():
         if argv_is_apm() or argv_is_api():
             return ''
-        return '<i>You might want to enable apm mode:</i> --apm'
+        return '<i>You might enable apm mode:</i> --apm'
 
     @staticmethod
     @localization
     def psdk_keys_info():
-        return '<i>You can add your keys, if any, to the application configuration file.</i>'
+        return '<i>You can add your keys, if you have some, to the application configuration file.</i>'
 
     @staticmethod
     @localization

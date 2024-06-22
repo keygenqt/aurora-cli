@@ -38,12 +38,12 @@ class TextArgument(Enum):
     @staticmethod
     @localization
     def argument_execute_device():
-        return 'The command to be executed on the device.'
+        return 'The command will be executed on the device.'
 
     @staticmethod
     @localization
     def argument_execute_emulator():
-        return 'The command to be executed on the emulator.'
+        return 'The command will be executed on the emulator.'
 
     @staticmethod
     @localization
@@ -53,7 +53,7 @@ class TextArgument(Enum):
     @staticmethod
     @localization
     def argument_install():
-        return 'Install on device or emulator.'
+        return 'Install on the device or the emulator.'
 
     @staticmethod
     @localization
@@ -68,7 +68,7 @@ class TextArgument(Enum):
     @staticmethod
     @localization
     def argument_run():
-        return 'Run application on device or emulator.'
+        return 'Run application on the device or the emulator.'
 
     @staticmethod
     @localization
@@ -158,7 +158,7 @@ class TextArgument(Enum):
     @staticmethod
     @localization
     def argument_key_sign_name():
-        return 'Name key for sign package from config application.'
+        return 'The name of key for sign package from config application.'
 
     @staticmethod
     @localization

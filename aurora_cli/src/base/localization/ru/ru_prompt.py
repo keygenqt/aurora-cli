@@ -28,7 +28,7 @@ class TextPromptRu(Enum):
 
     @staticmethod
     def select_continue():
-        return 'Вы хотите продолжать?'
+        return 'Вы хотите продолжить?'
 
     @staticmethod
     def is_ready():

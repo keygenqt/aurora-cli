@@ -24,19 +24,19 @@ class TextError(Enum):
     @staticmethod
     @localization
     def shell_exec_command_empty():
-        return '<red>Error reading shell arguments.</red>'
+        return '<red>Reading shell arguments error.</red>'
 
     @staticmethod
     @localization
     @hint(Hint.not_install_emulator)
     def emulator_not_found():
-        return '<red>Emulator with Aurora OS not found.</red>'
+        return '<red>Emulator with Aurora OS is not found.</red>'
 
     @staticmethod
     @localization
     @hint(Hint.emulator_run)
     def emulator_not_found_running():
-        return '<red>No running emulator with Aurora OS was found.</red>'
+        return '<red>No running emulator with Aurora OS is found.</red>'
 
     @staticmethod
     @localization
@@ -52,7 +52,7 @@ class TextError(Enum):
     @localization
     @hint(Hint.route_error_hint, Hint.documentation_link)
     def route_not_found():
-        return '<red>Route not found.</red>'
+        return '<red>Route is not found.</red>'
 
     @staticmethod
     @localization
@@ -68,7 +68,7 @@ class TextError(Enum):
     @staticmethod
     @localization
     def emulator_not_running_recording():
-        return '<red>The emulator recording not started.</red>'
+        return '<red>The emulator recording is not started.</red>'
 
     @staticmethod
     @localization
@@ -93,13 +93,13 @@ class TextError(Enum):
     @staticmethod
     @localization
     def ssh_connect_emulator_error():
-        return '<red>Error connecting to emulator via SSH.</red>'
+        return '<red>Connecting to emulator via SSH error.</red>'
 
     @staticmethod
     @localization
     @hint(Hint.device_config, Hint.documentation_link)
     def ssh_connect_device_error():
-        return '<red>Error connecting to device via SSH.</red>'
+        return '<red>Connecting to device via SSH error.</red>'
 
     @staticmethod
     @localization
@@ -119,23 +119,23 @@ class TextError(Enum):
     @staticmethod
     @localization
     def file_not_found_error(path: str):
-        return f'<red>File not found:</red> {path}'
+        return f'<red>File is not found:</red> {path}'
 
     @staticmethod
     @localization
     def file_already_exists_error(path: str):
-        return f'<red>The file already exists:</red> {path}'
+        return f'<red>The file has already existed:</red> {path}'
 
     @staticmethod
     @localization
     def file_read_error(path: str):
-        return f'<red>Error reading file:</red> {path}'
+        return f'<red>Reading file error:</red> {path}'
 
     @staticmethod
     @localization
     @hint(Hint.use_apm, Hint.use_verbose)
     def ssh_install_rpm_error():
-        return '<red>Error installing RPM package.</red>'
+        return '<red>Installing RPM package error.</red>'
 
     @staticmethod
     @localization
@@ -151,42 +151,42 @@ class TextError(Enum):
     @staticmethod
     @localization
     def validate_config_devices_not_found():
-        return '<red>Section</red> devices <red>not found.</red>'
+        return '<red>Section</red> devices <red>is not found.</red>'
 
     @staticmethod
     @localization
     def validate_config_devices():
-        return '<red>Section</red> devices <red>incorrect.</red>'
+        return '<red>Section</red> devices <red>is incorrect.</red>'
 
     @staticmethod
     @localization
     def validate_config_keys_not_found():
-        return '<red>Section</red> keys <red>not found.</red>'
+        return '<red>Section</red> keys <red>is not found.</red>'
 
     @staticmethod
     @localization
     def validate_config_keys():
-        return '<red>Section</red> keys <red>incorrect.</red>'
+        return '<red>Section</red> keys <red>is incorrect.</red>'
 
     @staticmethod
     @localization
     def validate_config_key_not_found(path: str):
-        return f'<red>Not found file key:</red> {path}'
+        return f'<red>File key is not found:</red> {path}'
 
     @staticmethod
     @localization
     def validate_config_cert_not_found(path: str):
-        return f'<red>Not found file cert:</red> {path}'
+        return f'<red>File cert is not found:</red> {path}'
 
     @staticmethod
     @localization
     def validate_config_workdir_not_found():
-        return '<red>It was not possible to find and create the</red> workdir <red>folder.</red>'
+        return '<red>It is not possible to find and create the</red> workdir <red>folder.</red>'
 
     @staticmethod
     @localization
     def validate_config_workdir_error_create(path: str):
-        return f'<red>Folder</red> {path} <red>not found.</red>'
+        return f'<red>Folder is not found:</red> {path}'
 
     @staticmethod
     @localization
@@ -212,7 +212,7 @@ class TextError(Enum):
     @localization
     @hint(Hint.install_app)
     def dependency_not_found(dependency: str):
-        return f'<red>Dependency</red> {dependency} <red>was not found and is required to run this command.</red>'
+        return f'<red>Dependency</red> {dependency} <red>is not found and is required to run this command.</red>'
 
     @staticmethod
     @localization
@@ -227,18 +227,18 @@ class TextError(Enum):
     @staticmethod
     @localization
     def just_empty_error():
-        return '<yellow>Nothing found.</yellow>'
+        return '<yellow>Nothing is found.</yellow>'
 
     @staticmethod
     @localization
     def config_value_empty_error():
-        return '<yellow>No items found to select, check the configuration file.</yellow>'
+        return '<yellow>No items is found to select, check the configuration file.</yellow>'
 
     @staticmethod
     @localization
     @hint(Hint.use_select)
     def flutter_already_installed_error(version: str):
-        return f'<red>Flutter already installed:</red> {version}'
+        return f'<red>Flutter has already installed:</red> {version}'
 
     @staticmethod
     @localization
@@ -271,13 +271,13 @@ class TextError(Enum):
     @localization
     @hint(Hint.sdk_reinstall)
     def sdk_already_installed_error():
-        return '<red>Aurora SDK already installed.</red>'
+        return '<red>Aurora SDK has already installed.</red>'
 
     @staticmethod
     @localization
     @hint(Hint.use_select)
     def psdk_already_installed_error(version: str):
-        return f'<red>Aurora Platform SDK</red> {version} <red>already installed.</red>'
+        return f'<red>Aurora Platform SDK</red> {version} <red>has already installed.</red>'
 
     @staticmethod
     @localization
@@ -304,7 +304,7 @@ class TextError(Enum):
     @staticmethod
     @localization
     def abort_download_error():
-        return '<red>Download interrupted.</red>'
+        return '<red>The download is interrupted.</red>'
 
     @staticmethod
     @localization
@@ -316,13 +316,13 @@ class TextError(Enum):
     @localization
     @hint(Hint.hint_check_download_error)
     def check_url_download_dir_error(path: str):
-        return f'<red>The name in the destination folder is already taken:</red> {path}'
+        return f'<red>The name in the destination folder has already taken:</red> {path}'
 
     @staticmethod
     @localization
     @hint(Hint.hint_check_download_error)
     def check_url_download_exist_error(path: str):
-        return f'<red>An unknown file with the same name was found:</red> {path}'
+        return f'<red>An unknown file with the same name is found:</red> {path}'
 
     @staticmethod
     @localization
@@ -337,12 +337,12 @@ class TextError(Enum):
     @staticmethod
     @localization
     def flutter_project_not_found(path: str):
-        return f'<red>Flutter project with support Aurora OS not found:</red> {path}'
+        return f'<red>Flutter project with support Aurora OS is not found:</red> {path}'
 
     @staticmethod
     @localization
     def psdk_project_not_found(path: str):
-        return f'<red>Aurora project not found:</red> {path}'
+        return f'<red>Aurora project is not found:</red> {path}'
 
     @staticmethod
     @localization
@@ -380,7 +380,7 @@ class TextError(Enum):
             width: int,
             height: int
     ):
-        return '<red>Minimum icon size {}x{}.</red>'.format(width, height)
+        return f'<red>Minimum icon size is {width}x{height}.</red>'
 
     @staticmethod
     @localization
@@ -390,7 +390,7 @@ class TextError(Enum):
     @staticmethod
     @localization
     def arch_not_found():
-        return '<red>Architecture type not found.</red>'
+        return '<red>Architecture type is not found.</red>'
 
     @staticmethod
     @localization
@@ -420,7 +420,7 @@ class TextError(Enum):
     @staticmethod
     @localization
     def vscode_extension_install_error():
-        return '<red>Failed install extension.</red>'
+        return '<red>Failed to install extension.</red>'
 
     @staticmethod
     @localization
@@ -437,7 +437,7 @@ class TextError(Enum):
     @localization
     @hint(Hint.ssh_copy_id)
     def ssh_run_debug_error():
-        return '<red>To run the application in debug mode, the connection must be via an ssh key.</red>'
+        return '<red>To run the application in debug mode, the connection must be via ssh key.</red>'
 
     @staticmethod
     @localization

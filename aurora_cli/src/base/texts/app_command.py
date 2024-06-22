@@ -43,42 +43,42 @@ class TextCommand(Enum):
     @staticmethod
     @localization
     def command_device_package_run():
-        return 'Run package on device.'
+        return 'Run package on the device.'
 
     @staticmethod
     @localization
     def command_device_package_install():
-        return 'Install RPM package on device.'
+        return 'Install RPM package on the device.'
 
     @staticmethod
     @localization
     def command_device_package_remove():
-        return 'Remove package from device.'
+        return 'Remove package from the device.'
 
     @staticmethod
     @localization
     def command_emulator_start():
-        return 'Start emulator.'
+        return 'Start the emulator.'
 
     @staticmethod
     @localization
     def command_emulator_screenshot():
-        return 'Emulator take screenshot.'
+        return 'Take a screenshot of the emulator .'
 
     @staticmethod
     @localization
     def command_emulator_recording():
-        return 'Recording video from emulator.'
+        return 'Recording video from the emulator.'
 
     @staticmethod
     @localization
     def command_emulator_recording_start():
-        return 'Start recording video from the emulator.'
+        return 'Start recording video from the the emulator.'
 
     @staticmethod
     @localization
     def command_emulator_recording_stop():
-        return 'Stop video recording from the emulator.'
+        return 'Stop video recording from the the emulator.'
 
     @staticmethod
     @localization
@@ -93,17 +93,17 @@ class TextCommand(Enum):
     @staticmethod
     @localization
     def command_emulator_package_run():
-        return 'Run package on emulator.'
+        return 'Run package on the emulator.'
 
     @staticmethod
     @localization
     def command_emulator_package_install():
-        return 'Install RPM package on emulator.'
+        return 'Install RPM package on the emulator.'
 
     @staticmethod
     @localization
     def command_emulator_package_remove():
-        return 'Remove package from emulator.'
+        return 'Remove package from the emulator.'
 
     @staticmethod
     @localization
@@ -113,7 +113,7 @@ class TextCommand(Enum):
     @staticmethod
     @localization
     def command_flutter_installed():
-        return 'Get version installed Flutter for Aurora OS.'
+        return 'Get versions of installed Flutter for Aurora OS.'
 
     @staticmethod
     @localization
@@ -128,12 +128,12 @@ class TextCommand(Enum):
     @staticmethod
     @localization
     def command_flutter_project_report():
-        return 'Compile a report flutter project.'
+        return 'Compile a report of flutter project.'
 
     @staticmethod
     @localization
     def command_project_format():
-        return 'Formatting a project.'
+        return 'Project formatting.'
 
     @staticmethod
     @localization
@@ -223,12 +223,12 @@ class TextCommand(Enum):
     @staticmethod
     @localization
     def command_sdk_installed():
-        return 'Get version installed Aurora SDK.'
+        return 'Get version of the installed Aurora SDK.'
 
     @staticmethod
     @localization
     def command_sdk_install():
-        return 'Download and run install Aurora SDK.'
+        return 'Download and run Aurora SDK installation.'
 
     @staticmethod
     @localization
@@ -243,7 +243,7 @@ class TextCommand(Enum):
     @staticmethod
     @localization
     def command_flutter_custom_devices():
-        return 'Add devices Aurora OS to Flutter.'
+        return 'Add devices with Aurora OS to Flutter.'
 
     @staticmethod
     @localization

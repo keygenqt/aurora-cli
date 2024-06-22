@@ -50,62 +50,62 @@ This is a third party tool written by enthusiasts!'''
     @staticmethod
     @localization
     def group_device():
-        return 'Working with the device.'
+        return 'Work with the device.'
 
     @staticmethod
     @localization
     def group_vscode():
-        return 'Working with the Visual Studio Code.'
+        return 'Work with the Visual Studio Code.'
 
     @staticmethod
     @localization
     def subgroup_device_package():
-        return 'Working with packages.'
+        return 'Work with packages.'
 
     @staticmethod
     @localization
     def group_emulator():
-        return 'Working with the emulator virtualbox.'
+        return 'Work with the emulator virtualbox.'
 
     @staticmethod
     @localization
     def subgroup_emulator_package():
-        return 'Working with packages.'
+        return 'Work with packages.'
 
     @staticmethod
     @localization
     def group_flutter():
-        return 'Working with Flutter for Aurora OS.'
+        return 'Work with Flutter for Aurora OS.'
 
     @staticmethod
     @localization
     def subgroup_flutter_project():
-        return 'Working with Flutter projects.'
+        return 'Work with Flutter projects.'
 
     @staticmethod
     @localization
     def group_psdk():
-        return 'Working with Platform Aurora SDK.'
+        return 'Work with Platform Aurora SDK.'
 
     @staticmethod
     @localization
     def subgroup_psdk_package():
-        return 'Working with packages.'
+        return 'Work with packages.'
 
     @staticmethod
     @localization
     def subgroup_psdk_project():
-        return 'Working with projects Aurora.'
+        return 'Work with Aurora projects.'
 
     @staticmethod
     @localization
     def subgroup_psdk_sudoers():
-        return 'Working with sudoers.'
+        return 'Work with sudoers.'
 
     @staticmethod
     @localization
     def group_sdk():
-        return 'Working with Aurora SDK.'
+        return 'Work with Aurora SDK.'
 
     @staticmethod
     @localization

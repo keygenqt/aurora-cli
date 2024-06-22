@@ -152,7 +152,7 @@ class TextErrorRu(Enum):
 
     @staticmethod
     def config_arg_path_load_error(path: str):
-        return f'<red>Чтение файла конфигурации завершился с ошибкой:</red> {path}'
+        return f'<red>Чтение файла конфигурации завершилось с ошибкой:</red> {path}'
 
     @staticmethod
     def index_error():
@@ -241,7 +241,7 @@ class TextErrorRu(Enum):
 
     @staticmethod
     def check_url_download_dir_error(path: str):
-        return f'<red>В папке назначения имя уж занято:</red> {path}'
+        return f'<red>В папке назначения имя уже занято:</red> {path}'
 
     @staticmethod
     def check_url_download_exist_error(path: str):

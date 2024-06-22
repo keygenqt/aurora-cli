@@ -268,4 +268,4 @@ class TextSuccessRu(Enum):
     def devices_add_to_config_devices(host: str):
         return (f'<green>Устройство ОС Аврора</green>'
                 f' {host} '
-                f'<green>успешно было добавлено в custom-device Flutter.</green>')
+                f'<green>было успешно добавлено в custom-device Flutter.</green>')

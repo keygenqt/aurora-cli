@@ -137,7 +137,7 @@ class TextInfoRu(Enum):
 
     @staticmethod
     def psdk_package_not_found():
-        return f'<blue>Пакеты не найден.</blue>'
+        return f'<blue>Пакеты не найдены.</blue>'
 
     @staticmethod
     def psdk_package_search(values: []):
@@ -244,7 +244,7 @@ class TextInfoRu(Enum):
                 '\nhandle SIGILL pass nostop noprint'
                 f'\nset remote exec-file /usr/bin/{package}\n'
                 '\n<blue>Или просто запустите приложение из корня проекта, '
-                'все добавиться автоматически.</blue>')
+                'все добавится автоматически.</blue>')
 
     @staticmethod
     def ssh_debug_without_project_dart(dart_vm_url: str):
@@ -263,17 +263,17 @@ class TextInfoRu(Enum):
                 '\n   ]'
                 '\n}'
                 '\n<blue>Или просто запустите приложение из корня проекта, '
-                'все добавиться автоматически.</blue>')
+                'все добавится автоматически.</blue>')
 
     @staticmethod
     def devices_password_not_connect(host: str):
-        return (f'<blue>Девайс</blue>'
+        return (f'<blue>Девайс,</blue>'
                 f' {host} '
-                f'<blue>подключен с помощью пароля не будет добавлен, используйте ssh key в auth.</blue>')
+                f'<blue>подключенный с помощью пароля не будет добавлен, используйте ssh key в auth.</blue>')
 
     @staticmethod
     def devices_turn_on():
-        return '<blue>Для получения необходимой информации о устройстве они должны быть подключены.</blue>'
+        return '<blue>Для получения необходимой информации об устройствах, они должны быть подключены.</blue>'
 
     @staticmethod
     def update_launch_json_gdb():
@@ -289,7 +289,7 @@ class TextInfoRu(Enum):
 
     @staticmethod
     def run_debug_application():
-        return '<blue>Приложения будет запущено вне песочницы.</blue>'
+        return '<blue>Приложение будет запущено вне песочницы.</blue>'
 
     @staticmethod
     def run_mode_debug_info():

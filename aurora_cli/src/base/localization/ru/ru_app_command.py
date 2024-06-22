@@ -200,15 +200,15 @@ class TextCommandRu(Enum):
 
     @staticmethod
     def command_vscode_extensions_check_flutter():
-        return 'Получить список расширений Flutter необходимых для работы с VS Code.'
+        return 'Получить список расширений Flutter, необходимых для работы с VS Code.'
 
     @staticmethod
     def command_vscode_extensions_check_cpp():
-        return 'Получить список расширений C++ необходимых для работы с VS Code.'
+        return 'Получить список расширений C++, необходимых для работы с VS Code.'
 
     @staticmethod
     def command_vscode_extensions_check_other():
-        return 'Получить список других расширений необходимых для работы с VS Code.'
+        return 'Получить список других расширений, необходимых для работы с VS Code.'
 
     @staticmethod
     def command_vscode_extension_install():

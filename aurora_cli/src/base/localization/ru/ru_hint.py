@@ -47,7 +47,7 @@ class TextHintRU(Enum):
 
     @staticmethod
     def device_config():
-        return '<i>Возможно у вас неверно настроены параметры устройства в конфигурационном файле.</i>'
+        return '<i>Возможно, у вас неверно настроены параметры устройства в конфигурационном файле.</i>'
 
     @staticmethod
     def flutter_documentation_link():
@@ -83,11 +83,11 @@ class TextHintRU(Enum):
 
     @staticmethod
     def sdk_reinstall():
-        return '<i>Если вы хотите установить новую версию, нужно удалять старую:</i> aurora-cli sdk tool'
+        return '<i>Если вы хотите установить новую версию, нужно удалить старую:</i> aurora-cli sdk tool'
 
     @staticmethod
     def hint_download_error():
-        return '<i>Проверьте соединение с интернет или просто попробуйте позже.</i>'
+        return '<i>Проверьте соединение с интернетом или просто попробуйте позже.</i>'
 
     @staticmethod
     def hint_check_download_error():
@@ -113,7 +113,7 @@ class TextHintRU(Enum):
 
     @staticmethod
     def psdk_keys_info():
-        return '<i>В конфигурационный файл приложение вы можете добавить ваши ключи, если такие имеются.</i>'
+        return '<i>В конфигурационный файл приложения вы можете добавить ваши ключи, если такие имеются.</i>'
 
     @staticmethod
     def ssh_key():
@@ -121,7 +121,7 @@ class TextHintRU(Enum):
 
     @staticmethod
     def ssh_copy_id():
-        return '<i>Для регистрации ключ на девайсе воспользуйтесь командой:</i> aurora-cli device ssh-copy-id'
+        return '<i>Для регистрации ключа на девайсе воспользуйтесь командой:</i> aurora-cli device ssh-copy-id'
 
     @staticmethod
     def ssh_forward_port():

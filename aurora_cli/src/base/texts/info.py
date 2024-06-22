@@ -34,12 +34,12 @@ class TextInfo(Enum):
     @staticmethod
     @localization
     def emulator_start_locked():
-        return '<blue>The emulator is already running.</blue>'
+        return '<blue>The emulator has already run.</blue>'
 
     @staticmethod
     @localization
     def emulator_recording_video_stop_already():
-        return '<blue>The emulator recording video is already off.</blue>'
+        return '<blue>The emulator recording video has already turned off.</blue>'
 
     @staticmethod
     @localization
@@ -134,17 +134,17 @@ class TextInfo(Enum):
     @staticmethod
     @localization
     def check_url_download_exist(path: str):
-        return f'<blue>File already exists:</blue> {path}'
+        return f'<blue>File has already existed:</blue> {path}'
 
     @staticmethod
     @localization
     def flutter_project_format_cpp_done():
-        return '<blue>Aurora formatting is complete.</blue>'
+        return '<blue>Aurora formatting is completed.</blue>'
 
     @staticmethod
     @localization
     def flutter_project_format_dart_done():
-        return '<blue>Dart formatting is complete.</blue>'
+        return '<blue>Dart formatting is completed.</blue>'
 
     @staticmethod
     @localization
@@ -175,18 +175,18 @@ class TextInfo(Enum):
     @staticmethod
     @localization
     def psdk_package_not_found():
-        return '<blue>Packages not found.</blue>'
+        return '<blue>Packages are not found.</blue>'
 
     @staticmethod
     @localization
     def psdk_package_search(values: []):
-        return (f'<blue>Packages found:</blue>\n'
+        return (f'<blue>Packages are found:</blue>\n'
                 + '\n'.join([f'{value["Name"]} ({value["Version"]})' for value in values]))
 
     @staticmethod
     @localization
     def psdk_package_already_installed():
-        return '<blue>The package is already installed.</blue>'
+        return '<blue>The package has already installed.</blue>'
 
     @staticmethod
     @localization
@@ -194,22 +194,22 @@ class TextInfo(Enum):
             version: str,
             path: str
     ):
-        return f'<blue>Version</blue> {version} <blue>is already specified in the file:</blue> {path}'
+        return f'<blue>Version</blue> {version} <blue>has already specified in the file:</blue> {path}'
 
     @staticmethod
     @localization
     def psdk_sudoers_not_found(version: str, path: str):
-        return f'<blue>Version</blue> {version} <blue>not found in file:</blue> {path}'
+        return f'<blue>Version</blue> {version} <blue>is not found in file:</blue> {path}'
 
     @staticmethod
     @localization
     def psdk_install_start():
-        return f'<blue>Installation Aurora Platform SDK started.</blue>'
+        return f'<blue>Installation Aurora Platform SDK is started.</blue>'
 
     @staticmethod
     @localization
     def psdk_remove_start():
-        return f'<blue>Remove Aurora Platform SDK started.</blue>'
+        return f'<blue>Removing Aurora Platform SDK is started.</blue>'
 
     @staticmethod
     @localization
@@ -219,17 +219,17 @@ class TextInfo(Enum):
     @staticmethod
     @localization
     def vscode_extensions_flutter(extensions: []):
-        return '<blue>Extensions for working with Flutter will be installed:</blue>\n' + '\n'.join(extensions)
+        return '<blue>Extensions for work with Flutter will be installed:</blue>\n' + '\n'.join(extensions)
 
     @staticmethod
     @localization
     def vscode_extensions_cpp(extensions: []):
-        return '<blue>Extensions for working with C++ will be installed:</blue>\n' + '\n'.join(extensions)
+        return '<blue>Extensions for work with C++ will be installed:</blue>\n' + '\n'.join(extensions)
 
     @staticmethod
     @localization
     def vscode_extensions_other(extensions: []):
-        return '<blue>Extensions for working with VS Code will be installed:</blue>\n' + '\n'.join(extensions)
+        return '<blue>Extensions for work with VS Code will be installed:</blue>\n' + '\n'.join(extensions)
 
     @staticmethod
     @localization
@@ -249,22 +249,22 @@ class TextInfo(Enum):
     @staticmethod
     @localization
     def vscode_extensions_flutter_installed():
-        return '<blue>Extensions for working with Flutter already installed.</blue>'
+        return '<blue>Extensions for work with Flutter has already installed.</blue>'
 
     @staticmethod
     @localization
     def vscode_extensions_cpp_installed():
-        return '<blue>Extensions for working with C++ already installed.</blue>'
+        return '<blue>Extensions for work with C++ has already installed.</blue>'
 
     @staticmethod
     @localization
     def vscode_extensions_other_installed():
-        return '<blue>Extensions for working with VS Code already installed.</blue>'
+        return '<blue>Extensions for work with VS Code has already installed.</blue>'
 
     @staticmethod
     @localization
     def devices_not_found():
-        return '<blue>No devices found.</blue>'
+        return '<blue>Any devices are not found.</blue>'
 
     @staticmethod
     @localization
@@ -330,7 +330,7 @@ class TextInfo(Enum):
     @staticmethod
     @localization
     def devices_turn_on():
-        return '<blue>To obtain the necessary information about the device, they must be connected...</blue>'
+        return '<blue>To obtain the necessary information about the devices, they must be connected...</blue>'
 
     @staticmethod
     @localization
