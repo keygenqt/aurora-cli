@@ -89,11 +89,11 @@ def downloads(
         if result == DownloadCode.start.value:
             bar.stop()
             echo_stdout(OutResultError(TextError.start_download_error()))
-            app_exit()
+            exit(1)
         elif result == DownloadCode.download.value:
             bar.stop()
             echo_stdout(OutResultError(TextError.download_error()))
-            app_exit()
+            exit(1)
         elif result == DownloadCode.interrupted.value:
             bar.stop()
             if not is_bar:

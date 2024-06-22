@@ -38,7 +38,7 @@ from aurora_cli.src.base.models.workdir_model import WorkdirModel
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
-from aurora_cli.src.base.utils.abort import abort_catch
+from aurora_cli.src.base.utils.abort import abort_catch, abort_text_end
 from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
 from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
@@ -134,11 +134,14 @@ def psdk_install_common(
             stderr=subprocess.DEVNULL,
             preexec_fn=exec_fn
         )
-        app_exit(0)
+        abort_text_end()
+        exit(0)
 
     abort_catch(lambda: abort())
 
     echo_stdout(OutResultInfo(TextInfo.psdk_install_start()))
+
+    subprocess.call(['sudo', 'echo'], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
 
     echo_stdout(shell_tar_sudo_unpack(
         archive_path=path_chroot[0],

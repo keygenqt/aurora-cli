@@ -28,7 +28,7 @@ limitations under the License.
 
 setuptools.setup(
     name='aurora-cli',
-    version='3.0.0.6',
+    version='3.0.0.7',
     author='Vitaliy Zarubin',
     author_email='keygenqt@gmail.com',
     description='An application that simplifies the life of an application developer for the Aurora OS.',

@@ -79,7 +79,7 @@ def ru_click_usage_error(text: str) -> str:
 def ru_abort(text: str) -> str:
     return (text
             .replace('Aborted! Closing...', 'Прервано! Закрытие...')
-            .replace('Goodbye 👋', 'До свидания 👋'))
+            .replace('Goodbye!', 'До свидания!'))
 
 
 def ru_git_clone(text: str) -> str:

@@ -25,7 +25,7 @@ def abort_text_start():
 
 
 def abort_text_end():
-    localization_abort('Goodbye 👋')
+    localization_abort('Goodbye!')
 
 
 def abort_catch(listen: Callable[[], None]):

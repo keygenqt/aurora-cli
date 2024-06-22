@@ -98,7 +98,7 @@ def recording(verbose: bool):
         abort_text_start()
         emulator_recording_stop_common(model, save=False)
         abort_text_end()
-        app_exit(0)
+        exit(0)
 
     abort_catch(lambda: stop_record_and_exit())
 
