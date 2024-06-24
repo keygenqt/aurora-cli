@@ -7,31 +7,76 @@ site_description: Makes life easier for developers on Aurora OS.
 
 # Navigation
 nav:
-  - Main:
-      - Aurora CLI: index.md
-      - Links:
-          - PyPi: https://pypi.org/project/aurora-cli
-          - GitHub: https://github.com/keygenqt/aurora-cli
-          - Versions: https://github.com/keygenqt/aurora-cli/tags
-  - Using:
-      - Index: using/index.md
-      - Configuration: using/configuration.md
-      - Aurora SDK: using/sdk.md
-      - Platform SDK: using/psdk.md
-      - Flutter SDK: using/flutter.md
-      - Devices: using/devices.md
-      - Emulator: using/emulator.md
-  - Install:
-      - Index: install/index.md
-      - pip: install/pip.md
-      - source: install/source.md
-
+  - Main: index.md
+  - CLI:
+      - Overview: cli/main.md
+      - Methods:
+          - Device:
+              - Package:
+                  - Install: cli/device/package/install.md
+                  - Remove: cli/device/package/remove.md
+                  - Run: cli/device/package/run.md
+              - Command: cli/device/command.md
+              - SSH copy: cli/device/ssh-copy-id.md
+              - Upload: cli/device/upload.md
+          - Emulator:
+              - Package:
+                  - Install: cli/emulator/package/install.md
+                  - Remove: cli/emulator/package/remove.md
+                  - Run: cli/emulator/package/run.md
+              - Command: cli/emulator/command.md
+              - Recording: cli/emulator/recording.md
+              - Screenshot: cli/emulator/screenshot.md
+              - Start: cli/emulator/start.md
+              - Upload: cli/emulator/upload.md
+          - Flutter:
+              - Project:
+                  - Build: cli/flutter/project/build.md
+                  - Format: cli/flutter/project/format.md
+                  - Icons: cli/flutter/project/icons.md
+                  - Report: cli/flutter/project/report.md
+              - Available: cli/flutter/available.md
+              - Custom Devices: cli/flutter/custom-device.md
+              - Install: cli/flutter/install.md
+              - Installed: cli/flutter/installed.md
+              - Remove: cli/flutter/remove.md
+          - Platform SDK:
+              - Package:
+                  - Install: cli/psdk/project/install.md
+                  - Remove: cli/psdk/project/remove.md
+                  - Search: cli/psdk/project/search.md
+                  - Sign: cli/psdk/project/sign.md
+                  - Validate: cli/psdk/project/validate.md
+              - Project:
+                  - Build: cli/psdk/project/build.md
+                  - Format: cli/psdk/project/format.md
+                  - Icons: cli/psdk/project/icons.md
+              - Sudoers:
+                  - Add: cli/psdk/project/add.md
+                  - Remove: cli/psdk/project/remove.md
+              - Available: cli/psdk/available.md
+              - Clear: cli/psdk/clear.md
+              - Install: cli/psdk/install.md
+              - Installed: cli/psdk/installed.md
+              - Remove: cli/psdk/remove.md
+              - Targets: cli/psdk/targets.md
+          - Aurora SDK:
+              - Available: cli/sdk/available.md
+              - Install: cli/sdk/install.md
+              - Installed: cli/sdk/installed.md
+              - Tool: cli/sdk/tool.md
+          - VS Code:
+              - Tuning: cli/vscode/tuning.md
 # Assets
 extra_css:
-  - assets/css/main.css
+  - https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0
+  - assets/css/index.css
+  - assets/css/error.css
+  - assets/css/common.css
 
 # Extensions
 markdown_extensions:
+  - tables
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.inlinehilite
@@ -40,6 +85,10 @@ markdown_extensions:
   - admonition
   - pymdownx.details
   - pymdownx.superfences
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 # Configuration
 theme:
@@ -47,6 +96,7 @@ theme:
   language: 'en'
   custom_dir: docs/assets
   favicon: images/favicon.ico
+  template: index.html
   icon:
     logo: custom/icon
   features:
@@ -67,14 +117,14 @@ theme:
     - toc.follow
   palette:
     - scheme: default
-      primary: custom
-      accent: custom
+      primary: indigo
+      accent: indigo
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     - scheme: slate
-      primary: custom
-      accent: custom
+      primary: indigo
+      accent: indigo
       toggle:
         icon: material/brightness-4
         name: Switch to light mode

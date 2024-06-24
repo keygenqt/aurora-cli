@@ -36,21 +36,21 @@ def group_sdk():
     AppConfig.create_test()
 
 
-@group_sdk.command(help=TextCommand.command_sdk_available())
+@group_sdk.command(name='available', help=TextCommand.command_sdk_available())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def available(verbose: bool):
     sdk_available_common()
     echo_verbose(verbose)
 
 
-@group_sdk.command(help=TextCommand.command_sdk_installed())
+@group_sdk.command(name='installed', help=TextCommand.command_sdk_installed())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def installed(verbose: bool):
     sdk_installed_common()
     echo_verbose(verbose)
 
 
-@group_sdk.command(help=TextCommand.command_sdk_install())
+@group_sdk.command(name='install', help=TextCommand.command_sdk_install())
 @click.option('-l', '--offline', is_flag=True, help=TextArgument.argument_sdk_installer_type())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
@@ -64,7 +64,7 @@ def install(
     echo_verbose(verbose)
 
 
-@group_sdk.command(help=TextCommand.command_sdk_tool())
+@group_sdk.command(name='tool', help=TextCommand.command_sdk_tool())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def tool(verbose: bool):
     sdk_tool_common(SdkModel.get_model())

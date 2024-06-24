@@ -1,0 +1,11 @@
+.Image-Banner {
+    width: 100%;
+    position: relative;
+    top: -36px;
+}
+
+@media (max-width: 1220px) {
+    .Image-Banner {
+        top: 0;
+    }
+}

@@ -1,6 +1,30 @@
- {% extends "main.html" %} 
-  
- <!-- Content --> 
- {% block content %} 
-   <h1 id="error">404 - Not found</h1>
- {% endblock %}
+{% extends "main.html" %}
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/error.css">
+
+ <!-- Content -->
+{% block content %}
+
+<style>
+.md-sidebar {
+    display: none;
+}
+.md-container .md-main .md-main__inner.md-grid article {
+    margin-left: 0 !important;
+}
+</style>
+
+<div class="Body-Row">
+  <div class="Body-Cell-Middle">
+    <div class="Error">
+        <span class="Icon material-symbols-outlined">Error</span>
+        <div class="Code">
+            404
+        </div>
+        <div class="Text">
+            This is not the page you're looking for.
+        </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
