@@ -1,11 +1,7 @@
 import setuptools
 
 long_description = """
-![picture](https://github.com/keygenqt/aurora-cli/blob/main/data/banner_round.png?raw=true)
-
-An application that simplifies the life of an application developer for the Aurora OS.
-
-[More...](https://keygenqt.github.io/aurora-cli)
+![picture](https://github.com/keygenqt/aurora-cli/blob/api/data/v3/banner/banner_1000.png?raw=true)
 
 ### License
 
@@ -28,7 +24,7 @@ limitations under the License.
 
 setuptools.setup(
     name='aurora-cli',
-    version='3.0.0.8',
+    version='3.0.0.9',
     author='Vitaliy Zarubin',
     author_email='keygenqt@gmail.com',
     description='An application that simplifies the life of an application developer for the Aurora OS.',
