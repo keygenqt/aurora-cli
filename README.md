@@ -2,7 +2,7 @@
 
 ### Subscribe and like! <img src="https://github.com/keygenqt/aurora-cli/blob/main/data/star.gif" width="16px"/>
 
-[![PyPI version](https://img.shields.io/badge/test_pyp_package-3.0.0.9-blue)](https://badge.fury.io/py/aurora-cli)
+[![PyPI version](https://img.shields.io/badge/test_pyp_package-3.0.0.9-blue)](https://test.pypi.org/project/aurora-cli/)
 
 ![picture](https://github.com/keygenqt/aurora-cli/blob/api/data/v3/banner/banner_1000.png?raw=true)
 
