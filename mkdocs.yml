@@ -42,18 +42,18 @@ nav:
               - Remove: cli/flutter/remove.md
           - Platform SDK:
               - Package:
-                  - Install: cli/psdk/project/install.md
-                  - Remove: cli/psdk/project/remove.md
-                  - Search: cli/psdk/project/search.md
-                  - Sign: cli/psdk/project/sign.md
-                  - Validate: cli/psdk/project/validate.md
+                  - Install: cli/psdk/package/install.md
+                  - Remove: cli/psdk/package/remove.md
+                  - Search: cli/psdk/package/search.md
+                  - Sign: cli/psdk/package/sign.md
+                  - Validate: cli/psdk/package/validate.md
               - Project:
                   - Build: cli/psdk/project/build.md
                   - Format: cli/psdk/project/format.md
                   - Icons: cli/psdk/project/icons.md
               - Sudoers:
-                  - Add: cli/psdk/project/add.md
-                  - Remove: cli/psdk/project/remove.md
+                  - Add: cli/psdk/sudoers/add.md
+                  - Remove: cli/psdk/sudoers/remove.md
               - Available: cli/psdk/available.md
               - Clear: cli/psdk/clear.md
               - Install: cli/psdk/install.md

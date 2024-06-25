@@ -1,11 +1,312 @@
-.Image-Banner {
-    width: 100%;
+.Banner {
     position: relative;
-    top: -36px;
+}
+
+.Banner .Image {
+
+}
+
+.Banner .Data {
+    position: absolute;
+    top: calc(50% - 12px);
+    right: 0;
+    transform: translate(0, -50%);
+    max-width: 50%;
+    border-right: 10px solid #204037;
+    padding: 15px 60px;
+    text-align: right;
+}
+
+.Banner .Data .Title {
+    color: #204037;
+    font-size: 40px;
+    margin-bottom: -7px;
+}
+
+[data-md-color-scheme="slate"] {
+    .Banner .Data {
+        border-right: 10px solid #69a58a;
+    }
+    .Banner .Data .Title {
+        color: #82cfac;
+    }
+}
+
+.Banner .Data .Text {
+    padding-top: 16px;
+    font-size: 21px;
+}
+
+.Banner .Image .Image-Banner {
+    width: 100%;
+    margin-top: -34px;
+}
+
+.Banner .Image .Image-Banner2 {
+    width: 100%;
+    display: none;
+}
+
+.Index-Block {
+    font-size: 0;
+    padding-top: 60px;
+}
+
+.Index-Block .Index-Item {
+    padding: 60px 30px;
+    padding-top: 0;
+}
+
+.Index-Block .Index-Item.Item1 {
+    text-align: center;
+}
+
+.Index-Block .Index-Item.Item1 .Quote {
+    font-size: 20px;
+    font-weight: 300;
+    max-width: 770px;
+    display: inline-block;
+}
+
+.Index-Block .Index-Item.Item1 .Author {
+    font-size: 20px;
+    padding-top: 14px;
+    font-style: italic;
+}
+
+.Index-Block .Index-Item .Left {
+    width: 50%;
+    display: inline-block;
+    padding-right: 40px;
+    vertical-align: top;
+}
+
+.Index-Block .Index-Item .Right {
+    width: 50%;
+    display: inline-block;
+    padding-left: 40px;
+    vertical-align: top;
+}
+
+.Index-Block .Index-Item .Left .Title,
+.Index-Block .Index-Item .Right .Title {
+    font-size: 50px;
+    font-weight: 500;
+    margin-bottom: 30px;
+    line-height: 1.3;
+}
+
+.Index-Block .Index-Item .Left .Title {
+    padding-right: 40px;
+}
+
+.Index-Block .Index-Item .Right .Title {
+    padding-left: 40px;
+}
+
+.Index-Block .Index-Item .Left .Text,
+.Index-Block .Index-Item .Right .Text {
+    font-size: 21px;
+}
+
+.Index-Block .Index-Item .Left {
+    text-align: left;
+}
+
+.Index-Block .Index-Item .Right {
+    text-align: right;
+}
+
+.Index-Block .Index-Item .Image,
+.Index-Block .Index-Item .Image2 {
+    display: inline-block;
+}
+
+.Index-Block .Index-Item .Image2 {
+    display: none;
+}
+
+[data-md-color-scheme="slate"] {
+    .Index-Block .Index-Item .Image {
+        display: none;
+    }
+
+    .Index-Block .Index-Item .Image2 {
+        display: inline-block;
+    }
+}
+
+.Index-Item .Alert .Btn {
+    font-size: 22px;
+    color: white;
+    border: 1px solid white;
+    padding: 10px 30px;
+}
+
+.Index-Item .Alert {
+    background-color: var(--md-primary-fg-color);
+    text-align: center;
+    color: white;
+    padding: 40px;
+    position: relative;
+    width: calc(100% + 60px);
+    left: -30px;
+}
+
+.Index-Item .Alert::after {
+    content: " ";
+    background-image: url(../images/index/lines.png);
+    position: absolute;
+    background-size: cover;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 173px;
+}
+
+.Index-Item .Alert .Title {
+    font-size: 36px;
+    padding-bottom: 30px;
+    position: relative;
+    z-index: 1;
+}
+
+.Index-Item .Alert .Text {
+    font-size: 20px;
+}
+
+.Index-Item.Item2 .Left {
+    text-align: center;
+}
+
+.Index-Item.Item2 .Image,
+.Index-Item.Item2 .Image2 {
+    max-height: 456px;
+}
+
+.Index-Item.Item4 .Right {
+    text-align: center;
+}
+
+.Index-Item.Item4 .Image,
+.Index-Item.Item4 .Image2 {
+    max-height: 392px;
 }
 
 @media (max-width: 1220px) {
-    .Image-Banner {
-        top: 0;
+    .Banner .Image .Image-Banner {
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 1111px) {
+    .Banner .Data .Title {
+        font-size: 30px;
+    }
+
+    .Banner .Data .Text {
+        font-size: 18px;
+    }
+
+    .Index-Block .Index-Item .Left .Title,
+    .Index-Block .Index-Item .Right .Title {
+        font-size: 33px;
+    }
+
+    .Index-Block .Index-Item .Left .Text,
+    .Index-Block .Index-Item .Right .Text {
+        font-size: 18px;
+    }
+
+    .Index-Block .Index-Item .Left {
+        padding-right: 20px;
+    }
+
+    .Index-Block .Index-Item .Right {
+        padding-left: 20px;
+    }
+}
+
+@media (max-width: 888px) {
+    .Banner .Data {
+        padding: 15px 30px;
+    }
+    .Banner .Data .Title {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .Banner .Data .Text {
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .Index-Item .Alert .Title {
+        font-size: 30px;
+    }
+
+    .Index-Block .Index-Item .Left .Title,
+    .Index-Block .Index-Item .Right .Title {
+        padding: 0;
+    }
+
+    .Index-Block .Index-Item .Left {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 0;
+    }
+
+    .Index-Block .Index-Item .Right {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 0;
+    }
+
+    .Index-Item.Item2 .Image,
+    .Index-Item.Item2 .Image2 {
+        max-height: 250px;
+        margin-bottom: 40px;
+    }
+
+    .Index-Item.Item4 .Image,
+    .Index-Item.Item4 .Image2 {
+        max-height: 250px;
+        margin-top: 40px;
+    }
+}
+
+@media (max-width: 714px) {
+    .Banner .Data .Title {
+        font-size: 33px;
+        text-align: center;
+        margin: 0;
+    }
+
+    .Banner .Data .Text {
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .Banner .Data {
+        padding: 0;
+        padding-top: 60px;
+        position: relative;
+        max-width: 100%;
+        transform: none;
+        border: none !important;
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+    .Banner .Image .Image-Banner {
+        display: none;
+    }
+    .Banner .Image .Image-Banner2 {
+        display: block;
+    }
+
+    .Index-Block .Index-Item.Item1 {
+        display: none;
     }
 }

@@ -5,14 +5,68 @@
 
 <!-- Content -->
 {% block content %}
-<div class="Body-Row" style="height: auto;">
-    <div class="Body-Cell">
-        <img class="Image-Banner" src="images/index/banner.png"/>
+<div class="Index-Block" style="padding: 0">
+    <div class="Banner">
+        <div class="Image">
+            <img class="Image-Banner" src="images/index/banner.png"/>
+            <img class="Image-Banner2" src="images/index/banner2.png"/>
+        </div>
+        <div class="Data">
+            <div class="Title">
+                Open-source software
+            </div>
+            <div class="Text">
+                An application that provides an easy start in the Aurora OS ecosystem. Work with Aurora SDK, Aurora Platform SDK, Flutter SDK, interaction with devices, emulator and much more.
+            </div>
+        </div>
     </div>
 </div>
-<div class="Body-Row">
-    <div class="Body-Cell">
-        Main content...
+<div class="Index-Block">
+    <div class="Index-Item Item1">
+        <div class="Quote">
+            Most good programmers do programming not because they expect to get paid or get adulation by the public, but because it is fun to program.
+        </div>
+        <div class="Author">
+           - Linus Torvalds
+        </div>
+    </div>
+    <div class="Index-Item Item2">
+        <div class="Left">
+            <img class="Image" src="images/index/multiapp.png"/>
+            <img class="Image2" src="images/index/multiapp2.png"/>
+        </div>
+        <div class="Right">
+           <div class="Title">
+                Easy installation of the necessary tools of the Aurora OS ecosystem.
+           </div>
+            <div class="Text">
+                Installation in one terminal command: Aurora SDK and emulator, Aurora Platform SDK, Flutter SDK with support for the Aurora OS platform. Management of installed SDKs, expanding their functionality and simplifying work with them.
+            </div>
+        </div>
+    </div>
+    <div class="Index-Item Item3">
+        <div class="Alert Info">
+            <div class="Title">
+                The application is in Python and is available on PyPi.
+            </div>
+            <a target="_blank" class="Btn" href="https://test.pypi.org/project/aurora-cli/">
+                Install
+            </a>
+        </div>
+    </div>
+    <div class="Index-Item Item4">
+        <div class="Left">
+            <div class="Title">
+                Available application for most Linux distributions.
+           </div>
+            <div class="Text">
+                Python 3.8 support allows you to work with the application on most modern Linux distributions, such as Ubuntu 20.04+, ALT Linux 10+, and others. Installation of the application is available via Python package-management pip.
+            </div>
+        </div>
+        <div class="Right">
+            <img class="Image" src="images/index/os.png"/>
+            <img class="Image2" src="images/index/os.png"/>
+        </div>
     </div>
 </div>
 {% endblock %}

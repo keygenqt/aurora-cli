@@ -10,12 +10,44 @@
     display: none;
 }
 .md-container .md-main .md-main__inner.md-grid article {
+    display: table;
+    width: 100%;
+    height: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
     margin-left: 0 !important;
+}
+.md-container .md-main .md-main__inner.md-grid {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.md-main {
+    min-height: 400px;
+}
+
+article .Body-Table {
+    display: table;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+article .Body-Row {
+    display: table-row;
+}
+
+article .Body-Cell {
+    display: table-cell;
+    vertical-align: middle;
 }
 </style>
 
 <div class="Body-Row">
-  <div class="Body-Cell-Middle">
+  <div class="Body-Cell">
     <div class="Error">
         <span class="Icon material-symbols-outlined">Error</span>
         <div class="Code">

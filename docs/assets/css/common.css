@@ -1,19 +1,26 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+body {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
 
 [data-md-color-scheme="default"] {
     --md-primary-fg-color: #2c856c;
     --md-typeset-a-color: #008d66;
     --md-accent-fg-color: #007f5c;
+    --md-primary-fg-color--dark: #2c856c;
 }
 
 [data-md-color-scheme="slate"] {
-    --md-primary-fg-color: #204f3c;
+    --md-primary-fg-color: #256149;
     --md-typeset-a-color: #007f5c !important;
     --md-accent-fg-color: #007f5c !important;
+    --md-primary-fg-color--dark: #256149;
 
     .md-tabs .md-grid {
-        border-bottom: 10px solid #82cfac;
+        border-bottom: 34px solid #1f4037;
     }
 
     .md-nav__item .md-nav__link--active:hover {
@@ -21,6 +28,7 @@
     }
 }
 
+.md-footer,
 .md-header,
 .md-tabs,
 .md-grid {
@@ -37,18 +45,10 @@
     opacity: 0.9;
 }
 
-@media screen and (min-width: 76.25em) {
-    [dir=ltr] .md-sidebar--primary:not([hidden])~.md-content>.md-content__inner {
-        padding-left: 20px;
-        padding-top: 20px;
-    }
-}
-
 .md-nav__item .md-nav__link--active {
     background-color: var(--md-accent-fg-color);
     color: white !important;
     padding: 5px 8px;
-    border-radius: 3px;
 }
 
 .md-nav--lifted>.md-nav__list>.md-nav__item--active>.md-nav__link {
@@ -59,56 +59,29 @@
     height: 0;
 }
 
+@media screen and (min-width: 76.25em) {
+    [dir=ltr] .md-sidebar--primary:not([hidden])~.md-content>.md-content__inner {
+        padding-left: 20px;
+        padding-top: 20px;
+    }
+}
+
 .md-logo svg {
     background: white;
     border-radius: 50%;
     padding: 4px;
 }
 
+.md-header--shadow {
+    box-shadow: none;
+}
+
 .md-tabs .md-grid {
-    border-bottom: 36px solid #1f4037;
+    border-bottom: 34px solid #1f4037;
 }
 
 .md-container .md-main {
     position: relative
-}
-
-.md-container .md-main .md-main__inner.md-grid {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
-
-.md-container .md-main .md-main__inner.md-grid article {
-    display: table;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    margin-left: 0 !important;
-}
-
-article .Body-Row {
-    height: 100%;
-    display: table-row;
-}
-
-article .Body-Cell {
-    display: table-cell;
-    vertical-align: top;
-}
-
-article .Body-Cell-Middle {
-    display: table-cell;
-    vertical-align: middle;
-}
-
-.md-footer {
-    max-width: 1280px;
-    margin: 0 auto;
-    width: 100%;
 }
 
 .md-footer .md-copyright {
@@ -126,4 +99,9 @@ article .Body-Cell-Middle {
     content: '© 2024 KeyGenQt';
     position: absolute;
     right: 0px;
+}
+
+article.md-content__inner {
+    margin: 0;
+    padding: 0;
 }
