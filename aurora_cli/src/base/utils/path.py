@@ -35,6 +35,8 @@ def path_gen_file_name(
 def path_convert_relative(path: Any) -> Any:
     if path is None:
         return None
+    if not isinstance(path, str):
+        return None
     if path.startswith('~/'):
         path = os.path.expanduser(path)
     if path.startswith('./'):

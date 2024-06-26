@@ -14,8 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from typing import Callable
 from pathlib import Path
+from typing import Callable
 
 import click
 from git import Repo, GitCommandError
@@ -23,8 +23,8 @@ from git import Repo, GitCommandError
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
-from aurora_cli.src.base.utils.abort import abort_catch
 from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
+from aurora_cli.src.base.utils.app import app_abort_handler
 from aurora_cli.src.base.utils.git_title import TitleOpCode
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultInfo, OutResultError, OutResult
 
@@ -37,7 +37,7 @@ def git_clone(
     bar = AliveBarPercentage()
 
     try:
-        abort_catch(lambda: bar.stop())
+        app_abort_handler(lambda: bar.stop())
 
         def bar_update(title: str, result: int):
             if is_bar:

@@ -108,6 +108,8 @@ def _echo_stdout_json(out: Any):
 
 
 def echo_verbose(verbose: bool, exception=None):
+    print(exception)
+
     if verbose:
         if argv_is_api():
             data = {'verbose': verbose_seize_map()}

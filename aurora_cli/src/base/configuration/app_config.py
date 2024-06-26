@@ -100,8 +100,8 @@ class AppConfig:
         for item in self._data_config['keys']:
             keys.append(SignModel(
                 name=item['name'],
-                key=Path(item['key']),
-                cert=Path(item['cert']),
+                key=path_convert_relative(item['key']),
+                cert=path_convert_relative(item['cert']),
             ))
         return keys
 

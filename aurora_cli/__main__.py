@@ -19,16 +19,13 @@ import click
 from aurora_cli.src.api.group_api import group_api
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.constants.app import APP_NAME, APP_VERSION
-from aurora_cli.src.base.localization.localization import localization_help, localization_usage_error
+from aurora_cli.src.base.localization.localization import localization_app, localization_abort
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_group import TextGroup
 from aurora_cli.src.base.texts.info import TextInfo
-from aurora_cli.src.base.utils.abort import abort_text_end, abort_text_start
-from aurora_cli.src.base.utils.app import app_crash_out, app_crash_handler
+from aurora_cli.src.base.utils.app import app_crash_handler, app_help_handler, app_abort_handler
 from aurora_cli.src.base.utils.argv import argv_is_verbose
-from aurora_cli.src.base.utils.capturing_std import CapturingStderr, CapturingStdout
 from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
-from aurora_cli.src.base.utils.exceptions import AppExit
 from aurora_cli.src.base.utils.output import echo_stdout, echo_verbose
 from aurora_cli.src.cli.device.group_device import group_device, init_subgroups_device
 from aurora_cli.src.cli.emulator.group_emulator import group_emulator, init_subgroups_emulator
@@ -56,7 +53,7 @@ def main(
         exit(0)
 
     if not ctx.invoked_subcommand:
-        localization_help(ctx.get_help())
+        localization_app(ctx.get_help())
 
 
 # noinspection PyTypeChecker
@@ -86,19 +83,10 @@ _init_groups()
 
 # Catch traceback
 app_crash_handler(lambda exception: echo_verbose(argv_is_verbose(), exception))
+# Catch help for localization
+app_help_handler(lambda out: localization_app(out))
+# Catch abort
+app_abort_handler(lambda: localization_abort())
 
 if __name__ == '__main__':
-    try:
-        try:
-            with CapturingStdout(arg='--help', callback=localization_help):
-                main(standalone_mode=False)
-        except click.exceptions.UsageError:
-            with CapturingStderr(callback=localization_usage_error):
-                main()
-        except click.exceptions.Abort:
-            abort_text_start()
-            abort_text_end()
-        except AppExit:
-            echo_verbose(argv_is_verbose())
-    except Exception as e:
-        app_crash_out(e)
+    main()

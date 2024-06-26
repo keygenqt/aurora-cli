@@ -33,14 +33,14 @@ from aurora_cli.src.base.common.features.shell_features import (
     shell_remove_root_folder,
     shell_psdk_clear,
 )
+from aurora_cli.src.base.localization.localization import localization_abort_start, localization_abort_end
 from aurora_cli.src.base.models.psdk_model import PsdkModel
 from aurora_cli.src.base.models.workdir_model import WorkdirModel
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
-from aurora_cli.src.base.utils.abort import abort_catch, abort_text_end
 from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
-from aurora_cli.src.base.utils.app import app_exit
+from aurora_cli.src.base.utils.app import app_exit, app_abort_handler
 from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
 from aurora_cli.src.base.utils.download import check_downloads, downloads
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResultInfo, OutResult
@@ -128,16 +128,17 @@ def psdk_install_common(
 
     def abort():
         bar.stop()
+        localization_abort_start()
         subprocess.call(
             ['sudo', 'rm', '-rf', str(psdk_path)],
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
             preexec_fn=exec_fn
         )
-        abort_text_end()
+        localization_abort_end()
         exit(0)
 
-    abort_catch(lambda: abort())
+    app_abort_handler(lambda: abort())
 
     echo_stdout(OutResultInfo(TextInfo.psdk_install_start()))
 

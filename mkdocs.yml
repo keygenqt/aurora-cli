@@ -10,6 +10,7 @@ nav:
   - Main: index.md
   - CLI:
       - Overview: cli/main.md
+      - Configuration: cli/config.md
       - Methods:
           - Device:
               - Package:

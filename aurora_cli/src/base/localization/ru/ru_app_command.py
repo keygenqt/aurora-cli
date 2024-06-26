@@ -31,6 +31,10 @@ class TextCommandRu(Enum):
         return 'Загрузите файл в каталог ~/Download устройства.'
 
     @staticmethod
+    def command_device_ssh_copy_id():
+        return 'Запустите пакет на устройстве.'
+
+    @staticmethod
     def command_device_package_run():
         return 'Запустите пакет на устройстве.'
 

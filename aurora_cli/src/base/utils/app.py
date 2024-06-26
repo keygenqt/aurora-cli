@@ -13,15 +13,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
+import atexit
+import io
 import os
+import signal
 import sys
 import traceback
 from typing import Callable, Any
 
 import click
 
-from aurora_cli.src.base.utils.argv import argv_is_verbose, argv_is_test
+from aurora_cli.src.base.utils.argv import argv_is_verbose, argv_is_test, argv_is_help
 from aurora_cli.src.base.utils.exceptions import AppExit
 
 
@@ -29,6 +31,14 @@ def app_crash_out(e: Exception):
     print(click.style('An unexpected error occurred in the application.', fg='red'))
     if argv_is_verbose():
         traceback.print_exception(e)
+
+
+def app_abort_handler(callback: Callable[[], None]):
+    def signal_handler(s, f):
+        signal.signal(signal.SIGINT, signal.SIG_IGN)
+        callback()
+
+    signal.signal(signal.SIGINT, signal_handler)
 
 
 def app_crash_handler(callback: Callable[[Any], None]):
@@ -39,6 +49,34 @@ def app_crash_handler(callback: Callable[[Any], None]):
             callback(exception)
 
     sys.excepthook = exception_handler
+
+
+def app_help_handler(callback: Callable[[str], None]):
+    _stdout = None
+    _stderr = None
+
+    if argv_is_help():
+        _stdout = sys.stdout
+        sys.stdout = _io_stdout = io.StringIO()
+
+    _stderr = sys.stderr
+    sys.stderr = _io_stderr = io.StringIO()
+
+    def exit_handler():
+        out = None
+        err = None
+        if _stdout:
+            sys.stdout = _stdout
+            out = '\n'.join(_io_stdout.getvalue().splitlines())
+        if _stderr:
+            sys.stderr = _stderr
+            err = '\n'.join(_io_stderr.getvalue().splitlines())
+        if out:
+            callback(out)
+        if err:
+            callback(err)
+
+    atexit.register(exit_handler)
 
 
 def app_language() -> str:

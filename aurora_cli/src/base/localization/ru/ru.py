@@ -76,12 +76,6 @@ def ru_click_usage_error(text: str) -> str:
             .replace('Error: No such command', 'Ошибка: нет такой команды'))
 
 
-def ru_abort(text: str) -> str:
-    return (text
-            .replace('Aborted! Closing...', 'Прервано! Закрытие...')
-            .replace('Goodbye!', 'До свидания!'))
-
-
 def ru_git_clone(text: str) -> str:
     return (text
             .replace('Counting', 'Подсчет')

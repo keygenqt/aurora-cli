@@ -15,22 +15,20 @@ limitations under the License.
 """
 
 import socket
-from typing import Callable
 from enum import Enum
 from pathlib import Path
 from threading import Thread
 from time import sleep
+from typing import Callable
 from urllib.request import urlretrieve
 
-import click
-
 from aurora_cli.src.base.constants.app import TIMEOUT
+from aurora_cli.src.base.localization.localization import localization_abort
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
-from aurora_cli.src.base.utils.abort import abort_catch
 from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
-from aurora_cli.src.base.utils.app import app_exit
+from aurora_cli.src.base.utils.app import app_exit, app_abort_handler
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResultInfo, OutResult
 from aurora_cli.src.base.utils.path import path_get_download_path, path_convert_relative
 from aurora_cli.src.base.utils.request import request_check_url_download
@@ -110,7 +108,8 @@ def downloads(
     _downloads(urls, lambda result: bar_update(result))
 
     if True in abort:
-        raise click.exceptions.Abort
+        localization_abort()
+        exit(1)
 
 
 class DownloadCode(Enum):
@@ -130,7 +129,7 @@ def _downloads(
     out_percent_res = []
     out_percent_url = {}
 
-    abort_catch(lambda: out_abort.append(True))
+    app_abort_handler(lambda: out_abort.append(True))
     socket.setdefaulttimeout(TIMEOUT)
 
     def listen_out(url: str, percent: int):

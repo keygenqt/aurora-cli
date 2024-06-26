@@ -25,12 +25,12 @@ from aurora_cli.src.base.common.groups.emulator.emulator_features import (
     emulator_recording_stop_common,
 )
 from aurora_cli.src.base.configuration.app_config import AppConfig
+from aurora_cli.src.base.localization.localization import localization_abort_start, localization_abort_end
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
 from aurora_cli.src.base.texts.prompt import TextPrompt
-from aurora_cli.src.base.utils.abort import abort_catch, abort_text_start, abort_text_end
-from aurora_cli.src.base.utils.app import app_exit
+from aurora_cli.src.base.utils.app import app_abort_handler
 from aurora_cli.src.base.utils.output import echo_verbose
 from aurora_cli.src.cli.emulator.__tools import cli_emulator_tool_select_model
 from aurora_cli.src.cli.emulator.subgroup_emulator_package import subgroup_emulator_package
@@ -95,12 +95,12 @@ def recording(verbose: bool):
 
     def stop_record_and_exit():
         print('')
-        abort_text_start()
+        localization_abort_start()
         emulator_recording_stop_common(model, save=False)
-        abort_text_end()
+        localization_abort_end()
         exit(0)
 
-    abort_catch(lambda: stop_record_and_exit())
+    app_abort_handler(lambda: stop_record_and_exit())
 
     click.prompt(
         text=TextPrompt.emulator_recording_video_loading(),

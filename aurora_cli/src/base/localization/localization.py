@@ -18,7 +18,6 @@ from aurora_cli.src.base.localization.ru.ru import (
     ru_localization,
     ru_click_help,
     ru_click_usage_error,
-    ru_abort,
     ru_git_clone
 )
 from aurora_cli.src.base.utils.app import app_language
@@ -43,26 +42,31 @@ def localization(func):
     return wrapped
 
 
-def localization_help(text: str):
-    text = text.strip()
+def localization_abort():
+    localization_abort_start()
+    localization_abort_end()
+
+
+def localization_abort_start():
     if app_language() == 'ru':
-        print(ru_click_help(text))
+        print('Прервано! Закрытие...')
     else:
-        print(text)
+        print('Aborted! Closing...')
 
 
-def localization_usage_error(text: str):
-    text = text.strip()
+def localization_abort_end():
     if app_language() == 'ru':
-        print(ru_click_usage_error(text))
+        print('До свидания!')
     else:
-        print(text)
+        print('Goodbye!')
 
 
-def localization_abort(text: str):
+def localization_app(text: str):
     text = text.strip()
     if app_language() == 'ru':
-        print(ru_abort(text))
+        text = ru_click_help(text)
+        text = ru_click_usage_error(text)
+        print(text)
     else:
         print(text)
 

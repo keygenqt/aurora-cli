@@ -16,7 +16,7 @@ body {
 [data-md-color-scheme="slate"] {
     --md-primary-fg-color: #256149;
     --md-typeset-a-color: #007f5c !important;
-    --md-accent-fg-color: #007f5c !important;
+    --md-accent-fg-color: #0f9f77 !important;
     --md-primary-fg-color--dark: #256149;
 
     .md-tabs .md-grid {
@@ -37,18 +37,52 @@ body {
     width: 100%;
 }
 
+.md-nav {
+    font-size: 16px;
+}
+
+.md-nav__link {
+    padding: 4px 0px;
+}
+
+.md-nav > :nth-child(3).md-nav__list,
+.md-nav nav[data-md-level="1"] > :nth-child(2) {
+    padding: 0 !important;
+}
+
+[dir=ltr] .md-nav__item--section>.md-nav,
+[dir=ltr] .md-nav--lifted>.md-nav__list>.md-nav__item>.md-nav:not(.md-nav--secondary) {
+    margin: 0;
+}
+
 .md-typeset .md-content__button {
     display: none;
 }
 
+.md-typeset h1 {
+    margin-bottom: 40px;
+}
+
 .md-nav__item .md-nav__link--active:hover {
     opacity: 0.9;
+    color: white;
 }
 
 .md-nav__item .md-nav__link--active {
     background-color: var(--md-accent-fg-color);
-    color: white !important;
+    color: white;
     padding: 5px 8px;
+    padding-top: 6px;
+}
+
+.md-nav--secondary .md-nav__link--active:hover {
+    color: var(--md-accent-fg-color);
+}
+
+.md-nav--secondary .md-nav__link--active {
+    border: 1px solid var(--md-accent-fg-color);
+    background: transparent;
+    color: var(--md-accent-fg-color);
 }
 
 .md-nav--lifted>.md-nav__list>.md-nav__item--active>.md-nav__link {
@@ -59,10 +93,14 @@ body {
     height: 0;
 }
 
+.md-content {
+    padding: 40px 30px;
+}
+
 @media screen and (min-width: 76.25em) {
     [dir=ltr] .md-sidebar--primary:not([hidden])~.md-content>.md-content__inner {
-        padding-left: 20px;
-        padding-top: 20px;
+        padding: 0;
+        margin: 0;
     }
 }
 
@@ -104,4 +142,41 @@ body {
 article.md-content__inner {
     margin: 0;
     padding: 0;
+}
+
+.md-content picture {
+    position: relative;
+    font-size: 0;
+}
+
+.md-content picture img {
+    border: 10px solid #1f4037;
+}
+
+.md-content picture::after {
+    content: " ";
+    background-color: #0f9f77;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 70px;
+    width: 10px;
+}
+
+.md-content picture::before {
+    content: " ";
+    background-color: #0f9f77;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 10px;
+    width: 70px;
+}
+
+.md-content a {
+    font-size: 16px;
+}
+
+.highlight span.filename {
+    font-weight: 500;
 }

@@ -38,7 +38,7 @@ class TextCommand(Enum):
     @staticmethod
     @localization
     def command_device_ssh_copy_id():
-        return 'Copy ssh keys to device.'
+        return 'Скопируйте ключи SSH на устройство.'
 
     @staticmethod
     @localization

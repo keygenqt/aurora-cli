@@ -2,10 +2,6 @@
     position: relative;
 }
 
-.Banner .Image {
-
-}
-
 .Banner .Data {
     position: absolute;
     top: calc(50% - 12px);
