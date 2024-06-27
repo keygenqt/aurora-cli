@@ -52,3 +52,8 @@
 - [Аврора SDK](https://developer.auroraos.ru/doc/software_development/sdk).
 - [Platform SDK](https://developer.auroraos.ru/doc/software_development/psdk).
 - [Flutter SDK](https://omprussia.gitlab.io/flutter/flutter).
+
+!!! warning
+
+    На данный момент версия приложения 3.0 находится на стадии бета-тестирования.
+    Версия 2.0 по прежнему доступна в PyPy: https://pypi.org/project/aurora-cli
