@@ -80,6 +80,7 @@ def app_help_handler(callback: Callable[[str], None]):
 
 
 def app_language() -> str:
+    return 'ru'
     if 'ru_RU' in os.getenv("LANG"):
         return 'ru'
     else:

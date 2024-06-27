@@ -8,7 +8,7 @@ site_description: Makes life easier for developers on Aurora OS.
 # Navigation
 nav:
   - Main: index.md
-  - CLI:
+  - Features:
       - Overview: cli/main.md
       - Methods:
           - Device:
@@ -67,6 +67,7 @@ nav:
               - Tool: cli/sdk/tool.md
           - VS Code:
               - Tuning: cli/vscode/tuning.md
+          - API: cli/api.md
   - Configuration:
       - Configuration: config.md
   - Install:

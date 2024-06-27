@@ -1,4 +1,4 @@
-Эта команда удаляет настройки из `sudoers` добавленные командой `aurora-cli psdk sudoers add`.
+Эта команда удаляет настройки из `sudoers`, добавленные командой `aurora-cli psdk sudoers add`.
 
 #### Options
 
