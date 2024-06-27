@@ -182,8 +182,19 @@ article.md-content__inner {
     font-weight: 500;
 }
 
-label.md-nav__link[id="__nav_2_label"],
-label.md-nav__link[id="__nav_3_label"],
-label.md-nav__link[id="__nav_4_label"] {
-    font-size: 0;
+@media (min-width: 1220px) {
+    label.md-nav__link[id="__nav_2_label"],
+    label.md-nav__link[id="__nav_3_label"],
+    label.md-nav__link[id="__nav_4_label"] {
+        font-size: 0;
+    }
+}
+
+@media (max-width: 1220px) {
+    .md-nav__item .md-nav__link--active {
+        color: white !important;
+    }
+    .md-nav__item .md-nav__link--active:hover {
+        color: white !important;
+    }
 }
