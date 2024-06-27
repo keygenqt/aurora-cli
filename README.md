@@ -6,7 +6,7 @@
 
 ![picture](https://github.com/keygenqt/aurora-cli/blob/api/data/v3/banner/banner_1000.png?raw=true)
 
-[![picture](https://github.com/keygenqt/aurora-cli/blob/api/data/images/banner/banner_1000.png?raw=true)](https://aurora-cli.keygenqt.com/)
+[![picture](https://github.com/keygenqt/aurora-cli/blob/api/data/common/btn.png?raw=true)](https://aurora-cli.keygenqt.com/)
 
 ### License
 
