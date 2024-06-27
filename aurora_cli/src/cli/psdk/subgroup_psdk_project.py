@@ -109,7 +109,7 @@ def project_build(
 
 
 @subgroup_psdk_project.command(name='icons', help=TextCommand.command_project_icon())
-@click.option('-i', '--image', type=click.STRING, help=TextArgument.argument_path_to_image())
+@click.option('-i', '--image', type=click.STRING, required=True, help=TextArgument.argument_path_to_image())
 @click.option('-p', '--path', type=click.STRING, required=False, help=TextArgument.argument_path_to_project())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def project_icons(

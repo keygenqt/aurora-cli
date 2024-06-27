@@ -48,6 +48,7 @@ class Hint(Enum):
     ssh_forward_port = 'ssh_forward_port'
     debug_aurora = 'debug_aurora'
     workdir = 'workdir'
+    flutter_project_add_target = 'flutter_project_add_target'
 
 
 def hint(*hints: Hint):
@@ -220,3 +221,8 @@ class TextHint(Enum):
     @localization
     def workdir():
         return '<i>You can specify</i> workdir <i>in the configuration file, this will make the search easier.</i>'
+
+    @staticmethod
+    @localization
+    def flutter_project_add_target():
+        return '<i>Platform support may not have been added:</i> flutter-aurora create --platforms=aurora --org={org} .'

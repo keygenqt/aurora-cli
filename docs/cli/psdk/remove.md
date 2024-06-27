@@ -1,4 +1,4 @@
-Удалить Аврора Platform SDK.
+Эта команда позволяет удалить Platform SDK.
 
 #### Options
 

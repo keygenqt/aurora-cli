@@ -140,3 +140,8 @@ class TextHintRU(Enum):
     @staticmethod
     def workdir():
         return '<i>В конфигурационном файле можно указать</i> workdir <i>это облегчит поиск.</i>'
+
+    @staticmethod
+    def flutter_project_add_target():
+        return ('<i>Возможно не была добавлена поддержка платформы: '
+                '</i> flutter-aurora create --platforms=aurora --org={org} .')

@@ -1,4 +1,4 @@
-Установите пакеты RPM в таргет.
+Эта команда позволяет установить RPM пакет в таргет Platform SDK.
 
 #### Options
 
@@ -13,5 +13,5 @@
 #### Example
 
 ```shell
-aurora-cli psdk package install
+aurora-cli psdk package install --path /path/to/package.rpm
 ```

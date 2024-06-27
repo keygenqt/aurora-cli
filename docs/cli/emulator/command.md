@@ -1,4 +1,4 @@
-Выполните команду на эмуляторе.
+С помощью этой команды вы можете выполнить произвольную команду на устройстве.
 
 #### Options
 
@@ -11,5 +11,5 @@
 #### Example
 
 ```shell
-aurora-cli emulator command
+aurora-cli emulator command --execute 'ls -1'
 ```

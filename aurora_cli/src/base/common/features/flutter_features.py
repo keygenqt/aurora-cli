@@ -68,7 +68,7 @@ def flutter_project_get_pub(
 
     percent_end(percents, progress)
 
-    result = shell_check_error_out(stdout, stderr, ['crash'])
+    result = shell_check_error_out(stdout, stderr, ['crash', 'unknown revision'])
     if result.is_error():
         return result
 

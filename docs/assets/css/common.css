@@ -180,3 +180,9 @@ article.md-content__inner {
 .highlight span.filename {
     font-weight: 500;
 }
+
+label.md-nav__link[id="__nav_2_label"],
+label.md-nav__link[id="__nav_3_label"],
+label.md-nav__link[id="__nav_4_label"] {
+    font-size: 0;
+}

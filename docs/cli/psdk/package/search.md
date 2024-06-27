@@ -1,4 +1,4 @@
-Найдите установленный пакет в таргете.
+Это команда позволяет осуществить поиск пакетов в таргете Platform SDK.
 
 #### Options
 
@@ -13,5 +13,5 @@
 #### Example
 
 ```shell
-aurora-cli psdk package search
+aurora-cli psdk package search -package flutter
 ```

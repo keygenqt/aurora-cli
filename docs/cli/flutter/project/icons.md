@@ -1,4 +1,5 @@
-Генерируйте иконки разных размеров для приложения.
+Эта команда позволяет создать набор иконок для проекта.
+Указав изображение будет создан набор иконок и размещен в проекте.
 
 #### Options
 
@@ -12,5 +13,5 @@
 #### Example
 
 ```shell
-aurora-cli flutter project icons
+aurora-cli flutter project icons --image /path/to/image.png
 ```

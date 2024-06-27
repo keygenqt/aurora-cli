@@ -1,4 +1,10 @@
-Установите пакет RPM на эмулятор.
+Установка пакета на эмулятор ОС Aurora 4 и 5 поколения, с помощью `pkcon`
+или нового менеджера пакетов `APM` доступного на 5й версии ОС Аврора.
+На данный момент, Aurora SDK 5.1.0.24, на эмуляторе доступны оба варианта установки.
+
+!!! info
+
+    Для установки пакета RPM требуется его подписать. Смотрите подробнее в разделе **Platform SDK -> Package -> Sign**.
 
 #### Options
 
@@ -12,5 +18,5 @@
 #### Example
 
 ```shell
-aurora-cli emulator package install
+aurora-cli emulator package install --path /path/to/file.rpm
 ```

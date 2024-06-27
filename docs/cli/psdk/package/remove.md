@@ -1,4 +1,4 @@
-Удалить пакет из таргета.
+Эта команда позволяет удалить пакет в таргет Platform SDK.
 
 #### Options
 
@@ -13,5 +13,5 @@
 #### Example
 
 ```shell
-aurora-cli psdk package remove
+aurora-cli psdk package remove --package flutter-embedder
 ```

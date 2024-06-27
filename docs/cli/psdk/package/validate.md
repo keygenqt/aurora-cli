@@ -1,4 +1,7 @@
-Валидация пакетов RPM.
+Platform SDK имеет возможность валидировать RPM пакет для обнаружения проблем.
+Пакет должен соответствовать
+[требованиям](https://developer.auroraos.ru/doc/5.1.0/software_development/guidelines/rpm_requirements).
+Эта команда упрощает задачу по валидации пакета.
 
 #### Options
 
@@ -14,5 +17,5 @@
 #### Example
 
 ```shell
-aurora-cli psdk package validate
+aurora-cli psdk package validate --path /path/to/package.rpm --profile regular
 ```

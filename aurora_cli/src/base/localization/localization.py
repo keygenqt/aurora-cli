@@ -42,9 +42,11 @@ def localization(func):
     return wrapped
 
 
-def localization_abort():
+def localization_abort(is_exit: bool = False):
     localization_abort_start()
     localization_abort_end()
+    if is_exit:
+        exit(0)
 
 
 def localization_abort_start():

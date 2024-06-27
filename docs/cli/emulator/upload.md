@@ -1,4 +1,5 @@
-Загрузите файл в каталог ~/Download эмулятора.
+Эта команда позволяет загружать файлы на эмулятор.
+Загрузка происходит в директорию `~/Download`.
 
 #### Options
 
@@ -11,5 +12,5 @@
 #### Example
 
 ```shell
-aurora-cli emulator upload
+aurora-cli emulator upload --path /path/to/file
 ```

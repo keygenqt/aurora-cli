@@ -10,7 +10,6 @@ nav:
   - Main: index.md
   - CLI:
       - Overview: cli/main.md
-      - Configuration: cli/config.md
       - Methods:
           - Device:
               - Package:
@@ -68,6 +67,10 @@ nav:
               - Tool: cli/sdk/tool.md
           - VS Code:
               - Tuning: cli/vscode/tuning.md
+  - Configuration:
+      - Configuration: config.md
+  - Install:
+      - Install: install.md
 # Assets
 extra_css:
   - https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0

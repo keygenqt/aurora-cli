@@ -336,6 +336,7 @@ class TextError(Enum):
 
     @staticmethod
     @localization
+    @hint(Hint.flutter_project_add_target)
     def flutter_project_not_found(path: str):
         return f'<red>Flutter project with support Aurora OS is not found:</red> {path}'
 
