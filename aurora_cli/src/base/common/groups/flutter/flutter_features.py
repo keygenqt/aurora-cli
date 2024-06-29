@@ -31,7 +31,7 @@ from aurora_cli.src.base.texts.hint import TextHint
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.app import app_exit
-from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
+from aurora_cli.src.base.utils.cache_func import cache_func_clear
 from aurora_cli.src.base.utils.git import git_clone
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResult, OutResultInfo
 from aurora_cli.src.base.utils.tests import tests_exit
@@ -66,7 +66,7 @@ def flutter_install_common(
 
     echo_stdout(OutResult(TextSuccess.flutter_install_success(str(flutter_path), version)))
     # clear cache
-    disk_cache_clear()
+    cache_func_clear()
 
 
 def flutter_remove_common(model: FlutterModel):
@@ -76,7 +76,7 @@ def flutter_remove_common(model: FlutterModel):
     shutil.rmtree(path)
     file_remove_line(Path.home() / '.bashrc', path)
     echo_stdout(OutResult(TextSuccess.flutter_remove_success(version)))
-    disk_cache_clear()
+    cache_func_clear()
 
 
 def flutter_add_custom_devices_common(model: FlutterModel):

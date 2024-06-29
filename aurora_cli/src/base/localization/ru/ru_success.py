@@ -269,3 +269,35 @@ class TextSuccessRu(Enum):
         return (f'<green>Устройство ОС Аврора</green>'
                 f' {host} '
                 f'<green>было успешно добавлено в custom-device Flutter.</green>')
+
+    @staticmethod
+    def settings_clear():
+        return '<green>Настройки были очищены.</green>'
+
+    @staticmethod
+    def settings_localization_update():
+        return '<green>Язык приложения успешно установлен.</green>'
+
+    @staticmethod
+    def settings_verbose_enable():
+        return '<green>Параметр</green> --verbose <green>будет применен по умолчанию.</green>'
+
+    @staticmethod
+    def settings_verbose_disable():
+        return '<green>Параметр</green> --verbose <green>не будет применен по умолчанию.</green>'
+
+    @staticmethod
+    def settings_select_enable():
+        return '<green>Параметр</green> --select <green>будет сохранять состояние.</green>'
+
+    @staticmethod
+    def settings_select_disable():
+        return '<green>Параметр</green> --select <green>не будет сохранять состояние.</green>'
+
+    @staticmethod
+    def settings_hint_enable():
+        return '<green>Подсказки включены.</green>'
+
+    @staticmethod
+    def settings_hint_disable():
+        return '<green>Подсказки отключены.</green>'

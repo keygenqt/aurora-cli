@@ -21,6 +21,7 @@ from time import sleep
 from click.testing import CliRunner
 
 from aurora_cli.src.api.group_api import group_api
+from aurora_cli.src.base.utils.cache_settings import cache_settings_clear
 from test.set_up.set_up import emulator_off
 
 
@@ -29,6 +30,7 @@ class TestEmulatorAPI(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         emulator_off()
+        cache_settings_clear()
 
     @classmethod
     def tearDownClass(cls):

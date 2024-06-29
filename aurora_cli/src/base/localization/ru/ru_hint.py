@@ -145,3 +145,8 @@ class TextHintRU(Enum):
     def flutter_project_add_target():
         return ('<i>Возможно не была добавлена поддержка платформы: '
                 '</i> flutter-aurora create --platforms=aurora --org={org} .')
+
+    @staticmethod
+    def settings_hint():
+        return ('<i>Подробно с дополнительными настройками вы можете ознакомится на странице документации:</i> '
+                'https://aurora-cli.keygenqt.com')

@@ -20,12 +20,17 @@ from time import sleep
 
 from click.testing import CliRunner
 
+from aurora_cli.src.base.utils.cache_settings import cache_settings_clear
 from aurora_cli.src.cli.device.group_device import group_device
 from aurora_cli.src.cli.device.subgroup_device_package import subgroup_device_package
 
 
 # noinspection PyTypeChecker
 class TestDeviceCLI(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cache_settings_clear()
+
     def test_device_a1(self):
         sleep(1)
         runner = CliRunner()
@@ -77,7 +82,7 @@ class TestDeviceCLI(unittest.TestCase):
             '--path', Path(__file__).parent.parent / 'data' / 'upload.file'
         ])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn('successfully uploaded', result.output)
+        self.assertIn('uploaded successfully', result.output)
 
     def test_device_a6(self):
         sleep(1)
@@ -99,7 +104,7 @@ class TestDeviceCLI(unittest.TestCase):
             '--apm'
         ])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn('successfully removed', result.output)
+        self.assertIn('removed successfully', result.output)
 
 
 if __name__ == '__main__':

@@ -16,6 +16,8 @@ limitations under the License.
 
 import sys
 
+from aurora_cli.src.base.utils.cache_settings import CacheSettingsKey, cache_settings_get
+
 
 def argv_is_api() -> bool:
     if len(sys.argv) >= 2 and 'api' in sys.argv[1]:
@@ -30,6 +32,10 @@ def argv_is_emulator_recording() -> bool:
 
 
 def argv_is_verbose() -> bool:
+    settings_val = cache_settings_get(CacheSettingsKey.verbose)
+    if settings_val:
+        return settings_val
+
     if '-v' in sys.argv or '--verbose' in sys.argv:
         return True
     return False

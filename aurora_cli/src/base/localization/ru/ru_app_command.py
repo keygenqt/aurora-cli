@@ -221,3 +221,27 @@ class TextCommandRu(Enum):
     @staticmethod
     def command_vscode_settings_update():
         return 'Обновить настройки VS Code.'
+
+    @staticmethod
+    def command_settings_list():
+        return 'Вывести дополнительные настройки приложения.'
+
+    @staticmethod
+    def command_settings_clear():
+        return 'Очистить дополнительные настройки приложения.'
+
+    @staticmethod
+    def command_settings_localization():
+        return 'Установить язык приложения.'
+
+    @staticmethod
+    def command_settings_verbose():
+        return 'Управление параметром --verbose.'
+
+    @staticmethod
+    def command_settings_select():
+        return 'Управление параметром --select.'
+
+    @staticmethod
+    def command_settings_hint():
+        return 'Управление подсказками приложения.'

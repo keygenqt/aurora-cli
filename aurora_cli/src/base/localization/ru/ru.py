@@ -73,7 +73,8 @@ def ru_click_usage_error(text: str) -> str:
             .replace('for help', 'для помощи')
             .replace('Error: No such option', 'Ошибка: Нет такой опции')
             .replace('Error: Missing option', 'Ошибка: отсутствует опция')
-            .replace('Error: No such command', 'Ошибка: нет такой команды'))
+            .replace('Error: Missing option', 'Ошибка: отсутствует опция')
+            .replace('Choose from:', 'Выбери из:'))
 
 
 def ru_git_clone(text: str) -> str:

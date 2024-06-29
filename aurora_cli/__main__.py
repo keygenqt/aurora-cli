@@ -25,13 +25,15 @@ from aurora_cli.src.base.texts.app_group import TextGroup
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.utils.app import app_crash_handler, app_help_handler, app_abort_handler
 from aurora_cli.src.base.utils.argv import argv_is_verbose
-from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
+
+from aurora_cli.src.base.utils.cache_func import cache_func_clear
 from aurora_cli.src.base.utils.output import echo_stdout, echo_verbose
 from aurora_cli.src.cli.device.group_device import group_device, init_subgroups_device
 from aurora_cli.src.cli.emulator.group_emulator import group_emulator, init_subgroups_emulator
 from aurora_cli.src.cli.flutter.group_flutter import group_flutter, init_subgroups_flutter
 from aurora_cli.src.cli.psdk.group_psdk import group_psdk, init_subgroups_psdk
 from aurora_cli.src.cli.sdk.group_sdk import group_sdk
+from aurora_cli.src.cli.settings.group_settings import group_settings
 from aurora_cli.src.cli.vscode.group_vscode import group_vscode
 
 
@@ -48,7 +50,7 @@ def main(
     ctx.obj = AppConfig.create(config)
 
     if clear_cache:
-        disk_cache_clear()
+        cache_func_clear()
         echo_stdout(TextInfo.cache_clear())
         exit(0)
 
@@ -74,6 +76,8 @@ def _init_groups():
     init_subgroups_psdk()
     # group Aurora SDK
     main.add_command(group_sdk)
+    # group Settings
+    main.add_command(group_settings)
     # group Visual Studio Code
     main.add_command(group_vscode)
 

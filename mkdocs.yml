@@ -67,9 +67,17 @@ nav:
               - Tool: cli/sdk/tool.md
           - VS Code:
               - Tuning: cli/vscode/tuning.md
+          - Settings:
+              - List: cli/settings/list.md
+              - Clear: cli/settings/clear.md
+              - Hint: cli/settings/hint.md
+              - Select: cli/settings/select.md
+              - Verbose: cli/settings/verbose.md
+              - Localization: cli/settings/localization.md
           - API: cli/api.md
   - Configuration:
       - Configuration: config.md
+      - Settings: settings.md
   - Install:
       - Install: install.md
 # Assets

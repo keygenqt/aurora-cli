@@ -92,3 +92,7 @@ Platform SDK https://developer.auroraos.ru/doc/software_development/psdk
     @staticmethod
     def group_sundry():
         return 'Дополнительный функционал.'
+
+    @staticmethod
+    def group_settings():
+        return 'Дополнительные настройки приложения.'

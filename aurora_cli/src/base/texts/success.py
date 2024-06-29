@@ -318,3 +318,43 @@ Good luck 👋'''
         return (f'<green>Aurora Device</green>'
                 f' {host} '
                 f'<green>has been added to custom-devices Flutter successfully.</green>')
+
+    @staticmethod
+    @localization
+    def settings_clear():
+        return '<green>The settings have been cleared.</green>'
+
+    @staticmethod
+    @localization
+    def settings_localization_update():
+        return '<green>The application language has been successfully installed.</green>'
+
+    @staticmethod
+    @localization
+    def settings_verbose_enable():
+        return '<green>The</green> --verbose <green>option will be applied by default.</green>'
+
+    @staticmethod
+    @localization
+    def settings_verbose_disable():
+        return '<green>The</green> --verbose <green>option will not be applied by default.</green>'
+
+    @staticmethod
+    @localization
+    def settings_select_enable():
+        return '<green>The</green> --select <green>option will save the state.</green>'
+
+    @staticmethod
+    @localization
+    def settings_select_disable():
+        return '<green>The</green> --select <green>option will not save state.</green>'
+
+    @staticmethod
+    @localization
+    def settings_hint_enable():
+        return '<green>Hints are enable.</green>'
+
+    @staticmethod
+    @localization
+    def settings_hint_disable():
+        return '<green>Hints are disabled.</green>'

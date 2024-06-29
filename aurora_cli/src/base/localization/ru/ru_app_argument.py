@@ -133,3 +133,19 @@ class TextArgumentRu(Enum):
     @staticmethod
     def argument_vscode_extension():
         return 'Название расширения VS Code.'
+
+    @staticmethod
+    def argument_language():
+        return 'Язык приложения.'
+
+    @staticmethod
+    def argument_enable_verbose():
+        return 'Включить/Выключить --verbose по умолчанию.'
+
+    @staticmethod
+    def argument_enable_save_select():
+        return 'Включить/Выключить сохранение --select.'
+
+    @staticmethod
+    def argument_enable_hint():
+        return 'Включить/Выключить подсказки в приложении.'

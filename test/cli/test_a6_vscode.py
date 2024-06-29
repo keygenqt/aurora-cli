@@ -18,15 +18,17 @@ import unittest
 
 from click.testing import CliRunner
 
-from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
+from aurora_cli.src.base.utils.cache_func import cache_func_clear
+from aurora_cli.src.base.utils.cache_settings import cache_settings_clear
 from aurora_cli.src.cli.vscode.group_vscode import group_vscode
 
 
 # noinspection PyTypeChecker
-class TestSdkAPI(unittest.TestCase):
+class TestSdkCLI(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        disk_cache_clear()
+        cache_func_clear()
+        cache_settings_clear()
 
     def test_sdk_a1(self):
         runner = CliRunner()
@@ -34,7 +36,7 @@ class TestSdkAPI(unittest.TestCase):
             'tuning',
         ])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn('VS Code already installed', result.output)
+        self.assertIn('Extensions', result.output)
 
 
 if __name__ == '__main__':

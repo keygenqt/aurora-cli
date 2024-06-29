@@ -379,3 +379,15 @@ class TextInfo(Enum):
     @localization
     def install_debug_apm_dart_debug():
         return '<yellow>Only the main package will be installed via apm; this is enough for Dart debug.</yellow>'
+
+    @staticmethod
+    @localization
+    @hint(Hint.settings_hint)
+    def settings_list(values: dict):
+        return ('<blue>List of current settings:</blue>\n{}'
+                .format('\n'.join([f'{key}: {value}' for key, value in values.items()])))
+
+    @staticmethod
+    @localization
+    def settings_item_empty():
+        return 'Value not set.'

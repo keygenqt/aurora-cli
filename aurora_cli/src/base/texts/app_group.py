@@ -111,3 +111,8 @@ This is a third party tool written by enthusiasts!'''
     @localization
     def group_sundry():
         return 'Additional functionality.'
+
+    @staticmethod
+    @localization
+    def group_settings():
+        return 'Additional application settings.'

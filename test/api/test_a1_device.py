@@ -21,10 +21,15 @@ from time import sleep
 from click.testing import CliRunner
 
 from aurora_cli.src.api.group_api import group_api
+from aurora_cli.src.base.utils.cache_settings import cache_settings_clear
 
 
 # noinspection PyTypeChecker
 class TestDeviceAPI(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cache_settings_clear()
+
     def test_device_a1(self):
         sleep(1)
         runner = CliRunner()

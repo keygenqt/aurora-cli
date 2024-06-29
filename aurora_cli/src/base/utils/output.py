@@ -23,7 +23,7 @@ import click
 
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.utils.app import app_crash_out
-from aurora_cli.src.base.utils.argv import argv_is_api
+from aurora_cli.src.base.utils.argv import argv_is_api, argv_is_verbose
 from aurora_cli.src.base.utils.text import text_colorize_clear, text_colorize
 from aurora_cli.src.base.utils.verbose import verbose_seize_map
 
@@ -108,7 +108,7 @@ def _echo_stdout_json(out: Any):
 
 
 def echo_verbose(verbose: bool, exception=None):
-    if verbose:
+    if verbose or argv_is_verbose():
         if argv_is_api():
             data = {'verbose': verbose_seize_map()}
             click.echo(json.dumps(data, indent=2, ensure_ascii=False))

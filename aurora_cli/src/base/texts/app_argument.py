@@ -164,3 +164,23 @@ class TextArgument(Enum):
     @localization
     def argument_vscode_extension():
         return 'Name of the VS Code extension.'
+
+    @staticmethod
+    @localization
+    def argument_language():
+        return 'Application language.'
+
+    @staticmethod
+    @localization
+    def argument_enable_verbose():
+        return 'Enable/Disable --verbose by default.'
+
+    @staticmethod
+    @localization
+    def argument_enable_save_select():
+        return 'Enable/Disable saving --select.'
+
+    @staticmethod
+    @localization
+    def argument_enable_hint():
+        return 'Enable/Disable application hints.'

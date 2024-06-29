@@ -19,14 +19,16 @@ import unittest
 from click.testing import CliRunner
 
 from aurora_cli.src.api.group_api import group_api
-from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
+from aurora_cli.src.base.utils.cache_func import cache_func_clear
+from aurora_cli.src.base.utils.cache_settings import cache_settings_clear
 
 
 # noinspection PyTypeChecker
 class TestPsdkAPI(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        disk_cache_clear()
+        cache_func_clear()
+        cache_settings_clear()
 
     def test_psdk_a1(self):
         runner = CliRunner()

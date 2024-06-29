@@ -26,7 +26,7 @@ from aurora_cli.src.base.models.sdk_model import SdkModel
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.app import app_exit
-from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
+from aurora_cli.src.base.utils.cache_func import cache_func_clear
 from aurora_cli.src.base.utils.download import check_downloads, downloads
 from aurora_cli.src.base.utils.output import echo_stdout, OutResult, OutResultError
 from aurora_cli.src.base.utils.shell import shell_exec_app
@@ -71,7 +71,7 @@ def sdk_install_common(
 
     if shell_exec_app(run):
         echo_stdout(OutResult(TextSuccess.shell_run_app_success(run.name)))
-        disk_cache_clear()
+        cache_func_clear()
     else:
         echo_stdout(OutResultError(TextError.shell_run_app_error(run.name)))
 
@@ -81,6 +81,6 @@ def sdk_tool_common(model: SdkModel):
     tool = model.get_tool_path()
     if shell_exec_app(tool):
         echo_stdout(OutResult(TextSuccess.shell_run_app_success(tool.name)))
-        disk_cache_clear()
+        cache_func_clear()
     else:
         echo_stdout(OutResultError(TextError.shell_run_app_error(tool.name)))

@@ -13,24 +13,24 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+from pathlib import Path
+from typing import Any
 
-import signal
-from typing import Callable
+from diskcache import Cache
 
-from aurora_cli.src.base.localization.localization import localization_abort
+from aurora_cli.src.base.constants.config import APP_FOLDER
 
-
-def abort_text_start():
-    localization_abort('Aborted! Closing...')
-
-
-def abort_text_end():
-    localization_abort('Goodbye!')
+_cache_values_path = Path(APP_FOLDER) / 'cache_values'
+_cache_values_cache = Cache(str(_cache_values_path))
 
 
-def abort_catch(listen: Callable[[], None]):
-    def signal_handler(s, f):
-        signal.signal(signal.SIGINT, signal.SIG_IGN)
-        listen()
+def cache_values_save(key: str, value: Any):
+    _cache_values_cache.set(key, value)
 
-    signal.signal(signal.SIGINT, signal_handler)
+
+def cache_values_get(key: str) -> Any:
+    return _cache_values_cache.get(key)
+
+
+def cache_values_cache_clear():
+    _cache_values_cache.clear()

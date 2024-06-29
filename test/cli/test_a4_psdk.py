@@ -18,7 +18,8 @@ import unittest
 
 from click.testing import CliRunner
 
-from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
+from aurora_cli.src.base.utils.cache_func import cache_func_clear
+from aurora_cli.src.base.utils.cache_settings import cache_settings_clear
 from aurora_cli.src.cli.psdk.group_psdk import group_psdk
 from aurora_cli.src.cli.psdk.subgroup_psdk_package import subgroup_psdk_package
 from aurora_cli.src.cli.psdk.subgroup_psdk_project import subgroup_psdk_project
@@ -29,7 +30,8 @@ from aurora_cli.src.cli.psdk.subgroup_psdk_sudoers import subgroup_psdk_sudoers
 class TestPsdkCLI(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        disk_cache_clear()
+        cache_func_clear()
+        cache_settings_clear()
 
     def test_psdk_a1_available(self):
         runner = CliRunner()

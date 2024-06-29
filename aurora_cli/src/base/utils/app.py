@@ -24,6 +24,7 @@ from typing import Callable, Any
 import click
 
 from aurora_cli.src.base.utils.argv import argv_is_verbose, argv_is_test, argv_is_help
+from aurora_cli.src.base.utils.cache_settings import cache_settings_get, CacheSettingsKey
 from aurora_cli.src.base.utils.exceptions import AppExit
 
 
@@ -80,6 +81,10 @@ def app_help_handler(callback: Callable[[str], None]):
 
 
 def app_language() -> str:
+    settings_val = cache_settings_get(CacheSettingsKey.language)
+    if settings_val:
+        return settings_val
+
     if 'ru_RU' in os.getenv("LANG"):
         return 'ru'
     else:

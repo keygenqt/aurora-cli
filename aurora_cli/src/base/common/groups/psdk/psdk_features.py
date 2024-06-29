@@ -41,7 +41,7 @@ from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
 from aurora_cli.src.base.utils.app import app_exit, app_abort_handler
-from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
+from aurora_cli.src.base.utils.cache_func import cache_func_clear
 from aurora_cli.src.base.utils.download import check_downloads, downloads
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResultInfo, OutResult
 from aurora_cli.src.base.utils.tests import tests_exit
@@ -167,7 +167,7 @@ def psdk_install_common(
             progress=lambda percent: out_progress(percent, f'Target {arch}')
         ))
 
-    disk_cache_clear()
+    cache_func_clear()
 
     echo_stdout(OutResult(TextSuccess.psdk_install_success(str(psdk_path), version_full)))
 
@@ -180,7 +180,7 @@ def psdk_remove_common(model: PsdkModel):
         echo_stdout(result)
         app_exit()
     file_remove_line(Path.home() / '.bashrc', model.get_path())
-    disk_cache_clear()
+    cache_func_clear()
     echo_stdout(OutResult(TextSuccess.psdk_remove_success(model.get_version())))
 
 

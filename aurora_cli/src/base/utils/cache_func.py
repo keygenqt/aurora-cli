@@ -13,25 +13,26 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+from pathlib import Path
 
 from diskcache import Cache
 
 from aurora_cli.src.base.constants.config import APP_FOLDER
-from aurora_cli.src.base.utils.path import path_convert_relative
+
+_cache_func_path = Path(APP_FOLDER) / 'cache_func'
+_cache_func_cache = Cache(str(_cache_func_path))
 
 
 # Default cache = 12 hours
 # App has flag --clear-cache for force clear
-def disk_cache(expire=43200):
+def cache_func(expire=43200):
     def decorator(func):
         def wrapper(*args, **kwargs) -> str:
             def save(data):
-                with Cache(APP_FOLDER) as reference:
-                    reference.set(func.__name__, data, expire=expire)
+                _cache_func_cache.set(func.__name__, data, expire=expire)
 
             def get():
-                with Cache(APP_FOLDER) as reference:
-                    return reference.get(func.__name__)
+                return _cache_func_cache.get(func.__name__)
 
             cache = get()
             if cache:
@@ -45,5 +46,5 @@ def disk_cache(expire=43200):
     return decorator
 
 
-def disk_cache_clear():
-    (path_convert_relative(APP_FOLDER) / 'cache.db').unlink(missing_ok=True)
+def cache_func_clear():
+    _cache_func_cache.clear()

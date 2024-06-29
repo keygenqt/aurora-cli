@@ -20,6 +20,7 @@ from time import sleep
 
 from click.testing import CliRunner
 
+from aurora_cli.src.base.utils.cache_settings import cache_settings_clear
 from aurora_cli.src.cli.emulator.group_emulator import group_emulator
 from aurora_cli.src.cli.emulator.subgroup_emulator_package import subgroup_emulator_package
 from test.set_up.set_up import emulator_off
@@ -30,6 +31,7 @@ class TestEmulatorCLI(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         emulator_off()
+        cache_settings_clear()
 
     @classmethod
     def tearDownClass(cls):
@@ -60,8 +62,7 @@ class TestEmulatorCLI(unittest.TestCase):
             'recording',
         ])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn('recording activated', result.output)
-        self.assertIn('has stopped', result.output)
+        self.assertIn('File is saved', result.output)
 
     def test_emulator_a4(self):
         sleep(1)
@@ -91,7 +92,7 @@ class TestEmulatorCLI(unittest.TestCase):
             '--path', Path(__file__).parent.parent / 'data' / 'upload.file'
         ])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn('successfully uploaded', result.output)
+        self.assertIn('uploaded successfully', result.output)
 
     def test_emulator_a7(self):
         sleep(1)
@@ -120,7 +121,7 @@ class TestEmulatorCLI(unittest.TestCase):
             '--package', 'com.keygenqt.trex'
         ])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn('successfully removed', result.output)
+        self.assertIn('removed successfully', result.output)
 
     def test_emulator_b1(self):
         sleep(1)
@@ -142,7 +143,7 @@ class TestEmulatorCLI(unittest.TestCase):
             '--apm'
         ])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn('successfully removed', result.output)
+        self.assertIn('removed successfully', result.output)
 
 
 if __name__ == '__main__':

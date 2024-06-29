@@ -274,3 +274,33 @@ class TextCommand(Enum):
     @localization
     def command_vscode_settings_update():
         return 'Update VS Code settings.'
+
+    @staticmethod
+    @localization
+    def command_settings_list():
+        return 'Display additional application settings.'
+
+    @staticmethod
+    @localization
+    def command_settings_clear():
+        return 'Clear advanced application settings.'
+
+    @staticmethod
+    @localization
+    def command_settings_localization():
+        return 'Set the application language.'
+
+    @staticmethod
+    @localization
+    def command_settings_verbose():
+        return 'Controlling the --verbose parameter.'
+
+    @staticmethod
+    @localization
+    def command_settings_select():
+        return 'Controlling the --select parameter.'
+
+    @staticmethod
+    @localization
+    def command_settings_hint():
+        return 'Manage application hints.'

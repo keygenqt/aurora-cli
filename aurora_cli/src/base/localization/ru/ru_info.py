@@ -310,3 +310,12 @@ class TextInfoRu(Enum):
     @staticmethod
     def install_debug_apm_dart_debug():
         return '<yellow>Через apm будет установлен только основной пакет, для Dart debug этого достаточно.</yellow>'
+
+    @staticmethod
+    def settings_list(values: dict):
+        return ('<blue>Список текущих настроек:</blue>\n{}'
+                .format('\n'.join([f'{key}: {value}' for key, value in values.items()])))
+
+    @staticmethod
+    def settings_item_empty():
+        return 'Значение не установлено.'

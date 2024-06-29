@@ -19,6 +19,7 @@ from enum import Enum
 
 from aurora_cli.src.base.localization.localization import localization
 from aurora_cli.src.base.utils.argv import argv_is_select, argv_is_verbose, argv_is_api, argv_is_apm
+from aurora_cli.src.base.utils.cache_settings import CacheSettingsKey, cache_settings_get
 
 
 class Hint(Enum):
@@ -49,6 +50,7 @@ class Hint(Enum):
     debug_aurora = 'debug_aurora'
     workdir = 'workdir'
     flutter_project_add_target = 'flutter_project_add_target'
+    settings_hint = 'settings_hint'
 
 
 def hint(*hints: Hint):
@@ -56,6 +58,9 @@ def hint(*hints: Hint):
         @functools.wraps(function)
         def wrapper(*args, **kwargs):
             value = function(*args, **kwargs)
+            settings_val = cache_settings_get(CacheSettingsKey.hint)
+            if settings_val is not None and not settings_val:
+                return value
             for key in hints:
                 for key_fun in TextHint.__dict__:
                     if key.value == key_fun:
@@ -226,3 +231,9 @@ class TextHint(Enum):
     @localization
     def flutter_project_add_target():
         return '<i>Platform support may not have been added:</i> flutter-aurora create --platforms=aurora --org={org} .'
+
+    @staticmethod
+    @localization
+    def settings_hint():
+        return ('<i>You can read more about additional settings on the documentation page:</i> '
+                'https://aurora-cli.keygenqt.com')

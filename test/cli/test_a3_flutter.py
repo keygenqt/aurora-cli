@@ -19,7 +19,8 @@ from pathlib import Path
 
 from click.testing import CliRunner
 
-from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
+from aurora_cli.src.base.utils.cache_func import cache_func_clear
+from aurora_cli.src.base.utils.cache_settings import cache_settings_clear
 from aurora_cli.src.cli.flutter.group_flutter import group_flutter
 from aurora_cli.src.cli.flutter.subgroup_flutter_project import subgroup_flutter_project
 
@@ -28,7 +29,8 @@ from aurora_cli.src.cli.flutter.subgroup_flutter_project import subgroup_flutter
 class TestFlutterCLI(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        disk_cache_clear()
+        cache_func_clear()
+        cache_settings_clear()
 
     def test_flutter_a1(self):
         runner = CliRunner()

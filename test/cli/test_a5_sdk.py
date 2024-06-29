@@ -18,7 +18,8 @@ import unittest
 
 from click.testing import CliRunner
 
-from aurora_cli.src.base.utils.disk_cache import disk_cache_clear
+from aurora_cli.src.base.utils.cache_func import cache_func_clear
+from aurora_cli.src.base.utils.cache_settings import cache_settings_clear
 from aurora_cli.src.cli.sdk.group_sdk import group_sdk
 
 
@@ -26,7 +27,8 @@ from aurora_cli.src.cli.sdk.group_sdk import group_sdk
 class TestSdkCLI(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        disk_cache_clear()
+        cache_func_clear()
+        cache_settings_clear()
 
     def test_sdk_a1(self):
         runner = CliRunner()
