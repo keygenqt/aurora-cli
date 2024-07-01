@@ -16,8 +16,9 @@ limitations under the License.
 from pathlib import Path
 from typing import Callable
 
+from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.success import TextSuccess
-from aurora_cli.src.base.utils.output import OutResult
+from aurora_cli.src.base.utils.output import OutResult, OutResultError
 from aurora_cli.src.base.utils.percent_cli import percent_point, percent_counter, percent_start, percent_end
 from aurora_cli.src.base.utils.shell import shell_exec_command, shell_check_error_out
 
@@ -164,6 +165,9 @@ def flutter_project_build(
             builds_paths.append(build.replace('./build', f'{path}/build'))
         else:
             builds_paths[-1] += build
+
+    if not builds_paths:
+        return OutResultError(TextError.exec_command_error(), value=-1)
 
     builds_paths.sort()
     builds_paths.reverse()

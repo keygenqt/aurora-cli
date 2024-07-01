@@ -108,12 +108,14 @@ def flutter_project_build_common(
         model_device: Any,
         model_keys: Any,
         target: str,
-        mode_debug: Any,  # dart/gdb
+        debug: bool,
         clean: bool,
+        pub_get: bool,
+        build_runner: bool,
+        run_mode: Any,  # dart/gdb/sandbox
         project: Path,
         is_apm: bool,
         is_install: bool,
-        is_run: bool,
         verbose: bool,
         is_bar: bool = True
 ):
@@ -123,7 +125,7 @@ def flutter_project_build_common(
     if (project / 'example').is_dir():
         project = project / 'example'
 
-    if is_apm and mode_debug == 'gdb':
+    if is_apm and run_mode == 'gdb':
         echo_stdout(OutResultError(TextError.debug_apm_gdb_error()))
         app_exit()
 
@@ -133,6 +135,7 @@ def flutter_project_build_common(
         app_exit()
 
     bar = AliveBarPercentage()
+    is_fist = not (project / '.dart_tool').is_dir() or clean
 
     def out_check_result(out: OutResult):
         echo_stdout(out)
@@ -146,19 +149,21 @@ def flutter_project_build_common(
             echo_stdout(OutResultInfo(TextInfo.install_progress(), value=percent))
 
     if clean:
+        (project / '.dart_tool').unlink(missing_ok=True)
         out_check_result(flutter_project_clear(
             flutter=model_flutter.get_tool_flutter(),
             path=project,
             progress=lambda percent: out_progress(percent, 'clean')
         ))
 
-    out_check_result(flutter_project_get_pub(
-        flutter=model_flutter.get_tool_flutter(),
-        path=project,
-        progress=lambda percent: out_progress(percent, 'pub get')
-    ))
+    if is_fist or pub_get:
+        out_check_result(flutter_project_get_pub(
+            flutter=model_flutter.get_tool_flutter(),
+            path=project,
+            progress=lambda percent: out_progress(percent, 'pub get')
+        ))
 
-    if search_flutter_project_pubspec_key(project, 'build_runner'):
+    if search_flutter_project_pubspec_key(project, 'build_runner') and is_fist or build_runner:
         out_check_result(flutter_project_run_build_runner(
             flutter=model_flutter.get_tool_flutter(),
             path=project,
@@ -169,7 +174,7 @@ def flutter_project_build_common(
         psdk_dir=model_psdk.get_psdk_dir(),
         target=target,
         flutter=model_flutter.get_tool_flutter(),
-        debug=mode_debug is not None,
+        debug=debug,
         path=project,
         progress=lambda percent: out_progress(percent, 'build aurora')
     )
@@ -177,7 +182,7 @@ def flutter_project_build_common(
     out_check_result(result)
     rpms = result.value
 
-    if (is_install or is_run) and model_device is None:
+    if (is_install or run_mode) and model_device is None:
         if 'x86_64' not in target:
             echo_stdout(OutResultError(TextError.run_emulator_arch_error()))
             app_exit()
@@ -189,7 +194,7 @@ def flutter_project_build_common(
     if is_install:
         # sign rpm
         psdk_package_sign_common(model_psdk, model_keys, rpms)
-        if mode_debug and is_apm:
+        if run_mode and is_apm:
             echo_stdout(OutResultInfo(TextInfo.install_debug_apm_dart_debug()))
             rpms = [rpms[-1]]
 
@@ -226,21 +231,21 @@ def flutter_project_build_common(
                     apm=is_apm,
                 )
 
-    if is_run:
+    if run_mode:
         echo_verbose(verbose)
         sleep(2)
         if model_device:
             device_package_run_common(
                 model=DeviceModel.get_model_by_host(model_device.host),
                 package=package,
-                mode_debug=mode_debug,
+                run_mode=run_mode,
                 path_project=str(project)
             )
         else:
             emulator_package_run_common(
                 model=EmulatorModel.get_model_user(),
                 package=package,
-                mode_debug=mode_debug,
+                run_mode=run_mode,
                 path_project=str(project)
             )
 

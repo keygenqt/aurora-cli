@@ -51,8 +51,20 @@ class TextArgumentRu(Enum):
         return 'Режим сборки с отладкой.'
 
     @staticmethod
+    def argument_run_mode():
+        return 'Режим запуска приложения.'
+
+    @staticmethod
     def argument_clean():
         return 'Очистка сборки.'
+
+    @staticmethod
+    def argument_pub_get():
+        return 'Выполнить pub get.'
+
+    @staticmethod
+    def argument_build_runner():
+        return 'Выполнить build runner.'
 
     @staticmethod
     def argument_run():

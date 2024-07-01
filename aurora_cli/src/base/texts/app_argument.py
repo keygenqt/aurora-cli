@@ -58,12 +58,27 @@ class TextArgument(Enum):
     @staticmethod
     @localization
     def argument_debug():
-        return 'Build mode debug.'
+        return 'Build debug.'
+
+    @staticmethod
+    @localization
+    def argument_run_mode():
+        return 'Application launch mode.'
 
     @staticmethod
     @localization
     def argument_clean():
         return 'Build clean.'
+
+    @staticmethod
+    @localization
+    def argument_pub_get():
+        return 'Run pub get.'
+
+    @staticmethod
+    @localization
+    def argument_build_runner():
+        return 'Run build runner.'
 
     @staticmethod
     @localization

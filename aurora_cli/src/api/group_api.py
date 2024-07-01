@@ -136,14 +136,17 @@ help_routes = f'''
 /flutter/project/build
   • version - {TextArgument.argument_flutter_version()}
   • psdk - {TextArgument.argument_psdk_version()}
-  • target - {TextArgument.argument_target_name()}
   • path - {TextArgument.argument_path_to_project()}
+  • target - {TextArgument.argument_target_name()}
+  • debug [default = false, true] - {TextArgument.argument_debug()}
   • clean [default = false, true] - {TextArgument.argument_clean()}
+  • pub_get [default = false, true] - {TextArgument.argument_pub_get()}
+  • build_runner [default = false, true] - {TextArgument.argument_build_runner()}
   • install [default = false, true] - {TextArgument.argument_install()}
   • apm [default = false, true] - {TextArgument.argument_apm()}
   • run [default = false, true] - {TextArgument.argument_run()}
   • verbose [default = false, true] - {TextArgument.argument_verbose()}
-  • mode [dart, gdb] ({TextArgument.argument_optional()}) - {TextArgument.argument_debug()}
+  • run_mode [dart, gdb] ({TextArgument.argument_optional()}) - {TextArgument.argument_run_mode()}
   • host ({TextArgument.argument_optional()}) - {TextArgument.argument_host_device()}
   • key ({TextArgument.argument_optional()}) - {TextArgument.argument_key_sign_name()}
 

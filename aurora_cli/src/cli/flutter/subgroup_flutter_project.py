@@ -67,6 +67,8 @@ def project_format(
 @click.option('-p', '--path', type=click.STRING, required=False, help=TextArgument.argument_path_to_project())
 @click.option('-d', '--debug', is_flag=True, help=TextArgument.argument_debug())
 @click.option('-c', '--clean', is_flag=True, help=TextArgument.argument_clean())
+@click.option('-pg', '--pub-get', is_flag=True, help=TextArgument.argument_pub_get())
+@click.option('-br', '--build-runner', is_flag=True, help=TextArgument.argument_build_runner())
 @click.option('-i', '--install', is_flag=True, help=TextArgument.argument_install())
 @click.option('-a', '--apm', is_flag=True, help=TextArgument.argument_apm())
 @click.option('-r', '--run', type=click.Choice(['sandbox', 'dart', 'gdb'], case_sensitive=False),
@@ -77,6 +79,8 @@ def project_build(
         path: Any,
         debug: bool,
         clean: bool,
+        pub_get: bool,
+        build_runner: bool,
         install: bool,
         apm: bool,
         run: str,
@@ -92,8 +96,8 @@ def project_build(
         app_exit(1)
 
     path = Path(path) if path else Path.cwd()
-    model_flutter = cli_flutter_tool_select_model(select, None)
 
+    model_flutter = cli_flutter_tool_select_model(select, None)
     model_psdk = cli_psdk_tool_select_model_psdk(select, None)
     target = cli_psdk_tool_select_target_psdk(model_psdk)
 
@@ -105,22 +109,20 @@ def project_build(
     if (install or run) and '86_64' not in target:
         model_device = cli_device_tool_select_model(select, None)
 
-    mode_debug = None
-    if debug and run != 'sandbox':
-        mode_debug = run
-
     flutter_project_build_common(
         model_flutter=model_flutter,
         model_psdk=model_psdk,
         model_device=model_device,
         model_keys=model_keys,
         target=target,
-        mode_debug=mode_debug,
+        debug=debug,
         clean=clean,
+        pub_get=pub_get,
+        build_runner=build_runner,
+        run_mode=run,
         project=path,
         is_install=install,
         is_apm=apm,
-        is_run=run is not None,
         verbose=verbose
     )
 

@@ -99,12 +99,12 @@ def ssh_upload_common(
 def ssh_run_common(
         model: ModelClient,
         package: str,
-        mode_debug: Any,  # dart/gdb
+        run_mode: Any,  # dart/gdb
         path_project: str
 ):
     tests_exit()
 
-    if mode_debug and model.is_password():
+    if run_mode and model.is_password():
         echo_stdout(OutResultError(TextError.ssh_run_debug_error()))
         app_exit()
 
@@ -116,7 +116,7 @@ def ssh_run_common(
     if is_project_aurora:
         echo_stdout(OutResultInfo(TextInfo.ssh_run_debug_aurora()))
 
-    if mode_debug == 'gdb':
+    if run_mode == 'gdb':
         download_bin_path_result = ssh_download(
             path_remote=f'/usr/bin/{package}',
             path_local=f'{AppConfig.get_tempdir()}/{package}',
@@ -160,12 +160,12 @@ def ssh_run_common(
 
     def echo_stdout_with_check_close(stdout: Any):
 
-        if mode_debug == 'gdb' and 'Listening on port' in stdout.value:
+        if run_mode == 'gdb' and 'Listening on port' in stdout.value:
             port = stdout.value.split(' ')[-1]
             forward_port(port)
             echo_stdout(OutResult(TextSuccess.ssh_gdb_server_start_success()))
 
-        if mode_debug == 'dart' and 'The Dart VM service is listening on' in stdout.value:
+        if run_mode == 'dart' and 'The Dart VM service is listening on' in stdout.value:
             url = stdout.value.split(' ')[-1]
             port = url.split('/')[2].split(':')[-1]
             forward_port(port)
@@ -185,7 +185,7 @@ def ssh_run_common(
     result = ssh_run(
         client=client,
         package=package,
-        mode_debug=mode_debug,
+        run_mode=run_mode,
         listen_stdout=lambda stdout: echo_stdout_with_check_close(stdout),
         listen_stderr=lambda stderr: echo_stdout(stderr)
     )

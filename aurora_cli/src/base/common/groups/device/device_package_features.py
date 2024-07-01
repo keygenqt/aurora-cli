@@ -27,9 +27,9 @@ from aurora_cli.src.base.models.device_model import DeviceModel
 def device_package_run_common(
         model: DeviceModel,
         package: str,
-        mode_debug: Any,  # dart/gdb
+        run_mode: Any,  # dart/gdb
         path_project: str
-): ssh_run_common(model, package, mode_debug, path_project)
+): ssh_run_common(model, package, run_mode, path_project)
 
 
 def device_package_install_common(

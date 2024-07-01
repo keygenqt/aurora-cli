@@ -49,7 +49,7 @@ def ssh_command(
 def ssh_run(
         client: SSHClient,
         package: str,
-        mode_debug: Any,  # dart/gdb
+        run_mode: Any,  # dart/gdb
         listen_stdout: Callable[[Any], None],
         listen_stderr: Callable[[Any], None],
         close: bool = True
@@ -61,8 +61,8 @@ def ssh_run(
             return True
         return False
 
-    if mode_debug:
-        if mode_debug == 'dart':
+    if run_mode:
+        if run_mode == 'dart':
             execute = f'env LD_LIBRARY_PATH=/opt/app/{package}/current/data/lib /usr/bin/{package}'
         else:
             execute = f'gdbserver --multi :2345'
