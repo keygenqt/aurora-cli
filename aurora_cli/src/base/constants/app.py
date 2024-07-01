@@ -16,7 +16,7 @@ limitations under the License.
 
 APP_NAME = 'aurora-cli'
 
-APP_VERSION = '3.0.0.18'
+APP_VERSION = '3.0.0.19'
 
 PATH_TEMP = '~/.aurora-cli/temp'
 

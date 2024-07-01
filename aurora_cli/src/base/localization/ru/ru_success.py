@@ -235,7 +235,7 @@ class TextSuccessRu(Enum):
     @staticmethod
     def flutter_build_success(paths: []):
         new_line = '\n' if len(paths) > 1 else ''
-        return f'<green>Сборка проекта прошла успешно:</green> {new_line}' + ''.join(paths)
+        return f'<green>Сборка проекта прошла успешно:</green> {new_line}' + '\n'.join(paths)
 
     @staticmethod
     def flutter_enable_custom_device_success():
