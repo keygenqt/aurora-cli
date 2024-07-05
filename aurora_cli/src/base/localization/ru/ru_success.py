@@ -262,7 +262,7 @@ class TextSuccessRu(Enum):
 
     @staticmethod
     def devices_add_to_config_emulator():
-        return '<green>Эмулятор ОС Аврора был успешно добавлен на пользовательские устройства Flutter.</green>'
+        return '<green>Эмулятор ОС Аврора был успешно добавлен в custom-device Flutter.</green>'
 
     @staticmethod
     def devices_add_to_config_devices(host: str):

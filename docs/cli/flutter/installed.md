@@ -1,5 +1,9 @@
 Эта команда выводит уже установленные версии Flutter SDK с поддержкой платформы ОС Аврора на ПК.
 
+<video width="100%" controls>
+  <source src="/videos/flutter_installed.mp4" type="video/mp4">
+</video>
+
 #### Options
 
 ```shell

@@ -163,6 +163,7 @@ article.md-content__inner {
     right: 0;
     height: 70px;
     width: 10px;
+    z-index: 99;
 }
 
 .md-content picture::before {
@@ -173,6 +174,12 @@ article.md-content__inner {
     right: 0;
     height: 10px;
     width: 70px;
+    z-index: 99;
+}
+
+.md-content video {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 .highlight span.filename {
