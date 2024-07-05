@@ -205,7 +205,7 @@ def ssh_rpm_install(
         else:
             execute = f'pkcon -y install-local {file_upload}'
     else:
-        prompt = "{'ShowPrompt': <false>}"
+        prompt = "{}"
         execute = (f'gdbus call --system '
                    f'--dest ru.omp.APM '
                    f'--object-path /ru/omp/APM '

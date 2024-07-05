@@ -39,7 +39,7 @@ class TextInfoRu(Enum):
         return '<blue>Прогресс загрузки файла в процентах.</blue>'
 
     @staticmethod
-    def ssh_install_rpm():
+    def ssh_start_install_rpm():
         return '<blue>Начинаем установку пакета RPM...</blue>'
 
     @staticmethod

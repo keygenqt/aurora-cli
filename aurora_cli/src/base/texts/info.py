@@ -73,7 +73,7 @@ class TextInfo(Enum):
 
     @staticmethod
     @localization
-    def ssh_install_rpm():
+    def ssh_start_install_rpm():
         return '<blue>Starting install RPM package...</blue>'
 
     @staticmethod

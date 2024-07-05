@@ -207,7 +207,7 @@ def ssh_install_common(
         else:
             ab.update(percent)
         if percent == 100:
-            echo_stdout(OutResult(TextInfo.ssh_install_rpm()))
+            echo_stdout(OutResult(TextInfo.ssh_start_install_rpm()))
 
     echo_stdout(OutResult(TextInfo.shh_upload_start()))
 
