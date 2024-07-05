@@ -49,13 +49,19 @@ def sdk_install_common(
         is_bar: bool = True
 ):
     tests_exit()
+
     if SdkModel.get_versions_sdk():
         echo_stdout(OutResultError(TextError.sdk_already_installed_error()))
         app_exit()
 
     version_url = get_url_version_sdk(version)
-    version_full = get_version_latest_by_url(version_url)
-    download_url = get_download_sdk_url_by_version(version_url, version_full)
+    version_full, version_url_latest = get_version_latest_by_url(version, version_url)
+
+    if not version_url_latest:
+        echo_stdout(OutResultError(TextError.repo_search_error()))
+        app_exit()
+
+    download_url = get_download_sdk_url_by_version(version_url_latest)
     urls = [item for item in download_url if (offline and 'offline' in item) or (not offline and 'online' in item)]
 
     urls, files = check_downloads(urls)

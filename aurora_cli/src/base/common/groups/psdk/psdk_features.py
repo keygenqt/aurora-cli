@@ -68,10 +68,15 @@ def psdk_install_common(
     tests_exit()
     # url major version
     version_url = get_url_version_psdk(version)
-    # get full latest version
-    version_full = get_version_latest_by_url(version_url)
+    # get full latest version and url
+    version_full, version_url_latest = get_version_latest_by_url(version, version_url)
+
+    if not version_url_latest:
+        echo_stdout(OutResultError(TextError.repo_search_error()))
+        app_exit()
+
     # get url path to files
-    urls = get_download_psdk_url_by_version(version_url, version_full)
+    urls = get_download_psdk_url_by_version(version_url_latest)
 
     # check already exists
     versions = PsdkModel.get_versions_psdk()

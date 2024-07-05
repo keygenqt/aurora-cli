@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
 import re
 from pathlib import Path
 from typing import Any
@@ -66,48 +65,72 @@ def get_tool_sdk_from_file_with_version(file_version: Path) -> Any:
 
 
 # PSDK / SDK
-def get_version_latest_by_url(url: str) -> []:
-    major = ''
+def get_version_latest_by_url_custom_5_1(url: str) -> []:
+    root_url = '/'.join(url.split('/')[:-2])
     versions = []
+    response = request_get(root_url)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+        for item in soup.findAll('a'):
+            text = item.text.strip('/')
+            if re.search(r'^\d+\.\d+\.\d+', text):
+                if 'PlatformSDK' in url:
+                    versions.append(f'{root_url}/{text}/PlatformSDK/')
+                else:
+                    versions.append(f'{root_url}/{text}/AuroraSDK-base/')
+    return versions
+
+
+def get_version_latest_by_url(major: str, url: str) -> Any:
+    urls = []
+
+    if '5.1.0' in url:
+        urls = get_version_latest_by_url_custom_5_1(url)
+
     response = request_get(url)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
         for item in soup.findAll('a'):
             text = item.text.strip('/')
-            if re.search(r'^\d.\d.\d', text):
-                version = int(text.split('.')[-1])
-                major = text.replace(str(version), '')
-                versions.append(version)
-    if versions:
-        return f'{major}{sorted(versions)[-1]}'
-    return versions
+            if re.search(r'^\d+\.\d+\.\d+', text):
+                urls.append(f'{url}{text}/')
+
+    minor = []
+
+    for value in urls:
+        matches = re.findall(r'\d+\.\d+\.\d+\.\d+', value)
+        if matches:
+            minor.append(int(matches[0].split('.')[-1]))
+
+    if minor:
+        minor = sorted(minor)[-1]
+        for value in urls:
+            version = f'{major}.{minor}'
+            if version in value:
+                return version, value
+
+    return None, None
 
 
-def get_download_sdk_url_by_version(
-        url: str,
-        version: str
-) -> []:
+def get_download_sdk_url_by_version(url: str) -> []:
     urls = []
-    response = request_get(f'{url}{version}')
+    response = request_get(url)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
         for item in soup.findAll('a'):
             text = item.text.strip('/')
             if re.search(r'.run$', text) and 'testing' not in text:
-                urls.append(f'{url}{version}/{text}')
+                urls.append(f'{url}{text}')
     return urls
 
 
-def get_download_psdk_url_by_version(
-        url: str,
-        version: str
-) -> []:
+def get_download_psdk_url_by_version(url: str) -> []:
     urls = []
-    response = request_get(f'{url}{version}')
+    response = request_get(url)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
         for item in soup.findAll('a'):
             text = item.text.strip('/')
             if re.search(r'.tar.(bz2|7z)$', text) and 'pu-' not in text:
-                urls.append(f'{url}{version}/{text}')
+                urls.append(f'{url}{text}')
     return urls

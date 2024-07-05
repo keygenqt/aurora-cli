@@ -341,3 +341,7 @@ class TextErrorRu(Enum):
     @staticmethod
     def run_emulator_arch_error():
         return '<red>Архитектура для установки приложения на эмулятор не подходит.</red>'
+
+    @staticmethod
+    def repo_search_error():
+        return '<red>Не удалось найти версию для установки в репозитории.</red>'

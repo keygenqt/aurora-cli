@@ -450,3 +450,8 @@ class TextError(Enum):
     @localization
     def run_emulator_arch_error():
         return '<red>The architecture for installing the application on the emulator is not suitable.</red>'
+
+    @staticmethod
+    @localization
+    def repo_search_error():
+        return '<red>Could not find a version to install in the repository.</red>'
