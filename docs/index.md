@@ -1,6 +1,6 @@
 ---
 template: index.html
-title: Flutter SDK для ОС Аврора
+title: Makes life easier for developers on Aurora OS.
 hide:
     - navigation
 ---
