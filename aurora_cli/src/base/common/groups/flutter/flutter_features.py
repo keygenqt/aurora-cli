@@ -110,7 +110,7 @@ def flutter_add_custom_devices_common(model: FlutterModel):
 
         if 'custom-devices' in config.keys():
             for device in config['custom-devices']:
-                if 'aurora-' not in device['id']:
+                if 'custom-aurora-' not in device['id']:
                     devices.append(device)
 
         config['custom-devices'] = []
@@ -118,7 +118,7 @@ def flutter_add_custom_devices_common(model: FlutterModel):
         for emulator in config_emulators:
             platform_name, platform_arch = emulator.get_emulator_info()
             config['custom-devices'].append(gen_custom_device(
-                key='Aurora Emulator',
+                key='Aurora Custom Emulator',
                 ip=emulator.get_host(),
                 port=emulator.get_port(),
                 ssh_key=emulator.get_ssh_key(),
@@ -135,7 +135,7 @@ def flutter_add_custom_devices_common(model: FlutterModel):
             else:
                 platform_name, platform_arch = device.get_device_info()
                 config['custom-devices'].append(gen_custom_device(
-                    key=f'Aurora Device ({device.get_host()})',
+                    key=f'Aurora Custom Device ({device.get_host()})',
                     ip=device.get_host(),
                     port=device.get_port(),
                     ssh_key=device.get_ssh_key(),

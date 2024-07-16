@@ -57,8 +57,8 @@ def update_launch_debug_dart(
         project: Path
 ):
     project_path = project
-    if project_path.name == 'example':
-        project_path = project.parent
+    if (project_path / 'example').is_dir():
+        project_path = project / 'example'
 
     path_folder = project_path / '.vscode'
     path_launch = path_folder / 'launch.json'
@@ -102,8 +102,8 @@ def update_launch_debug_gdb(
         project: Path,
 ):
     project_path = project
-    if project_path.name == 'example':
-        project_path = project.parent
+    if (project_path / 'example').is_dir():
+        project_path = project / 'example'
 
     path_folder = project_path / '.vscode'
     path_launch = path_folder / 'launch.json'

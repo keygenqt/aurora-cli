@@ -25,7 +25,7 @@ def gen_custom_device(
         platform_arch: str
 ) -> {}:
     return {
-        'id': f'aurora-{ip}',
+        'id': f'custom-aurora-{ip}',
         'label': key,
         'sdkNameAndVersion': platform_name,
         'platform': platform_arch,
