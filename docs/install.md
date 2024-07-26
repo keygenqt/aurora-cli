@@ -12,7 +12,7 @@
 sudo apt update
 sudo apt install python3-pip
 
-python3 -m pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple aurora-cli
+python3 -m pip install aurora-cli
 ```
 
 #### Ubuntu 20.04
@@ -22,7 +22,7 @@ sudo apt update
 sudo apt install python3-pip
 sudo apt install libpangocairo-1.0-0
 
-python3 -m pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple aurora-cli
+python3 -m pip install aurora-cli
 ```
 
 #### ALT Linux 10
@@ -39,7 +39,7 @@ exit
 sudo apt-get install pip
 sudo apt-get install python3-modules-sqlite3
 
-python3 -m pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple aurora-cli
+python3 -m pip install aurora-cli
 ```
 
 #### Dependencies
