@@ -1,7 +1,7 @@
 Эта команда позволяет удалить Flutter SDK.
 
 <video width="100%" controls>
-  <source src="/videos/flutter_remove.mp4" type="video/mp4">
+  <source src="../../../videos/flutter_remove.mp4" type="video/mp4">
 </video>
 
 #### Options
