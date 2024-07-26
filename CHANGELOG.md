@@ -1,4 +1,4 @@
-## Updated: 07/26/2024 20:04:44 PM
+## Updated: 07/26/2024 20:12:17 PM
 
 ## Info
 
@@ -27,6 +27,25 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 3.0.1 (26/07/2024)
+
+#### Change
+
+- Update configuration file. (Vitaliy Zarubin)
+- Update verbose. (Vitaliy Zarubin)
+- Update documentation. (Vitaliy Zarubin)
+- Refactoring interface application. (Vitaliy Zarubin)
+- Design. (Vitaliy Zarubin)
+
+#### Feature
+
+- Add hints fot helps. (Vitaliy Zarubin)
+- Add settings application. (Vitaliy Zarubin)
+- Add russian localization. (Vitaliy Zarubin)
+- Add psdk build. (Vitaliy Zarubin)
+- Add flutter build. (Vitaliy Zarubin)
+- Add API. (Vitaliy Zarubin)
 
 ### Version: 2.7.0 (17/05/2024)
 
