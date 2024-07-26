@@ -311,6 +311,10 @@ class TextErrorRu(Enum):
         return '<red>Установка через</red> --apm <red>не поддерживаем debug по GDB.</red>'
 
     @staticmethod
+    def run_without_install_error():
+        return '<red>Не указан флаг установки</red> --install (-i)'
+
+    @staticmethod
     def flutter_read_json_error():
         return '<red>Не удалось получить данные пакетов.</red>'
 

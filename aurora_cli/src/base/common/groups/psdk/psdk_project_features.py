@@ -39,7 +39,6 @@ from aurora_cli.src.base.common.groups.psdk.psdk_package_features import psdk_pa
 from aurora_cli.src.base.models.device_model import DeviceModel
 from aurora_cli.src.base.models.emulator_model import EmulatorModel
 from aurora_cli.src.base.models.psdk_model import PsdkModel
-from aurora_cli.src.base.models.sign_model import SignModel
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
@@ -174,14 +173,14 @@ def psdk_project_build_common(
             device_package_run_common(
                 model=DeviceModel.get_model_by_host(model_device.host),
                 package=package,
-                mode_debug=None,
+                run_mode='sandbox',
                 path_project=str(project)
             )
         else:
             emulator_package_run_common(
                 model=EmulatorModel.get_model_user(),
                 package=package,
-                mode_debug=None,
+                run_mode='sandbox',
                 path_project=str(project)
             )
 

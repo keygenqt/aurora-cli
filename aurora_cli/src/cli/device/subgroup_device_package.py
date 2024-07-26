@@ -46,7 +46,7 @@ def subgroup_device_package():
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_run(
         package: str,
-        mode: Any,
+        mode: str,
         select: bool,
         index: int,
         verbose: bool
@@ -54,7 +54,7 @@ def package_run(
     if mode:
         echo_stdout(TextInfo.run_mode_debug_info())
     model = cli_device_tool_select_model(select, index)
-    device_package_run_common(model, package, mode, str(Path.cwd()))
+    device_package_run_common(model, package, mode if mode else 'sandbox', str(Path.cwd()))
     echo_verbose(verbose)
 
 

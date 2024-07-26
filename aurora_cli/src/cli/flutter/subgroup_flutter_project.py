@@ -91,6 +91,10 @@ def project_build(
         echo_stdout(OutResultError(TextError.debug_apm_gdb_error()))
         app_exit(1)
 
+    if run and not install:
+        echo_stdout(OutResultError(TextError.run_without_install_error()))
+        app_exit(1)
+
     if not debug and (run == 'dart' or run == 'gdb'):
         echo_stdout(OutResultError(TextError.debug_mode_error()))
         app_exit(1)

@@ -57,7 +57,6 @@ from aurora_cli.src.base.models.device_model import DeviceModel
 from aurora_cli.src.base.models.emulator_model import EmulatorModel
 from aurora_cli.src.base.models.flutter_model import FlutterModel
 from aurora_cli.src.base.models.psdk_model import PsdkModel
-from aurora_cli.src.base.models.sign_model import SignModel
 from aurora_cli.src.base.out.flutter_report_plugins import gen_flutter_report_plugins
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
@@ -112,7 +111,7 @@ def flutter_project_build_common(
         clean: bool,
         pub_get: bool,
         build_runner: bool,
-        run_mode: Any,  # dart/gdb/sandbox
+        run_mode: Any,  # dart/gdb/sandbox/None
         project: Path,
         is_apm: bool,
         is_install: bool,

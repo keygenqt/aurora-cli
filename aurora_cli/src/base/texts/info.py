@@ -366,12 +366,22 @@ class TextInfo(Enum):
     @staticmethod
     @localization
     @hint(Hint.workdir)
-    def search_installed_aurora_psdk(path: str):
+    def search_installed_aurora_psdk_hint(path: str):
         return f'<blue>Directory search</blue> {path} <blue>Aurora Platform SDK...</blue>'
 
     @staticmethod
     @localization
     @hint(Hint.workdir)
+    def search_installed_aurora_sdk_hint(path: str):
+        return f'<blue>Directory search</blue> {path} <blue>Aurora SDK...</blue>'
+
+    @staticmethod
+    @localization
+    def search_installed_aurora_psdk(path: str):
+        return f'<blue>Directory search</blue> {path} <blue>Aurora Platform SDK...</blue>'
+
+    @staticmethod
+    @localization
     def search_installed_aurora_sdk(path: str):
         return f'<blue>Directory search</blue> {path} <blue>Aurora SDK...</blue>'
 

@@ -44,13 +44,13 @@ def subgroup_emulator_package():
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_run(
         package: str,
-        mode: Any,
+        mode: str,
         verbose: bool
 ):
     if mode:
         echo_stdout(TextInfo.run_mode_debug_info())
     model = cli_emulator_tool_select_model()
-    emulator_package_run_common(model, package, mode, str(Path.cwd()))
+    emulator_package_run_common(model, package, mode if mode else 'sandbox', str(Path.cwd()))
     echo_verbose(verbose)
 
 

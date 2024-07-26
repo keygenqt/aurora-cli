@@ -47,9 +47,10 @@ def search_route_device(route: str) -> bool:
         )
     elif root == '/device/package/run':
         path_project = get_arg_str_optional(route, 'project')
+        run_mode = get_arg_str_optional(route, 'mode')
         device_package_run_common(
             package=get_arg_str(route, 'package'),
-            mode_debug=get_arg_str_optional(route, 'mode'),
+            run_mode=run_mode if run_mode else 'sandbox',
             path_project=path_project if path_project else str(Path.cwd()),
             model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
         )

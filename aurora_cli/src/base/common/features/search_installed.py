@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+from pathlib import Path
 
 from aurora_cli.src.base.common.features.load_by_version import (
     get_version_psdk_from_file,
@@ -58,7 +59,12 @@ def search_installed_flutter() -> OutResult:
 @cache_func()
 def search_installed_psdk() -> OutResult:
     workdir = WorkdirModel.get_workdir()
-    echo_stdout(OutResultInfo(TextInfo.search_installed_aurora_psdk(str(workdir))))
+
+    if workdir == Path.home():
+        echo_stdout(OutResultInfo(TextInfo.search_installed_aurora_psdk_hint(str(workdir))))
+    else:
+        echo_stdout(OutResultInfo(TextInfo.search_installed_aurora_psdk(str(workdir))))
+
     files = search_files(workdir, 'sdks/aurora_psdk/etc/os-release')
     versions = []
     tools = []
@@ -81,7 +87,12 @@ def search_installed_psdk() -> OutResult:
 @cache_func()
 def search_installed_sdk() -> OutResult:
     workdir = WorkdirModel.get_workdir()
-    echo_stdout(OutResultInfo(TextInfo.search_installed_aurora_sdk(str(workdir))))
+
+    if workdir == Path.home():
+        echo_stdout(OutResultInfo(TextInfo.search_installed_aurora_sdk_hint(str(workdir))))
+    else:
+        echo_stdout(OutResultInfo(TextInfo.search_installed_aurora_sdk(str(workdir))))
+
     files = search_files(workdir, 'sdk-release')
     versions = []
     tools = []

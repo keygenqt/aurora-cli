@@ -79,6 +79,10 @@ def project_build(
         echo_stdout(OutResultError(TextError.debug_apm_error()))
         app_exit()
 
+    if run and not install:
+        echo_stdout(OutResultError(TextError.run_without_install_error()))
+        app_exit(1)
+
     path = Path(path) if path else Path.cwd()
     model_psdk = cli_psdk_tool_select_model_psdk(select, None)
     target = cli_psdk_tool_select_target_psdk(model_psdk)

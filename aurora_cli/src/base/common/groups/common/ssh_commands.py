@@ -99,12 +99,12 @@ def ssh_upload_common(
 def ssh_run_common(
         model: ModelClient,
         package: str,
-        run_mode: Any,  # dart/gdb
+        run_mode: str,  # dart/gdb/sandbox
         path_project: str
 ):
     tests_exit()
 
-    if run_mode and model.is_password():
+    if run_mode != 'sandbox' and model.is_password():
         echo_stdout(OutResultError(TextError.ssh_run_debug_error()))
         app_exit()
 

@@ -410,6 +410,11 @@ class TextError(Enum):
 
     @staticmethod
     @localization
+    def run_without_install_error():
+        return '<red>Installation flag not specified</red> --install (-i)'
+
+    @staticmethod
+    @localization
     def flutter_read_json_error():
         return '<red>Failed to retrieve package data.</red>'
 

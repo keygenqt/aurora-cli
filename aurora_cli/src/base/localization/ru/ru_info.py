@@ -300,6 +300,14 @@ class TextInfoRu(Enum):
         return f'<blue>Поиск в каталоге</blue> {path} <blue>Flutter SDK...</blue>'
 
     @staticmethod
+    def search_installed_aurora_psdk_hint(path: str):
+        return f'<blue>Поиск в каталоге</blue> {path} <blue>Aurora Platform SDK...</blue>'
+
+    @staticmethod
+    def search_installed_aurora_sdk_hint(path: str):
+        return f'<blue>Поиск в каталоге</blue> {path} <blue>Aurora SDK...</blue>'
+
+    @staticmethod
     def search_installed_aurora_psdk(path: str):
         return f'<blue>Поиск в каталоге</blue> {path} <blue>Aurora Platform SDK...</blue>'
 
