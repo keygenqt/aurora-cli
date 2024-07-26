@@ -1,7 +1,7 @@
 Это команда позволяет установить Flutter SDK с поддержкой платформы ОС Аврора на ПК.
 
 <video width="100%" controls>
-  <source src="/videos/flutter_install.mp4" type="video/mp4">
+  <source src="../../../videos/flutter_install.mp4" type="video/mp4">
 </video>
 
 #### Options
