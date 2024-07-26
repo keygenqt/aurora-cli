@@ -4,7 +4,7 @@ Flutter позволяет добавлять кастомные устройс�
 Эта команда добавляет такие устройства во Flutter на основе своего конфигурационного файла.
 
 <video width="100%" controls>
-  <source src="../videos/flutter_custom_devices.mp4" type="video/mp4">
+  <source src="../../../videos/flutter_custom_devices.mp4" type="video/mp4">
 </video>
 
 #### Options
