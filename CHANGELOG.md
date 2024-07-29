@@ -1,11 +1,12 @@
-## Updated: 07/26/2024 20:12:17 PM
+## Updated: 07/29/2024 23:18:23 PM
 
 ## Info
 
-- Last tag: 3.0.1
-- Released: 21
+- Last tag: 3.0.2
+- Released: 22
 
 ## Versions
+- Version: 3.0.2 (29/07/2024)
 - Version: 3.0.1 (26/07/2024)
 - Version: 2.7.0 (17/05/2024)
 - Version: 2.6.0 (02/05/2024)
@@ -27,6 +28,12 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 3.0.2 (29/07/2024)
+
+#### Bug
+
+- Fix get links. (Vitaliy Zarubin)
 
 ### Version: 3.0.1 (26/07/2024)
 
