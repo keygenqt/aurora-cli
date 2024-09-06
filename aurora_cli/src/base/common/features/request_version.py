@@ -65,7 +65,7 @@ def request_versions_psdk() -> OutResult:
 def request_versions_flutter() -> OutResult:
     try:
         response = request_get(URL_FLUTTER_SDK_VERSIONS)
-        versions = [obj['name'] for obj in response.json()]
+        versions = [obj['name'] for obj in response.json() if not 'debug' in obj['message'].lower()]
         if not versions:
             return OutResultError(TextError.request_empty_error())
         return OutResult(TextInfo.available_versions_flutter(versions), value=versions)
