@@ -1,11 +1,12 @@
-## Updated: 07/29/2024 23:18:23 PM
+## Updated: 09/26/2024 17:41:45 PM
 
 ## Info
 
-- Last tag: 3.0.2
-- Released: 22
+- Last tag: 3.0.4
+- Released: 23
 
 ## Versions
+- Version: 3.0.4 (26/09/2024)
 - Version: 3.0.2 (29/07/2024)
 - Version: 3.0.1 (26/07/2024)
 - Version: 2.7.0 (17/05/2024)
@@ -28,6 +29,12 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 3.0.4 (26/09/2024)
+
+#### Change
+
+- Fix tag flutter sdk. (Vitaliy Zarubin)
 
 ### Version: 3.0.2 (29/07/2024)
 
@@ -65,7 +72,7 @@
 
 #### Feature
 
-- Add gdb debug for emulator (Dmitry Seloustev)
+- Add gdb debug for emulator. (Dmitry Seloustev)
 
 ### Version: 2.5.1 (28/04/2024)
 
@@ -112,7 +119,7 @@
 #### Bug
 
 - Check connection error. (Vitaliy Zarubin)
-- Fix check chroot (Vitaliy Zarubin)
+- Fix check chroot. (Vitaliy Zarubin)
 
 ### Version: 2.4.4 (07/03/2024)
 
@@ -128,7 +135,7 @@
 
 #### Feature
 
-- Add flutter plugins info type (Vitaliy Zarubin)
+- Add flutter plugins info type. (Vitaliy Zarubin)
 
 ### Version: 2.4.2 (24/02/2024)
 
