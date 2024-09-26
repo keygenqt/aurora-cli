@@ -15,7 +15,7 @@
 #### Example
 
 ```shell
-aurora-cli settings localization --language ru
+aurora-cli settings select --enable false
 ```
 
 !!! info
