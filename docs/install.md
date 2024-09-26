@@ -42,6 +42,12 @@ sudo apt-get install python3-modules-sqlite3
 python3 -m pip install aurora-cli
 ```
 
+#### Update
+
+```shell
+python3 -m pip install aurora-cli --upgrade
+```
+
 #### Dependencies
 
 Для работы всех компонентов приложения требуются следующие зависимости:
