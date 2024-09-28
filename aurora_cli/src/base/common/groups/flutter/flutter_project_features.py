@@ -20,8 +20,6 @@ from pathlib import Path
 from time import sleep
 from typing import Any
 
-from weasyprint import HTML
-
 from aurora_cli.src.base.common.features.flutter_features import (
     flutter_project_clear,
     flutter_project_get_pub,
@@ -254,6 +252,8 @@ def flutter_project_report_common(
         project: Path,
         is_bar: bool = True
 ):
+    from weasyprint import HTML
+
     tests_exit()
 
     flutter_tool_check_is_project(project)

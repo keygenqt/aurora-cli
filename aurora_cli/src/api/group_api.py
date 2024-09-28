@@ -23,6 +23,7 @@ from aurora_cli.src.api.routes.routes_emulator import search_route_emulator
 from aurora_cli.src.api.routes.routes_flutter import search_route_flutter
 from aurora_cli.src.api.routes.routes_psdk import search_route_psdk
 from aurora_cli.src.api.routes.routes_sdk import search_route_sdk
+from aurora_cli.src.api.routes.routes_settings import search_route_settings
 from aurora_cli.src.api.routes.routes_vscode import search_route_vscode
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.texts.app_argument import TextArgument
@@ -284,6 +285,10 @@ help_routes = f'''
 {TextCommand.command_vscode_settings_update()}
 /vscode/settings/update
 
+-- /settings ---------------------------------------------------
+
+{TextCommand.command_settings_list()}
+/settings/list
 '''
 
 
@@ -301,6 +306,7 @@ def group_api(route: str):
             search_route_psdk,
             search_route_sdk,
             search_route_vscode,
+            search_route_settings,
         ]:
             if func(route):
                 echo_verbose(get_arg_bool(route, 'verbose'))

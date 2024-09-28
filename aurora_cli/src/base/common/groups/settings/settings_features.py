@@ -21,7 +21,7 @@ from aurora_cli.src.base.utils.cache_settings import (
     cache_settings_clear,
     cache_settings_get
 )
-from aurora_cli.src.base.utils.output import echo_stdout, OutResultInfo, OutResult
+from aurora_cli.src.base.utils.output import echo_stdout, OutResult
 
 
 def settings_list_common():
@@ -33,7 +33,7 @@ def settings_list_common():
         else:
             settings_list[enum.value] = str(value).lower()
 
-    echo_stdout(OutResultInfo(TextInfo.settings_list(settings_list)))
+    return OutResult(TextInfo.settings_list(settings_list), value=settings_list)
 
 
 def settings_clear_common():
