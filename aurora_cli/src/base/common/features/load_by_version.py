@@ -17,8 +17,6 @@ import re
 from pathlib import Path
 from typing import Any
 
-from bs4 import BeautifulSoup
-
 from aurora_cli.src.base.utils.request import request_get
 
 
@@ -66,6 +64,8 @@ def get_tool_sdk_from_file_with_version(file_version: Path) -> Any:
 
 # PSDK / SDK
 def get_version_latest_by_url_custom_5_1(url: str) -> []:
+    from bs4 import BeautifulSoup
+
     root_url = '/'.join(url.split('/')[:-2])
     versions = []
     response = request_get(root_url)
@@ -82,6 +82,8 @@ def get_version_latest_by_url_custom_5_1(url: str) -> []:
 
 
 def get_version_latest_by_url(major: str, url: str) -> Any:
+    from bs4 import BeautifulSoup
+
     urls = []
 
     if '5.1' in url:
@@ -113,6 +115,8 @@ def get_version_latest_by_url(major: str, url: str) -> Any:
 
 
 def get_download_sdk_url_by_version(url: str) -> []:
+    from bs4 import BeautifulSoup
+
     urls = []
     response = request_get(url)
     if response.status_code == 200:
@@ -125,6 +129,8 @@ def get_download_sdk_url_by_version(url: str) -> []:
 
 
 def get_download_psdk_url_by_version(url: str) -> []:
+    from bs4 import BeautifulSoup
+
     urls = []
     response = request_get(url)
     if response.status_code == 200:

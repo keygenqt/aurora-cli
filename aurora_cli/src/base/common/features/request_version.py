@@ -16,8 +16,6 @@ limitations under the License.
 
 import re
 
-from bs4 import BeautifulSoup
-
 from aurora_cli.src.base.constants.url import (
     URL_AURORA_REPO_VERSIONS,
     URL_FLUTTER_SDK_VERSIONS,
@@ -30,6 +28,8 @@ from aurora_cli.src.base.utils.request import request_get
 
 
 def _get_versions_from_repo(url: str) -> []:
+    from bs4 import BeautifulSoup
+
     versions = []
     response = request_get(url)
     if response.status_code == 200:

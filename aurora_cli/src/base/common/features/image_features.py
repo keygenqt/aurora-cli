@@ -17,8 +17,6 @@ limitations under the License.
 from pathlib import Path
 from typing import Any
 
-from PIL import Image
-
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.output import OutResult, OutResultError
@@ -29,6 +27,8 @@ def image_crop_for_project(
         path_folder: Path,
         app_qt_id: Any = None
 ) -> OutResult:
+    from PIL import Image
+
     sizes = [
         [172, 172],
         [128, 128],
