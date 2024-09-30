@@ -304,3 +304,8 @@ class TextCommand(Enum):
     @localization
     def command_settings_hint():
         return 'Manage application hints.'
+
+    @staticmethod
+    @localization
+    def command_test_answer():
+        return 'Test answers API.'

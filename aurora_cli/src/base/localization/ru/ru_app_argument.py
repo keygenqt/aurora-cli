@@ -161,3 +161,15 @@ class TextArgumentRu(Enum):
     @staticmethod
     def argument_enable_hint():
         return 'Включить/Выключить подсказки в приложении.'
+
+    @staticmethod
+    def argument_test_answer_time():
+        return 'Время задержки ответа.'
+
+    @staticmethod
+    def argument_test_answer_code():
+        return 'Код ответа (100, 200, 500).'
+
+    @staticmethod
+    def argument_test_answer_iterate():
+        return 'Количество итераций ответов.'

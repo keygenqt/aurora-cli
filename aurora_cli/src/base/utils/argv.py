@@ -33,7 +33,7 @@ def argv_is_emulator_recording() -> bool:
 
 def argv_is_verbose() -> bool:
     settings_val = cache_settings_get(CacheSettingsKey.verbose)
-    if settings_val:
+    if settings_val and not argv_is_api():
         return settings_val
 
     if '-v' in sys.argv or '--verbose' in sys.argv:

@@ -199,3 +199,18 @@ class TextArgument(Enum):
     @localization
     def argument_enable_hint():
         return 'Enable/Disable application hints.'
+
+    @staticmethod
+    @localization
+    def argument_test_answer_time():
+        return 'Response delay time.'
+
+    @staticmethod
+    @localization
+    def argument_test_answer_code():
+        return 'Response code (100, 200, 500).'
+
+    @staticmethod
+    @localization
+    def argument_test_answer_iterate():
+        return 'Number of response iterations.'

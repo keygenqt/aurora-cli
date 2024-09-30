@@ -33,7 +33,7 @@ def settings_list_common():
         else:
             settings_list[enum.value] = str(value).lower()
 
-    return OutResult(TextInfo.settings_list(settings_list), value=settings_list)
+    echo_stdout(OutResult(TextInfo.settings_list(settings_list), value=settings_list))
 
 
 def settings_clear_common():

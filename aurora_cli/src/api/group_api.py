@@ -290,6 +290,33 @@ help_routes = f'''
 
 {TextCommand.command_settings_list()}
 /settings/list
+
+{TextCommand.command_settings_clear()}
+/settings/clear
+
+{TextCommand.command_settings_localization()}
+/settings/localization
+  • language [ru, en] - {TextArgument.argument_language()}
+
+{TextCommand.command_settings_verbose()}
+/settings/verbose
+  • enable [false, true] - {TextArgument.argument_enable_verbose()}
+
+{TextCommand.command_settings_select()}
+/settings/select
+  • enable [false, true] - {TextArgument.argument_enable_save_select()}
+  
+{TextCommand.command_settings_hint()}
+/settings/hint
+  • enable [false, true] - {TextArgument.argument_enable_hint()}
+  
+-- /tests ---------------------------------------------------
+
+{TextCommand.command_test_answer()}
+/tests/answer
+  • time [default = 0] - {TextArgument.argument_test_answer_time()}
+  • code [default = 200] - {TextArgument.argument_test_answer_code()}
+  • iterate [default = 1] - {TextArgument.argument_test_answer_iterate()}
 '''
 
 

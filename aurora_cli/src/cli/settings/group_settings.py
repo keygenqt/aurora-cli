@@ -28,7 +28,7 @@ from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
-from aurora_cli.src.base.utils.output import echo_verbose, echo_stdout
+from aurora_cli.src.base.utils.output import echo_verbose
 
 
 @click.group(name='settings', help=TextGroup.group_settings())
@@ -39,7 +39,7 @@ def group_settings():
 @group_settings.command(name='list', help=TextCommand.command_settings_list())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def settings_list(verbose: bool):
-    echo_stdout(settings_list_common())
+    settings_list_common()
     echo_verbose(verbose)
 
 

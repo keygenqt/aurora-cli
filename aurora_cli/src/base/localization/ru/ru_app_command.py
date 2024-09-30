@@ -245,3 +245,7 @@ class TextCommandRu(Enum):
     @staticmethod
     def command_settings_hint():
         return 'Управление подсказками приложения.'
+
+    @staticmethod
+    def command_test_answer():
+        return 'Тестовые ответы API.'
