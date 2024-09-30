@@ -9,6 +9,7 @@
 /build/
 /builds/
 .pypirc
+__pycache__
 
 # MkDocs
 docs-static
