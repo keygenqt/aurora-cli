@@ -249,3 +249,7 @@ class TextCommandRu(Enum):
     @staticmethod
     def command_test_answer():
         return 'Тестовые ответы API.'
+
+    @staticmethod
+    def command_configuration_path():
+        return 'Путь к конфигурации.'

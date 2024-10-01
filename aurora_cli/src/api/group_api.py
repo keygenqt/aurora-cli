@@ -18,6 +18,7 @@ import sys
 
 import click
 
+from aurora_cli.src.api.routes.routes_configuration import search_route_configuration
 from aurora_cli.src.api.routes.routes_device import search_route_device
 from aurora_cli.src.api.routes.routes_emulator import search_route_emulator
 from aurora_cli.src.api.routes.routes_flutter import search_route_flutter
@@ -286,7 +287,7 @@ help_routes = f'''
 {TextCommand.command_vscode_settings_update()}
 /vscode/settings/update
 
--- /settings ---------------------------------------------------
+-- /settings -------------------------------------------------
 
 {TextCommand.command_settings_list()}
 /settings/list
@@ -310,7 +311,12 @@ help_routes = f'''
 /settings/hint
   • enable [false, true] - {TextArgument.argument_enable_hint()}
   
--- /tests ---------------------------------------------------
+-- /configuration --------------------------------------------
+
+{TextCommand.command_configuration_path()}
+/configuration/path
+  
+-- /tests ----------------------------------------------------
 
 {TextCommand.command_test_answer()}
 /tests/answer
@@ -335,6 +341,7 @@ def group_api(route: str):
             search_route_sdk,
             search_route_vscode,
             search_route_settings,
+            search_route_configuration,
             search_route_tests,
         ]:
             if func(route):

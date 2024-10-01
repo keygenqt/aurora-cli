@@ -309,3 +309,8 @@ class TextCommand(Enum):
     @localization
     def command_test_answer():
         return 'Test answers API.'
+
+    @staticmethod
+    @localization
+    def command_configuration_path():
+        return 'Path to configuration.'
