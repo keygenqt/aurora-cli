@@ -18,10 +18,10 @@ import sys
 
 import click
 
-from aurora_cli.src.api.routes.routes_configuration import search_route_configuration
 from aurora_cli.src.api.routes.routes_device import search_route_device
 from aurora_cli.src.api.routes.routes_emulator import search_route_emulator
 from aurora_cli.src.api.routes.routes_flutter import search_route_flutter
+from aurora_cli.src.api.routes.routes_info import search_route_info
 from aurora_cli.src.api.routes.routes_psdk import search_route_psdk
 from aurora_cli.src.api.routes.routes_sdk import search_route_sdk
 from aurora_cli.src.api.routes.routes_settings import search_route_settings
@@ -311,10 +311,16 @@ help_routes = f'''
 /settings/hint
   • enable [false, true] - {TextArgument.argument_enable_hint()}
   
--- /configuration --------------------------------------------
+-- /info -----------------------------------------------------
 
-{TextCommand.command_configuration_path()}
-/configuration/path
+{TextCommand.command_info_version()}
+/info/version
+
+{TextCommand.command_info_path_configuration()}
+/info/path/configuration
+
+{TextCommand.command_info_path_folder()}
+/info/path/folder
   
 -- /tests ----------------------------------------------------
 
@@ -341,7 +347,7 @@ def group_api(route: str):
             search_route_sdk,
             search_route_vscode,
             search_route_settings,
-            search_route_configuration,
+            search_route_info,
             search_route_tests,
         ]:
             if func(route):

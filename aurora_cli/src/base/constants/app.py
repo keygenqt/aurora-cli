@@ -18,14 +18,16 @@ APP_NAME = 'aurora-cli'
 
 APP_VERSION = '3.0.4'
 
-PATH_TEMP = '~/.aurora-cli/temp'
+PATH_DIR = '~/.aurora-cli'
 
-PATH_CLANG_FORMAT_CONF_FLUTTER = '~/.aurora-cli/.clang-format-flutter'
+PATH_TEMP = f'{PATH_DIR}/temp'
 
-PATH_CLANG_FORMAT_CONF = '~/.aurora-cli/.clang-format'
+PATH_CLANG_FORMAT_CONF_FLUTTER = f'{PATH_DIR}/.clang-format-flutter'
 
-PATH_REGULAR_KEY = '~/.aurora-cli/regular_key.pem'
+PATH_CLANG_FORMAT_CONF = f'{PATH_DIR}/.clang-format'
 
-PATH_REGULAR_CERT = '~/.aurora-cli/regular_cert.pem'
+PATH_REGULAR_KEY = f'{PATH_DIR}/regular_key.pem'
+
+PATH_REGULAR_CERT = f'{PATH_DIR}/regular_cert.pem'
 
 TIMEOUT = 600

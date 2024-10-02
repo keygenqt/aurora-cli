@@ -251,5 +251,13 @@ class TextCommandRu(Enum):
         return 'Тестовые ответы API.'
 
     @staticmethod
-    def command_configuration_path():
+    def command_info_version():
+        return 'Получить версию приложения.'
+
+    @staticmethod
+    def command_info_path_configuration():
         return 'Путь к конфигурации.'
+
+    @staticmethod
+    def command_info_path_folder():
+        return 'Путь к папке приложения.'

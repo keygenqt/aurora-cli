@@ -312,5 +312,15 @@ class TextCommand(Enum):
 
     @staticmethod
     @localization
-    def command_configuration_path():
+    def command_info_version():
+        return 'Get the application version.'
+
+    @staticmethod
+    @localization
+    def command_info_path_configuration():
         return 'Path to configuration.'
+
+    @staticmethod
+    @localization
+    def command_info_path_folder():
+        return 'Path to the application folder.'
