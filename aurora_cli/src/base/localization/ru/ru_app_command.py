@@ -23,6 +23,10 @@ class TextCommandRu(Enum):
         return 'Получить список устройств.'
 
     @staticmethod
+    def command_device_info():
+        return 'Получить информацию об устройстве.'
+
+    @staticmethod
     def command_device_command():
         return 'Выполните команду на устройстве.'
 
@@ -65,6 +69,10 @@ class TextCommandRu(Enum):
     @staticmethod
     def command_emulator_recording_stop():
         return 'Остановка записи видео с эмулятора.'
+
+    @staticmethod
+    def command_emulator_info():
+        return 'Получить информацию об эмуляторе.'
 
     @staticmethod
     def command_emulator_command():

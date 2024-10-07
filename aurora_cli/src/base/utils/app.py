@@ -23,7 +23,7 @@ from typing import Callable, Any
 
 import click
 
-from aurora_cli.src.base.utils.argv import argv_is_verbose, argv_is_test, argv_is_help
+from aurora_cli.src.base.utils.argv import argv_is_verbose, argv_is_test, argv_is_help, argv_is_api
 from aurora_cli.src.base.utils.cache_settings import cache_settings_get, CacheSettingsKey
 from aurora_cli.src.base.utils.exceptions import AppExit
 
@@ -92,7 +92,7 @@ def app_language() -> str:
 
 
 def app_exit(code: int = 1):
-    if argv_is_test():
+    if argv_is_test() or argv_is_api():
         exit(code)
     else:
         raise AppExit(code)

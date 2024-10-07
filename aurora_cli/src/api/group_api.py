@@ -43,6 +43,10 @@ help_routes = f'''
 {TextCommand.command_device_list()}
 /device/list
 
+{TextCommand.command_device_info()}
+/device/info
+  • host - {TextArgument.argument_host_device()}
+
 {TextCommand.command_device_command()}
 /device/command
   • host - {TextArgument.argument_host_device()}
@@ -85,6 +89,9 @@ help_routes = f'''
 
 {TextCommand.command_emulator_recording_stop()}
 /emulator/recording/stop
+
+{TextCommand.command_emulator_info()}
+/emulator/info
 
 {TextCommand.command_emulator_command()}
 /emulator/command

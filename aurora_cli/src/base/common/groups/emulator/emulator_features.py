@@ -15,7 +15,7 @@ limitations under the License.
 """
 from pathlib import Path
 
-from aurora_cli.src.base.common.groups.common.ssh_commands import ssh_command_common, ssh_upload_common
+from aurora_cli.src.base.common.groups.common.ssh_commands import ssh_command_common, ssh_upload_common, ssh_info_common
 from aurora_cli.src.base.common.groups.emulator.__tools import emulator_tool_check_is_not_run
 from aurora_cli.src.base.constants.other import VM_MANAGE
 from aurora_cli.src.base.models.emulator_model import EmulatorModel
@@ -28,6 +28,13 @@ from aurora_cli.src.base.utils.dependency import check_dependency, DependencyApp
 from aurora_cli.src.base.utils.output import OutResult, OutResultError, OutResultInfo, echo_stdout
 from aurora_cli.src.base.utils.path import path_gen_file_name
 from aurora_cli.src.base.utils.shell import shell_exec_command
+
+
+def emulator_info_common(
+        model: EmulatorModel,
+):
+    emulator_tool_check_is_not_run(model)
+    ssh_info_common(model, True)
 
 
 def emulator_command_common(

@@ -27,6 +27,11 @@ class TextCommand(Enum):
 
     @staticmethod
     @localization
+    def command_device_info():
+        return 'Get info device.'
+
+    @staticmethod
+    @localization
     def command_device_command():
         return 'Execute the command on the device.'
 
@@ -79,6 +84,11 @@ class TextCommand(Enum):
     @localization
     def command_emulator_recording_stop():
         return 'Stop video recording from the the emulator.'
+
+    @staticmethod
+    @localization
+    def command_emulator_info():
+        return 'Get info emulator.'
 
     @staticmethod
     @localization

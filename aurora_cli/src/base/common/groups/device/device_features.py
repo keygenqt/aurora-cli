@@ -15,12 +15,17 @@ limitations under the License.
 """
 
 from aurora_cli.src.base.common.features.shell_features import shell_ssh_copy_id
-from aurora_cli.src.base.common.groups.common.ssh_commands import ssh_command_common, ssh_upload_common
+from aurora_cli.src.base.common.groups.common.ssh_commands import ssh_command_common, ssh_upload_common, ssh_info_common
 from aurora_cli.src.base.models.device_model import DeviceModel
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.utils.app import app_exit
-from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResultInfo
+from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResultInfo, OutResult
+
+
+def device_info_common(
+        model: DeviceModel,
+): ssh_info_common(model, False)
 
 
 def device_command_common(

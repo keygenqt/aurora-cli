@@ -17,9 +17,14 @@ from typing import Any
 
 from paramiko.client import SSHClient
 
-from aurora_cli.src.base.common.features.search_files import search_file_for_check_is_flutter_project, \
+from aurora_cli.src.base.common.features.search_files import (
+    search_file_for_check_is_flutter_project,
     search_file_for_check_is_aurora_project
-from aurora_cli.src.base.common.features.shell_vscode import update_launch_debug_gdb, update_launch_debug_dart
+)
+from aurora_cli.src.base.common.features.shell_vscode import (
+    update_launch_debug_gdb,
+    update_launch_debug_dart,
+)
 from aurora_cli.src.base.common.features.ssh_features import (
     ssh_command,
     ssh_run,
@@ -48,6 +53,42 @@ def _get_ssh_client(model: ModelClient) -> SSHClient:
         echo_stdout(result)
         app_exit()
     return result.value
+
+
+def ssh_info_common(
+        model: ModelClient,
+        is_emulator
+):
+    client = _get_ssh_client(model)
+
+    if is_emulator:
+        result = ssh_command(
+            client=client,
+            execute="cat /etc/os-release"
+        )
+    else:
+        result = ssh_command(
+            client=client,
+            execute="cat /etc/rpm/platform && echo '\n' && cat /etc/os-release"
+        )
+
+    if result.is_error():
+        echo_stdout(result)
+        return
+
+    info = {}
+
+    if is_emulator:
+        info['ARCH'] = 'x86_64'
+
+    for line in result.value['stdout']:
+        if '=' not in line:
+            info['ARCH'] = 'armv7hl' if 'armv7hl' in line else 'aarch64'
+        else:
+            data = line.split('=')
+            info[data[0]] = data[1].strip('"')
+
+    echo_stdout(OutResult(value=info))
 
 
 def ssh_command_common(

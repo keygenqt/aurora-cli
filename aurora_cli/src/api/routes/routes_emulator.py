@@ -21,7 +21,7 @@ from aurora_cli.src.base.common.groups.emulator.emulator_features import (
     emulator_start_common,
     emulator_screenshot_common,
     emulator_recording_start_common,
-    emulator_recording_stop_common,
+    emulator_recording_stop_common, emulator_info_common,
 )
 from aurora_cli.src.base.common.groups.emulator.emulator_package_features import (
     emulator_package_run_common,
@@ -38,6 +38,10 @@ def search_route_emulator(route: str) -> bool:
         emulator_command_common(
             model=EmulatorModel.get_model_user(),
             execute=get_arg_str(route, 'execute'),
+        )
+    elif root == '/emulator/info':
+        emulator_info_common(
+            model=EmulatorModel.get_model_user(),
         )
     elif root == '/emulator/upload':
         emulator_upload_common(

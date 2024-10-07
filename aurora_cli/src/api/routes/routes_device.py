@@ -17,7 +17,7 @@ from pathlib import Path
 
 from aurora_cli.src.base.common.groups.device.device_features import (
     device_command_common,
-    device_upload_common,
+    device_upload_common, device_info_common,
 )
 from aurora_cli.src.base.common.groups.device.device_package_features import (
     device_package_run_common,
@@ -35,6 +35,10 @@ def search_route_device(route: str) -> bool:
         echo_stdout(OutResult(
             value=[device.to_dict() for device in DeviceModel.get_models_list()]
         ))
+    elif root == '/device/info':
+        device_info_common(
+            model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
+        )
     elif root == '/device/command':
         device_command_common(
             execute=get_arg_str(route, 'execute'),
