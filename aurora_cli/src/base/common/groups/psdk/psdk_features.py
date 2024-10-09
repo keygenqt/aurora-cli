@@ -33,6 +33,7 @@ from aurora_cli.src.base.common.features.shell_features import (
     shell_remove_root_folder,
     shell_psdk_clear,
 )
+from aurora_cli.src.base.common.groups.psdk.psdk_sudoers_features import psdk_is_sudoers
 from aurora_cli.src.base.localization.localization import localization_abort_start, localization_abort_end
 from aurora_cli.src.base.models.psdk_model import PsdkModel
 from aurora_cli.src.base.models.workdir_model import WorkdirModel
@@ -47,6 +48,14 @@ from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutRes
 from aurora_cli.src.base.utils.tests import tests_exit
 from aurora_cli.src.base.utils.text_file import file_remove_line
 from aurora_cli.src.base.utils.url import get_url_version_psdk
+
+
+def psdk_info_common(model: PsdkModel):
+    echo_stdout(OutResult(value={
+        'VERSION': model.version,
+        'TOOL': f'{model.tool}',
+        'SUDOERS': psdk_is_sudoers(model)
+    }))
 
 
 def psdk_available_common():

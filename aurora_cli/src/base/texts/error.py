@@ -460,3 +460,8 @@ class TextError(Enum):
     @localization
     def repo_search_error():
         return '<red>Could not find a version to install in the repository.</red>'
+
+    @staticmethod
+    @localization
+    def get_data_error():
+        return '<red>Failed to retrieve data.</red>'

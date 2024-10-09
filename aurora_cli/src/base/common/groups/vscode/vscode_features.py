@@ -19,10 +19,14 @@ from pathlib import Path
 from typing import Any
 
 from aurora_cli.src.base.common.features.shell_vscode import shell_vscode_list_extensions, \
-    shell_vscode_extension_install
+    shell_vscode_extension_install, shell_vscode_version
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultInfo
 from aurora_cli.src.base.utils.tests import tests_exit
+
+
+def vscode_version_common():
+    return shell_vscode_version()
 
 
 def vscode_extensions_list_common() -> list:

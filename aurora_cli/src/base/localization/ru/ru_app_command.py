@@ -175,6 +175,10 @@ class TextCommandRu(Enum):
         return 'Удалите разрешения sudoers Аврора Platform SDK.'
 
     @staticmethod
+    def command_psdk_info():
+        return 'Получить информацию о Аврора Platform SDK.'
+
+    @staticmethod
     def command_psdk_targets():
         return 'Получить список таргетов Аврора Platform SDK.'
 
@@ -259,13 +263,17 @@ class TextCommandRu(Enum):
         return 'Тестовые ответы API.'
 
     @staticmethod
-    def command_info_version():
-        return 'Получить версию приложения.'
+    def command_app_info():
+        return 'Получить информацию о приложении.'
 
     @staticmethod
-    def command_info_path_configuration():
-        return 'Путь к конфигурации.'
+    def command_app_versions():
+        return 'Получить информацию версиях приложения.'
 
     @staticmethod
-    def command_info_path_folder():
-        return 'Путь к папке приложения.'
+    def command_app_auth_check():
+        return 'Проверить доступ к root пользователю.'
+
+    @staticmethod
+    def command_app_auth_root():
+        return 'Авторизация в sudo.'

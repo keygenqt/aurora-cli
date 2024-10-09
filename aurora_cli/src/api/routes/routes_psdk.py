@@ -22,7 +22,7 @@ from aurora_cli.src.base.common.groups.psdk.psdk_features import (
     psdk_install_common,
     psdk_remove_common,
     psdk_targets_common,
-    psdk_clear_common,
+    psdk_clear_common, psdk_info_common,
 )
 from aurora_cli.src.base.common.groups.psdk.psdk_package_features import (
     psdk_package_search_common,
@@ -52,6 +52,10 @@ def search_route_psdk(route: str) -> bool:
         psdk_available_common()
     elif root == '/psdk/installed':
         psdk_installed_common()
+    elif root == '/psdk/info':
+        psdk_info_common(
+            model=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
+        )
     elif root == '/psdk/targets':
         psdk_targets_common(
             model=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),

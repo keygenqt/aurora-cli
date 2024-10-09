@@ -18,7 +18,7 @@ from aurora_cli.src.base.common.groups.vscode.vscode_features import (
     vscode_extensions_list_common,
     vscode_extensions_flutter_check_common,
     vscode_extensions_cpp_check_common,
-    vscode_extensions_other_check_common, vscode_extensions_install, vscode_settings_common
+    vscode_extensions_other_check_common, vscode_extensions_install, vscode_settings_common, vscode_version_common
 )
 from aurora_cli.src.base.utils.output import echo_stdout, OutResult
 from aurora_cli.src.base.utils.route import get_route_root, get_arg_str
@@ -26,7 +26,9 @@ from aurora_cli.src.base.utils.route import get_route_root, get_arg_str
 
 def search_route_vscode(route: str) -> bool:
     root = get_route_root(route)
-    if root == '/vscode/extensions/list':
+    if root == '/vscode/info':
+        echo_stdout(OutResult(value=vscode_version_common()))
+    elif root == '/vscode/extensions/list':
         echo_stdout(OutResult(value=vscode_extensions_list_common()))
     elif root == '/vscode/extensions/check/flutter':
         echo_stdout(OutResult(value=vscode_extensions_flutter_check_common()))

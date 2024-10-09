@@ -349,3 +349,7 @@ class TextErrorRu(Enum):
     @staticmethod
     def repo_search_error():
         return '<red>Не удалось найти версию для установки в репозитории.</red>'
+
+    @staticmethod
+    def get_data_error():
+        return '<red>Не удалось получить данные.</red>'

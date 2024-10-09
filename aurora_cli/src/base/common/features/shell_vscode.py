@@ -15,6 +15,7 @@ limitations under the License.
 """
 import fcntl
 import json
+import subprocess
 from pathlib import Path
 
 from aurora_cli.src.base.texts.error import TextError
@@ -22,6 +23,14 @@ from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.dependency import check_dependency, DependencyApps
 from aurora_cli.src.base.utils.output import OutResult, OutResultError
 from aurora_cli.src.base.utils.shell import shell_exec_command
+
+
+def shell_vscode_version():
+    try:
+        result = subprocess.run(['code', '--version'], capture_output=True)
+        return {'VERSION': result.stdout.decode("utf-8").split('\n')[0]}
+    except (Exception,):
+        return {'VERSION': 'undefined'}
 
 
 @check_dependency(DependencyApps.vscode)

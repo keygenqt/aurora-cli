@@ -18,10 +18,10 @@ import sys
 
 import click
 
+from aurora_cli.src.api.routes.routes_app import search_route_app
 from aurora_cli.src.api.routes.routes_device import search_route_device
 from aurora_cli.src.api.routes.routes_emulator import search_route_emulator
 from aurora_cli.src.api.routes.routes_flutter import search_route_flutter
-from aurora_cli.src.api.routes.routes_info import search_route_info
 from aurora_cli.src.api.routes.routes_psdk import search_route_psdk
 from aurora_cli.src.api.routes.routes_sdk import search_route_sdk
 from aurora_cli.src.api.routes.routes_settings import search_route_settings
@@ -178,6 +178,10 @@ help_routes = f'''
 {TextCommand.command_psdk_installed()}
 /psdk/installed
 
+{TextCommand.command_psdk_info()}
+/psdk/info
+  • version - {TextArgument.argument_psdk_version()}
+
 {TextCommand.command_psdk_targets()}
 /psdk/targets
   • version - {TextArgument.argument_psdk_version()}
@@ -318,17 +322,22 @@ help_routes = f'''
 /settings/hint
   • enable [false, true] - {TextArgument.argument_enable_hint()}
   
--- /info -----------------------------------------------------
+-- /app -----------------------------------------------------
 
-{TextCommand.command_info_version()}
-/info/version
+{TextCommand.command_app_info()}
+/app/info
 
-{TextCommand.command_info_path_configuration()}
-/info/path/configuration
+{TextCommand.command_app_versions()}
+/app/versions
 
-{TextCommand.command_info_path_folder()}
-/info/path/folder
+{TextCommand.command_app_auth_check()}
+/app/auth/check
+  • version - {TextArgument.argument_psdk_version()}
   
+{TextCommand.command_app_auth_root()}
+/app/auth/root
+  • password - {TextArgument.argument_password()}
+
 -- /tests ----------------------------------------------------
 
 {TextCommand.command_test_answer()}
@@ -347,6 +356,7 @@ def group_api(route: str):
         AppConfig.create_test()
     try:
         for func in [
+            search_route_app,
             search_route_device,
             search_route_emulator,
             search_route_flutter,
@@ -354,7 +364,6 @@ def group_api(route: str):
             search_route_sdk,
             search_route_vscode,
             search_route_settings,
-            search_route_info,
             search_route_tests,
         ]:
             if func(route):

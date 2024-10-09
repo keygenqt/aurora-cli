@@ -217,6 +217,11 @@ class TextCommand(Enum):
 
     @staticmethod
     @localization
+    def command_psdk_info():
+        return 'Get info about Aurora Platform SDK.'
+
+    @staticmethod
+    @localization
     def command_psdk_targets():
         return 'Get list targets Aurora Platform SDK.'
 
@@ -322,15 +327,20 @@ class TextCommand(Enum):
 
     @staticmethod
     @localization
-    def command_info_version():
-        return 'Get the application version.'
+    def command_app_info():
+        return 'Get information about the application.'
 
     @staticmethod
     @localization
-    def command_info_path_configuration():
-        return 'Path to configuration.'
+    def command_app_versions():
+        return 'Get information about versions the application.'
 
     @staticmethod
     @localization
-    def command_info_path_folder():
-        return 'Path to the application folder.'
+    def command_app_auth_check():
+        return 'Check access to root user.'
+
+    @staticmethod
+    @localization
+    def command_app_auth_root():
+        return 'Authorization in sudo.'

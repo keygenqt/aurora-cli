@@ -214,3 +214,8 @@ class TextArgument(Enum):
     @localization
     def argument_test_answer_iterate():
         return 'Number of response iterations.'
+
+    @staticmethod
+    @localization
+    def argument_password():
+        return 'Root password.'

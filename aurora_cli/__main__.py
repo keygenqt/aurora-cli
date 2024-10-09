@@ -27,7 +27,7 @@ from aurora_cli.src.base.utils.app import app_crash_handler, app_help_handler, a
 from aurora_cli.src.base.utils.argv import argv_is_verbose
 
 from aurora_cli.src.base.utils.cache_func import cache_func_clear
-from aurora_cli.src.base.utils.output import echo_stdout, echo_verbose
+from aurora_cli.src.base.utils.output import echo_stdout, echo_verbose, OutResult
 from aurora_cli.src.cli.device.group_device import group_device, init_subgroups_device
 from aurora_cli.src.cli.emulator.group_emulator import group_emulator, init_subgroups_emulator
 from aurora_cli.src.cli.flutter.group_flutter import group_flutter, init_subgroups_flutter
@@ -51,7 +51,7 @@ def main(
 
     if clear_cache:
         cache_func_clear()
-        echo_stdout(TextInfo.cache_clear())
+        echo_stdout(OutResult(TextInfo.cache_clear()))
         exit(0)
 
     if not ctx.invoked_subcommand:

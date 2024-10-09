@@ -173,3 +173,7 @@ class TextArgumentRu(Enum):
     @staticmethod
     def argument_test_answer_iterate():
         return 'Количество итераций ответов.'
+
+    @staticmethod
+    def argument_password():
+        return 'Root пароль.'
