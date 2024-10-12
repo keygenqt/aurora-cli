@@ -1,11 +1,12 @@
-## Updated: 09/26/2024 17:41:45 PM
+## Updated: 10/12/2024 12:08:16 PM
 
 ## Info
 
-- Last tag: 3.0.4
-- Released: 23
+- Last tag: 3.0.5
+- Released: 24
 
 ## Versions
+- Version: 3.0.5 (12/10/2024)
 - Version: 3.0.4 (26/09/2024)
 - Version: 3.0.2 (29/07/2024)
 - Version: 3.0.1 (26/07/2024)
@@ -29,6 +30,27 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 3.0.5 (12/10/2024)
+
+#### Bug
+
+- Handling target installation error. (Vitaliy Zarubin)
+- Optimization imports. (Vitaliy Zarubin)
+- Fix documentation settings select example. (Vitaliy Zarubin)
+
+#### Change
+
+- Add to install command update. (Vitaliy Zarubin)
+
+#### Feature
+
+- Auth like root and refactoring. (Vitaliy Zarubin)
+- Add info API, remove configuration. (Vitaliy Zarubin)
+- Add API configuration. (Vitaliy Zarubin)
+- Add all settings API. (Vitaliy Zarubin)
+- Add test for query to API. (Vitaliy Zarubin)
+- Add api settings list. (Vitaliy Zarubin)
 
 ### Version: 3.0.4 (26/09/2024)
 
