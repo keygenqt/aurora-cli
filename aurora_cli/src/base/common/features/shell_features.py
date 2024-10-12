@@ -137,7 +137,7 @@ def shell_psdk_tooling_create(
 
     percent_end(percents, progress)
 
-    result = shell_check_error_out(stdout, stderr, ['error'])
+    result = shell_check_error_out(stdout, stderr, ['error', 'permitted'])
     if result.is_error():
         return result
 
@@ -167,7 +167,7 @@ def shell_psdk_target_create(
 
     percent_end(percents, progress)
 
-    result = shell_check_error_out(stdout, stderr, ['error'])
+    result = shell_check_error_out(stdout, stderr, ['error', 'permitted'])
     if result.is_error():
         return result
 
