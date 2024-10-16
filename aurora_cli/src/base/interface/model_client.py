@@ -26,6 +26,10 @@ class ModelClient:
         pass
 
     @abstractmethod
+    def get_pass(self) -> Any:
+        pass
+
+    @abstractmethod
     def get_host(self) -> str:
         pass
 

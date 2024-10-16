@@ -72,6 +72,11 @@ class DeviceModel(ModelClient):
     def get_port(self) -> int:
         return self.port
 
+    def get_pass(self) -> Any:
+        if self.is_password():
+            return self.auth
+        return None
+
     def get_device_info(self):
         platform_name = 'AuroraOS-unknown'
         platform_arch = 'aurora-arm'

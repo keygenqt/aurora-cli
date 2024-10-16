@@ -20,7 +20,8 @@ from aurora_cli.src.base.common.features.load_by_version import (
     get_tool_psdk_from_file_with_version,
     get_version_sdk_from_file,
     get_tool_sdk_from_file_with_version,
-    get_version_flutter_from_path
+    get_version_flutter_from_path,
+    get_run_sdk_from_file_with_version,
 )
 from aurora_cli.src.base.common.features.search_files import search_files
 from aurora_cli.src.base.models.workdir_model import WorkdirModel
@@ -96,17 +97,21 @@ def search_installed_sdk() -> OutResult:
     files = search_files(workdir, 'sdk-release')
     versions = []
     tools = []
+    runs = []
     files = sorted(files)
     files = reversed(files)
     for file in files:
         version = get_version_sdk_from_file(file)
         tool = get_tool_sdk_from_file_with_version(file)
+        run = get_run_sdk_from_file_with_version(file)
         if version and tool:
             versions.append(version)
             tools.append(str(tool))
+            runs.append(str(run))
     if not versions:
         return OutResultError(TextError.just_empty_error())
     return OutResult(TextInfo.installed_versions_sdk(versions), value={
         'versions': versions,
         'tools': tools,
+        'runs': runs,
     })

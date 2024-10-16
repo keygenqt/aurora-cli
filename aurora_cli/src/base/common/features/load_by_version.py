@@ -62,6 +62,13 @@ def get_tool_sdk_from_file_with_version(file_version: Path) -> Any:
     return None
 
 
+def get_run_sdk_from_file_with_version(file_version: Path) -> Any:
+    tool_path = file_version.parent / 'bin' / 'qtcreator.sh'
+    if tool_path.is_file():
+        return tool_path
+    return None
+
+
 # PSDK / SDK
 def get_version_latest_by_url_custom_5_1(url: str) -> []:
     from bs4 import BeautifulSoup

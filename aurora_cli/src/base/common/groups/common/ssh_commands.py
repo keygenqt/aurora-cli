@@ -88,6 +88,13 @@ def ssh_info_common(
             data = line.split('=')
             info[data[0]] = data[1].strip('"')
 
+    info['HOST'] = model.get_host()
+    info['PORT'] = model.get_port()
+    if model.is_password():
+        info['PASS'] = str(model.get_pass())
+    else:
+        info['KEY'] = str(model.get_ssh_key())
+
     echo_stdout(OutResult(value=info))
 
 
@@ -244,13 +251,13 @@ def ssh_install_common(
 
     def state_update(ab: AliveBarPercentage, percent: int):
         if argv_is_api():
-            echo_stdout(OutResult(TextInfo.shh_upload_progress(), value=percent))
+            echo_stdout(OutResultInfo(TextInfo.shh_upload_progress(), value=percent))
         else:
             ab.update(percent)
         if percent == 100:
-            echo_stdout(OutResult(TextInfo.ssh_start_install_rpm()))
+            echo_stdout(OutResultInfo(TextInfo.ssh_start_install_rpm()))
 
-    echo_stdout(OutResult(TextInfo.shh_upload_start()))
+    echo_stdout(OutResultInfo(TextInfo.shh_upload_start()))
 
     bar = AliveBarPercentage()
 

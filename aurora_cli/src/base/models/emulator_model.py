@@ -19,8 +19,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from paramiko.client import SSHClient
-
 from aurora_cli.src.base.constants.other import VM_MANAGE
 from aurora_cli.src.base.interface.model_client import ModelClient
 from aurora_cli.src.base.texts.error import TextError
@@ -73,6 +71,9 @@ class EmulatorModel(ModelClient):
 
     def get_port(self) -> int:
         return self.port
+
+    def get_pass(self) -> Any:
+        return None
 
     def get_emulator_info(self):
         platform_name = self.name.replace('-base', '')
