@@ -262,23 +262,13 @@ class TextCommand(Enum):
 
     @staticmethod
     @localization
+    def command_vscode_info():
+        return 'Information about VS Code.'
+
+    @staticmethod
+    @localization
     def command_vscode_extensions_list():
         return 'Get a list of VS Code extensions.'
-
-    @staticmethod
-    @localization
-    def command_vscode_extensions_check_flutter():
-        return 'Get a list of Flutter extensions required to work with VS Code.'
-
-    @staticmethod
-    @localization
-    def command_vscode_extensions_check_cpp():
-        return 'Get a list of C++ extensions required to work with VS Code.'
-
-    @staticmethod
-    @localization
-    def command_vscode_extensions_check_other():
-        return 'Get a list other extensions required to work with VS Code.'
 
     @staticmethod
     @localization

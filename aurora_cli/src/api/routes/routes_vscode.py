@@ -30,16 +30,8 @@ def search_route_vscode(route: str) -> bool:
         echo_stdout(OutResult(value=vscode_version_common()))
     elif root == '/vscode/extensions/list':
         echo_stdout(OutResult(value=vscode_extensions_list_common()))
-    elif root == '/vscode/extensions/check/flutter':
-        echo_stdout(OutResult(value=vscode_extensions_flutter_check_common()))
-    elif root == '/vscode/extensions/check/cpp':
-        echo_stdout(OutResult(value=vscode_extensions_cpp_check_common()))
-    elif root == '/vscode/extensions/check/other':
-        echo_stdout(OutResult(value=vscode_extensions_other_check_common()))
     elif root == '/vscode/extensions/install':
-        vscode_extensions_install(
-            extensions=[get_arg_str(route, 'extension')]
-        )
+        vscode_extensions_install(extensions=[get_arg_str(route, 'extension')])
     elif root == '/vscode/settings/update':
         vscode_settings_common()
     else:

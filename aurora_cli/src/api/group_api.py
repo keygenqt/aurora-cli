@@ -279,17 +279,11 @@ help_routes = f'''
 
 -- /vscode ---------------------------------------------------
 
+{TextCommand.command_vscode_info()}
+/vscode/info
+
 {TextCommand.command_vscode_extensions_list()}
 /vscode/extensions/list
-
-{TextCommand.command_vscode_extensions_check_flutter()}
-/vscode/extensions/check/flutter
-
-{TextCommand.command_vscode_extensions_check_cpp()}
-/vscode/extensions/check/cpp
-
-{TextCommand.command_vscode_extensions_check_other()}
-/vscode/extensions/check/other
 
 {TextCommand.command_vscode_extension_install()}
 /vscode/extensions/install

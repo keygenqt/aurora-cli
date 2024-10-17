@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+from time import sleep
 from typing import Any
 
 from paramiko.client import SSHClient
@@ -30,7 +31,8 @@ from aurora_cli.src.base.common.features.ssh_features import (
     ssh_run,
     ssh_upload,
     ssh_rpm_install,
-    ssh_package_remove, ssh_download
+    ssh_package_remove,
+    ssh_download,
 )
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.interface.model_client import ModelClient
@@ -128,7 +130,9 @@ def ssh_upload_common(
 
     def state_update(ab: AliveBarPercentage, percent: int):
         if argv_is_api():
-            echo_stdout(OutResult(TextInfo.shh_upload_progress(), value=percent))
+            echo_stdout(OutResultInfo(TextInfo.shh_upload_progress(), value=percent))
+            if percent == 100:
+                sleep(1) # show 100%
         else:
             ab.update(percent)
 
@@ -252,6 +256,8 @@ def ssh_install_common(
     def state_update(ab: AliveBarPercentage, percent: int):
         if argv_is_api():
             echo_stdout(OutResultInfo(TextInfo.shh_upload_progress(), value=percent))
+            if percent == 100:
+                sleep(1)  # show 100%
         else:
             ab.update(percent)
         if percent == 100:

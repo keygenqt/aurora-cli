@@ -211,20 +211,12 @@ class TextCommandRu(Enum):
         return 'Добавьте устройства с ОС Aurora во Flutter.'
 
     @staticmethod
+    def command_vscode_info():
+        return 'Информация о VS Code.'
+
+    @staticmethod
     def command_vscode_extensions_list():
         return 'Получить список расширений VS Code.'
-
-    @staticmethod
-    def command_vscode_extensions_check_flutter():
-        return 'Получить список расширений Flutter, необходимых для работы с VS Code.'
-
-    @staticmethod
-    def command_vscode_extensions_check_cpp():
-        return 'Получить список расширений C++, необходимых для работы с VS Code.'
-
-    @staticmethod
-    def command_vscode_extensions_check_other():
-        return 'Получить список других расширений, необходимых для работы с VS Code.'
 
     @staticmethod
     def command_vscode_extension_install():
