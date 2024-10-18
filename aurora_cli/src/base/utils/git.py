@@ -25,6 +25,7 @@ from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
 from aurora_cli.src.base.utils.app import app_abort_handler
+from aurora_cli.src.base.utils.argv import argv_is_api
 from aurora_cli.src.base.utils.git_title import TitleOpCode
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultInfo, OutResultError, OutResult
 
@@ -43,12 +44,15 @@ def git_clone(
             if is_bar:
                 bar.update(result, title, 11)
             else:
-                echo_stdout(OutResultInfo(TextInfo.git_clone_progress(title), value=result))
+                if argv_is_api():
+                    echo_stdout(OutResultInfo(title, value=result))
+                else:
+                    echo_stdout(OutResultInfo(TextInfo.git_clone_progress(title), value=result))
 
         echo_stdout(OutResultInfo(TextInfo.git_clone_start(url)))
 
         repo = _git_clone(url, path, bar_update)
-        echo_stdout(OutResult(TextSuccess.git_clone_success()))
+        echo_stdout(OutResultInfo(TextSuccess.git_clone_success()))
         return repo
     except GitCommandError as e:
         bar.stop()

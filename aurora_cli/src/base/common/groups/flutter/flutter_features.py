@@ -64,9 +64,11 @@ def flutter_install_common(
     repo = git_clone(git_url, flutter_path, is_bar)
     repo.git.checkout(version)
 
-    echo_stdout(OutResult(TextSuccess.flutter_install_success(str(flutter_path), version)))
     # clear cache
     cache_func_clear()
+    # end
+    echo_stdout(OutResult(TextSuccess.flutter_install_success(str(flutter_path), version)))
+
 
 
 def flutter_remove_common(model: FlutterModel):
@@ -75,8 +77,8 @@ def flutter_remove_common(model: FlutterModel):
     version: str = model.get_version()
     shutil.rmtree(path)
     file_remove_line(Path.home() / '.bashrc', path)
-    echo_stdout(OutResult(TextSuccess.flutter_remove_success(version)))
     cache_func_clear()
+    echo_stdout(OutResult(TextSuccess.flutter_remove_success(version)))
 
 
 def flutter_add_custom_devices_common(model: FlutterModel):

@@ -60,6 +60,7 @@ def search_route_psdk(route: str) -> bool:
         psdk_targets_common(
             model=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
         )
+    # @todo download & install
     elif root == '/psdk/install':
         psdk_install_common(
             version=get_arg_str(route, 'version'),
