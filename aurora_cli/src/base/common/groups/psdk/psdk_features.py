@@ -19,6 +19,8 @@ import subprocess
 from pathlib import Path
 from time import sleep
 
+from grapheme.grapheme_property_group import value
+
 from aurora_cli.src.base.common.features.load_by_version import (
     get_version_latest_by_url,
     get_download_psdk_url_by_version
@@ -72,7 +74,8 @@ def psdk_targets_common(model: PsdkModel):
 
 def psdk_install_common(
         version: str,
-        is_bar: bool = True
+        is_bar: bool = True,
+        mode: str = None
 ):
     tests_exit()
     # url major version
@@ -100,11 +103,28 @@ def psdk_install_common(
         echo_stdout(OutResultError(TextError.get_install_info_error()))
         app_exit()
 
+    if mode == 'download' or mode is None:
+        _psdk_install_download(urls, is_bar)
+
+    if mode == 'install' or mode is None:
+        _psdk_install(files, version_full, is_bar)
+
+
+def _psdk_install_download(
+        urls: [],
+        is_bar: bool = True,
+):
     if urls:
         echo_stdout(OutResultInfo(TextInfo.psdk_download_start()))
         downloads(urls, is_bar)
         sleep(1)
 
+
+def _psdk_install(
+        files: [],
+        version_full: str,
+        is_bar: bool = True,
+):
     # Create folders
     workdir = WorkdirModel.get_workdir()
     psdk_path = workdir / f'AuroraPlatformSDK-{version_full}'
@@ -138,7 +158,7 @@ def psdk_install_common(
         if is_bar:
             bar.update(percent, title, 16)
         else:
-            echo_stdout(OutResultInfo(TextInfo.install_progress(), value=percent))
+            echo_stdout(OutResultInfo(title, value=percent))
 
     def abort():
         bar.stop()
@@ -154,7 +174,7 @@ def psdk_install_common(
 
     app_abort_handler(lambda: abort())
 
-    echo_stdout(OutResultInfo(TextInfo.psdk_install_start()))
+    echo_stdout(OutResultInfo(TextInfo.psdk_install_start(), value=1))
 
     subprocess.call(['sudo', 'echo'], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
 
