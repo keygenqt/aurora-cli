@@ -141,7 +141,7 @@ def shell_psdk_tooling_create(
     if result.is_error():
         return result
 
-    return OutResult(TextSuccess.psdk_tooling_install_success(), value=path)
+    return OutResultInfo(TextSuccess.psdk_tooling_install_success(), value=path)
 
 
 @check_dependency(DependencyApps.sudo)
@@ -171,7 +171,7 @@ def shell_psdk_target_create(
     if result.is_error():
         return result
 
-    return OutResult(TextSuccess.psdk_target_install_success(), value=path)
+    return OutResultInfo(TextSuccess.psdk_target_install_success(), value=path)
 
 
 @check_dependency(DependencyApps.sudo)
