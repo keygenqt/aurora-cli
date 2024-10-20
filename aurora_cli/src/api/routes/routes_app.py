@@ -20,7 +20,9 @@ from aurora_cli.src.base.common.groups.app.app_features import (
     app_auth_password_common
 )
 from aurora_cli.src.base.models.psdk_model import PsdkModel
-from aurora_cli.src.base.utils.output import echo_stdout
+from aurora_cli.src.base.texts.info import TextInfo
+from aurora_cli.src.base.utils.cache_func import cache_func_clear
+from aurora_cli.src.base.utils.output import echo_stdout, OutResult
 from aurora_cli.src.base.utils.route import get_route_root, get_arg_str, get_arg_str_optional
 
 
@@ -28,6 +30,9 @@ def search_route_app(route: str) -> bool:
     root = get_route_root(route)
     if root == '/app/info':
         echo_stdout(app_info_common())
+    elif root == '/app/clear':
+        cache_func_clear()
+        echo_stdout(OutResult(TextInfo.cache_clear()))
     elif root == '/app/versions':
         echo_stdout(app_versions_common())
     elif root == '/app/auth/check':

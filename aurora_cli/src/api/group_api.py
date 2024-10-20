@@ -321,6 +321,9 @@ help_routes = f'''
 {TextCommand.command_app_info()}
 /app/info
 
+{TextArgument.argument_clear_cache()}
+/app/clear
+
 {TextCommand.command_app_versions()}
 /app/versions
 
