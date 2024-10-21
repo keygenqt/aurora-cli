@@ -1,11 +1,12 @@
-## Updated: 10/12/2024 12:08:16 PM
+## Updated: 10/21/2024 19:23:22 PM
 
 ## Info
 
-- Last tag: 3.0.5
-- Released: 24
+- Last tag: 3.0.6
+- Released: 25
 
 ## Versions
+- Version: 3.0.6 (21/10/2024)
 - Version: 3.0.5 (12/10/2024)
 - Version: 3.0.4 (26/09/2024)
 - Version: 3.0.2 (29/07/2024)
@@ -30,6 +31,17 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 3.0.6 (21/10/2024)
+
+#### Change
+
+- Update API install psdk. (Vitaliy Zarubin)
+- Update API vscode. (Vitaliy Zarubin)
+
+#### Feature
+
+- Add api cliear cache. (Vitaliy Zarubin)
 
 ### Version: 3.0.5 (12/10/2024)
 
