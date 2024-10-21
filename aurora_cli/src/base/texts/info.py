@@ -376,3 +376,13 @@ class TextInfo(Enum):
     @localization
     def settings_item_empty():
         return 'Value not set.'
+
+    @staticmethod
+    @localization
+    def removing_package_keeping_user_data(package: str):
+        return f'<blue>Removing the</blue> {package} <blue>package keeping used data...</blue>'
+
+    @staticmethod
+    @localization
+    def package_removed_without_keeping_user_data(package: str, package_manager: str):
+        return f'<blue>The</blue> {package} <blue>package removed via {package_manager} without keeping user data</blue> (keeping user data is not supported)'

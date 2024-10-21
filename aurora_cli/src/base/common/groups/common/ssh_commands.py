@@ -33,6 +33,7 @@ from aurora_cli.src.base.common.features.ssh_features import (
     ssh_rpm_install,
     ssh_package_remove,
     ssh_download,
+    ssh_check_package_installed,
 )
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.interface.model_client import ModelClient
@@ -249,6 +250,7 @@ def ssh_install_common(
         model: ModelClient,
         path: str,
         apm: bool,
+        reinstall: bool,
         devel_su: Any = None
 ):
     client = _get_ssh_client(model)
@@ -271,6 +273,7 @@ def ssh_install_common(
         client=client,
         path=path,
         apm=apm,
+        reinstall=reinstall,
         listen_progress=lambda stdout: state_update(bar, stdout.value),
         devel_su=devel_su
     )
@@ -284,6 +287,7 @@ def ssh_remove_common(
         model: ModelClient,
         package: str,
         apm: bool,
+        keep_user_data: bool,
         devel_su: Any = None
 ):
     client = _get_ssh_client(model)
@@ -292,6 +296,7 @@ def ssh_remove_common(
         client=client,
         package=package,
         apm=apm,
+        keep_user_data=keep_user_data,
         devel_su=devel_su
     ))
 
@@ -301,9 +306,8 @@ def ssh_check_package(
         package: str,
 ) -> bool:
     client = _get_ssh_client(model)
-    result = ssh_command(
+    return ssh_check_package_installed(
         client=client,
-        execute=f'ls /usr/bin/{package}'
+        package=package,
+        close=True,
     )
-    client.close()
-    return 'No such file or directory' not in result.value['stdout'][0]

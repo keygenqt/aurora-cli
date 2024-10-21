@@ -52,11 +52,11 @@ help_routes = f'''
 {TextCommand.command_app_auth_check()}
 /app/auth/check
   • version - {TextArgument.argument_psdk_version()}
-  
+
 {TextCommand.command_app_auth_root()}
 /app/auth/root
   • password - {TextArgument.argument_password()}
-  
+
 -- /device --------------------------------------------------
 
 {TextCommand.command_device_list()}
@@ -75,25 +75,27 @@ help_routes = f'''
 /device/upload
   • host - {TextArgument.argument_host_device()}
   • path - {TextArgument.argument_path()}
-    
+
 {TextCommand.command_device_package_run()}
 /device/package/run
   • host - {TextArgument.argument_host_device()}
   • package - {TextArgument.argument_package_name()}
   • mode [dart, gdb] ({TextArgument.argument_optional()}) - {TextArgument.argument_run_mode()}
   • project ({TextArgument.argument_optional()}) - {TextArgument.argument_path_to_project()}
-    
+
 {TextCommand.command_device_package_install()}
 /device/package/install
   • host - {TextArgument.argument_host_device()}
   • path - {TextArgument.argument_path()}
   • apm [default = false, true] - {TextArgument.argument_apm()}
-    
+  • reinstall [default = false, true] - {TextArgument.argument_reinstall()}
+
 {TextCommand.command_device_package_remove()}
 /device/package/remove
   • host - {TextArgument.argument_host_device()}
   • package - {TextArgument.argument_package_name()}
   • apm [default = false, true] - {TextArgument.argument_apm()}
+  • keep_user_data [default = false, true] - {TextArgument.argument_keep_user_data()}
 
 -- /emulator -------------------------------------------------
 
@@ -119,22 +121,24 @@ help_routes = f'''
 {TextCommand.command_emulator_upload()}
 /emulator/upload
   • path - {TextArgument.argument_path()}
-    
+
 {TextCommand.command_emulator_package_run()}
 /emulator/package/run
   • package - {TextArgument.argument_package_name()}
   • mode [dart, gdb] ({TextArgument.argument_optional()}) - {TextArgument.argument_run_mode()}
   • project ({TextArgument.argument_optional()}) - {TextArgument.argument_path_to_project()}
-    
+
 {TextCommand.command_emulator_package_install()}
 /emulator/package/install
   • path - {TextArgument.argument_path()}
   • apm [default = false, true] - {TextArgument.argument_apm()}
-    
+  • reinstall [default = false, true] - {TextArgument.argument_reinstall()}
+
 {TextCommand.command_emulator_package_remove()}
 /emulator/package/remove
   • package - {TextArgument.argument_package_name()}
   • apm [default = false, true] - {TextArgument.argument_apm()}
+  • keep_user_data [default = false, true] - {TextArgument.argument_keep_user_data()}
 
 -- /flutter --------------------------------------------------
 
@@ -166,7 +170,7 @@ help_routes = f'''
 /flutter/project/icons
   • image - {TextArgument.argument_path_to_image()}
   • path - {TextArgument.argument_path_to_project()}
-  
+
 -- /psdk -----------------------------------------------------
 
 {TextCommand.command_psdk_available()}
@@ -253,15 +257,15 @@ help_routes = f'''
 
 {TextCommand.command_sdk_available()}
 /sdk/available
-  
+
 {TextCommand.command_sdk_installed()}
 /sdk/installed
-  
+
 {TextCommand.command_sdk_install()}
 /sdk/install
   • version - {TextArgument.argument_psdk_version()}
   • offline [default = false, true] - {TextArgument.argument_sdk_installer_type()}
-  
+
 {TextCommand.command_sdk_tool()}
 /sdk/tool
 
@@ -299,7 +303,7 @@ help_routes = f'''
 {TextCommand.command_settings_select()}
 /settings/select
   • enable [false, true] - {TextArgument.argument_enable_save_select()}
-  
+
 {TextCommand.command_settings_hint()}
 /settings/hint
   • enable [false, true] - {TextArgument.argument_enable_hint()}

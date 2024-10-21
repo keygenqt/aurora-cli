@@ -87,6 +87,16 @@ class TextArgument(Enum):
 
     @staticmethod
     @localization
+    def argument_reinstall():
+        return 'Reinstall an already installed package.'
+
+    @staticmethod
+    @localization
+    def argument_keep_user_data():
+        return 'Keep user data.'
+
+    @staticmethod
+    @localization
     def argument_sdk_installer_type():
         return 'Download offline type installer.'
 

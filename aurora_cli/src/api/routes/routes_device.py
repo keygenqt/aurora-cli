@@ -62,12 +62,14 @@ def search_route_device(route: str) -> bool:
         device_package_install_common(
             path=get_arg_str(route, 'path'),
             apm=get_arg_bool(route, 'apm'),
+            reinstall=get_arg_bool(route, 'reinstall'),
             model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
         )
     elif root == '/device/package/remove':
         device_package_remove_common(
             package=get_arg_str(route, 'package'),
             apm=get_arg_bool(route, 'apm'),
+            keep_user_data=get_arg_bool(route, 'keep-user-data'),
             model=DeviceModel.get_model_by_host(get_arg_str(route, 'host')),
         )
     else:

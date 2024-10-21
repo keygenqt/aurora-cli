@@ -56,26 +56,30 @@ def package_run(
 @subgroup_emulator_package.command(name='install', help=TextCommand.command_emulator_package_install())
 @click.option('-p', '--path', type=click.STRING, required=True, help=TextArgument.argument_path_rpm())
 @click.option('-a', '--apm', is_flag=True, help=TextArgument.argument_apm())
+@click.option('-r', '--reinstall', is_flag=True, help=TextArgument.argument_reinstall())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_install(
         path: str,
         apm: bool,
+        reinstall: bool,
         verbose: bool
 ):
     model = cli_emulator_tool_select_model(is_root=True)
-    emulator_package_install_common(model, path, apm)
+    emulator_package_install_common(model, path, apm, reinstall)
     echo_verbose(verbose)
 
 
 @subgroup_emulator_package.command(name='remove', help=TextCommand.command_emulator_package_remove())
 @click.option('-p', '--package', type=click.STRING, required=True, help=TextArgument.argument_package_name())
 @click.option('-a', '--apm', is_flag=True, help=TextArgument.argument_apm())
+@click.option('-k', '--keep-user-data', is_flag=True, help=TextArgument.argument_keep_user_data())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_remove(
         package: str,
         apm: bool,
+        keep_user_data: bool,
         verbose: bool
 ):
     model = cli_emulator_tool_select_model(is_root=True)
-    emulator_package_remove_common(model, package, apm)
+    emulator_package_remove_common(model, package, apm, keep_user_data)
     echo_verbose(verbose)

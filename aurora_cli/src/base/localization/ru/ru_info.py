@@ -307,3 +307,11 @@ class TextInfoRu(Enum):
     @staticmethod
     def settings_item_empty():
         return 'Значение не установлено.'
+
+    @staticmethod
+    def removing_package_keeping_user_data(package: str):
+        return f'<blue>Удаление пакета</blue> {package} <blue>с сохранением пользовательских данных...</blue>'
+
+    @staticmethod
+    def package_removed_without_keeping_user_data(package: str, package_manager: str):
+        return f'<blue>Пакет</blue> {package} <blue>был удален через {package_manager} без сохранения пользовательских данных</blue> (сохранение пользовательских данных не поддерживается)'
