@@ -1,11 +1,12 @@
-## Updated: 10/21/2024 19:23:22 PM
+## Updated: 10/22/2024 18:41:52 PM
 
 ## Info
 
-- Last tag: 3.0.6
-- Released: 25
+- Last tag: 3.0.7
+- Released: 26
 
 ## Versions
+- Version: 3.0.7 (22/10/2024)
 - Version: 3.0.6 (21/10/2024)
 - Version: 3.0.5 (12/10/2024)
 - Version: 3.0.4 (26/09/2024)
@@ -31,6 +32,12 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 3.0.7 (22/10/2024)
+
+#### Bug
+
+- Fix dependency load. (Vitaliy Zarubin)
 
 ### Version: 3.0.6 (21/10/2024)
 
