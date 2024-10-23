@@ -5,6 +5,15 @@
 Была проверена на Ubuntu `20.04` & ALT Linux `10`, разработка ведется на `22.04`.
 На Ubuntu `22.04` работает без дополнительных манипуляций с установкой, на других дистрибутивах возможны нюансы.
 
+#### Ubuntu 24.04+
+
+```shell
+sudo apt update
+sudo apt install python3-pip
+
+python3 -m pip install aurora-cli --break-system-packages
+```
+
 
 #### Ubuntu 22.04+
 
@@ -65,3 +74,9 @@ python3 -m pip install aurora-cli --upgrade
 - `clang-format` - Форматирование С++ кода.
 - `gdb-multiarch` - Позволяет запускать отладку С++ для приложений Flutter.
 - `virtualbox` - Эмулятор работает через него, необходим для установки эмулятора.
+
+Install (Ubuntu):
+
+```shell
+sudo apt-get install git git-lfs ssh curl tar unzip bzip2 ffmpeg clang-format gdb-multiarch virtualbox
+```
