@@ -9,3 +9,4 @@ beautifulsoup4>=4.12.3
 weasyprint>=61.2
 pillow>=10.2.0
 diskcache>=5.6.3
+rpmfile>=2.1.0

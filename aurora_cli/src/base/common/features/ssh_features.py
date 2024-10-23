@@ -15,6 +15,7 @@ limitations under the License.
 """
 
 import os
+import rpmfile
 from typing import Callable, Any
 
 from paramiko.client import SSHClient
@@ -205,6 +206,23 @@ def ssh_rpm_install(
         else:
             execute = f'pkcon -y install-local {file_upload}'
     else:
+        package_name = ""
+
+        with rpmfile.open(path) as package:
+            if package_name_as_bytes := package.headers.get('name'):
+                package_name = package_name_as_bytes.decode('utf-8')
+
+        if package_name != "":
+            prompt = "{'KeepUserData': <true>}"
+            execute = (f'gdbus call --system '
+                       f'--dest ru.omp.APM '
+                       f'--object-path /ru/omp/APM '
+                       f'--method ru.omp.APM.Remove '
+                       f'"{package_name}" '
+                       f'"{prompt}"')
+
+            ssh_exec_command(client, execute)
+
         prompt = "{}"
         execute = (f'gdbus call --system '
                    f'--dest ru.omp.APM '
