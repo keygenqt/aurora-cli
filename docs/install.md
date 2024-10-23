@@ -79,6 +79,7 @@ Install (Ubuntu):
 
 ```shell
 sudo apt update
+
 sudo apt-get install \
   git \
   git-lfs \
