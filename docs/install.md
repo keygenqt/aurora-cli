@@ -78,5 +78,17 @@ python3 -m pip install aurora-cli --upgrade
 Install (Ubuntu):
 
 ```shell
-sudo apt-get install git git-lfs ssh curl tar unzip bzip2 ffmpeg clang-format gdb-multiarch virtualbox
+sudo apt update
+sudo apt-get install \
+  git \
+  git-lfs \
+  ssh \
+  curl \
+  tar \
+  unzip \
+  bzip2 \
+  ffmpeg \
+  clang-format \
+  gdb-multiarch \
+  virtualbox
 ```
