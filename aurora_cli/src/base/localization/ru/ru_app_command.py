@@ -140,7 +140,11 @@ class TextCommandRu(Enum):
 
     @staticmethod
     def command_psdk_install():
-        return 'Загрузите и установите Аврора Platform SDK.'
+        return 'Установите Аврора Platform SDK.'
+
+    @staticmethod
+    def command_psdk_download():
+        return 'Загрузите Аврора Platform SDK.'
 
     @staticmethod
     def command_psdk_remove():

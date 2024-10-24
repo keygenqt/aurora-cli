@@ -36,8 +36,6 @@ def search_route_tests(route: str) -> bool:
                 echo_stdout(OutResultError('Test answer', value={}))
             else:
                 echo_stdout(OutResult('Test answer', value={}))
-    elif root == '/tests/answers':
-        echo_stdout(OutResult('Test answer: {}'.format(1), value={}))
     else:
         return False
 

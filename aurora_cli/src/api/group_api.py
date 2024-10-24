@@ -38,6 +38,25 @@ from aurora_cli.src.base.utils.route import get_arg_bool
 from aurora_cli.src.base.utils.text import text_multiline_help
 
 help_routes = f'''
+-- /app -----------------------------------------------------
+
+{TextCommand.command_app_info()}
+/app/info
+
+{TextArgument.argument_clear_cache()}
+/app/clear
+
+{TextCommand.command_app_versions()}
+/app/versions
+
+{TextCommand.command_app_auth_check()}
+/app/auth/check
+  • version - {TextArgument.argument_psdk_version()}
+  
+{TextCommand.command_app_auth_root()}
+/app/auth/root
+  • password - {TextArgument.argument_password()}
+  
 -- /device --------------------------------------------------
 
 {TextCommand.command_device_list()}
@@ -186,6 +205,10 @@ help_routes = f'''
 /psdk/targets
   • version - {TextArgument.argument_psdk_version()}
 
+{TextCommand.command_psdk_download()}
+/psdk/download
+  • version - {TextArgument.argument_psdk_version()}
+
 {TextCommand.command_psdk_install()}
 /psdk/install
   • version - {TextArgument.argument_psdk_version()}
@@ -315,25 +338,6 @@ help_routes = f'''
 {TextCommand.command_settings_hint()}
 /settings/hint
   • enable [false, true] - {TextArgument.argument_enable_hint()}
-  
--- /app -----------------------------------------------------
-
-{TextCommand.command_app_info()}
-/app/info
-
-{TextArgument.argument_clear_cache()}
-/app/clear
-
-{TextCommand.command_app_versions()}
-/app/versions
-
-{TextCommand.command_app_auth_check()}
-/app/auth/check
-  • version - {TextArgument.argument_psdk_version()}
-  
-{TextCommand.command_app_auth_root()}
-/app/auth/root
-  • password - {TextArgument.argument_password()}
 
 -- /tests ----------------------------------------------------
 

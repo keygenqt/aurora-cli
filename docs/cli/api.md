@@ -10,365 +10,462 @@
 aurora-cli api --route '/device/command?host=192.168.2.15&execute=ls -1'
 ```
 
-#### /device
+## Routes
 
-Получить список устройств.
+#### /app
 
-```shell title="/device/list"
+Get information about the application.
+
+```yaml title="/app/info"
 No arguments
 ```
 
-Выполните команду на устройстве.
+Clear cached data.
 
-```shell title="/device/command"
-• host - IP-адрес устройства.
-• execute - Команда, которая будет выполнена на устройстве.
+```yaml title="/app/clear"
+No arguments
 ```
 
-Загрузите файл в каталог ~/Download устройства.
+Get information about versions the application.
 
-```shell title="/device/upload"
-• host - IP-адрес устройства.
-• path - Путь к файлу.
+```yaml title="/app/versions"
+No arguments
 ```
 
-Запустите пакет на устройстве.
+Check access to root user.
 
-```shell title="/device/package/run"
-• host - IP-адрес устройства.
-• package - Имя пакета.
-• mode [dart, gdb] (необязательный) - Режим запуска приложения.
-• project (необязательный) - Путь к проекту. По умолчанию текущая директория.
+```yaml title="/app/auth/check"
+• version - Installed version of Aurora Platform SDK.
 ```
 
-Установите пакет RPM на устройство.
+Authorization in sudo.
 
-```shell title="/device/package/install"
-• host - IP-адрес устройства.
-• path - Путь к файлу.
-• apm [по умолчанию = false, true] - Использовать APM.
+```yaml title="/app/auth/root"
+• password - Root password.
 ```
 
-Удалите пакет с устройства.
+#### /device
 
-```shell title="/device/package/remove"
-• host - IP-адрес устройства.
-• package - Имя пакета.
-• apm [по умолчанию = false, true] - Использовать APM.
+Get list devices.
+
+```yaml title="/device/list"
+No arguments
+```
+
+Get info device.
+
+```yaml title="/device/info"
+• host - IP address device.
+```
+
+Execute the command on the device.
+
+```yaml title="/device/command"
+• host - IP address device.
+• execute - The command will be executed on the device.
+```
+
+Upload file to ~/Download directory device.
+
+```yaml title="/device/upload"
+• host - IP address device.
+• path - Path to file.
+```
+
+Run package on the device.
+
+```yaml title="/device/package/run"
+• host - IP address device.
+• package - Package name.
+• mode [dart, gdb] (optional) - Application launch mode.
+• project (optional) - Path to project. The default is the current directory.
+```
+
+Install RPM package on the device.
+
+```yaml title="/device/package/install"
+• host - IP address device.
+• path - Path to file.
+• apm [default = false, true] - Use APM.
+```
+
+Remove package from the device.
+
+```yaml title="/device/package/remove"
+• host - IP address device.
+• package - Package name.
+• apm [default = false, true] - Use APM.
 ```
 
 #### /emulator
 
-Запустите эмулятор.
+Start the emulator.
 
-```shell title="/emulator/start"
+```yaml title="/emulator/start"
 No arguments
 ```
 
-Сделать скриншот эмулятора.
+Take a screenshot of the emulator.
 
-```shell title="/emulator/screenshot"
+```yaml title="/emulator/screenshot"
 No arguments
 ```
 
-Старт записи видео с эмулятора.
+Start recording video from the the emulator.
 
-```shell title="/emulator/recording/start"
+```yaml title="/emulator/recording/start"
 No arguments
 ```
 
-Остановка записи видео с эмулятора.
+Stop video recording from the the emulator.
 
-```shell title="/emulator/recording/stop"
+```yaml title="/emulator/recording/stop"
 No arguments
 ```
 
-Выполните команду на эмуляторе.
+Get info emulator.
 
-```shell title="/emulator/command"
-• execute - Команда, которая будет выполнена на эмуляторе.
+```yaml title="/emulator/info"
+No arguments
 ```
 
-Загрузите файл в каталог ~/Download эмулятора.
+Execute the command on the emulator.
 
-```shell title="/emulator/upload"
-• path - Путь к файлу.
+```yaml title="/emulator/command"
+• execute - The command will be executed on the emulator.
 ```
 
-Запустите пакет на эмуляторе.
+Upload file to ~/Download directory emulator.
 
-```shell title="/emulator/package/run"
-• package - Имя пакета.
-• mode [dart, gdb] (необязательный) - Режим запуска приложения.
-• project (необязательный) - Путь к проекту. По умолчанию текущая директория.
+```yaml title="/emulator/upload"
+• path - Path to file.
 ```
 
-Установите пакет RPM на эмулятор.
+Run package on the emulator.
 
-```shell title="/emulator/package/install"
-• path - Путь к файлу.
-• apm [по умолчанию = false, true] - Использовать APM.
+```yaml title="/emulator/package/run"
+• package - Package name.
+• mode [dart, gdb] (optional) - Application launch mode.
+• project (optional) - Path to project. The default is the current directory.
 ```
 
-Удалите пакет с эмулятора.
+Install RPM package on the emulator.
 
-```shell title="/emulator/package/remove"
-• package - Имя пакета.
-• apm [по умолчанию = false, true] - Использовать APM.
+```yaml title="/emulator/package/install"
+• path - Path to file.
+• apm [default = false, true] - Use APM.
+```
+
+Remove package from the emulator.
+
+```yaml title="/emulator/package/remove"
+• package - Package name.
+• apm [default = false, true] - Use APM.
 ```
 
 #### /flutter
 
-Получите доступные версии Flutter для ОС Аврора.
+Get available version Flutter for Aurora OS.
 
-```shell title="/flutter/available"
+```yaml title="/flutter/available"
 No arguments
 ```
 
-Получите версии установленных Flutter для ОС Аврора.
+Get versions of installed Flutter for Aurora OS.
 
-```shell title="/flutter/installed"
+```yaml title="/flutter/installed"
 No arguments
 ```
 
-Загрузите и установите Flutter для ОС Аврора.
+Download and install Flutter for Aurora OS.
 
-```shell title="/flutter/install"
-• version - Установленная версия Flutter.
+```yaml title="/flutter/install"
+• version - Installed version of Flutter.
 ```
 
-Удалите Flutter для ОС Аврора.
+Remove Flutter for Aurora OS.
 
-```shell title="/flutter/remove"
-• version - Установленная версия Flutter.
+```yaml title="/flutter/remove"
+• version - Installed version of Flutter.
 ```
 
-Добавьте устройства с ОС Aurora во Flutter.
+Add devices with Aurora OS to Flutter.
 
-```shell title="/flutter/custom-devices"
-• version - Установленная версия Flutter.
+```yaml title="/flutter/custom-devices"
+• version - Installed version of Flutter.
 ```
 
-Форматирование проекта.
+Project formatting.
 
-```shell title="/flutter/project/format"
-• version - Установленная версия Flutter.
-• path - Путь к проекту. По умолчанию текущая директория.
+```yaml title="/flutter/project/format"
+• version - Installed version of Flutter.
+• path - Path to project. The default is the current directory.
 ```
 
-Сборка проекта.
+Build a project.
 
-```shell title="/flutter/project/build"
-• version - Установленная версия Flutter.
-• psdk - Установленная версия Aurora Platform SDK.
-• target - Имя цели установленной версии Aurora Platform SDK.
-• path - Путь к проекту. По умолчанию текущая директория.
-• clean [по умолчанию = false, true] - Очистка сборки.
-• install [по умолчанию = false, true] - Установите на устройство или эмулятор.
-• apm [по умолчанию = false, true] - Использовать APM.
-• run [по умолчанию = false, true] - Запустите приложение на устройстве или эмуляторе.
-• verbose [по умолчанию = false, true] - Подробный вывод.
-• mode [dart, gdb] (необязательный) - Режим сборки с отладкой.
-• host (необязательный) - IP-адрес устройства.
-• key (необязательный) - Название ключа для подписи пакета из конфигурации приложения.
+```yaml title="/flutter/project/build"
+• version - Installed version of Flutter.
+• psdk - Installed version of Aurora Platform SDK.
+• path - Path to project. The default is the current directory.
+• target - Target name installed version of Aurora Platform SDK.
+• debug [default = false, true] - Build debug.
+• clean [default = false, true] - Build clean.
+• pub_get [default = false, true] - Run pub get.
+• build_runner [default = false, true] - Run build runner.
+• install [default = false, true] - Install on the device or the emulator.
+• apm [default = false, true] - Use APM.
+• run [default = false, true] - Run application on the device or the emulator.
+• verbose [default = false, true] - Command output.
+• run_mode [dart, gdb] (optional) - Application launch mode.
+• host (optional) - IP address device.
+• key (optional) - The name of key for sign package from config application.
 ```
 
-Составить отчет проекта Flutter.
+Compile a report of flutter project.
 
-```shell title="/flutter/project/report"
-• version - Установленная версия Flutter.
-• path - Путь к проекту. По умолчанию текущая директория.
+```yaml title="/flutter/project/report"
+• version - Installed version of Flutter.
+• path - Path to project. The default is the current directory.
 ```
 
-Генерируйте иконки разных размеров для приложения.
+Gen multiple size icons for application.
 
-```shell title="/flutter/project/icons"
-• image - Путь к изображению.
-• path - Путь к проекту. По умолчанию текущая директория.
+```yaml title="/flutter/project/icons"
+• image - Path to image.
+• path - Path to project. The default is the current directory.
 ```
 
 #### /psdk
 
-Получить список доступных версий Аврора Platform SDK.
+Get available version Aurora Platform SDK.
 
-```shell title="/psdk/available"
+```yaml title="/psdk/available"
 No arguments
 ```
 
-Получите список установленных Аврора Platform SDK.
+Get installed list Aurora Platform SDK.
 
-```shell title="/psdk/installed"
+```yaml title="/psdk/installed"
 No arguments
 ```
 
-Получить список таргетов Аврора Platform SDK.
+Get info about Aurora Platform SDK.
 
-```shell title="/psdk/targets"
-• version - Установленная версия Aurora Platform SDK.
+```yaml title="/psdk/info"
+• version - Installed version of Aurora Platform SDK.
 ```
 
-Загрузите и установите Аврора Platform SDK.
+Get list targets Aurora Platform SDK.
 
-```shell title="/psdk/install"
-• version - Установленная версия Aurora Platform SDK.
+```yaml title="/psdk/targets"
+• version - Installed version of Aurora Platform SDK.
 ```
 
-Удалить Аврора Platform SDK.
+Download Aurora Platform SDK.
 
-```shell title="/psdk/remove"
-• version - Установленная версия Aurora Platform SDK.
+```yaml title="/psdk/download"
+• version - Installed version of Aurora Platform SDK.
 ```
 
-Удалить снимок таргета.
+Install Aurora Platform SDK.
 
-```shell title="/psdk/clear"
-• version - Установленная версия Aurora Platform SDK.
-• target - Имя цели установленной версии Aurora Platform SDK.
+```yaml title="/psdk/install"
+• version - Installed version of Aurora Platform SDK.
 ```
 
-Добавьте разрешения sudoers Аврора Platform SDK.
+Remove Aurora Platform SDK.
 
-```shell title="/psdk/sudoers/add"
-• version - Установленная версия Aurora Platform SDK.
+```yaml title="/psdk/remove"
+• version - Installed version of Aurora Platform SDK.
 ```
 
-Удалите разрешения sudoers Аврора Platform SDK.
+Remove snapshot target.
 
-```shell title="/psdk/sudoers/remove"
-• version - Установленная версия Aurora Platform SDK.
+```yaml title="/psdk/clear"
+• version - Installed version of Aurora Platform SDK.
+• target - Target name installed version of Aurora Platform SDK.
 ```
 
-Найдите установленный пакет в таргете.
+Add sudoers permissions Aurora Platform SDK.
 
-```shell title="/psdk/package/search"
-• version - Установленная версия Aurora Platform SDK.
-• target - Имя цели установленной версии Aurora Platform SDK.
-• package - Имя пакета.
+```yaml title="/psdk/sudoers/add"
+• version - Installed version of Aurora Platform SDK.
 ```
 
-Установите пакеты RPM в таргет.
+Remove sudoers permissions Aurora Platform SDK.
 
-```shell title="/psdk/package/install"
-• version - Установленная версия Aurora Platform SDK.
-• target - Имя цели установленной версии Aurora Platform SDK.
-• path - Путь к RPM-файлу.
+```yaml title="/psdk/sudoers/remove"
+• version - Installed version of Aurora Platform SDK.
 ```
 
-Удалить пакет из таргета.
+Search installed package in target.
 
-```shell title="/psdk/package/remove"
-• version - Установленная версия Aurora Platform SDK.
-• target - Имя цели установленной версии Aurora Platform SDK.
-• package - Имя пакета.
+```yaml title="/psdk/package/search"
+• version - Installed version of Aurora Platform SDK.
+• target - Target name installed version of Aurora Platform SDK.
+• package - Package name.
 ```
 
-Валидация пакетов RPM.
+Install RPM packages to target.
 
-```shell title="/psdk/package/validate"
-• version - Установленная версия Aurora Platform SDK.
-• target - Имя цели установленной версии Aurora Platform SDK.
-• path - Путь к RPM-файлу.
-• profile [regular, extended, mdm, antivirus, auth] - Выберите профиль.
+```yaml title="/psdk/package/install"
+• version - Installed version of Aurora Platform SDK.
+• target - Target name installed version of Aurora Platform SDK.
+• path - Path to RPM file.
 ```
 
-Подписать пакет RPM ключевой парой (с переподпиской).
+Remove package from target.
 
-```shell title="/psdk/package/sign"
-• version - Установленная версия Aurora Platform SDK.
-• path - Путь к RPM-файлу.
-• key (необязательный) - Название ключа для подписи пакета из конфигурации приложения.
+```yaml title="/psdk/package/remove"
+• version - Installed version of Aurora Platform SDK.
+• target - Target name installed version of Aurora Platform SDK.
+• package - Package name.
 ```
 
-Форматирование проекта.
+Validate RPM packages.
 
-```shell title="/psdk/project/format"
-• path - Путь к проекту. По умолчанию текущая директория.
+```yaml title="/psdk/package/validate"
+• version - Installed version of Aurora Platform SDK.
+• target - Target name installed version of Aurora Platform SDK.
+• path - Path to RPM file.
+• profile [regular, extended, mdm, antivirus, auth] - Select profile.
 ```
 
-Сборка проекта.
+Sign (with re-sign) RPM package.
 
-```shell title="/psdk/project/build"
-• version - Установленная версия Aurora Platform SDK.
-• target - Имя цели установленной версии Aurora Platform SDK.
-• path - Путь к проекту. По умолчанию текущая директория.
-• clean [по умолчанию = false, true] - Очистка сборки.
-• install [по умолчанию = false, true] - Установите на устройство или эмулятор.
-• apm [по умолчанию = false, true] - Использовать APM.
-• run [по умолчанию = false, true] - Запустите приложение на устройстве или эмуляторе.
-• debug [по умолчанию = false, true] - Режим сборки с отладкой.
-• verbose [по умолчанию = false, true] - Подробный вывод.
-• host (необязательный) - IP-адрес устройства.
-• key (необязательный) - Название ключа для подписи пакета из конфигурации приложения.
+```yaml title="/psdk/package/sign"
+• version - Installed version of Aurora Platform SDK.
+• path - Path to RPM file.
+• key (optional) - The name of key for sign package from config application.
 ```
 
-Генерируйте иконки разных размеров для приложения.
+Project formatting.
 
-```shell title="/psdk/project/icons"
-• image - Путь к изображению.
-• path - Путь к проекту. По умолчанию текущая директория.
+```yaml title="/psdk/project/format"
+• path - Path to project. The default is the current directory.
+```
+
+Build a project.
+
+```yaml title="/psdk/project/build"
+• version - Installed version of Aurora Platform SDK.
+• target - Target name installed version of Aurora Platform SDK.
+• path - Path to project. The default is the current directory.
+• clean [default = false, true] - Build clean.
+• install [default = false, true] - Install on the device or the emulator.
+• apm [default = false, true] - Use APM.
+• run [default = false, true] - Run application on the device or the emulator.
+• debug [default = false, true] - Build debug.
+• verbose [default = false, true] - Command output.
+• host (optional) - IP address device.
+• key (optional) - The name of key for sign package from config application.
+```
+
+Gen multiple size icons for application.
+
+```yaml title="/psdk/project/icons"
+• image - Path to image.
+• path - Path to project. The default is the current directory.
 ```
 
 #### /sdk
 
-Получите доступные версии Аврора SDK.
+Get available version Aurora SDK.
 
-```shell title="/sdk/available"
+```yaml title="/sdk/available"
 No arguments
 ```
 
-Получите версию установленной Аврора SDK.
+Get version of the installed Aurora SDK.
 
-```shell title="/sdk/installed"
+```yaml title="/sdk/installed"
 No arguments
 ```
 
-Загрузите и запустите установку Аврора SDK.
+Download and run Aurora SDK installation.
 
-```shell title="/sdk/install"
-• version - Установленная версия Aurora Platform SDK.
-• offline [по умолчанию = false, true] - Загрузите установщик offline типа.
+```yaml title="/sdk/install"
+• version - Installed version of Aurora Platform SDK.
+• offline [default = false, true] - Download offline type installer.
 ```
 
-Запустите инструмент обслуживания (удаление, обновление).
+Run maintenance tool (remove, update).
 
-```shell title="/sdk/tool"
+```yaml title="/sdk/tool"
 No arguments
 ```
 
 #### /vscode
 
-Получить список расширений VS Code.
+Information about VS Code.
 
-```shell title="/vscode/extensions/list"
+```yaml title="/vscode/info"
 No arguments
 ```
 
-Получить список расширений Flutter, необходимых для работы с VS Code.
+Get a list of VS Code extensions.
 
-```shell title="/vscode/extensions/check/flutter"
+```yaml title="/vscode/extensions/list"
 No arguments
 ```
 
-Получить список расширений C++, необходимых для работы с VS Code.
+Install VS Code extension.
 
-```shell title="/vscode/extensions/check/cpp"
+```yaml title="/vscode/extensions/install"
+• extension - Name of the VS Code extension.
+```
+
+Update VS Code settings.
+
+```yaml title="/vscode/settings/update"
 No arguments
 ```
 
-Получить список других расширений, необходимых для работы с VS Code.
+#### /settings
 
-```shell title="/vscode/extensions/check/other"
+Display additional application settings.
+
+```yaml title="/settings/list"
 No arguments
 ```
 
-Установка расширения VS Code.
+Clear advanced application settings.
 
-```shell title="/vscode/extensions/install"
-• extension - Название расширения VS Code.
+```yaml title="/settings/clear"
+No arguments
 ```
 
-Обновить настройки VS Code.
+Set the application language.
 
-```shell title="/vscode/settings/update"
-No arguments
+```yaml title="/settings/localization"
+• language [ru, en] - Application language.
+```
+
+Controlling the --verbose parameter.
+
+```yaml title="/settings/verbose"
+• enable [false, true] - Enable/Disable --verbose by default.
+```
+
+Controlling the --select parameter.
+
+```yaml title="/settings/select"
+• enable [false, true] - Enable/Disable saving --select.
+```
+
+Manage application hints.
+
+```yaml title="/settings/hint"
+• enable [false, true] - Enable/Disable application hints.
+```
+
+#### /tests
+
+Test answers API.
+
+```yaml title="/tests/answer"
+• time [default = 0] - Response delay time.
+• code [default = 200] - Response code (100, 200, 500).
+• iterate [default = 1] - Number of response iterations.
 ```

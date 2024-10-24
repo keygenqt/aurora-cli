@@ -68,7 +68,7 @@ class TextCommand(Enum):
     @staticmethod
     @localization
     def command_emulator_screenshot():
-        return 'Take a screenshot of the emulator .'
+        return 'Take a screenshot of the emulator.'
 
     @staticmethod
     @localization
@@ -173,7 +173,12 @@ class TextCommand(Enum):
     @staticmethod
     @localization
     def command_psdk_install():
-        return 'Download and install Aurora Platform SDK.'
+        return 'Install Aurora Platform SDK.'
+
+    @staticmethod
+    @localization
+    def command_psdk_download():
+        return 'Download Aurora Platform SDK.'
 
     @staticmethod
     @localization
