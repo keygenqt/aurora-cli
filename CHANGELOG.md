@@ -1,11 +1,12 @@
-## Updated: 10/22/2024 18:41:52 PM
+## Updated: 10/26/2024 11:29:17 AM
 
 ## Info
 
-- Last tag: 3.0.7
-- Released: 26
+- Last tag: 3.0.8
+- Released: 27
 
 ## Versions
+- Version: 3.0.8 (26/10/2024)
 - Version: 3.0.7 (22/10/2024)
 - Version: 3.0.6 (21/10/2024)
 - Version: 3.0.5 (12/10/2024)
@@ -32,6 +33,17 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 3.0.8 (26/10/2024)
+
+#### Change
+
+- Add timeout get version app. (Vitaliy Zarubin)
+- Update documentation. (Vitaliy Zarubin)
+
+#### Feature
+
+- Add password psdk API query. (Vitaliy Zarubin)
 
 ### Version: 3.0.7 (22/10/2024)
 
