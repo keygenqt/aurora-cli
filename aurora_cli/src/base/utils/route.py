@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import os
 from typing import Any
 from urllib.parse import urlparse
 
@@ -62,6 +63,10 @@ def get_arg_str_optional(
         route: str,
         arg: str
 ) -> Any:
+    try:
+        return os.environ[f'cli_{arg}']
+    except (Exception,):
+        pass
     result = None
     for arg_value in urlparse(route).query.split('&'):
         if f'{arg}=' in arg_value:
