@@ -44,6 +44,7 @@ from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
 from aurora_cli.src.base.utils.app import app_exit, app_abort_handler
+from aurora_cli.src.base.utils.argv import argv_is_api
 from aurora_cli.src.base.utils.cache_func import cache_func_clear
 from aurora_cli.src.base.utils.download import check_downloads, downloads
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResultInfo, OutResult
@@ -199,6 +200,9 @@ def _psdk_install(
         password=password
     ))
 
+    if argv_is_api():
+        sleep(1)
+
     echo_stdout(shell_psdk_tooling_create(
         tool=str(tool),
         version=version_full,
@@ -206,6 +210,9 @@ def _psdk_install(
         progress=lambda percent: out_progress(percent, 'Platform Tooling'),
         password=password
     ))
+
+    if argv_is_api():
+        sleep(1)
 
     for path_target in path_targets:
         arch = path_target.split('-')[-1].split('.')[0]
@@ -218,8 +225,10 @@ def _psdk_install(
             password=password
         ))
 
-    cache_func_clear()
+    if argv_is_api():
+        sleep(1)
 
+    cache_func_clear()
     echo_stdout(OutResult(TextSuccess.psdk_install_success(str(psdk_path), version_full)))
 
 

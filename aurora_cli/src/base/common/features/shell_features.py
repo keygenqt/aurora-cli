@@ -113,7 +113,7 @@ def shell_tar_sudo_unpack(
     if result.is_error():
         return result
 
-    return OutResult(TextSuccess.tar_unpack_success(), value=archive_path)
+    return OutResultInfo(TextSuccess.tar_unpack_success(), value=archive_path)
 
 
 @check_dependency(DependencyApps.sudo)
