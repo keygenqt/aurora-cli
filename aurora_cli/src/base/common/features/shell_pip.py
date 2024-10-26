@@ -13,33 +13,32 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import subprocess
+
 from aurora_cli.src.base.constants.app import APP_NAME, APP_VERSION
-from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.utils.dependency import check_dependency, DependencyApps
-from aurora_cli.src.base.utils.output import OutResult, OutResultError
-from aurora_cli.src.base.utils.shell import shell_exec_command
+from aurora_cli.src.base.utils.output import OutResult
 
 
 @check_dependency(DependencyApps.pip)
 def shell_pip_versions() -> []:
-    stdout, stderr = shell_exec_command([
-        'pip',
-        'index',
-        'versions',
-        APP_NAME,
-    ])
-    if stderr:
-        return OutResultError(TextError.get_data_error())
-
     latest = 'undefined'
-
-    for line in stdout:
-        if 'Available' in line:
-            version = line.split(',')[0].split(' ')[-1].split('.')
-            if len(version) == 4:
-                latest = '.'.join(version[:-1])
-            else:
-                latest = '.'.join(version)
+    try:
+        stdout = (subprocess.check_output('pip index versions {}'.format(APP_NAME),
+                                          stderr=subprocess.STDOUT,
+                                          timeout=3,
+                                          shell=True)
+                  .decode('utf-8')
+                  .split('\n'))
+        for line in stdout:
+            if 'Available' in line:
+                version = line.split(',')[0].split(' ')[-1].split('.')
+                if len(version) == 4:
+                    latest = '.'.join(version[:-1])
+                else:
+                    latest = '.'.join(version)
+    except (Exception,):
+        pass
 
     return OutResult(value={
         'INSTALLED': APP_VERSION,

@@ -62,7 +62,10 @@ def psdk_is_sudoers(model: PsdkModel):
         return False
 
 
-def psdk_sudoers_add_common(model: PsdkModel):
+def psdk_sudoers_add_common(
+        model: PsdkModel,
+        password = None
+):
     tests_exit()
     for item in [[MER_SDK_CHROOT_PATH, MER_SDK_CHROOT_DATA], [SDK_CHROOT_PATH, SDK_CHROOT_DATA]]:
         path = Path(item[0])
@@ -70,18 +73,21 @@ def psdk_sudoers_add_common(model: PsdkModel):
         user = getpass.getuser()
         data = item[1].format(username=user, psdk_tool=tool, psdk_tool_folder=tool.parent)
         if not path.is_file():
-            shell_exec_command(['sudo', 'touch', str(path)])
+            shell_exec_command(['sudo', 'touch', str(path)], password=password)
         if file_exist_in_line(path, str(tool.parent)):
             echo_stdout(OutResultInfo(TextInfo.psdk_sudoers_exist(model.version, str(path))))
         else:
-            file_permissions_777(path)
+            file_permissions_777(path, password=password)
             with open(path, 'a') as file:
                 file.write(data)
-            file_permissions_644(path)
+            file_permissions_644(path, password=password)
             echo_stdout(OutResult(TextSuccess.psdk_sudoers_add_success(model.version, str(path))))
 
 
-def psdk_sudoers_remove_common(model: PsdkModel):
+def psdk_sudoers_remove_common(
+        model: PsdkModel,
+        password = None
+):
     tests_exit()
     for path in [MER_SDK_CHROOT_PATH, SDK_CHROOT_PATH]:
         path = Path(path)
@@ -92,7 +98,7 @@ def psdk_sudoers_remove_common(model: PsdkModel):
         if not file_exist_in_line(path, str(tool.parent)):
             echo_stdout(OutResultInfo(TextInfo.psdk_sudoers_not_found(model.version, str(path))))
             continue
-        file_permissions_777(path)
+        file_permissions_777(path, password=password)
         file_remove_line(path, str(tool.parent))
-        file_permissions_644(path)
+        file_permissions_644(path, password=password)
         echo_stdout(OutResult(TextSuccess.psdk_sudoers_remove_success(model.version, str(path))))

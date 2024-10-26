@@ -68,14 +68,18 @@ def psdk_installed_common():
     echo_stdout(search_installed_psdk())
 
 
-def psdk_targets_common(model: PsdkModel):
-    echo_stdout(shell_psdk_targets(model.get_tool_path(), model.get_version()))
+def psdk_targets_common(
+        model: PsdkModel,
+        password = None
+):
+    echo_stdout(shell_psdk_targets(model.get_tool_path(), model.get_version(), password))
 
 
 def psdk_install_common(
         version: str,
         is_bar: bool = True,
-        mode: str = None
+        mode: str = None,
+        password = None
 ):
     tests_exit()
     # url major version
@@ -107,12 +111,12 @@ def psdk_install_common(
         _psdk_install_download(urls, is_bar)
 
     if mode == 'install' or mode is None:
-        _psdk_install(files, version_full, is_bar)
+        _psdk_install(files, version_full, is_bar, password)
 
 
 def _psdk_install_download(
         urls: [],
-        is_bar: bool = True,
+        is_bar: bool = True
 ):
     if urls:
         echo_stdout(OutResultInfo(TextInfo.psdk_download_start()))
@@ -124,6 +128,7 @@ def _psdk_install(
         files: [],
         version_full: str,
         is_bar: bool = True,
+        password = None
 ):
     # Create folders
     workdir = WorkdirModel.get_workdir()
@@ -163,12 +168,20 @@ def _psdk_install(
     def abort():
         bar.stop()
         localization_abort_start()
-        subprocess.call(
-            ['sudo', 'rm', '-rf', str(psdk_path)],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            preexec_fn=exec_fn
-        )
+        if password:
+            subprocess.call(
+                ['echo', password, '|', 'sudo', '-S'] + ['rm', '-rf', str(psdk_path)],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                preexec_fn=exec_fn
+            )
+        else:
+            subprocess.call(
+                ['sudo', 'rm', '-rf', str(psdk_path)],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                preexec_fn=exec_fn
+            )
         localization_abort_end()
         exit(0)
 
@@ -176,19 +189,22 @@ def _psdk_install(
 
     echo_stdout(OutResultInfo(TextInfo.psdk_install_start(), value=1))
 
-    subprocess.call(['sudo', 'echo'], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+    if not password:
+        subprocess.call(['sudo', 'echo'], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
 
     echo_stdout(shell_tar_sudo_unpack(
         archive_path=path_chroot[0],
         unpack_path=str(psdk_dir),
-        progress=lambda percent: out_progress(percent, 'Platform Chroot')
+        progress=lambda percent: out_progress(percent, 'Platform Chroot'),
+        password=password
     ))
 
     echo_stdout(shell_psdk_tooling_create(
         tool=str(tool),
         version=version_full,
         path=path_tooling[0],
-        progress=lambda percent: out_progress(percent, 'Platform Tooling')
+        progress=lambda percent: out_progress(percent, 'Platform Tooling'),
+        password=password
     ))
 
     for path_target in path_targets:
@@ -198,7 +214,8 @@ def _psdk_install(
             version=version_full,
             path=str(path_target),
             arch=arch,
-            progress=lambda percent: out_progress(percent, f'Target {arch}')
+            progress=lambda percent: out_progress(percent, f'Target {arch}'),
+            password=password
         ))
 
     cache_func_clear()
@@ -206,10 +223,13 @@ def _psdk_install(
     echo_stdout(OutResult(TextSuccess.psdk_install_success(str(psdk_path), version_full)))
 
 
-def psdk_remove_common(model: PsdkModel):
+def psdk_remove_common(
+        model: PsdkModel,
+        password = None
+):
     tests_exit()
     echo_stdout(OutResultInfo(TextInfo.psdk_remove_start()))
-    result = shell_remove_root_folder(model.get_path())
+    result = shell_remove_root_folder(model.get_path(), password)
     if result.is_error():
         echo_stdout(result)
         app_exit()
@@ -221,6 +241,7 @@ def psdk_remove_common(model: PsdkModel):
 def psdk_clear_common(
         model: PsdkModel,
         target: str,
+        password = None
 ):
     tests_exit()
-    echo_stdout(shell_psdk_clear(model.get_tool_path(), target))
+    echo_stdout(shell_psdk_clear(model.get_tool_path(), target, password))

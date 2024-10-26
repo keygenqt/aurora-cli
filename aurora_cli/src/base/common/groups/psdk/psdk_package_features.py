@@ -43,18 +43,20 @@ def psdk_package_install_common(
         model: PsdkModel,
         target: str,
         path: str,
+        password = None
 ):
     tests_exit()
-    echo_stdout(shell_psdk_package_install(model.get_tool_path(), target, path))
+    echo_stdout(shell_psdk_package_install(model.get_tool_path(), target, path, password))
 
 
 def psdk_package_remove_common(
         model: PsdkModel,
         target: str,
         package: str,
+        password = None
 ):
     tests_exit()
-    echo_stdout(shell_psdk_package_remove(model.get_tool_path(), target, package))
+    echo_stdout(shell_psdk_package_remove(model.get_tool_path(), target, package, password))
 
 
 def psdk_package_validate_common(
@@ -71,7 +73,8 @@ def psdk_package_sign_common(
         model_psdk: PsdkModel,
         model_keys: Any,
         paths: [str],
-        is_bar: bool = True
+        is_bar: bool = True,
+        password = None
 ):
     tests_exit()
     if not model_keys:
@@ -84,6 +87,7 @@ def psdk_package_sign_common(
             tool=model_psdk.get_tool_path(),
             key=str(model_keys.key),
             cert=str(model_keys.cert),
-            path=path
+            path=path,
+            password=password
         )
         echo_stdout(result)

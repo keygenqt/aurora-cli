@@ -85,7 +85,8 @@ def shell_cpp_format(
 def shell_tar_sudo_unpack(
         archive_path: str,
         unpack_path: str,
-        progress: Callable[[int], None]
+        progress: Callable[[int], None],
+        password=None
 ) -> OutResult:
     percents = []
     percent_start(percents, progress)
@@ -104,7 +105,7 @@ def shell_tar_sudo_unpack(
         '--checkpoint-action=echo="#%u"',
         '-C',
         unpack_path
-    ], listen=lambda out: percent_counter(count, percents, progress), disable_sigint=False)
+    ], listen=lambda out: percent_counter(count, percents, progress), disable_sigint=False, password=password)
 
     percent_end(percents, progress)
 
@@ -120,7 +121,8 @@ def shell_psdk_tooling_create(
         tool: str,
         version: str,
         path: str,
-        progress: Callable[[int], None]
+        progress: Callable[[int], None],
+        password=None
 ) -> OutResult:
     percents = []
     percent_start(percents, progress)
@@ -133,7 +135,7 @@ def shell_psdk_tooling_create(
         '-y',
         'AuroraOS-{}-base'.format(version),
         path
-    ], listen=lambda _: percent_counter(15, percents, progress), disable_sigint=False)
+    ], listen=lambda _: percent_counter(15, percents, progress), disable_sigint=False, password=password)
 
     percent_end(percents, progress)
 
@@ -150,7 +152,8 @@ def shell_psdk_target_create(
         version: str,
         path: str,
         arch: str,
-        progress: Callable[[int], None]
+        progress: Callable[[int], None],
+        password=None
 ) -> OutResult:
     percents = []
     percent_start(percents, progress)
@@ -163,7 +166,7 @@ def shell_psdk_target_create(
         '-y',
         'AuroraOS-{}-base-{}'.format(version, arch),
         path
-    ], listen=lambda out: percent_counter(30, percents, progress), disable_sigint=False)
+    ], listen=lambda out: percent_counter(30, percents, progress), disable_sigint=False, password=password)
 
     percent_end(percents, progress)
 
@@ -177,14 +180,15 @@ def shell_psdk_target_create(
 @check_dependency(DependencyApps.sudo)
 def shell_psdk_targets(
         tool: str,
-        version: str
+        version: str,
+        password = None
 ) -> OutResult:
     targets = []
     stdout, stderr = shell_exec_command([
         tool,
         'sdk-assistant',
         'list',
-    ])
+    ], password=password)
     if stderr:
         return OutResultError(TextError.psdk_targets_get_error())
 
@@ -201,7 +205,8 @@ def shell_psdk_targets(
 @check_dependency(DependencyApps.sudo)
 def shell_psdk_clear(
         tool: str,
-        target: str
+        target: str,
+        password = None
 ) -> OutResult:
     stdout, stderr = shell_exec_command([
         tool,
@@ -211,7 +216,7 @@ def shell_psdk_clear(
         '-y',
         '--snapshots-of',
         target
-    ])
+    ], password=password)
 
     result = shell_check_error_out(stdout, stderr, ['No such target'])
     if result.is_error():
@@ -269,6 +274,7 @@ def shell_psdk_package_install(
         tool: str,
         target: str,
         path: str,
+        password = None
 ) -> OutResult:
     stdout, stderr = shell_exec_command([
         tool,
@@ -283,7 +289,7 @@ def shell_psdk_package_install(
         'in',
         '-y',
         path
-    ])
+    ], password=password)
 
     result = shell_check_error_out(stdout, stderr, [
         'No provider of',
@@ -306,6 +312,7 @@ def shell_psdk_package_remove(
         tool: str,
         target: str,
         package: str,
+        password = None
 ) -> OutResult:
     stdout, stderr = shell_exec_command([
         tool,
@@ -319,7 +326,7 @@ def shell_psdk_package_remove(
         'rm',
         '-y',
         package
-    ])
+    ], password=password)
 
     result = shell_check_error_out(stdout, stderr, [
         'not found in package names',
@@ -373,13 +380,14 @@ def shell_psdk_resign(
         key: str,
         cert: str,
         path: str,
+        password = None
 ) -> OutResult:
     shell_exec_command([
         tool,
         'rpmsign-external',
         'delete',
         path
-    ])
+    ], password=password)
     stdout, stderr = shell_exec_command([
         tool,
         'rpmsign-external',
@@ -387,7 +395,7 @@ def shell_psdk_resign(
         f'--key={key}',
         f'--cert={cert}',
         path
-    ])
+    ], password=password)
 
     result = shell_check_error_out(stdout, stderr, [
         'is a directory',
@@ -401,8 +409,11 @@ def shell_psdk_resign(
 
 
 @check_dependency(DependencyApps.sudo)
-def shell_remove_root_folder(path: str) -> OutResult:
-    stdout, stderr = shell_exec_command(['sudo', 'rm', '-rf', path])
+def shell_remove_root_folder(
+        path: str,
+        password = None
+) -> OutResult:
+    stdout, stderr = shell_exec_command(['sudo', 'rm', '-rf', path], password=password)
     if stderr:
         return OutResultError(TextError.exec_command_error())
     return OutResult()

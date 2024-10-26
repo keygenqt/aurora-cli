@@ -36,6 +36,7 @@ def shell_exec_command(
         cwd: Path = Path.cwd(),
         listen: Any = None,
         disable_sigint: bool = True,
+        password = None
 ) -> []:
     if not args:
         echo_stdout(OutResultError(TextError.shell_exec_command_empty()))
@@ -62,14 +63,18 @@ def shell_exec_command(
             stdout.append(out)
 
     command = verbose_command_start(args)
+    execute = ' '.join(args)
+    if password:
+        execute = ' '.join(['echo', password, '|', 'sudo', '-S'] + args)
 
     try:
         with subprocess.Popen(
-                args,
+                execute,
                 cwd=cwd,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
-                preexec_fn=exec_fn
+                preexec_fn=exec_fn,
+                shell=True
         ) as process:
             for value in iter(lambda: process.stdout.readline(), ""):
                 if not value:

@@ -14,10 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-import subprocess
 from pathlib import Path
 
 from aurora_cli.src.base.utils.dependency import check_dependency, DependencyApps
+from aurora_cli.src.base.utils.shell import shell_exec_command
 
 
 def file_remove_line(
@@ -46,17 +46,23 @@ def file_exist_in_line(
 
 
 @check_dependency(DependencyApps.sudo)
-def file_permissions_777(path: Path):
+def file_permissions_777(
+        path: Path,
+        password = None
+):
     if path.is_file():
         for arg in [['sudo', 'chmod', '777', str(path)]]:
-            subprocess.call(arg, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            shell_exec_command(arg, password=password)
 
 
 @check_dependency(DependencyApps.sudo)
-def file_permissions_644(path: Path):
+def file_permissions_644(
+        path: Path,
+        password = None
+):
     if path.is_file():
         for arg in [
             ['sudo', 'chmod', '644', str(path)],
             ['sudo', 'chown', 'root:root', str(path)]
         ]:
-            subprocess.call(arg, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            shell_exec_command(arg, password=password)

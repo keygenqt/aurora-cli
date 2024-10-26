@@ -59,6 +59,7 @@ def search_route_psdk(route: str) -> bool:
     elif root == '/psdk/targets':
         psdk_targets_common(
             model=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
+            password=get_arg_str_optional(route, 'password')
         )
     elif root == '/psdk/download':
         psdk_install_common(
@@ -71,23 +72,28 @@ def search_route_psdk(route: str) -> bool:
             version=get_arg_str(route, 'version'),
             is_bar=False,
             mode='install',
+            password = get_arg_str_optional(route, 'password')
         )
     elif root == '/psdk/remove':
         psdk_remove_common(
             model=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
+            password = get_arg_str_optional(route, 'password')
         )
     elif root == '/psdk/clear':
         psdk_clear_common(
             target=get_arg_str(route, 'target'),
             model=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
+            password=get_arg_str_optional(route, 'password')
         )
     elif root == '/psdk/sudoers/add':
         psdk_sudoers_add_common(
             model=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
+            password=get_arg_str_optional(route, 'password')
         )
     elif root == '/psdk/sudoers/remove':
         psdk_sudoers_remove_common(
             model=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
+            password=get_arg_str_optional(route, 'password')
         )
     elif root == '/psdk/package/search':
         psdk_package_search_common(
@@ -100,12 +106,14 @@ def search_route_psdk(route: str) -> bool:
             target=get_arg_str(route, 'target'),
             path=get_arg_str(route, 'path'),
             model=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
+            password=get_arg_str_optional(route, 'password')
         )
     elif root == '/psdk/package/remove':
         psdk_package_remove_common(
             target=get_arg_str(route, 'target'),
             package=get_arg_str(route, 'package'),
             model=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
+            password=get_arg_str_optional(route, 'password')
         )
     elif root == '/psdk/package/validate':
         psdk_package_validate_common(
@@ -120,6 +128,7 @@ def search_route_psdk(route: str) -> bool:
             is_bar=False,
             model_psdk=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
             model_keys=SignModel.get_model_by_name(get_arg_str_optional(route, 'key')),
+            password = get_arg_str_optional(route, 'password')
         )
     elif root == '/psdk/project/format':
         psdk_project_format_common(
