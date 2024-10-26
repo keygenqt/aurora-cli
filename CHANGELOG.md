@@ -1,11 +1,12 @@
-## Updated: 10/26/2024 11:29:17 AM
+## Updated: 10/26/2024 13:25:43 PM
 
 ## Info
 
-- Last tag: 3.0.8
-- Released: 27
+- Last tag: 3.0.9
+- Released: 28
 
 ## Versions
+- Version: 3.0.9 (26/10/2024)
 - Version: 3.0.8 (26/10/2024)
 - Version: 3.0.7 (22/10/2024)
 - Version: 3.0.6 (21/10/2024)
@@ -33,6 +34,12 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 3.0.9 (26/10/2024)
+
+#### Feature
+
+- Arg like env value. (Vitaliy Zarubin)
 
 ### Version: 3.0.8 (26/10/2024)
 
