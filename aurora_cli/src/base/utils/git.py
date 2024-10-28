@@ -27,7 +27,7 @@ from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
 from aurora_cli.src.base.utils.app import app_abort_handler
 from aurora_cli.src.base.utils.argv import argv_is_api
 from aurora_cli.src.base.utils.git_title import TitleOpCode
-from aurora_cli.src.base.utils.output import echo_stdout, OutResultInfo, OutResultError, OutResult
+from aurora_cli.src.base.utils.output import echo_stdout, OutResultInfo, OutResultError
 
 
 def git_clone(

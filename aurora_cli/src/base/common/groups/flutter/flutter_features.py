@@ -32,6 +32,7 @@ from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
 from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.cache_func import cache_func_clear
+from aurora_cli.src.base.utils.dependency import check_dependency, DependencyApps
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResult, OutResultInfo
 from aurora_cli.src.base.utils.tests import tests_exit
 from aurora_cli.src.base.utils.text_file import file_remove_line
@@ -46,6 +47,7 @@ def flutter_installed_common():
     echo_stdout(search_installed_flutter())
 
 
+@check_dependency(DependencyApps.git)
 def flutter_install_common(
         version: str,
         is_bar: bool = True
@@ -68,7 +70,6 @@ def flutter_install_common(
     cache_func_clear()
     # end
     echo_stdout(OutResult(TextSuccess.flutter_install_success(str(flutter_path), version)))
-
 
 
 def flutter_remove_common(model: FlutterModel):
