@@ -1,11 +1,12 @@
-## Updated: 10/26/2024 16:59:05 PM
+## Updated: 10/30/2024 19:05:26 PM
 
 ## Info
 
-- Last tag: 3.0.10
-- Released: 29
+- Last tag: 3.0.11
+- Released: 30
 
 ## Versions
+- Version: 3.0.11 (30/10/2024)
 - Version: 3.0.10 (26/10/2024)
 - Version: 3.0.9 (26/10/2024)
 - Version: 3.0.8 (26/10/2024)
@@ -35,6 +36,16 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 3.0.11 (30/10/2024)
+
+#### Bug
+
+- Add check dependency git. (Vitaliy Zarubin)
+
+#### Change
+
+- Update get link for 5.1.3. (Vitaliy Zarubin)
 
 ### Version: 3.0.10 (26/10/2024)
 
