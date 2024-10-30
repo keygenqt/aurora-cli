@@ -70,6 +70,25 @@ def get_run_sdk_from_file_with_version(file_version: Path) -> Any:
 
 
 # PSDK / SDK
+def get_version_latest_by_url_custom_5_1_3(url: str) -> []:
+    from bs4 import BeautifulSoup
+
+    root_url = (url
+                .replace('/AppSDK/', '')
+                .replace('/PlatformSDK/', ''))
+    versions = []
+    response = request_get(root_url)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+        for item in soup.findAll('a'):
+            text = item.text.strip('/')
+            if re.search(r'^\d+\.\d+\.\d+', text):
+                if 'PlatformSDK' in url:
+                    versions.append(f'{root_url}/{text}/AuroraPSDK/')
+                else:
+                    versions.append(f'{root_url}/{text}/AuroraSDK-MB2/')
+    return versions
+
 def get_version_latest_by_url_custom_5_1(url: str) -> []:
     from bs4 import BeautifulSoup
 
@@ -93,7 +112,9 @@ def get_version_latest_by_url(major: str, url: str) -> Any:
 
     urls = []
 
-    if '5.1' in url:
+    if '5.1.3' in url:
+        urls = get_version_latest_by_url_custom_5_1_3(url)
+    elif '5.1' in url:
         urls = get_version_latest_by_url_custom_5_1(url)
 
     response = request_get(url)

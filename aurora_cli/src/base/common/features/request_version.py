@@ -36,7 +36,7 @@ def _get_versions_from_repo(url: str) -> []:
         soup = BeautifulSoup(response.text, 'html.parser')
         for item in soup.findAll('a'):
             text = item.text.replace('/', '')
-            if re.search(r'\d.\d.\d', text):
+            if re.search(r'\d.\d.\d', text) and not '4.0.1' in text:
                 versions.append(text)
     versions.reverse()
     return versions
