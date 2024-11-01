@@ -26,7 +26,7 @@ def shell_pip_versions() -> []:
     try:
         stdout = (subprocess.check_output('pip index versions {}'.format(APP_NAME),
                                           stderr=subprocess.STDOUT,
-                                          timeout=3,
+                                          timeout=5,
                                           shell=True)
                   .decode('utf-8')
                   .split('\n'))

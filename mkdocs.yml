@@ -31,7 +31,6 @@ nav:
               - Upload: cli/emulator/upload.md
           - Flutter:
               - Project:
-                  - Build: cli/flutter/project/build.md
                   - Format: cli/flutter/project/format.md
                   - Icons: cli/flutter/project/icons.md
                   - Report: cli/flutter/project/report.md
@@ -48,7 +47,6 @@ nav:
                   - Sign: cli/psdk/package/sign.md
                   - Validate: cli/psdk/package/validate.md
               - Project:
-                  - Build: cli/psdk/project/build.md
                   - Format: cli/psdk/project/format.md
                   - Icons: cli/psdk/project/icons.md
               - Sudoers:

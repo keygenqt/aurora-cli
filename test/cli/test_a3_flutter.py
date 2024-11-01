@@ -93,13 +93,6 @@ class TestFlutterCLI(unittest.TestCase):
         ])
         self.assertEqual(result.exit_code, 0)
 
-    def test_flutter_a9(self):
-        runner = CliRunner()
-        result = runner.invoke(cli=subgroup_flutter_project, args=[
-            'build',
-        ])
-        self.assertEqual(result.exit_code, 0)
-
 
 if __name__ == '__main__':
     unittest.main()

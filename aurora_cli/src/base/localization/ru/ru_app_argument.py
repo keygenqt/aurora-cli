@@ -43,32 +43,8 @@ class TextArgumentRu(Enum):
         return 'Выберите из доступных.'
 
     @staticmethod
-    def argument_install():
-        return 'Установите на устройство или эмулятор.'
-
-    @staticmethod
-    def argument_debug():
-        return 'Режим сборки с отладкой.'
-
-    @staticmethod
     def argument_run_mode():
         return 'Режим запуска приложения.'
-
-    @staticmethod
-    def argument_clean():
-        return 'Очистка сборки.'
-
-    @staticmethod
-    def argument_pub_get():
-        return 'Выполнить pub get.'
-
-    @staticmethod
-    def argument_build_runner():
-        return 'Выполнить build runner.'
-
-    @staticmethod
-    def argument_run():
-        return 'Запустите приложение на устройстве или эмуляторе.'
 
     @staticmethod
     def argument_index():
@@ -91,10 +67,6 @@ class TextArgumentRu(Enum):
         return 'Использовать APM.'
 
     @staticmethod
-    def argument_exit_after_run():
-        return 'Выйти после запуска.'
-
-    @staticmethod
     def argument_sdk_installer_type():
         return 'Загрузите установщик offline типа.'
 
@@ -113,14 +85,6 @@ class TextArgumentRu(Enum):
     @staticmethod
     def argument_clear_cache():
         return 'Очистить кэшированные данные.'
-
-    @staticmethod
-    def argument_mode_build():
-        return 'Тип сборки проекта.'
-
-    @staticmethod
-    def argument_run_mode():
-        return 'Режим запуска приложения.'
 
     @staticmethod
     def argument_host_device():

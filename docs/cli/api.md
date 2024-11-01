@@ -189,37 +189,11 @@ Remove Flutter for Aurora OS.
 • version - Installed version of Flutter.
 ```
 
-Add devices with Aurora OS to Flutter.
-
-```yaml title="/flutter/custom-devices"
-• version - Installed version of Flutter.
-```
-
 Project formatting.
 
 ```yaml title="/flutter/project/format"
 • version - Installed version of Flutter.
 • path - Path to project. The default is the current directory.
-```
-
-Build a project.
-
-```yaml title="/flutter/project/build"
-• version - Installed version of Flutter.
-• psdk - Installed version of Aurora Platform SDK.
-• path - Path to project. The default is the current directory.
-• target - Target name installed version of Aurora Platform SDK.
-• debug [default = false, true] - Build debug.
-• clean [default = false, true] - Build clean.
-• pub_get [default = false, true] - Run pub get.
-• build_runner [default = false, true] - Run build runner.
-• install [default = false, true] - Install on the device or the emulator.
-• apm [default = false, true] - Use APM.
-• run [default = false, true] - Run application on the device or the emulator.
-• verbose [default = false, true] - Command output.
-• run_mode [dart, gdb] (optional) - Application launch mode.
-• host (optional) - IP address device.
-• key (optional) - The name of key for sign package from config application.
 ```
 
 Compile a report of flutter project.
@@ -344,22 +318,6 @@ Project formatting.
 
 ```yaml title="/psdk/project/format"
 • path - Path to project. The default is the current directory.
-```
-
-Build a project.
-
-```yaml title="/psdk/project/build"
-• version - Installed version of Aurora Platform SDK.
-• target - Target name installed version of Aurora Platform SDK.
-• path - Path to project. The default is the current directory.
-• clean [default = false, true] - Build clean.
-• install [default = false, true] - Install on the device or the emulator.
-• apm [default = false, true] - Use APM.
-• run [default = false, true] - Run application on the device or the emulator.
-• debug [default = false, true] - Build debug.
-• verbose [default = false, true] - Command output.
-• host (optional) - IP address device.
-• key (optional) - The name of key for sign package from config application.
 ```
 
 Gen multiple size icons for application.

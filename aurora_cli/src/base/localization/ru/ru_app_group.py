@@ -34,14 +34,6 @@ Platform SDK https://developer.auroraos.ru/doc/software_development/psdk
         return 'Программный интерфейс для приложений.'
 
     @staticmethod
-    def group_build():
-        return 'Сборка приложений Qt и Flutter.'
-
-    @staticmethod
-    def group_debug():
-        return 'Отладка приложений Qt и Flutter.'
-
-    @staticmethod
     def group_device():
         return 'Работа с устройством.'
 
@@ -88,10 +80,6 @@ Platform SDK https://developer.auroraos.ru/doc/software_development/psdk
     @staticmethod
     def group_sdk():
         return 'Работа с Аврора SDK.'
-
-    @staticmethod
-    def group_sundry():
-        return 'Дополнительный функционал.'
 
     @staticmethod
     def group_settings():

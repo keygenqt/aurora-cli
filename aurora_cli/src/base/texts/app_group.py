@@ -39,16 +39,6 @@ This is a third party tool written by enthusiasts!'''
 
     @staticmethod
     @localization
-    def group_build():
-        return 'Building Qt & Flutter applications.'
-
-    @staticmethod
-    @localization
-    def group_debug():
-        return 'Debugging Qt & Flutter applications.'
-
-    @staticmethod
-    @localization
     def group_device():
         return 'Work with the device.'
 
@@ -106,11 +96,6 @@ This is a third party tool written by enthusiasts!'''
     @localization
     def group_sdk():
         return 'Work with Aurora SDK.'
-
-    @staticmethod
-    @localization
-    def group_sundry():
-        return 'Additional functionality.'
 
     @staticmethod
     @localization

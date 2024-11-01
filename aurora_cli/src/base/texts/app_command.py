@@ -147,16 +147,6 @@ class TextCommand(Enum):
 
     @staticmethod
     @localization
-    def command_project_build():
-        return 'Build a project.'
-
-    @staticmethod
-    @localization
-    def command_project_debug():
-        return 'Build debug and run a project.'
-
-    @staticmethod
-    @localization
     def command_project_icon():
         return 'Gen multiple size icons for application.'
 
@@ -259,11 +249,6 @@ class TextCommand(Enum):
     @localization
     def command_vscode_tuning():
         return 'Installing VS Code extensions that are necessary for work.'
-
-    @staticmethod
-    @localization
-    def command_flutter_custom_devices():
-        return 'Add devices with Aurora OS to Flutter.'
 
     @staticmethod
     @localization

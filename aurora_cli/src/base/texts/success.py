@@ -260,32 +260,6 @@ Good luck 👋'''
 
     @staticmethod
     @localization
-    def flutter_clear_success():
-        return '<green>The project cleanup is successful.</green>'
-
-    @staticmethod
-    @localization
-    def flutter_get_pub_success():
-        return '<green>Getting dependencies is successful.</green>'
-
-    @staticmethod
-    @localization
-    def flutter_run_build_runner_success():
-        return '<green>The build_runner has been completed the job successfully.</green>'
-
-    @staticmethod
-    @localization
-    def flutter_build_success(paths: []):
-        new_line = '\n' if len(paths) > 1 else ''
-        return f'<green>The project build is successful:</green> {new_line}' + '\n'.join(paths)
-
-    @staticmethod
-    @localization
-    def flutter_enable_custom_device_success():
-        return '<green>Custom devices have been activated successfully.</green>'
-
-    @staticmethod
-    @localization
     def vscode_extension_install_success(version: Any = None):
         if version:
             return f'<green>Extension</green> {version} <green>has been installed successfully.</green>'
@@ -311,13 +285,6 @@ Good luck 👋'''
     @localization
     def devices_add_to_config_emulator():
         return '<green>Aurora Emulator has added to custom-devices Flutter successfully.</green>'
-
-    @staticmethod
-    @localization
-    def devices_add_to_config_devices(host: str):
-        return (f'<green>Aurora Device</green>'
-                f' {host} '
-                f'<green>has been added to custom-devices Flutter successfully.</green>')
 
     @staticmethod
     @localization

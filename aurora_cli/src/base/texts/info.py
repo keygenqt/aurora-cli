@@ -38,11 +38,6 @@ class TextInfo(Enum):
 
     @staticmethod
     @localization
-    def emulator_recording_video_stop_already():
-        return '<blue>The emulator recording video has already turned off.</blue>'
-
-    @staticmethod
-    @localization
     def shh_upload_start():
         return f'<blue>Starting file upload.</blue>'
 
@@ -105,11 +100,6 @@ class TextInfo(Enum):
     @localization
     def available_versions_flutter(versions: []):
         return '<blue>Available versions Flutter for Aurora OS:</blue>\n{}'.format('\n'.join(versions))
-
-    @staticmethod
-    @localization
-    def available_versions_plugins(versions: []):
-        return '<blue>Available versions Flutter Plugins for Aurora OS:</blue>\n{}'.format('\n'.join(versions))
 
     @staticmethod
     @localization
@@ -329,11 +319,6 @@ class TextInfo(Enum):
 
     @staticmethod
     @localization
-    def devices_turn_on():
-        return '<blue>To obtain the necessary information about the devices, they must be connected...</blue>'
-
-    @staticmethod
-    @localization
     def update_launch_json_gdb():
         return '<blue>File</blue> launch.json <blue>has been updated, you can run the GDB debug in VS Code.</blue>'
 
@@ -347,11 +332,6 @@ class TextInfo(Enum):
     @hint(Hint.debug_aurora)
     def ssh_run_debug_aurora():
         return '<yellow>There is no debugging for the Aurora application, only for Flutter.</yellow>'
-
-    @staticmethod
-    @localization
-    def run_debug_application():
-        return '<blue>The application will run outside the sandbox.</blue>'
 
     @staticmethod
     @localization
@@ -384,11 +364,6 @@ class TextInfo(Enum):
     @localization
     def search_installed_aurora_sdk(path: str):
         return f'<blue>Directory search</blue> {path} <blue>Aurora SDK...</blue>'
-
-    @staticmethod
-    @localization
-    def install_debug_apm_dart_debug():
-        return '<yellow>Only the main package will be installed via apm; this is enough for Dart debug.</yellow>'
 
     @staticmethod
     @localization

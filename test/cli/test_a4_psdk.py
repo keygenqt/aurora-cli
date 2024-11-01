@@ -124,13 +124,6 @@ class TestPsdkCLI(unittest.TestCase):
         ])
         self.assertEqual(result.exit_code, 0)
 
-    def test_psdk_b3(self):
-        runner = CliRunner()
-        result = runner.invoke(cli=subgroup_psdk_project, args=[
-            'build',
-        ])
-        self.assertEqual(result.exit_code, 0)
-
     def test_psdk_b4(self):
         runner = CliRunner()
         result = runner.invoke(cli=subgroup_psdk_project, args=[

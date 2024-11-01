@@ -165,15 +165,6 @@ class TestPsdkAPI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
 
-    def test_psdk_b7(self):
-        runner = CliRunner()
-        result = runner.invoke(cli=group_api, args=[
-            '--route',
-            '/psdk/project/build?target=1&path=1&version=1&name=1'
-        ])
-        self.assertEqual(result.exit_code, 0)
-        self.assertIn('"code": 200', result.output)
-
 
 if __name__ == '__main__':
     unittest.main()

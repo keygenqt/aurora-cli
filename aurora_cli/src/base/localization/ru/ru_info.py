@@ -27,10 +27,6 @@ class TextInfoRu(Enum):
         return '<blue>Эмулятор уже запущен.</blue>'
 
     @staticmethod
-    def emulator_recording_video_stop_already():
-        return '<blue>Эмулятор записи видео уже выключен.</blue>'
-
-    @staticmethod
     def shh_download_start():
         return f'<blue>Начинаем загрузку файла...</blue>'
 
@@ -82,10 +78,6 @@ class TextInfoRu(Enum):
     @staticmethod
     def available_versions_flutter(versions: []):
         return '<blue>Доступные версии Flutter для ОС Аврора:</blue>\n{}'.format('\n'.join(versions))
-
-    @staticmethod
-    def available_versions_plugins(versions: []):
-        return '<blue>Доступные версии Flutter плагинов для ОС Аврора:</blue>\n{}'.format('\n'.join(versions))
 
     @staticmethod
     def installed_versions_sdk(versions: []):
@@ -272,10 +264,6 @@ class TextInfoRu(Enum):
                 f'<blue>подключенный с помощью пароля не будет добавлен, используйте ssh key в auth.</blue>')
 
     @staticmethod
-    def devices_turn_on():
-        return '<blue>Для получения необходимой информации об устройствах, они должны быть подключены.</blue>'
-
-    @staticmethod
     def update_launch_json_gdb():
         return '<blue>Файл</blue> launch.json <blue>был обновлен, можно запускать GDB debug в VS Code.</blue>'
 
@@ -286,10 +274,6 @@ class TextInfoRu(Enum):
     @staticmethod
     def ssh_run_debug_aurora():
         return '<yellow>Debug для Аврора приложения не предусмотрен, только для приложений Flutter.</yellow>'
-
-    @staticmethod
-    def run_debug_application():
-        return '<blue>Приложение будет запущено вне песочницы.</blue>'
 
     @staticmethod
     def run_mode_debug_info():
@@ -314,10 +298,6 @@ class TextInfoRu(Enum):
     @staticmethod
     def search_installed_aurora_sdk(path: str):
         return f'<blue>Поиск в каталоге</blue> {path} <blue>Aurora SDK...</blue>'
-
-    @staticmethod
-    def install_debug_apm_dart_debug():
-        return '<yellow>Через apm будет установлен только основной пакет, для Dart debug этого достаточно.</yellow>'
 
     @staticmethod
     def settings_list(values: dict):

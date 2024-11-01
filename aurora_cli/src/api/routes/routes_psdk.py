@@ -33,17 +33,15 @@ from aurora_cli.src.base.common.groups.psdk.psdk_package_features import (
 )
 from aurora_cli.src.base.common.groups.psdk.psdk_project_features import (
     psdk_project_format_common,
-    psdk_project_build_common,
     psdk_project_icons_common
 )
 from aurora_cli.src.base.common.groups.psdk.psdk_sudoers_features import (
     psdk_sudoers_add_common,
     psdk_sudoers_remove_common
 )
-from aurora_cli.src.base.models.device_model import DeviceModel
 from aurora_cli.src.base.models.psdk_model import PsdkModel
 from aurora_cli.src.base.models.sign_model import SignModel
-from aurora_cli.src.base.utils.route import get_route_root, get_arg_str, get_arg_str_optional, get_arg_bool
+from aurora_cli.src.base.utils.route import get_route_root, get_arg_str, get_arg_str_optional
 
 
 def search_route_psdk(route: str) -> bool:
@@ -72,12 +70,12 @@ def search_route_psdk(route: str) -> bool:
             version=get_arg_str(route, 'version'),
             is_bar=False,
             mode='install',
-            password = get_arg_str_optional(route, 'password')
+            password=get_arg_str_optional(route, 'password')
         )
     elif root == '/psdk/remove':
         psdk_remove_common(
             model=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
-            password = get_arg_str_optional(route, 'password')
+            password=get_arg_str_optional(route, 'password')
         )
     elif root == '/psdk/clear':
         psdk_clear_common(
@@ -128,31 +126,12 @@ def search_route_psdk(route: str) -> bool:
             is_bar=False,
             model_psdk=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
             model_keys=SignModel.get_model_by_name(get_arg_str_optional(route, 'key')),
-            password = get_arg_str_optional(route, 'password')
+            password=get_arg_str_optional(route, 'password')
         )
     elif root == '/psdk/project/format':
         psdk_project_format_common(
             project=Path(get_arg_str(route, 'path')),
             is_bar=False
-        )
-    elif root == '/psdk/project/build':
-        model_device = None
-        host = get_arg_str_optional(route, 'host')
-        if host:
-            model_device = DeviceModel.get_model_by_host(host)
-        psdk_project_build_common(
-            model_device=model_device,
-            target=get_arg_str(route, 'target'),
-            debug=get_arg_bool(route, 'debug'),
-            clean=get_arg_bool(route, 'clean'),
-            project=Path(get_arg_str(route, 'path')),
-            is_apm=get_arg_bool(route, 'apm'),
-            is_install=get_arg_bool(route, 'install'),
-            is_run=get_arg_bool(route, 'run'),
-            verbose=get_arg_bool(route, 'verbose'),
-            is_bar=False,
-            model_psdk=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
-            model_keys=SignModel.get_model_by_name(get_arg_str_optional(route, 'key')),
         )
     elif root == '/psdk/project/icons':
         psdk_project_icons_common(

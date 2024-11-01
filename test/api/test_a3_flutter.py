@@ -93,15 +93,6 @@ class TestFlutterAPI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
 
-    def test_flutter_a8(self):
-        runner = CliRunner()
-        result = runner.invoke(cli=group_api, args=[
-            '--route',
-            '/flutter/project/build?target=1&path=/home&flutter_version=1&psdk_version=1&key_name=1'
-        ])
-        self.assertEqual(result.exit_code, 0)
-        self.assertIn('"code": 200', result.output)
-
 
 if __name__ == '__main__':
     unittest.main()

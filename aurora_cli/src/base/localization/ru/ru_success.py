@@ -221,27 +221,6 @@ class TextSuccessRu(Enum):
         return f'<green>Изображения были успешно созданы:</green> {path}'
 
     @staticmethod
-    def flutter_clear_success():
-        return '<green>Очистка проекта прошла успешно.</green>'
-
-    @staticmethod
-    def flutter_get_pub_success():
-        return '<green>Получение зависимостей прошло успешно.</green>'
-
-    @staticmethod
-    def flutter_run_build_runner_success():
-        return '<green>Успешно выполнил работу build_runner.</green>'
-
-    @staticmethod
-    def flutter_build_success(paths: []):
-        new_line = '\n' if len(paths) > 1 else ''
-        return f'<green>Сборка проекта прошла успешно:</green> {new_line}' + '\n'.join(paths)
-
-    @staticmethod
-    def flutter_enable_custom_device_success():
-        return '<green>Успешно активированы кастомные устройства.</green>'
-
-    @staticmethod
     def vscode_extension_install_success(version: Any = None):
         if version:
             return f'<green>Расширение</green> {version} <green>было успешно установлено.</green>'
@@ -263,12 +242,6 @@ class TextSuccessRu(Enum):
     @staticmethod
     def devices_add_to_config_emulator():
         return '<green>Эмулятор ОС Аврора был успешно добавлен в custom-device Flutter.</green>'
-
-    @staticmethod
-    def devices_add_to_config_devices(host: str):
-        return (f'<green>Устройство ОС Аврора</green>'
-                f' {host} '
-                f'<green>было успешно добавлено в custom-device Flutter.</green>')
 
     @staticmethod
     def settings_clear():

@@ -39,5 +39,3 @@ class TextPrompt(Enum):
     @localization
     def is_ready():
         return 'Are you ready to continue?'
-
-

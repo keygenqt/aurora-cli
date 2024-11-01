@@ -52,38 +52,8 @@ class TextArgument(Enum):
 
     @staticmethod
     @localization
-    def argument_install():
-        return 'Install on the device or the emulator.'
-
-    @staticmethod
-    @localization
-    def argument_debug():
-        return 'Build debug.'
-
-    @staticmethod
-    @localization
     def argument_run_mode():
         return 'Application launch mode.'
-
-    @staticmethod
-    @localization
-    def argument_clean():
-        return 'Build clean.'
-
-    @staticmethod
-    @localization
-    def argument_pub_get():
-        return 'Run pub get.'
-
-    @staticmethod
-    @localization
-    def argument_build_runner():
-        return 'Run build runner.'
-
-    @staticmethod
-    @localization
-    def argument_run():
-        return 'Run application on the device or the emulator.'
 
     @staticmethod
     @localization
@@ -112,11 +82,6 @@ class TextArgument(Enum):
 
     @staticmethod
     @localization
-    def argument_exit_after_run():
-        return 'Exit after run.'
-
-    @staticmethod
-    @localization
     def argument_sdk_installer_type():
         return 'Download offline type installer.'
 
@@ -139,16 +104,6 @@ class TextArgument(Enum):
     @localization
     def argument_clear_cache():
         return 'Clear cached data.'
-
-    @staticmethod
-    @localization
-    def argument_mode_build():
-        return 'Mode build project.'
-
-    @staticmethod
-    @localization
-    def argument_run_mode():
-        return 'Application launch mode.'
 
     @staticmethod
     @localization

@@ -45,11 +45,6 @@ class TextError(Enum):
 
     @staticmethod
     @localization
-    def emulator_path_not_found():
-        return '<red>Could not find path to emulator.</red>'
-
-    @staticmethod
-    @localization
     @hint(Hint.route_error_hint, Hint.documentation_link)
     def route_not_found():
         return '<red>Route is not found.</red>'
@@ -354,12 +349,6 @@ class TextError(Enum):
     @staticmethod
     @localization
     @hint(Hint.use_verbose)
-    def psdk_sign_error():
-        return '<red>An error occurred while signing.</red>'
-
-    @staticmethod
-    @localization
-    @hint(Hint.use_verbose)
     def psdk_targets_get_error():
         return '<red>An error occurred while receiving targets.</red>'
 
@@ -382,36 +371,6 @@ class TextError(Enum):
             height: int
     ):
         return f'<red>Minimum icon size is {width}x{height}.</red>'
-
-    @staticmethod
-    @localization
-    def search_application_id_error():
-        return '<red>Failed to read application ID.</red>'
-
-    @staticmethod
-    @localization
-    def arch_not_found():
-        return '<red>Architecture type is not found.</red>'
-
-    @staticmethod
-    @localization
-    def debug_apm_error():
-        return '<red>Installation of debug packages for apm is not available.</red>'
-
-    @staticmethod
-    @localization
-    def debug_mode_error():
-        return '<red>To run the application in this mode,</red> --debug <red>build is required.</red>'
-
-    @staticmethod
-    @localization
-    def debug_apm_gdb_error():
-        return '<red>Installation via</red> --apm <red> do not support debug GDB.</red>'
-
-    @staticmethod
-    @localization
-    def run_without_install_error():
-        return '<red>Installation flag not specified</red> --install (-i)'
 
     @staticmethod
     @localization
@@ -453,15 +412,5 @@ class TextError(Enum):
 
     @staticmethod
     @localization
-    def run_emulator_arch_error():
-        return '<red>The architecture for installing the application on the emulator is not suitable.</red>'
-
-    @staticmethod
-    @localization
     def repo_search_error():
         return '<red>Could not find a version to install in the repository.</red>'
-
-    @staticmethod
-    @localization
-    def get_data_error():
-        return '<red>Failed to retrieve data.</red>'

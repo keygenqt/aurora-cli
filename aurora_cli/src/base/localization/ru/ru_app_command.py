@@ -119,14 +119,6 @@ class TextCommandRu(Enum):
         return 'Форматирование проекта.'
 
     @staticmethod
-    def command_project_build():
-        return 'Сборка проекта.'
-
-    @staticmethod
-    def command_project_debug():
-        return 'Сборка debug и запуск проекта.'
-
-    @staticmethod
     def command_project_icon():
         return 'Генерируйте иконки разных размеров для приложения.'
 
@@ -209,10 +201,6 @@ class TextCommandRu(Enum):
     @staticmethod
     def command_vscode_tuning():
         return 'Настройка Visual Studio Code.'
-
-    @staticmethod
-    def command_flutter_custom_devices():
-        return 'Добавьте устройства с ОС Aurora во Flutter.'
 
     @staticmethod
     def command_vscode_info():

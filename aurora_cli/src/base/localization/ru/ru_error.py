@@ -35,10 +35,6 @@ class TextErrorRu(Enum):
         return '<red>Не удалось запустить эмулятор.</red>'
 
     @staticmethod
-    def emulator_path_not_found():
-        return '<red>Не удалось найти путь к эмулятору.</red>'
-
-    @staticmethod
     def route_not_found():
         return '<red>Маршрут не найден.</red>'
 
@@ -268,10 +264,6 @@ class TextErrorRu(Enum):
         return f'<red>Произошла ошибка при форматировании проекта.</red>'
 
     @staticmethod
-    def psdk_sign_error():
-        return '<red>Возникла ошибка при подписи.</red>'
-
-    @staticmethod
     def psdk_targets_get_error():
         return '<red>Произошла ошибка при получении таргетов.</red>'
 
@@ -289,30 +281,6 @@ class TextErrorRu(Enum):
             height: int
     ):
         return '<red>Минимальный размер изображения {}x{}.</red>'.format(width, height)
-
-    @staticmethod
-    def search_application_id_error():
-        return '<red>Не удалось прочитать идентификатор приложения.</red>'
-
-    @staticmethod
-    def arch_not_found():
-        return '<red>Тип архитектуры не найден.</red>'
-
-    @staticmethod
-    def debug_apm_error():
-        return '<red>Установка debug пакетов для apm не доступна.</red>'
-
-    @staticmethod
-    def debug_mode_error():
-        return '<red>Для запуска приложения в этом режиме требуется сборка с флагом:</red> --debug'
-
-    @staticmethod
-    def debug_apm_gdb_error():
-        return '<red>Установка через</red> --apm <red>не поддерживаем debug по GDB.</red>'
-
-    @staticmethod
-    def run_without_install_error():
-        return '<red>Не указан флаг установки</red> --install (-i)'
 
     @staticmethod
     def flutter_read_json_error():
@@ -343,13 +311,5 @@ class TextErrorRu(Enum):
         return '<red>Не удалось пробросить ssh порты.</red>'
 
     @staticmethod
-    def run_emulator_arch_error():
-        return '<red>Архитектура для установки приложения на эмулятор не подходит.</red>'
-
-    @staticmethod
     def repo_search_error():
         return '<red>Не удалось найти версию для установки в репозитории.</red>'
-
-    @staticmethod
-    def get_data_error():
-        return '<red>Не удалось получить данные.</red>'

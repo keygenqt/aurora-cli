@@ -21,22 +21,13 @@ import click
 
 from aurora_cli.src.base.common.groups.psdk.psdk_project_features import (
     psdk_project_format_common,
-    psdk_project_build_common,
     psdk_project_icons_common
 )
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
-from aurora_cli.src.base.texts.error import TextError
-from aurora_cli.src.base.utils.app import app_exit
-from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, echo_verbose
-from aurora_cli.src.cli.device.__tools import cli_device_tool_select_model
-from aurora_cli.src.cli.psdk.__tools import (
-    cli_psdk_tool_select_model_psdk,
-    cli_psdk_tool_select_target_psdk,
-    cli_psdk_tool_select_model_sign
-)
+from aurora_cli.src.base.utils.output import echo_verbose
 
 
 @click.group(name='project', help=TextGroup.subgroup_psdk_project())
@@ -53,62 +44,6 @@ def project_format(
 ):
     path = Path(path) if path else Path.cwd()
     psdk_project_format_common(path)
-    echo_verbose(verbose)
-
-
-@subgroup_psdk_project.command(name='build', help=TextCommand.command_project_build())
-@click.option('-p', '--path', type=click.STRING, required=False, help=TextArgument.argument_path_to_project())
-@click.option('-d', '--debug', is_flag=True, help=TextArgument.argument_debug())
-@click.option('-c', '--clean', is_flag=True, help=TextArgument.argument_clean())
-@click.option('-i', '--install', is_flag=True, help=TextArgument.argument_install())
-@click.option('-a', '--apm', is_flag=True, help=TextArgument.argument_apm())
-@click.option('-r', '--run', is_flag=True, help=TextArgument.argument_run())
-@click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
-@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def project_build(
-        path: Any,
-        debug: bool,
-        clean: bool,
-        install: bool,
-        apm: bool,
-        run: bool,
-        select: bool,
-        verbose: bool
-):
-    if install and apm and debug:
-        echo_stdout(OutResultError(TextError.debug_apm_error()))
-        app_exit()
-
-    if run and not install:
-        echo_stdout(OutResultError(TextError.run_without_install_error()))
-        app_exit(1)
-
-    path = Path(path) if path else Path.cwd()
-    model_psdk = cli_psdk_tool_select_model_psdk(select, None)
-    target = cli_psdk_tool_select_target_psdk(model_psdk)
-
-    model_keys = None
-    if install:
-        model_keys = cli_psdk_tool_select_model_sign(select, None)
-
-    model_device = None
-    if (install or run) and '86_64' not in target:
-        model_device = cli_device_tool_select_model(select, None)
-
-    psdk_project_build_common(
-        model_psdk=model_psdk,
-        model_device=model_device,
-        model_keys=model_keys,
-        target=target,
-        debug=debug,
-        clean=clean,
-        project=path,
-        is_install=install,
-        is_apm=apm,
-        is_run=run,
-        verbose=verbose,
-    )
-
     echo_verbose(verbose)
 
 
