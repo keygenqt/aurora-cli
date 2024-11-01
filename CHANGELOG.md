@@ -1,11 +1,12 @@
-## Updated: 10/30/2024 19:05:26 PM
+## Updated: 11/01/2024 18:33:07 PM
 
 ## Info
 
-- Last tag: 3.0.11
-- Released: 30
+- Last tag: 3.0.12
+- Released: 31
 
 ## Versions
+- Version: 3.0.12 (01/11/2024)
 - Version: 3.0.11 (30/10/2024)
 - Version: 3.0.10 (26/10/2024)
 - Version: 3.0.9 (26/10/2024)
@@ -36,6 +37,12 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 3.0.12 (01/11/2024)
+
+#### Change
+
+- Remove builds and custom-devices. (Vitaliy Zarubin)
 
 ### Version: 3.0.11 (30/10/2024)
 
