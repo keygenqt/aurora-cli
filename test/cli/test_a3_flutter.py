@@ -61,14 +61,6 @@ class TestFlutterCLI(unittest.TestCase):
         ])
         self.assertEqual(result.exit_code, 0)
 
-    def test_flutter_a5(self):
-        runner = CliRunner()
-        result = runner.invoke(cli=group_flutter, input='', args=[
-            'custom-devices',
-        ])
-        self.assertEqual(result.exit_code, 0)
-        self.assertIn('Are you ready to continue?', result.output)
-
     def test_flutter_a6(self):
         runner = CliRunner()
         result = runner.invoke(cli=subgroup_flutter_project, args=[

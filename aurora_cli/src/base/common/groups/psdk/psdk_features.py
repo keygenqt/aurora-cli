@@ -19,13 +19,8 @@ import subprocess
 from pathlib import Path
 from time import sleep
 
-from grapheme.grapheme_property_group import value
-
-from aurora_cli.src.base.common.features.load_by_version import (
-    get_version_latest_by_url,
-    get_download_psdk_url_by_version
-)
-from aurora_cli.src.base.common.features.request_version import request_versions_psdk
+from aurora_cli.src.base.common.features.load_by_version import get_download_psdk_urls
+from aurora_cli.src.base.common.features.request_version import request_versions_psdk, get_version_psdk_url
 from aurora_cli.src.base.common.features.search_installed import search_installed_psdk
 from aurora_cli.src.base.common.features.shell_features import (
     shell_psdk_targets,
@@ -50,7 +45,6 @@ from aurora_cli.src.base.utils.download import check_downloads, downloads
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultError, OutResultInfo, OutResult
 from aurora_cli.src.base.utils.tests import tests_exit
 from aurora_cli.src.base.utils.text_file import file_remove_line
-from aurora_cli.src.base.utils.url import get_url_version_psdk
 
 
 def psdk_info_common(model: PsdkModel):
@@ -71,7 +65,7 @@ def psdk_installed_common():
 
 def psdk_targets_common(
         model: PsdkModel,
-        password = None
+        password=None
 ):
     echo_stdout(shell_psdk_targets(model.get_tool_path(), model.get_version(), password))
 
@@ -80,29 +74,27 @@ def psdk_install_common(
         version: str,
         is_bar: bool = True,
         mode: str = None,
-        password = None
+        password=None
 ):
     tests_exit()
     # url major version
-    version_url = get_url_version_psdk(version)
-    # get full latest version and url
-    version_full, version_url_latest = get_version_latest_by_url(version, version_url)
+    version_url = get_version_psdk_url(version)
 
-    if not version_url_latest:
+    if not version_url:
         echo_stdout(OutResultError(TextError.repo_search_error()))
         app_exit()
 
     # get url path to files
-    urls = get_download_psdk_url_by_version(version_url_latest)
+    urls = get_download_psdk_urls(version_url)
 
     # check already exists
     versions = PsdkModel.get_versions_psdk()
-    if version_full in versions:
-        echo_stdout(OutResultError(TextError.psdk_already_installed_error(version_full)))
+    if version in versions:
+        echo_stdout(OutResultError(TextError.psdk_already_installed_error(version)))
         app_exit()
 
     # check download urls
-    urls, files = check_downloads(urls)
+    urls, files = check_downloads(urls, mode)
 
     if not urls and not files:
         echo_stdout(OutResultError(TextError.get_install_info_error()))
@@ -111,8 +103,13 @@ def psdk_install_common(
     if mode == 'download' or mode is None:
         _psdk_install_download(urls, is_bar)
 
+    for file in files:
+        if not file.is_file():
+            echo_stdout(OutResultError(TextError.get_install_info_error()))
+            app_exit()
+
     if mode == 'install' or mode is None:
-        _psdk_install(files, version_full, is_bar, password)
+        _psdk_install(files, version, is_bar, password)
 
 
 def _psdk_install_download(
@@ -127,13 +124,13 @@ def _psdk_install_download(
 
 def _psdk_install(
         files: [],
-        version_full: str,
+        version: str,
         is_bar: bool = True,
-        password = None
+        password=None
 ):
     # Create folders
     workdir = WorkdirModel.get_workdir()
-    psdk_path = workdir / f'AuroraPlatformSDK-{version_full}'
+    psdk_path = workdir / f'AuroraPlatformSDK-{version}'
     psdk_dir = psdk_path / 'sdks' / 'aurora_psdk'
     toolings = psdk_path / 'toolings'
     tarballs = psdk_path / 'tarballs'
@@ -205,7 +202,7 @@ def _psdk_install(
 
     echo_stdout(shell_psdk_tooling_create(
         tool=str(tool),
-        version=version_full,
+        version=version,
         path=path_tooling[0],
         progress=lambda percent: out_progress(percent, 'Platform Tooling'),
         password=password
@@ -218,7 +215,7 @@ def _psdk_install(
         arch = path_target.split('-')[-1].split('.')[0]
         echo_stdout(shell_psdk_target_create(
             tool=str(tool),
-            version=version_full,
+            version=version,
             path=str(path_target),
             arch=arch,
             progress=lambda percent: out_progress(percent, f'Target {arch}'),
@@ -229,12 +226,12 @@ def _psdk_install(
         sleep(1)
 
     cache_func_clear()
-    echo_stdout(OutResult(TextSuccess.psdk_install_success(str(psdk_path), version_full)))
+    echo_stdout(OutResult(TextSuccess.psdk_install_success(str(psdk_path), version)))
 
 
 def psdk_remove_common(
         model: PsdkModel,
-        password = None
+        password=None
 ):
     tests_exit()
     echo_stdout(OutResultInfo(TextInfo.psdk_remove_start()))
@@ -250,7 +247,7 @@ def psdk_remove_common(
 def psdk_clear_common(
         model: PsdkModel,
         target: str,
-        password = None
+        password=None
 ):
     tests_exit()
     echo_stdout(shell_psdk_clear(model.get_tool_path(), target, password))

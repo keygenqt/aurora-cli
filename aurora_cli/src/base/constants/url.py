@@ -22,10 +22,6 @@ URL_FLUTTER_SDK_VERSIONS = 'https://gitlab.com/api/v4/projects/53055476/reposito
 
 URL_FLUTTER_PLUGINS_VERSIONS = 'https://gitlab.com/api/v4/projects/48571226/repository/tags?per_page=100'
 
-URL_AURORA_REPO_SDK = 'https://sdk-repo.omprussia.ru/sdk/installers/{version}/AppSDK/'
-
-URL_AURORA_REPO_PSDK = 'https://sdk-repo.omprussia.ru/sdk/installers/{version}/PlatformSDK/'
-
 URL_REGULAR_KEY = 'https://developer.auroraos.ru/static/regular_key.pem'
 
 URL_REGULAR_CERT = 'https://developer.auroraos.ru/static/regular_cert.pem'

@@ -16,7 +16,7 @@ limitations under the License.
 
 APP_NAME = 'aurora-cli'
 
-APP_VERSION = '3.0.12'
+APP_VERSION = '3.0.13'
 
 PATH_DIR = '~/.aurora-cli'
 

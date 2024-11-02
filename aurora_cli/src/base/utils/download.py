@@ -35,7 +35,7 @@ from aurora_cli.src.base.utils.request import request_check_url_download
 from aurora_cli.src.base.utils.verbose import verbose_add_map, verbose_command_start
 
 
-def check_downloads(urls: []):
+def check_downloads(urls: [], mode = None):
     files = []
     downloads_urls = []
     for url in urls:
@@ -44,7 +44,8 @@ def check_downloads(urls: []):
             echo_stdout(result)
             app_exit()
         files.append(path_get_download_path(result.value))
-        echo_stdout(result)
+        if mode == 'download' or mode is None:
+            echo_stdout(result)
         if result.is_success():
             downloads_urls.append(url)
     return downloads_urls, files

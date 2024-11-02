@@ -26,7 +26,7 @@ limitations under the License.
 
 setuptools.setup(
     name='aurora-cli',
-    version='3.0.12.0',
+    version='3.0.13.0',
     author='Vitaliy Zarubin',
     author_email='keygenqt@gmail.com',
     description='An application that simplifies the life of an application developer for the Aurora OS.',
@@ -39,7 +39,7 @@ setuptools.setup(
     install_requires=[
         'click>=8.1.7',
         'requests>=2.31.0',
-        'alive-progress>=3.1.5',
+        'alive-progress>=3.2.0',
         'pyYaml>=6.0.1',
         'paramiko>=3.4.0',
         'cffi>=1.16.0',
@@ -48,6 +48,8 @@ setuptools.setup(
         'weasyprint>=61.1',
         'pillow>=10.2.0',
         'diskcache>=5.6.3',
+        'rpmfile>=2.1.0',
+        'packaging>=24.1',
     ],
     python_requires='>=3.8.10',
     entry_points={

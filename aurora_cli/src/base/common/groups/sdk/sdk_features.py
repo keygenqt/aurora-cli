@@ -16,11 +16,8 @@ limitations under the License.
 
 from pathlib import Path
 
-from aurora_cli.src.base.common.features.load_by_version import (
-    get_version_latest_by_url,
-    get_download_sdk_url_by_version
-)
-from aurora_cli.src.base.common.features.request_version import request_versions_sdk
+from aurora_cli.src.base.common.features.load_by_version import get_download_sdk_url
+from aurora_cli.src.base.common.features.request_version import request_versions_sdk, get_version_sdk_url
 from aurora_cli.src.base.common.features.search_installed import search_installed_sdk
 from aurora_cli.src.base.models.sdk_model import SdkModel
 from aurora_cli.src.base.texts.error import TextError
@@ -31,7 +28,6 @@ from aurora_cli.src.base.utils.download import check_downloads, downloads
 from aurora_cli.src.base.utils.output import echo_stdout, OutResult, OutResultError
 from aurora_cli.src.base.utils.shell import shell_exec_app
 from aurora_cli.src.base.utils.tests import tests_exit
-from aurora_cli.src.base.utils.url import get_url_version_sdk
 
 
 def sdk_available_common():
@@ -54,14 +50,13 @@ def sdk_install_common(
         echo_stdout(OutResultError(TextError.sdk_already_installed_error()))
         app_exit()
 
-    version_url = get_url_version_sdk(version)
-    version_full, version_url_latest = get_version_latest_by_url(version, version_url)
+    version_url = get_version_sdk_url(version)
 
-    if not version_url_latest:
+    if not version_url:
         echo_stdout(OutResultError(TextError.repo_search_error()))
         app_exit()
 
-    download_url = get_download_sdk_url_by_version(version_url_latest)
+    download_url = get_download_sdk_url(version_url)
     urls = [item for item in download_url if (offline and 'offline' in item) or (not offline and 'online' in item)]
 
     urls, files = check_downloads(urls)

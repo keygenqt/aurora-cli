@@ -56,6 +56,9 @@ python3 -m pip install aurora-cli
 python3 -m pip install aurora-cli --upgrade
 ```
 
+!!! info
+    Ubuntu 24+ нужно добавить флаг `--break-system-packages`.
+
 #### Dependencies
 
 Для работы всех компонентов приложения требуются следующие зависимости:
@@ -91,4 +94,19 @@ sudo apt-get install \
   clang-format \
   gdb-multiarch \
   virtualbox
+```
+
+#### Standalone zip application
+
+Помимо установки pip в вашей среде, aurora-cli доступно как отдельное zip-приложение.
+Приложение в `pyz` доступно на странице [релизов](https://github.com/keygenqt/aurora-cli/releases) GitHub.
+
+!!! info
+    В зависимости от дистрибутивов, возможно, необходимо будет установить некоторые зависимости для использования pyz.
+    Например, пакет shiv требуется в docker на Ubuntu.
+
+Для запуска такого приложения достаточно выполнить:
+
+```shell
+python3 ~/Downloads/aurora-cli-3.0.13.pyz
 ```

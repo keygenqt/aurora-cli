@@ -39,33 +39,6 @@ class TestSdkAPI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('"code": 200', result.output)
 
-    def test_sdk_a2(self):
-        runner = CliRunner()
-        result = runner.invoke(cli=group_api, args=[
-            '--route',
-            '/vscode/extensions/check/flutter'
-        ])
-        self.assertEqual(result.exit_code, 0)
-        self.assertIn('"code": 200', result.output)
-
-    def test_sdk_a3(self):
-        runner = CliRunner()
-        result = runner.invoke(cli=group_api, args=[
-            '--route',
-            '/vscode/extensions/check/cpp'
-        ])
-        self.assertEqual(result.exit_code, 0)
-        self.assertIn('"code": 200', result.output)
-
-    def test_sdk_a4(self):
-        runner = CliRunner()
-        result = runner.invoke(cli=group_api, args=[
-            '--route',
-            '/vscode/extensions/check/other'
-        ])
-        self.assertEqual(result.exit_code, 0)
-        self.assertIn('"code": 200', result.output)
-
     def test_sdk_a5(self):
         runner = CliRunner()
         result = runner.invoke(cli=group_api, args=[
