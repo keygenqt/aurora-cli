@@ -1,11 +1,12 @@
-## Updated: 11/02/2024 17:48:43 PM
+## Updated: 11/03/2024 14:24:34 PM
 
 ## Info
 
-- Last tag: 3.0.13
-- Released: 32
+- Last tag: 3.0.14
+- Released: 33
 
 ## Versions
+- Version: 3.0.14 (03/11/2024)
 - Version: 3.0.13 (02/11/2024)
 - Version: 3.0.12 (01/11/2024)
 - Version: 3.0.11 (30/10/2024)
@@ -38,6 +39,12 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 3.0.14 (03/11/2024)
+
+#### Feature
+
+- Add sign with phrase. (Vitaliy Zarubin)
 
 ### Version: 3.0.13 (02/11/2024)
 
