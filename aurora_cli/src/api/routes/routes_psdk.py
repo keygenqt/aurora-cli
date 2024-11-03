@@ -126,6 +126,7 @@ def search_route_psdk(route: str) -> bool:
             is_bar=False,
             model_psdk=PsdkModel.get_model_by_version(get_arg_str(route, 'version')),
             model_keys=SignModel.get_model_by_name(get_arg_str_optional(route, 'key')),
+            phrase=get_arg_str_optional(route, 'phrase'),
             password=get_arg_str_optional(route, 'password')
         )
     elif root == '/psdk/project/format':

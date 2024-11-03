@@ -47,6 +47,8 @@ class Hint(Enum):
     ssh_key = 'ssh_key'
     ssh_copy_id = 'ssh_copy_id'
     ssh_forward_port = 'ssh_forward_port'
+    pem_password_phrase = 'pem_password_phrase'
+    pem_sign_doc = 'pem_sign_doc'
     debug_aurora = 'debug_aurora'
     workdir = 'workdir'
     flutter_project_add_target = 'flutter_project_add_target'
@@ -125,19 +127,19 @@ class TextHint(Enum):
     @localization
     def psdk_documentation_link():
         return ('<i>More details can be found in the Aurora Platform SDK documentation:</i> '
-                'https://developer.auroraos.ru/doc/software_development/psdk')
+                'https://developer.auroraos.ru/doc/sdk/psdk')
 
     @staticmethod
     @localization
     def sdk_documentation_link():
         return ('<i>More details can be found in the Aurora SDK documentation:</i> '
-                'https://developer.auroraos.ru/doc/software_development/sdk')
+                'https://developer.auroraos.ru/doc/sdk')
 
     @staticmethod
     @localization
     def psdk_documentation_keys_link():
         return ('<i>More information can be found in the documentation:</i> '
-                'https://developer.auroraos.ru/doc/software_development/guides/package_signing')
+                'https://developer.auroraos.ru/doc/5.1.3/sdk/app_development/packaging/package_signing')
 
     @staticmethod
     @localization
@@ -212,6 +214,17 @@ class TextHint(Enum):
 
     @staticmethod
     @localization
+    def pem_password_phrase():
+        return '<i>You might add pem password:</i> --phrase'
+
+    @staticmethod
+    @localization
+    def pem_sign_doc():
+        return ('<i>More information can be found in the documentation:</i> '
+                'https://developer.auroraos.ru/doc/sdk/app_development/packaging/package_signing')
+
+    @staticmethod
+    @localization
     def custom_devices():
         return ('<i>To run the debug, you will need to add custom-devices if you have not already done so:</i> '
                 'aurora-cli flutter custom-devices')
@@ -220,7 +233,7 @@ class TextHint(Enum):
     @localization
     def debug_aurora():
         return ('<i>To debug Aurora applications, use Aurora SDK:</i> '
-                'https://developer.auroraos.ru/doc/software_development/sdk')
+                'https://developer.auroraos.ru/doc/sdk')
 
     @staticmethod
     @localization
@@ -236,4 +249,4 @@ class TextHint(Enum):
     @localization
     def settings_hint():
         return ('<i>You can read more about additional settings on the documentation page:</i> '
-                'https://aurora-cli.keygenqt.com')
+                'https://keygenqt.github.io/aurora-cli')

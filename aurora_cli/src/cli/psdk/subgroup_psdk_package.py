@@ -114,16 +114,18 @@ def package_validate(
 
 @subgroup_psdk_package.command(name='sign', help=TextCommand.command_psdk_sign())
 @click.option('-p', '--path', type=click.STRING, required=True, help=TextArgument.argument_path_rpm())
+@click.option('-ph', '--phrase', type=click.STRING, help=TextArgument.argument_path_phrase())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_sign(
         path: str,
+        phrase: str,
         select: bool,
         index: int,
         verbose: bool
 ):
     model_psdk = cli_psdk_tool_select_model_psdk(select, index)
     model_keys = cli_psdk_tool_select_model_sign(select, index)
-    psdk_package_sign_common(model_psdk, model_keys, [path])
+    psdk_package_sign_common(model_psdk, model_keys, phrase, [path])
     echo_verbose(verbose)

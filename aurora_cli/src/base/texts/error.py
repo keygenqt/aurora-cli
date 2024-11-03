@@ -414,3 +414,15 @@ class TextError(Enum):
     @localization
     def repo_search_error():
         return '<red>Could not find a version to install in the repository.</red>'
+
+    @staticmethod
+    @localization
+    @hint(Hint.pem_password_phrase)
+    def psdk_sign_error_hint(path):
+        return '<red>Failed to sign package:</red> {}'.format(path)
+
+    @staticmethod
+    @localization
+    @hint(Hint.pem_sign_doc)
+    def psdk_sign_error(path):
+        return '<red>Failed to sign package:</red> {}'.format(path)

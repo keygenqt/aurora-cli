@@ -57,17 +57,17 @@ class TextHintRU(Enum):
     @staticmethod
     def psdk_documentation_link():
         return ('<i>Более подробную информацию можно найти в документации Aurora Platform SDK:</i> '
-                'https://developer.auroraos.ru/doc/software_development/psdk')
+                'https://developer.auroraos.ru/doc/sdk/psdk')
 
     @staticmethod
     def sdk_documentation_link():
         return ('<i>Более подробную информацию можно найти в документации Aurora SDK:</i> '
-                'https://developer.auroraos.ru/doc/software_development/sdk')
+                'https://developer.auroraos.ru/doc/sdk')
 
     @staticmethod
     def psdk_documentation_keys_link():
         return ('<i>Более подробную информацию можно найти в документации:</i> '
-                'https://developer.auroraos.ru/doc/software_development/guides/package_signing')
+                'https://developer.auroraos.ru/doc/5.1.3/sdk/app_development/packaging/package_signing')
 
     @staticmethod
     def flutter_install():
@@ -128,6 +128,15 @@ class TextHintRU(Enum):
         return '<i>Попробуйте удалить старое соединение:</i> rm ~/.ssh/known_hosts'
 
     @staticmethod
+    def pem_password_phrase():
+        return '<i>Вы можете добавить пароль pem:</i> --phrase'
+
+    @staticmethod
+    def pem_sign_doc():
+        return ('<i>Более подробную информацию можно найти в документации:</i> '
+                'https://developer.auroraos.ru/doc/sdk/app_development/packaging/package_signing')
+
+    @staticmethod
     def custom_devices():
         return ('<i>Для запуска debug потребуется добавить custom-devices, если вы еще этого не сделали:</i> '
                 'aurora-cli flutter custom-devices')
@@ -135,7 +144,7 @@ class TextHintRU(Enum):
     @staticmethod
     def debug_aurora():
         return ('<i>Для debug Аврора приложений воспользуйтесь Аврора SDK:</i> '
-                'https://developer.auroraos.ru/doc/software_development/sdk')
+                'https://developer.auroraos.ru/doc/sdk')
 
     @staticmethod
     def workdir():
@@ -149,4 +158,4 @@ class TextHintRU(Enum):
     @staticmethod
     def settings_hint():
         return ('<i>Подробно с дополнительными настройками вы можете ознакомится на странице документации:</i> '
-                'https://aurora-cli.keygenqt.com')
+                'https://keygenqt.github.io/aurora-cli')

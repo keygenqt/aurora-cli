@@ -72,6 +72,7 @@ def psdk_package_validate_common(
 def psdk_package_sign_common(
         model_psdk: PsdkModel,
         model_keys: Any,
+        phrase: Any,
         paths: [str],
         is_bar: bool = True,
         password = None
@@ -87,6 +88,7 @@ def psdk_package_sign_common(
             tool=model_psdk.get_tool_path(),
             key=str(model_keys.key),
             cert=str(model_keys.cert),
+            phrase=phrase,
             path=path,
             password=password
         )

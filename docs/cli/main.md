@@ -50,6 +50,6 @@
 
 Более детально с инструментами для ОС Аврора можно ознакомиться в документации по ним:
 
-- [Аврора SDK](https://developer.auroraos.ru/doc/software_development/sdk).
-- [Platform SDK](https://developer.auroraos.ru/doc/software_development/psdk).
+- [Аврора SDK](https://developer.auroraos.ru/doc/sdk).
+- [Platform SDK](https://developer.auroraos.ru/doc/sdk/psdk).
 - [Flutter SDK](https://omprussia.gitlab.io/flutter/flutter).

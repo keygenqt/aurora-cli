@@ -313,3 +313,11 @@ class TextErrorRu(Enum):
     @staticmethod
     def repo_search_error():
         return '<red>Не удалось найти версию для установки в репозитории.</red>'
+
+    @staticmethod
+    def psdk_sign_error_hint(path):
+        return '<red>Не удалось подписать пакет:</red> {}'.format(path)
+
+    @staticmethod
+    def psdk_sign_error(path):
+        return '<red>Не удалось подписать пакет:</red> {}'.format(path)

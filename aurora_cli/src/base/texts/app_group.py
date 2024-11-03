@@ -27,8 +27,8 @@ class TextGroup(Enum):
 More details about the tools can be found on the documentation page:
 
 Flutter SDK  https://omprussia.gitlab.io/flutter/flutter
-Aurora SDK   https://developer.auroraos.ru/doc/software_development/sdk
-Platform SDK https://developer.auroraos.ru/doc/software_development/psdk
+Aurora SDK   https://developer.auroraos.ru/doc/sdk
+Platform SDK https://developer.auroraos.ru/doc/sdk/psdk
 
 This is a third party tool written by enthusiasts!'''
 

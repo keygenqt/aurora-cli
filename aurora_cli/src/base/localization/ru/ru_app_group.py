@@ -24,8 +24,8 @@ class TextGroupRu(Enum):
 Более подробную информацию об инструменте можно найти в соответствующей документации:
 
 Flutter SDK  https://omprussia.gitlab.io/flutter/flutter
-Aurora SDK   https://developer.auroraos.ru/doc/software_development/sdk
-Platform SDK https://developer.auroraos.ru/doc/software_development/psdk
+Aurora SDK   https://developer.auroraos.ru/doc/sdk
+Platform SDK https://developer.auroraos.ru/doc/sdk/psdk
 
 Это сторонний инструмент, написанный энтузиастами!'''
 

@@ -237,6 +237,7 @@ help_routes = f'''
 /psdk/package/sign
   • version - {TextArgument.argument_psdk_version()}
   • path - {TextArgument.argument_path_rpm()}
+  • phrase - {TextArgument.argument_path_phrase()}
   • key ({TextArgument.argument_optional()}) - {TextArgument.argument_key_sign_name()}
 
 {TextCommand.command_project_format()}

@@ -181,7 +181,7 @@ def shell_psdk_target_create(
 def shell_psdk_targets(
         tool: str,
         version: str,
-        password = None
+        password=None
 ) -> OutResult:
     targets = []
     stdout, stderr = shell_exec_command([
@@ -206,7 +206,7 @@ def shell_psdk_targets(
 def shell_psdk_clear(
         tool: str,
         target: str,
-        password = None
+        password=None
 ) -> OutResult:
     stdout, stderr = shell_exec_command([
         tool,
@@ -274,7 +274,7 @@ def shell_psdk_package_install(
         tool: str,
         target: str,
         path: str,
-        password = None
+        password=None
 ) -> OutResult:
     stdout, stderr = shell_exec_command([
         tool,
@@ -312,7 +312,7 @@ def shell_psdk_package_remove(
         tool: str,
         target: str,
         package: str,
-        password = None
+        password=None
 ) -> OutResult:
     stdout, stderr = shell_exec_command([
         tool,
@@ -379,8 +379,9 @@ def shell_psdk_resign(
         tool: str,
         key: str,
         cert: str,
+        phrase: str,
         path: str,
-        password = None
+        password=None
 ) -> OutResult:
     shell_exec_command([
         tool,
@@ -388,21 +389,29 @@ def shell_psdk_resign(
         'delete',
         path
     ], password=password)
+    shell_exec_command([
+        tool,
+        f'/bin/bash -c "KEY_PASSPHRASE={phrase} rpmsign-external sign --key={key} --cert={cert} {path}"'
+    ], password=password)
     stdout, stderr = shell_exec_command([
         tool,
         'rpmsign-external',
-        'sign',
-        f'--key={key}',
-        f'--cert={cert}',
+        'verify',
         path
     ], password=password)
 
     result = shell_check_error_out(stdout, stderr, [
         'is a directory',
+        'Could not verify',
     ])
     if result.is_error():
         if result.value == 0:
             return OutResultError(TextError.file_not_found_error(path))
+        if result.value == 1:
+            if phrase:
+                return OutResultError(TextError.psdk_sign_error(path))
+            else:
+                return OutResultError(TextError.psdk_sign_error_hint(path))
         return result
 
     return OutResult(TextSuccess.psdk_sign_success(Path(path).name))
@@ -411,7 +420,7 @@ def shell_psdk_resign(
 @check_dependency(DependencyApps.sudo)
 def shell_remove_root_folder(
         path: str,
-        password = None
+        password=None
 ) -> OutResult:
     stdout, stderr = shell_exec_command(['sudo', 'rm', '-rf', path], password=password)
     if stderr:

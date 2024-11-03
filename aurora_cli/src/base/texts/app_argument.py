@@ -72,6 +72,11 @@ class TextArgument(Enum):
 
     @staticmethod
     @localization
+    def argument_path_phrase():
+        return 'PEM password phrase.'
+
+    @staticmethod
+    @localization
     def argument_package_name():
         return 'Package name.'
 

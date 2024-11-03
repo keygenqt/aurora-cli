@@ -59,6 +59,10 @@ class TextArgumentRu(Enum):
         return 'Путь к RPM-файлу.'
 
     @staticmethod
+    def argument_path_phrase():
+        return 'PEM пароль-фраза.'
+
+    @staticmethod
     def argument_package_name():
         return 'Имя пакета.'
 

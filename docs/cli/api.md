@@ -10,6 +10,13 @@
 aurora-cli api --route '/device/command?host=192.168.2.15&execute=ls -1'
 ```
 
+!!! info
+    Секретные данные (например пароль) можно передать переменной окружения и API считает данные. Например:
+
+    `export cli_password="00000"`
+
+    Для исключения возможных коллизий добавлен префикс `cli_`.
+
 ## Routes
 
 #### /app
@@ -311,6 +318,7 @@ Sign (with re-sign) RPM package.
 ```yaml title="/psdk/package/sign"
 • version - Installed version of Aurora Platform SDK.
 • path - Path to RPM file.
+• phrase - PEM пароль-фраза.
 • key (optional) - The name of key for sign package from config application.
 ```
 
