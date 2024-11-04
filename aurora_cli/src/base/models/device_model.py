@@ -93,9 +93,7 @@ class DeviceModel(ModelClient):
         if _arch is not None:
             platform_arch = _arch
 
-        # @todo fix for 3.16.2-2
-        # return platform_name, platform_arch
-        return platform_name, None
+        return platform_name, platform_arch
 
     def get_ssh_key(self) -> Any:
         if self.is_password():
