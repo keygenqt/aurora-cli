@@ -36,8 +36,8 @@ def ssh_client_connect(
     try:
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        pkey = paramiko.RSAKey.from_private_key_file(str(auth))
         if type(auth) is PosixPath:
+            pkey = paramiko.RSAKey.from_private_key_file(str(auth))
             client.connect(host, username=username, pkey=pkey, timeout=2, port=port)
         else:
             client.connect(host, username=username, password=auth, timeout=2, port=port)
