@@ -18,6 +18,7 @@ from enum import Enum
 from typing import Any
 
 from aurora_cli.src.base.localization.localization import localization
+from aurora_cli.src.base.texts.hint import hint, Hint
 
 
 class TextSuccess(Enum):
@@ -186,6 +187,12 @@ Good luck 👋'''
     @staticmethod
     @localization
     def psdk_validate_success():
+        return '<green>The package has been validated successfully.</green>'
+
+    @staticmethod
+    @localization
+    @hint(Hint.warning, Hint.use_verbose)
+    def psdk_validate_success_with_warning():
         return '<green>The package has been validated successfully.</green>'
 
     @staticmethod

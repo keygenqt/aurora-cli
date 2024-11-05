@@ -360,15 +360,19 @@ def shell_psdk_package_validate(
         path
     ])
 
-    result = shell_check_error_out(stdout, stderr, [
+    result = shell_check_error_out(stdout, None, [
         'read failed',
         'ERROR',
+        'WARNING'
     ])
+
     if result.is_error():
         if result.value == 0:
             return OutResultError(TextError.file_not_found_error(path))
         if result.value == 1:
             return OutResultError(TextError.psdk_validate_error())
+        if result.value == 2:
+            return OutResult(TextSuccess.psdk_validate_success_with_warning())
         return result
 
     return OutResult(TextSuccess.psdk_validate_success())

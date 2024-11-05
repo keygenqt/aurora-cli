@@ -51,6 +51,7 @@ class Hint(Enum):
     pem_sign_doc = 'pem_sign_doc'
     debug_aurora = 'debug_aurora'
     workdir = 'workdir'
+    warning = 'warning'
     flutter_project_add_target = 'flutter_project_add_target'
     settings_hint = 'settings_hint'
 
@@ -250,3 +251,8 @@ class TextHint(Enum):
     def settings_hint():
         return ('<i>You can read more about additional settings on the documentation page:</i> '
                 'https://keygenqt.github.io/aurora-cli')
+
+    @staticmethod
+    @localization
+    def warning():
+        return 'There are warnings.'

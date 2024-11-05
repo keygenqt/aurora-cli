@@ -159,3 +159,7 @@ class TextHintRU(Enum):
     def settings_hint():
         return ('<i>Подробно с дополнительными настройками вы можете ознакомится на странице документации:</i> '
                 'https://keygenqt.github.io/aurora-cli')
+
+    @staticmethod
+    def warning():
+        return 'Имеются предупреждения.'
