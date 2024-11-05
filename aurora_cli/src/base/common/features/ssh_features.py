@@ -15,15 +15,15 @@ limitations under the License.
 """
 
 import os
-import rpmfile
 from typing import Callable, Any
 
+import rpmfile
 from paramiko.client import SSHClient
 
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
-from aurora_cli.src.base.utils.output import echo_stdout, OutResult, OutResultError, OutResultInfo
+from aurora_cli.src.base.utils.output import OutResult, OutResultError, OutResultInfo
 from aurora_cli.src.base.utils.path import path_convert_relative
 from aurora_cli.src.base.utils.ssh import ssh_exec_command
 
@@ -216,9 +216,6 @@ def ssh_rpm_install(
                     package_installed = ssh_check_package_installed(client, package, close=False)
 
             if package_installed:
-                package_removed = False
-                echo_stdout(OutResultInfo(TextInfo.removing_package_keeping_user_data(package)))
-
                 for use_apm in [False, True]:
                     package_removed = ssh_package_remove(
                         client,
@@ -233,7 +230,7 @@ def ssh_rpm_install(
                         break
 
                 if not package_removed:
-                    echo_stdout(OutResultError(TextError.ssh_remove_rpm_error()))
+                    return OutResultError(TextError.ssh_remove_rpm_error())
 
         prompt = "{}"
         execute = (f'gdbus call --system '
@@ -250,10 +247,7 @@ def ssh_rpm_install(
     if check_is_error(stdout) or stderr:
         return OutResultError(
             message=TextError.ssh_install_rpm_error(),
-            value={
-                'stdout': stdout,
-                'stderr': stderr,
-            }
+            value={'stdout': stdout, 'stderr': stderr}
         )
 
     return OutResult(TextSuccess.ssh_install_rpm(os.path.basename(file_upload)))
@@ -310,13 +304,9 @@ def ssh_package_remove(
 
     if keep_user_data:
         if not apm:
-            echo_stdout(OutResultInfo(
-                TextInfo.package_removed_without_keeping_user_data(package, 'pkcon')
-            ))
+            return OutResult(TextSuccess.ssh_remove_rpm_without_keeping_hint())
         elif apm_use_legacy_api:
-            echo_stdout(OutResultInfo(
-                TextInfo.package_removed_without_keeping_user_data(package, 'apm')
-            ))
+            return OutResult(TextSuccess.ssh_remove_rpm_without_keeping_hint())
 
     return OutResult(TextSuccess.ssh_remove_rpm())
 
@@ -358,10 +348,11 @@ def ssh_get_device_platform_arch(
             return 'aurora-arm64'
     return 'aurora-arm'
 
+
 def ssh_check_package_installed(
-    client: SSHClient,
-    package: str,
-    close: bool = True
+        client: SSHClient,
+        package: str,
+        close: bool = True
 ) -> bool:
     result = ssh_command(
         client=client,

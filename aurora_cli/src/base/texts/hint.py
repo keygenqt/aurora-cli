@@ -18,7 +18,7 @@ import functools
 from enum import Enum
 
 from aurora_cli.src.base.localization.localization import localization
-from aurora_cli.src.base.utils.argv import argv_is_select, argv_is_verbose, argv_is_api, argv_is_apm
+from aurora_cli.src.base.utils.argv import argv_is_select, argv_is_verbose, argv_is_api, argv_is_apm, argv_is_reinstall
 from aurora_cli.src.base.utils.cache_settings import CacheSettingsKey, cache_settings_get
 
 
@@ -44,6 +44,7 @@ class Hint(Enum):
     use_select = 'use_select'
     use_verbose = 'use_verbose'
     use_apm = 'use_apm'
+    rpm_reinstall = 'rpm_reinstall'
     ssh_key = 'ssh_key'
     ssh_copy_id = 'ssh_copy_id'
     ssh_forward_port = 'ssh_forward_port'
@@ -52,6 +53,7 @@ class Hint(Enum):
     debug_aurora = 'debug_aurora'
     workdir = 'workdir'
     warning = 'warning'
+    without_keeping_hint = 'without_keeping_hint'
     flutter_project_add_target = 'flutter_project_add_target'
     settings_hint = 'settings_hint'
 
@@ -195,6 +197,13 @@ class TextHint(Enum):
 
     @staticmethod
     @localization
+    def rpm_reinstall():
+        if not argv_is_apm() or argv_is_api() or argv_is_reinstall():
+            return ''
+        return '<i>Perhaps you should add argument:</i> --reinstall'
+
+    @staticmethod
+    @localization
     def psdk_keys_info():
         return '<i>You can add your keys, if you have some, to the application configuration file.</i>'
 
@@ -255,4 +264,9 @@ class TextHint(Enum):
     @staticmethod
     @localization
     def warning():
-        return 'There are warnings.'
+        return '<i>There are warnings.</i>'
+
+    @staticmethod
+    @localization
+    def without_keeping_hint():
+        return '<i>Failed to save user data.</i>'

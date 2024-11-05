@@ -85,6 +85,13 @@ class TextSuccess(Enum):
 
     @staticmethod
     @localization
+    @hint(Hint.without_keeping_hint)
+    def ssh_remove_rpm_without_keeping_hint():
+        return '<green>Package has been removed successfully.</green>'
+
+
+    @staticmethod
+    @localization
     def validate_config_devices():
         return '<green>Section</green> devices <green>has been validated successfully.</green>'
 

@@ -128,12 +128,13 @@ class TextError(Enum):
 
     @staticmethod
     @localization
-    @hint(Hint.use_apm, Hint.use_verbose)
+    @hint(Hint.use_apm, Hint.rpm_reinstall, Hint.use_verbose)
     def ssh_install_rpm_error():
         return '<red>Installing RPM package error.</red>'
 
     @staticmethod
     @localization
+    @hint(Hint.use_apm)
     def ssh_remove_rpm_error():
         return '<red>An error occurred while deleting the package.</red>'
 

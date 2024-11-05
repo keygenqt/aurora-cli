@@ -16,7 +16,7 @@ limitations under the License.
 
 from enum import Enum
 
-from aurora_cli.src.base.utils.argv import argv_is_select, argv_is_verbose, argv_is_api, argv_is_apm
+from aurora_cli.src.base.utils.argv import argv_is_select, argv_is_verbose, argv_is_api, argv_is_apm, argv_is_reinstall
 
 
 class TextHintRU(Enum):
@@ -112,6 +112,12 @@ class TextHintRU(Enum):
         return '<i>Возможно вам стоит включить режим apm:</i> --apm'
 
     @staticmethod
+    def rpm_reinstall():
+        if not argv_is_apm() or argv_is_api() or argv_is_reinstall():
+            return ''
+        return '<i>Возможно следует добавить флаг:</i> --reinstall'
+
+    @staticmethod
     def psdk_keys_info():
         return '<i>В конфигурационный файл приложения вы можете добавить ваши ключи, если такие имеются.</i>'
 
@@ -162,4 +168,8 @@ class TextHintRU(Enum):
 
     @staticmethod
     def warning():
-        return 'Имеются предупреждения.'
+        return '<i>Имеются предупреждения.</i>'
+
+    @staticmethod
+    def without_keeping_hint():
+        return '<i>Не удалось сохранить пользовательские данные.</i>'

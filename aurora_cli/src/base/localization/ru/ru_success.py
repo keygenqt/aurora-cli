@@ -70,6 +70,10 @@ class TextSuccessRu(Enum):
         return '<green>Пакет успешно удален.</green>'
 
     @staticmethod
+    def ssh_remove_rpm_without_keeping_hint():
+        return '<green>Пакет успешно удален.</green>'
+
+    @staticmethod
     def validate_config_devices():
         return '<green>Раздел</green> devices <green>прошел валидацию.</green>'
 

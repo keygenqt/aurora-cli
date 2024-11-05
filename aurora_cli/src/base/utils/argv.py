@@ -47,6 +47,12 @@ def argv_is_apm() -> bool:
     return False
 
 
+def argv_is_reinstall() -> bool:
+    if '-r' in sys.argv or '--reinstall' in sys.argv:
+        return True
+    return False
+
+
 def argv_is_select() -> bool:
     if '-s' in sys.argv or '--select' in sys.argv:
         return True
