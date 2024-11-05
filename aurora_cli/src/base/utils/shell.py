@@ -36,7 +36,8 @@ def shell_exec_command(
         cwd: Path = Path.cwd(),
         listen: Any = None,
         disable_sigint: bool = True,
-        password = None
+        password = None,
+        enable_check_error: bool = True,
 ) -> []:
     if not args:
         echo_stdout(OutResultError(TextError.shell_exec_command_empty()))
@@ -51,7 +52,7 @@ def shell_exec_command(
             signal.signal(signal.SIGINT, signal.SIG_IGN)
 
     def check_is_error(out: str) -> bool:
-        if 'error' in out:
+        if enable_check_error and 'error' in out:
             return True
         return False
 

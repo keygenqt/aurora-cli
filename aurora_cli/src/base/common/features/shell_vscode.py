@@ -38,7 +38,7 @@ def shell_vscode_list_extensions() -> []:
     stdout, stderr = shell_exec_command([
         'code',
         '--list-extensions',
-    ])
+    ], enable_check_error=False)
     if stderr:
         return []
     return stdout
