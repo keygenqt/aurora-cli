@@ -1,11 +1,12 @@
-## Updated: 11/03/2024 14:24:34 PM
+## Updated: 11/05/2024 18:17:32 PM
 
 ## Info
 
-- Last tag: 3.0.14
-- Released: 33
+- Last tag: 3.0.15
+- Released: 34
 
 ## Versions
+- Version: 3.0.15 (05/11/2024)
 - Version: 3.0.14 (03/11/2024)
 - Version: 3.0.13 (02/11/2024)
 - Version: 3.0.12 (01/11/2024)
@@ -39,6 +40,17 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 3.0.15 (05/11/2024)
+
+#### Bug
+
+- Fix check validate stderr. (Vitaliy Zarubin)
+- Fix get pkey. (Vitaliy Zarubin)
+
+#### Feature
+
+- Allow installing a package of the same version via APM. (Vitaliy Zarubin)
 
 ### Version: 3.0.14 (03/11/2024)
 
