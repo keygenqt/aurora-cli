@@ -59,7 +59,7 @@ ${"##"} Versions
             ${"####"} ${group['name']}
 
             % for commit in group['commits']:
-                - ${commit['clean']} (${commit['commit'].author})
+                - ${commit['clean']}
             % endfor
         % endif
 
