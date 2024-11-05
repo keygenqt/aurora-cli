@@ -321,3 +321,7 @@ class TextErrorRu(Enum):
     @staticmethod
     def psdk_sign_error(path):
         return '<red>Не удалось подписать пакет:</red> {}'.format(path)
+
+    @staticmethod
+    def distributive_error(name):
+        return '<red>Эта функция доступна только для дистрибутива:</red> {}.'.format(name)

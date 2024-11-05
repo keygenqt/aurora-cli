@@ -427,3 +427,8 @@ class TextError(Enum):
     @hint(Hint.pem_sign_doc)
     def psdk_sign_error(path):
         return '<red>Failed to sign package:</red> {}'.format(path)
+
+    @staticmethod
+    @localization
+    def distributive_error(name):
+        return '<red>This feature is only available for distributive:</red> {}.'.format(name)

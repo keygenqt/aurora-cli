@@ -102,3 +102,13 @@ def psdk_sudoers_remove_common(
         file_remove_line(path, str(tool.parent))
         file_permissions_644(path, password=password)
         echo_stdout(OutResult(TextSuccess.psdk_sudoers_remove_success(model.version, str(path))))
+
+
+def check_is_ubuntu():
+    file = Path('/etc/os-release')
+    if file.exists():
+        with open(file) as f:
+            for line in f:
+                if 'ID=ubuntu' in line:
+                    return True
+    return False

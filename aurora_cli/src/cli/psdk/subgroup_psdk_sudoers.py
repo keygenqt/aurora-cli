@@ -18,13 +18,15 @@ import click
 
 from aurora_cli.src.base.common.groups.psdk.psdk_sudoers_features import (
     psdk_sudoers_add_common,
-    psdk_sudoers_remove_common
+    psdk_sudoers_remove_common,
+    check_is_ubuntu
 )
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
-from aurora_cli.src.base.utils.output import echo_verbose
+from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.utils.output import echo_verbose, echo_stdout
 from aurora_cli.src.cli.psdk.__tools import cli_psdk_tool_select_model_psdk
 
 
@@ -42,6 +44,10 @@ def sudoers_add(
         index: int,
         verbose: bool
 ):
+    if not check_is_ubuntu():
+        echo_stdout(TextError.distributive_error('Ubuntu'))
+        exit(1)
+
     model = cli_psdk_tool_select_model_psdk(select, index)
     psdk_sudoers_add_common(model)
     echo_verbose(verbose)
@@ -56,6 +62,10 @@ def sudoers_remove(
         index: int,
         verbose: bool
 ):
+    if not check_is_ubuntu():
+        echo_stdout(TextError.distributive_error('Ubuntu'))
+        exit(1)
+
     model = cli_psdk_tool_select_model_psdk(select, index)
     psdk_sudoers_remove_common(model)
     echo_verbose(verbose)
