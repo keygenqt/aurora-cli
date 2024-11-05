@@ -1,11 +1,12 @@
-## Updated: 11/05/2024 18:26:59 PM
+## Updated: 11/05/2024 20:43:06 PM
 
 ## Info
 
-- Last tag: 3.0.15
-- Released: 34
+- Last tag: 3.0.16
+- Released: 35
 
 ## Versions
+- Version: 3.0.16 (05/11/2024)
 - Version: 3.0.15 (05/11/2024)
 - Version: 3.0.14 (03/11/2024)
 - Version: 3.0.13 (02/11/2024)
@@ -41,10 +42,11 @@
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
 
-### HEAD (05/11/2024)
+### Version: 3.0.16 (05/11/2024)
 
 #### Bug
 
+- Fix check error from list extenstions.
 - Fix translate shh_upload_start.
 
 ### Version: 3.0.15 (05/11/2024)
