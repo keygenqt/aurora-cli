@@ -38,18 +38,20 @@ def emulator_package_install_common(
         model: EmulatorModel,
         path: str,
         apm: bool,
+        reinstall: bool
 ):
     emulator_tool_check_is_not_run(model)
-    ssh_install_common(model, path, apm)
+    ssh_install_common(model, path, apm, reinstall)
 
 
 def emulator_package_remove_common(
         model: EmulatorModel,
         package: str,
         apm: bool,
+        keep_user_data: bool,
 ):
     emulator_tool_check_is_not_run(model)
-    ssh_remove_common(model, package, apm)
+    ssh_remove_common(model, package, apm, keep_user_data)
 
 
 def emulator_check_package_common(

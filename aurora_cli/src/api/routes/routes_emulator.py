@@ -62,12 +62,14 @@ def search_route_emulator(route: str) -> bool:
             model=EmulatorModel.get_model_root(),
             path=get_arg_str(route, 'path'),
             apm=get_arg_bool(route, 'apm'),
+            reinstall=get_arg_bool(route, 'reinstall'),
         )
     elif root == '/emulator/package/remove':
         emulator_package_remove_common(
             model=EmulatorModel.get_model_root(),
             package=get_arg_str(route, 'package'),
             apm=get_arg_bool(route, 'apm'),
+            keep_user_data=get_arg_bool(route, 'keep-user-data'),
         )
     elif root == '/emulator/start':
         emulator_start_common(

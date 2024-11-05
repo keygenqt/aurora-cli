@@ -36,14 +36,16 @@ def device_package_install_common(
         model: DeviceModel,
         path: str,
         apm: bool,
-): ssh_install_common(model, path, apm, model.devel_su)
+        reinstall: bool
+): ssh_install_common(model, path, apm, reinstall, model.devel_su)
 
 
 def device_package_remove_common(
         model: DeviceModel,
         package: str,
         apm: bool,
-): ssh_remove_common(model, package, apm)
+        keep_user_data: bool,
+): ssh_remove_common(model, package, apm, keep_user_data)
 
 
 def device_check_package_common(

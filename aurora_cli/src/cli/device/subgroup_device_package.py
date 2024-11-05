@@ -60,34 +60,38 @@ def package_run(
 @subgroup_device_package.command(name='install', help=TextCommand.command_device_package_install())
 @click.option('-p', '--path', type=click.STRING, required=True, help=TextArgument.argument_path_rpm())
 @click.option('-a', '--apm', is_flag=True, help=TextArgument.argument_apm())
+@click.option('-r', '--reinstall', is_flag=True, help=TextArgument.argument_reinstall())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_install(
         path: str,
         apm: bool,
+        reinstall: bool,
         select: bool,
         index: int,
         verbose: bool
 ):
     model = cli_device_tool_select_model(select, index)
-    device_package_install_common(model, path, apm)
+    device_package_install_common(model, path, apm, reinstall)
     echo_verbose(verbose)
 
 
 @subgroup_device_package.command(name='remove', help=TextCommand.command_device_package_remove())
 @click.option('-p', '--package', type=click.STRING, required=True, help=TextArgument.argument_package_name())
 @click.option('-a', '--apm', is_flag=True, help=TextArgument.argument_apm())
+@click.option('-k', '--keep-user-data', is_flag=True, help=TextArgument.argument_keep_user_data())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-i', '--index', type=click.INT, help=TextArgument.argument_index())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def package_remove(
         package: str,
         apm: bool,
+        keep_user_data: bool,
         select: bool,
         index: int,
         verbose: bool
 ):
     model = cli_device_tool_select_model(select, index)
-    device_package_remove_common(model, package, apm)
+    device_package_remove_common(model, package, apm, keep_user_data)
     echo_verbose(verbose)

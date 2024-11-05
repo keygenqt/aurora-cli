@@ -71,6 +71,14 @@ class TextArgumentRu(Enum):
         return 'Использовать APM.'
 
     @staticmethod
+    def argument_reinstall():
+        return 'Переустановить пакет, если он уже установлен.'
+
+    @staticmethod
+    def argument_keep_user_data():
+        return 'Сохранить пользовательские данные.'
+
+    @staticmethod
     def argument_sdk_installer_type():
         return 'Загрузите установщик offline типа.'
 
