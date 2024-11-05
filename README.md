@@ -2,7 +2,7 @@
 
 ### Subscribe and like!
 
-[![Version](https://img.shields.io/badge/PyPI-3.0.14-blue?logo=pypi)](https://pypi.org/project/aurora-cli/)
+[![Version](https://img.shields.io/badge/PyPI-3.0.14-blue?logo=pypi&logoColor=white)](https://pypi.org/project/aurora-cli/)
 [![Releases](https://img.shields.io/badge/dynamic/json?url=https://api.github.com/repos/keygenqt/aurora-cli/releases/latest&query=assets[0][download_count]&label=Releases&color=blue&logo=github&prefix=3.0.14%20(&suffix=))](https://github.com/keygenqt/aurora-cli/releases)
 
 ![picture](https://github.com/keygenqt/aurora-cli/blob/main/data/images/banner/banner_1000.png?raw=true)
