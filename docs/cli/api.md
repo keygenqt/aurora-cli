@@ -94,6 +94,7 @@ Install RPM package on the device.
 • host - IP address device.
 • path - Path to file.
 • apm [default = false, true] - Use APM.
+• reinstall [default = false, true] - Reinstall an already installed package.
 ```
 
 Remove package from the device.
@@ -102,6 +103,7 @@ Remove package from the device.
 • host - IP address device.
 • package - Package name.
 • apm [default = false, true] - Use APM.
+• keep_user_data [default = false, true] - Keep user data.
 ```
 
 #### /emulator
@@ -158,9 +160,12 @@ Run package on the emulator.
 
 Install RPM package on the emulator.
 
+/emulator/package/install
+
 ```yaml title="/emulator/package/install"
 • path - Path to file.
 • apm [default = false, true] - Use APM.
+• reinstall [default = false, true] - Reinstall an already installed package.
 ```
 
 Remove package from the emulator.
@@ -168,6 +173,7 @@ Remove package from the emulator.
 ```yaml title="/emulator/package/remove"
 • package - Package name.
 • apm [default = false, true] - Use APM.
+• keep_user_data [default = false, true] - Keep user data.
 ```
 
 #### /flutter

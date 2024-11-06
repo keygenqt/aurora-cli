@@ -10,6 +10,7 @@
 sudo apt update
 sudo apt install python3-pip
 
+python3 -m pip install --upgrade setuptools --break-system-packages
 python3 -m pip install aurora-cli --break-system-packages
 ```
 
