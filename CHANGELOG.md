@@ -1,11 +1,12 @@
-## Updated: 11/05/2024 20:43:06 PM
+## Updated: 11/06/2024 17:33:08 PM
 
 ## Info
 
-- Last tag: 3.0.16
-- Released: 35
+- Last tag: 3.1.0
+- Released: 36
 
 ## Versions
+- Version: 3.1.0 (06/11/2024)
 - Version: 3.0.16 (05/11/2024)
 - Version: 3.0.15 (05/11/2024)
 - Version: 3.0.14 (03/11/2024)
@@ -41,6 +42,17 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 3.1.0 (06/11/2024)
+
+#### Change
+
+- Update doc api & install for Ubuntu.
+- Add check distr for sudoers feature.
+
+#### Feature
+
+- Add vscode tuning flutterSdkPath.
 
 ### Version: 3.0.16 (05/11/2024)
 
