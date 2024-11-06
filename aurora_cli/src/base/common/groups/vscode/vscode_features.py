@@ -18,6 +18,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+from aurora_cli.src.base.common.features.search_installed import search_installed_flutter
 from aurora_cli.src.base.common.features.shell_vscode import shell_vscode_list_extensions, \
     shell_vscode_extension_install, shell_vscode_version
 from aurora_cli.src.base.texts.info import TextInfo
@@ -115,6 +116,13 @@ def vscode_settings_common():
         if 'files.trimFinalNewlines' not in config.keys():
             config['files.trimFinalNewlines'] = True
             is_update = True
+
+        if 'dart.flutterSdkPath' not in config.keys():
+            result = search_installed_flutter()
+            if not result.is_error() and result.value['flutters']:
+                path = Path(result.value['flutters'][0]).parent
+                config['dart.flutterSdkPath'] = str(path)
+                is_update = True
 
         if is_update:
             file.seek(0)
