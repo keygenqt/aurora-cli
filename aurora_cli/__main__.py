@@ -28,6 +28,7 @@ from aurora_cli.src.base.utils.argv import argv_is_verbose
 
 from aurora_cli.src.base.utils.cache_func import cache_func_clear
 from aurora_cli.src.base.utils.output import echo_stdout, echo_verbose, OutResult
+from aurora_cli.src.cli.apps.group_apps import group_apps
 from aurora_cli.src.cli.device.group_device import group_device, init_subgroups_device
 from aurora_cli.src.cli.emulator.group_emulator import group_emulator, init_subgroups_emulator
 from aurora_cli.src.cli.flutter.group_flutter import group_flutter, init_subgroups_flutter
@@ -62,6 +63,8 @@ def main(
 def _init_groups():
     # group API
     main.add_command(group_api)
+    # group Devices via ssh
+    main.add_command(group_apps)
     # group Devices via ssh
     main.add_command(group_device)
     init_subgroups_device()

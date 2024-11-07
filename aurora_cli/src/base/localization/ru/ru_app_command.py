@@ -19,6 +19,10 @@ from enum import Enum
 
 class TextCommandRu(Enum):
     @staticmethod
+    def command_apps_available():
+        return 'Получите список доступных приложений для ОС Аврора.'
+
+    @staticmethod
     def command_device_list():
         return 'Получить список устройств.'
 

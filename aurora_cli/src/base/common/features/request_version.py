@@ -15,16 +15,18 @@ limitations under the License.
 """
 
 import re
+from time import sleep
 
 from packaging.version import Version
 
 from aurora_cli.src.base.constants.url import (
     URL_AURORA_REPO_VERSIONS,
     URL_FLUTTER_SDK_VERSIONS,
-    URL_FLUTTER_PLUGINS_VERSIONS
+    URL_FLUTTER_PLUGINS_VERSIONS, URL_APPS_VERSIONS
 )
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
+from aurora_cli.src.base.utils.cache_func import cache_func
 from aurora_cli.src.base.utils.output import OutResult, OutResultError
 from aurora_cli.src.base.utils.request import request_get
 
@@ -149,3 +151,64 @@ def request_flutter_plugins() -> OutResult:
         return OutResult(TextInfo.available_versions_flutter(versions), value=versions)
     except (Exception,):
         return OutResultError(TextError.request_error())
+
+
+@cache_func(expire=3600)
+def request_versions_applications() -> []:
+    try:
+        page = 1
+        result = []
+        while page < 60:
+            response = request_get(f'{URL_APPS_VERSIONS}?per_page=100&page={page}')
+            data = response.json()
+            if len(data) == 0:
+                break
+            for release in data:
+                psdk_version = release['tag_name'].split('-')[-3]
+                for asset in release['assets']:
+                    if asset['content_type'] == 'application/x-rpm':
+                        full_name = asset['name']
+                        arch = full_name.split('.')[-2]
+                        revision = full_name.split('-')[-1].split('.')[0]
+                        version = full_name.split('-')[-2]
+                        name = full_name.replace(f'-{version}-{revision}.{arch}.rpm', '')
+                        if name != full_name:
+                            result.append({
+                                'url': asset['browser_download_url'],
+                                'size': asset['size'],
+                                'downloads': asset['download_count'],
+                                'name': name,
+                                'full_name': full_name,
+                                'arch': arch,
+                                'revision': revision,
+                                'version': version,
+                                'psdk': psdk_version
+                            })
+            page += 1
+            sleep(1)
+
+        # Sort and filter latest release package
+        apps = {}
+        sorts = {}
+        for value in result:
+            name = f'{value['name']}|{value['arch']}'
+            if not name in sorts.keys():
+                sorts[name] = [value['version']]
+            else:
+                sorts[name].append(value['version'])
+
+        for key in sorts.keys():
+            sorts[key].sort(key=Version)
+            name = key.split('|')[0]
+            arch = key.split('|')[-1]
+            latest = sorts[key][-1]
+            for item in result:
+                if item['name'] == name and item['arch'] == arch and item['version'] == latest:
+                    if not name in apps.keys():
+                        apps[name] = [item]
+                    else:
+                        apps[name].append(item)
+                        
+        return apps
+    except (Exception,):
+        return []

@@ -22,6 +22,11 @@ from aurora_cli.src.base.localization.localization import localization
 class TextCommand(Enum):
     @staticmethod
     @localization
+    def command_apps_available():
+        return 'Get available list applications for Aurora OS.'
+
+    @staticmethod
+    @localization
     def command_device_list():
         return 'Get list devices.'
 
