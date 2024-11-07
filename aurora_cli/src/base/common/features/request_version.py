@@ -22,7 +22,7 @@ from packaging.version import Version
 from aurora_cli.src.base.constants.url import (
     URL_AURORA_REPO_VERSIONS,
     URL_FLUTTER_SDK_VERSIONS,
-    URL_FLUTTER_PLUGINS_VERSIONS, URL_APPS_VERSIONS
+    URL_FLUTTER_PLUGINS_VERSIONS, URL_APPS_VERSIONS, URL_APPS_DESC
 )
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
@@ -205,10 +205,13 @@ def request_versions_applications() -> []:
             for item in result:
                 if item['name'] == name and item['arch'] == arch and item['version'] == latest:
                     if not name in apps.keys():
-                        apps[name] = [item]
+                        apps[name] = {'versions': [item]}
                     else:
-                        apps[name].append(item)
-                        
+                        apps[name]['versions'].append(item)
+                    # Get desc
+                    response = request_get(URL_APPS_DESC.format(name))
+                    apps[name]['desc'] = response.text.strip()
+
         return apps
     except (Exception,):
         return []

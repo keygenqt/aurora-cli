@@ -17,8 +17,14 @@ limitations under the License.
 from aurora_cli.src.base.common.features.request_version import request_versions_applications
 from packaging.version import Version
 
+from aurora_cli.src.base.utils.request import request_get
+
+
 def apps_available_common():
     result = request_versions_applications()
+
+
+
 
 
 

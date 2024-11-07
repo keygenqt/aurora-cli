@@ -31,3 +31,5 @@ URL_CLANG_FORMAT_CONF_FLUTTER = 'https://gitlab.com/omprussia/flutter/flutter/-/
 URL_CLANG_FORMAT_CONF = 'https://gitlab.com/omprussia/demos/IpcCatalog/-/raw/example/.clang-format'
 
 URL_APPS_VERSIONS = 'https://api.github.com/repos/keygenqt/aurora-apps/releases'
+
+URL_APPS_DESC = 'https://raw.githubusercontent.com/keygenqt/aurora-apps/refs/heads/main/docs/apps/{}.md'
