@@ -210,7 +210,7 @@ def request_versions_applications() -> []:
                         apps[name]['versions'].append(item)
                     # Get desc
                     response = request_get(URL_APPS_DESC.format(name))
-                    apps[name]['desc'] = response.text.strip()
+                    apps[name]['spec'] = response.json()
 
         return apps
     except (Exception,):

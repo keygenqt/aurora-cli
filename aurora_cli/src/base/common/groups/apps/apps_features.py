@@ -15,23 +15,10 @@ limitations under the License.
 """
 
 from aurora_cli.src.base.common.features.request_version import request_versions_applications
-from packaging.version import Version
+from aurora_cli.src.base.texts.info import TextInfo
 
-from aurora_cli.src.base.utils.request import request_get
+from aurora_cli.src.base.utils.output import echo_stdout
 
 
 def apps_available_common():
-    result = request_versions_applications()
-
-
-
-
-
-
-
-    # versions.sort(key=Version)
-    #
-    print(result)
-
-    # print(request_versions_applications())
-    # echo_stdout(request_versions_applications())
+    echo_stdout(TextInfo.available_versions_apps(request_versions_applications()))

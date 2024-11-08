@@ -32,4 +32,4 @@ URL_CLANG_FORMAT_CONF = 'https://gitlab.com/omprussia/demos/IpcCatalog/-/raw/exa
 
 URL_APPS_VERSIONS = 'https://api.github.com/repos/keygenqt/aurora-apps/releases'
 
-URL_APPS_DESC = 'https://raw.githubusercontent.com/keygenqt/aurora-apps/refs/heads/main/docs/apps/{}.md'
+URL_APPS_DESC = 'https://raw.githubusercontent.com/keygenqt/aurora-apps/refs/heads/main/apps/{}/spec.json'
