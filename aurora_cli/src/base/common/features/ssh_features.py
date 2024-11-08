@@ -359,4 +359,4 @@ def ssh_check_package_installed(
         execute=f'file /usr/bin/{package}',
         close=close,
     )
-    return 'symbolic link to' in result.value['stdout'][0]
+    return ': symbolic link to' in result.value['stdout'][0]
