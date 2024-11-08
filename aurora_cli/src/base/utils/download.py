@@ -35,11 +35,11 @@ from aurora_cli.src.base.utils.request import request_check_url_download
 from aurora_cli.src.base.utils.verbose import verbose_add_map, verbose_command_start
 
 
-def check_downloads(urls: [], mode = None):
+def check_downloads(urls: [], mode = None, is_check_size = True):
     files = []
     downloads_urls = []
     for url in urls:
-        result = request_check_url_download(url)
+        result = request_check_url_download(url, is_check_size)
         if result.is_error():
             echo_stdout(result)
             app_exit()

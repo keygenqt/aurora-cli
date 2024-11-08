@@ -16,7 +16,6 @@ limitations under the License.
 from typing import Any
 
 import requests
-from requests import Response
 
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
@@ -48,18 +47,23 @@ def request_get(
         return OutResultError(TextError.request_error())
 
 
-def request_check_url_download(url: str) -> OutResult:
+def request_check_url_download(url, is_check_size=True) -> OutResult:
     path = path_get_download_path(url)
-    response = requests.head(url)
-    response_length = int(response.headers.get('content-length'))
-    if not response_length or response.status_code != 200:
-        return OutResultError(TextError.check_url_download_error(url))
+    response_length = 0
+    if is_check_size:
+        response = requests.head(url)
+        response_length = int(response.headers.get('content-length'))
+        if not response_length or response.status_code != 200:
+            return OutResultError(TextError.check_url_download_error(url))
 
     if path.is_dir():
         return OutResultError(TextError.check_url_download_dir_error(str(path)))
 
+    if not is_check_size and path.is_file():
+        return OutResultInfo(TextInfo.check_url_download_exist(str(path)), value=str(path))
+
     if path.is_file():
-        if path.stat().st_size == response_length:
+        if is_check_size and path.stat().st_size == response_length:
             return OutResultInfo(TextInfo.check_url_download_exist(str(path)), value=str(path))
         else:
             return OutResultError(TextError.check_url_download_exist_error(str(path)))

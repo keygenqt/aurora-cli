@@ -356,8 +356,7 @@ def ssh_check_package_installed(
 ) -> bool:
     result = ssh_command(
         client=client,
-        execute=f'ls /usr/bin/{package}',
+        execute=f'file /usr/bin/{package}',
         close=close,
     )
-
-    return 'No such file or directory' not in result.value['stdout'][0]
+    return 'symbolic link to' in result.value['stdout'][0]
