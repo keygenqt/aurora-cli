@@ -325,3 +325,11 @@ class TextErrorRu(Enum):
     @staticmethod
     def distributive_error(name):
         return '<red>Эта функция доступна только для дистрибутива:</red> {}.'.format(name)
+
+    @staticmethod
+    def error_application_id(app_id):
+        return '<red>Приложение с таким ID не найдено:</red> {}.'.format(app_id)
+
+    @staticmethod
+    def error_application_arch(arch):
+        return '<red>Приложение с этой архитектурой не найдено:</red> {}.'.format(arch)

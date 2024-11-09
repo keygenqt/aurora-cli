@@ -105,10 +105,11 @@ class TextInfo(Enum):
     @localization
     def available_versions_apps(apps: {}):
         return '<blue>Available application for Aurora OS:</blue>\n{}'.format('\n\n'.join([(
-            '> {name}\n{desc}\n{repo}'.format(
+            '> {name} <i>({app_id})</i>\n{desc}\n{repo}'.format(
                 name=apps[key]['spec']['name'],
                 desc=apps[key]['spec']['desc'],
                 repo=apps[key]['spec']['repo'],
+                app_id=key,
             )
         ) for key in apps.keys()]))
 
@@ -216,6 +217,11 @@ class TextInfo(Enum):
     @localization
     def psdk_download_start():
         return f'<blue>The download of Aurora Platform SDK files has begun.</blue>'
+
+    @staticmethod
+    @localization
+    def application_download_start():
+        return f'<blue>The download application package has begun.</blue>'
 
     @staticmethod
     @localization

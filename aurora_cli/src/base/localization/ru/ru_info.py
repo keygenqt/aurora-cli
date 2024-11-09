@@ -171,6 +171,10 @@ class TextInfoRu(Enum):
         return '<blue>Загрузка файлов Аврора Platform SDK.</blue>'
 
     @staticmethod
+    def application_download_start():
+        return '<blue>Загрузка пакета приложений началась.</blue>'
+
+    @staticmethod
     def vscode_extensions_flutter(extensions: []):
         return '<blue>Будут установлены расширения для работы с Flutter:</blue>\n' + '\n'.join(extensions)
 

@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-from time import sleep
 from typing import Any
 
 import click
@@ -21,7 +20,7 @@ import click
 from aurora_cli.src.base.common.features.request_version import (
     request_versions_flutter,
     request_versions_sdk,
-    request_versions_psdk, request_versions_applications
+    request_versions_psdk
 )
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
@@ -44,14 +43,8 @@ def prompt_flutter_select_version(select: bool) -> Any:
     return prompt_result.value
 
 
-def prompt_apps_id_select() -> Any:
-    apps = request_versions_applications()
-    versions = [(
-        '{name} ({appId})'.format(
-            name=apps[key]['spec']['name'],
-            appId=key,
-        )
-    ) for key in apps.keys()]
+def prompt_apps_id_select(apps) -> Any:
+    versions = [f'{apps[key]['spec']['name']}' for key in apps.keys()]
     prompt_result = prompt_model_select('application', versions, True, None)
     if prompt_result.is_error():
         echo_stdout(prompt_result)
@@ -59,13 +52,8 @@ def prompt_apps_id_select() -> Any:
     return prompt_result.value
 
 
-def prompt_apps_arch_select(app_id) -> Any:
-    apps = request_versions_applications()
-    arches = [(
-        '{arch}'.format(
-            arch=item['arch'],
-        )
-    ) for item in apps[app_id]['versions']]
+def prompt_apps_arch_select(apps, app_id) -> Any:
+    arches = [f'{item['arch']}' for item in apps[app_id]['versions']]
     prompt_result = prompt_model_select('architecture', arches, True, None)
     if prompt_result.is_error():
         echo_stdout(prompt_result)

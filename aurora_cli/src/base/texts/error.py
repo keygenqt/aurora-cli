@@ -432,3 +432,13 @@ class TextError(Enum):
     @localization
     def distributive_error(name):
         return '<red>This feature is only available for distributive:</red> {}.'.format(name)
+
+    @staticmethod
+    @localization
+    def error_application_id(app_id):
+        return '<red>Application with this ID not found:</red> {}.'.format(app_id)
+
+    @staticmethod
+    @localization
+    def error_application_arch(arch):
+        return '<red>Application with this architecture not found:</red> {}.'.format(arch)
