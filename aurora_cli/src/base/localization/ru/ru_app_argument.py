@@ -169,3 +169,7 @@ class TextArgumentRu(Enum):
     @staticmethod
     def argument_app_sign_index():
         return 'Укажите индекс ключа подписи.'
+
+    @staticmethod
+    def argument_apps_filter():
+        return 'Отфильтруйте проекты по типу.'

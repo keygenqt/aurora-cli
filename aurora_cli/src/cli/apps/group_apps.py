@@ -29,6 +29,7 @@ from aurora_cli.src.base.texts.app_argument import TextArgument
 from aurora_cli.src.base.texts.app_command import TextCommand
 from aurora_cli.src.base.texts.app_group import TextGroup
 from aurora_cli.src.base.texts.error import TextError
+from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.output import echo_verbose, echo_stdout, OutResultError
 from aurora_cli.src.base.utils.prompt import (
@@ -46,13 +47,20 @@ def group_apps():
 
 
 @group_apps.command(name='available', help=TextCommand.command_apps_available())
+@click.option('-t', '--types', type=click.Choice(['flutter', 'kmp', 'pwa', 'qt'], case_sensitive=False),
+              help=TextArgument.argument_apps_filter())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
-def available(verbose: bool):
-    apps_available_common()
+def available(
+        types: str,
+        verbose: bool
+):
+    apps_available_common(types)
     echo_verbose(verbose)
 
 
 @group_apps.command(name='install', help=TextCommand.command_flutter_install())
+@click.option('-t', '--types', type=click.Choice(['flutter', 'kmp', 'pwa', 'qt'], case_sensitive=False),
+              help=TextArgument.argument_apps_filter())
 @click.option('-ai', '--app-id', type=click.STRING, help=TextArgument.argument_app_id())
 @click.option('-a', '--arch', type=click.Choice(['aarch64', 'armv7hl', 'x86_64'], case_sensitive=False),
               help=TextArgument.argument_arch())
@@ -61,6 +69,7 @@ def available(verbose: bool):
 @click.option('-ph', '--phrase', type=click.STRING, help=TextArgument.argument_path_phrase())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def install(
+        types: str,
         app_id: str,
         arch: str,
         index_device: int,
@@ -69,6 +78,13 @@ def install(
         verbose: bool
 ):
     apps = request_versions_applications()
+    if types:
+        for key in [key for key in apps.keys() if apps[key]['spec']['type'] != types]:
+            apps.pop(key, None)
+
+    if types and not apps:
+        echo_stdout(TextInfo.available_apps_empty(types))
+        app_exit()
 
     if not app_id:
         app_name = prompt_apps_id_select(apps)

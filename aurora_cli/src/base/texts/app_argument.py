@@ -209,3 +209,8 @@ class TextArgument(Enum):
     @localization
     def argument_app_sign_index():
         return 'Select the sign key index.'
+
+    @staticmethod
+    @localization
+    def argument_apps_filter():
+        return 'Filter projects by type.'

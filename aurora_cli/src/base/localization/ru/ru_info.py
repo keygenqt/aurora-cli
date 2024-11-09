@@ -84,6 +84,10 @@ class TextInfoRu(Enum):
         return '<blue>Доступные версии Flutter для ОС Аврора:</blue>\n{}'.format('\n'.join(versions))
 
     @staticmethod
+    def available_apps_empty(type_app):
+        return f'<blue>На данный момент список приложений этой категории пуст:</blue> {type_app}.'
+
+    @staticmethod
     def installed_versions_sdk(versions: []):
         return '<blue>Установленная версия Аврора SDK:</blue>\n{}'.format('\n'.join(versions))
 

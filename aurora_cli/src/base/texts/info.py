@@ -103,6 +103,11 @@ class TextInfo(Enum):
 
     @staticmethod
     @localization
+    def available_apps_empty(type_app):
+        return f'<blue>At the moment the list of applications in this category is empty:</blue> {type_app}.'
+
+    @staticmethod
+    @localization
     def available_versions_apps(apps: {}):
         return '<blue>Available application for Aurora OS:</blue>\n{}'.format('\n\n'.join([(
             '> {name} <i>({app_id})</i>\n{desc}\n{repo}'.format(
