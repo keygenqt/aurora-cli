@@ -16,10 +16,10 @@ limitations under the License.
 
 import click
 
-from aurora_cli.src.base.common.features.request_version import request_versions_applications
 from aurora_cli.src.base.common.groups.apps.apps_features import (
     apps_available_common,
     apps_download_common,
+    apps_filter_common,
 )
 from aurora_cli.src.base.common.groups.device.device_package_features import device_package_install_common
 from aurora_cli.src.base.common.groups.emulator.emulator_package_features import emulator_package_install_common
@@ -47,18 +47,21 @@ def group_apps():
 
 
 @group_apps.command(name='available', help=TextCommand.command_apps_available())
+@click.option('-s', '--search', type=click.STRING, help=TextArgument.argument_apps_search())
 @click.option('-t', '--types', type=click.Choice(['flutter', 'kmp', 'pwa', 'qt'], case_sensitive=False),
               help=TextArgument.argument_apps_filter())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def available(
+        search: str,
         types: str,
         verbose: bool
 ):
-    apps_available_common(types)
+    apps_available_common(search, types)
     echo_verbose(verbose)
 
 
 @group_apps.command(name='install', help=TextCommand.command_flutter_install())
+@click.option('-s', '--search', type=click.STRING, help=TextArgument.argument_apps_search())
 @click.option('-t', '--types', type=click.Choice(['flutter', 'kmp', 'pwa', 'qt'], case_sensitive=False),
               help=TextArgument.argument_apps_filter())
 @click.option('-ai', '--app-id', type=click.STRING, help=TextArgument.argument_app_id())
@@ -69,6 +72,7 @@ def available(
 @click.option('-ph', '--phrase', type=click.STRING, help=TextArgument.argument_path_phrase())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def install(
+        search: str,
         types: str,
         app_id: str,
         arch: str,
@@ -77,13 +81,10 @@ def install(
         phrase: str,
         verbose: bool
 ):
-    apps = request_versions_applications()
-    if types:
-        for key in [key for key in apps.keys() if apps[key]['spec']['type'] != types]:
-            apps.pop(key, None)
+    apps = apps_filter_common(search, types)
 
     if types and not apps:
-        echo_stdout(TextInfo.available_apps_empty(types))
+        echo_stdout(TextInfo.available_apps_empty())
         app_exit()
 
     if not app_id:

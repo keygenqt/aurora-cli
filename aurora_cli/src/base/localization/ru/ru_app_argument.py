@@ -173,3 +173,7 @@ class TextArgumentRu(Enum):
     @staticmethod
     def argument_apps_filter():
         return 'Отфильтруйте проекты по типу.'
+
+    @staticmethod
+    def argument_apps_search():
+        return 'Поиск проектов.'

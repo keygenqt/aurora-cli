@@ -103,8 +103,8 @@ class TextInfo(Enum):
 
     @staticmethod
     @localization
-    def available_apps_empty(type_app):
-        return f'<blue>At the moment the list of applications in this category is empty:</blue> {type_app}.'
+    def available_apps_empty():
+        return f'<blue>The list of projects is empty.</blue>'
 
     @staticmethod
     @localization

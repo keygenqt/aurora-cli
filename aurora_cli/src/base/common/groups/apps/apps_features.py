@@ -24,13 +24,24 @@ from aurora_cli.src.base.utils.download import check_downloads, downloads
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultInfo, OutResultError
 
 
-def apps_available_common(type_app: str):
+def apps_filter_common(search: str, types: str):
     apps = request_versions_applications()
-    if type_app:
-        for key in [key for key in apps.keys() if apps[key]['spec']['type'] != type_app]:
+    if types:
+        for key in [key for key in apps.keys() if apps[key]['spec']['type'] != types]:
             apps.pop(key, None)
-    if type_app and not apps:
-        echo_stdout(TextInfo.available_apps_empty(type_app))
+
+    if search:
+        for key in [key for key in apps.keys() if
+                    str(search).lower() not in str(apps[key]['spec']['name']).lower() and str(
+                            search).lower() not in key]:
+            apps.pop(key, None)
+
+    return apps
+
+def apps_available_common(search: str, types: str):
+    apps = apps_filter_common(search, types)
+    if not apps:
+        echo_stdout(TextInfo.available_apps_empty())
     else:
         echo_stdout(TextInfo.available_versions_apps(apps))
 

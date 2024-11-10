@@ -214,3 +214,8 @@ class TextArgument(Enum):
     @localization
     def argument_apps_filter():
         return 'Filter projects by type.'
+
+    @staticmethod
+    @localization
+    def argument_apps_search():
+        return 'Search projects.'
