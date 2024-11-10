@@ -88,6 +88,17 @@ class TextInfoRu(Enum):
         return f'<blue>Список проектов пуст.</blue>'
 
     @staticmethod
+    def available_versions_apps(apps: {}):
+        return '<blue>Доступное приложения для ОС Aurora:</blue>\n{}'.format('\n\n'.join([(
+            '> {name} <i>({app_id})</i>\n{desc}\n{repo}'.format(
+                name=apps[key]['spec']['name'],
+                desc=apps[key]['spec']['desc_ru'],
+                repo=apps[key]['spec']['repo'],
+                app_id=key,
+            )
+        ) for key in apps.keys()]))
+
+    @staticmethod
     def installed_versions_sdk(versions: []):
         return '<blue>Установленная версия Аврора SDK:</blue>\n{}'.format('\n'.join(versions))
 

@@ -15,6 +15,7 @@ limitations under the License.
 """
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.texts.success import TextSuccess
+from aurora_cli.src.base.utils.cache_func import cache_func_clear
 from aurora_cli.src.base.utils.cache_settings import (
     CacheSettingsKey,
     cache_settings_save,
@@ -43,6 +44,7 @@ def settings_clear_common():
 
 def settings_localization_common(language: str):
     cache_settings_save(CacheSettingsKey.language, language)
+    cache_func_clear()
     echo_stdout(OutResult(TextSuccess.settings_localization_update()))
 
 

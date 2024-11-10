@@ -109,7 +109,7 @@ class TextInfo(Enum):
     @staticmethod
     @localization
     def available_versions_apps(apps: {}):
-        return '<blue>Available application for Aurora OS:</blue>\n{}'.format('\n\n'.join([(
+        return '<blue>Available applications for Aurora OS:</blue>\n{}'.format('\n\n'.join([(
             '> {name} <i>({app_id})</i>\n{desc}\n{repo}'.format(
                 name=apps[key]['spec']['name'],
                 desc=apps[key]['spec']['desc'],
