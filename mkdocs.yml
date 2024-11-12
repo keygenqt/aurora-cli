@@ -11,6 +11,9 @@ nav:
   - Features:
       - Overview: cli/main.md
       - Methods:
+          - Apps:
+              - Available: cli/apps/available.md
+              - Install: cli/apps/install.md
           - Device:
               - Package:
                   - Install: cli/device/package/install.md

@@ -213,7 +213,7 @@ class TextArgument(Enum):
     @staticmethod
     @localization
     def argument_apps_filter():
-        return 'Filter projects by type.'
+        return 'Filter projects by group.'
 
     @staticmethod
     @localization
