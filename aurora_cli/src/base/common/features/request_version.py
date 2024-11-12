@@ -194,12 +194,13 @@ def request_versions_applications() -> []:
         apps = {}
         sorts = {}
         for value in result:
-            name = f'{value['name']}|{value['arch']}'
+            name = '{}|{}'.format(value['name'], value['arch'])
             if not name in sorts.keys():
                 sorts[name] = [value['version']]
             else:
                 sorts[name].append(value['version'])
 
+        # @todo Needs optimization
         for key in sorts.keys():
             sorts[key].sort(key=Version)
             name = key.split('|')[0]
