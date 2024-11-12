@@ -22,7 +22,9 @@ from packaging.version import Version
 from aurora_cli.src.base.constants.url import (
     URL_AURORA_REPO_VERSIONS,
     URL_FLUTTER_SDK_VERSIONS,
-    URL_FLUTTER_PLUGINS_VERSIONS, URL_APPS_VERSIONS, URL_APPS_DESC
+    URL_FLUTTER_PLUGINS_VERSIONS,
+    URL_APPS_VERSIONS,
+    URL_APPS_DESC
 )
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo

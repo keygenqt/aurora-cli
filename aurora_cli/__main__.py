@@ -63,7 +63,7 @@ def main(
 def _init_groups():
     # group API
     main.add_command(group_api)
-    # group Devices via ssh
+    # group Apps
     main.add_command(group_apps)
     # group Devices via ssh
     main.add_command(group_device)
