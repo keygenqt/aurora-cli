@@ -49,7 +49,6 @@
 #### Feature
 
 - Add new group for applications.
-- Add new group for applications.
 
 ### Version: 3.1.0 (06/11/2024)
 
