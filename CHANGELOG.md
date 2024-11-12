@@ -1,11 +1,12 @@
-## Updated: 11/06/2024 17:33:08 PM
+## Updated: 11/12/2024 18:15:58 PM
 
 ## Info
 
-- Last tag: 3.1.0
-- Released: 36
+- Last tag: 3.2.0
+- Released: 37
 
 ## Versions
+- Version: 3.2.0 (12/11/2024)
 - Version: 3.1.0 (06/11/2024)
 - Version: 3.0.16 (05/11/2024)
 - Version: 3.0.15 (05/11/2024)
@@ -42,6 +43,13 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 3.2.0 (12/11/2024)
+
+#### Feature
+
+- Add new group for applications.
+- Add new group for applications.
 
 ### Version: 3.1.0 (06/11/2024)
 
