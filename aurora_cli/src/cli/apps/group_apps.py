@@ -48,21 +48,25 @@ def group_apps():
 
 @group_apps.command(name='available', help=TextCommand.command_apps_available())
 @click.option('-s', '--search', type=click.STRING, help=TextArgument.argument_apps_search())
-@click.option('-t', '--types', type=click.Choice(['flutter', 'kmp', 'pwa', 'qt'], case_sensitive=False),
+@click.option('-g', '--group',
+              type=click.Choice(['flutter', 'kmp', 'pwa', 'qt', 'example', 'demo', 'game', 'plugin'],
+                                case_sensitive=False),
               help=TextArgument.argument_apps_filter())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def available(
         search: str,
-        types: str,
+        group: str,
         verbose: bool
 ):
-    apps_available_common(search, types)
+    apps_available_common(search, group)
     echo_verbose(verbose)
 
 
 @group_apps.command(name='install', help=TextCommand.command_flutter_install())
 @click.option('-s', '--search', type=click.STRING, help=TextArgument.argument_apps_search())
-@click.option('-t', '--types', type=click.Choice(['flutter', 'kmp', 'pwa', 'qt'], case_sensitive=False),
+@click.option('-g', '--group',
+              type=click.Choice(['flutter', 'kmp', 'pwa', 'qt', 'example', 'demo', 'game', 'plugin'],
+                                case_sensitive=False),
               help=TextArgument.argument_apps_filter())
 @click.option('-ai', '--app-id', type=click.STRING, help=TextArgument.argument_app_id())
 @click.option('-a', '--arch', type=click.Choice(['aarch64', 'armv7hl', 'x86_64'], case_sensitive=False),
@@ -73,7 +77,7 @@ def available(
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def install(
         search: str,
-        types: str,
+        group: str,
         app_id: str,
         arch: str,
         index_device: int,
@@ -81,9 +85,9 @@ def install(
         phrase: str,
         verbose: bool
 ):
-    apps = apps_filter_common(search, types)
+    apps = apps_filter_common(search, group)
 
-    if types and not apps:
+    if group and not apps:
         echo_stdout(TextInfo.available_apps_empty())
         app_exit()
 

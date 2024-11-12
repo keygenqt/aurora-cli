@@ -90,8 +90,9 @@ class TextInfoRu(Enum):
     @staticmethod
     def available_versions_apps(apps: {}):
         return '<blue>Доступное приложения для ОС Aurora:</blue>\n{}'.format('\n\n'.join([(
-            '> {name} <i>({app_id})</i>\n{desc}\n{repo}'.format(
+            '> {name} <i>({app_id})</i>\n{groups}\n{desc}\n{repo}'.format(
                 name=apps[key]['spec']['name'],
+                groups='[{}]'.format(', '.join(apps[key]['spec']['groups'])),
                 desc=apps[key]['spec']['desc_ru'],
                 repo=apps[key]['spec']['repo'],
                 app_id=key,
@@ -330,3 +331,7 @@ class TextInfoRu(Enum):
     @staticmethod
     def settings_item_empty():
         return 'Значение не установлено.'
+
+    @staticmethod
+    def loading_applications():
+        return '<blue>Поиск приложений...</blue>'

@@ -27,7 +27,7 @@ from aurora_cli.src.base.constants.url import (
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.utils.cache_func import cache_func
-from aurora_cli.src.base.utils.output import OutResult, OutResultError
+from aurora_cli.src.base.utils.output import OutResult, OutResultError, echo_stdout, OutResultInfo
 from aurora_cli.src.base.utils.request import request_get
 
 
@@ -155,6 +155,7 @@ def request_flutter_plugins() -> OutResult:
 
 @cache_func(expire=3600)
 def request_versions_applications() -> []:
+    echo_stdout(OutResultInfo(TextInfo.loading_applications()))
     try:
         page = 1
         result = []

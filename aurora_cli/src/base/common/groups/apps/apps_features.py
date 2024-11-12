@@ -24,10 +24,10 @@ from aurora_cli.src.base.utils.download import check_downloads, downloads
 from aurora_cli.src.base.utils.output import echo_stdout, OutResultInfo, OutResultError
 
 
-def apps_filter_common(search: str, types: str):
+def apps_filter_common(search: str, group: str):
     apps = request_versions_applications()
-    if types:
-        for key in [key for key in apps.keys() if apps[key]['spec']['type'] != types]:
+    if group:
+        for key in [key for key in apps.keys() if group not in apps[key]['spec']['groups']]:
             apps.pop(key, None)
 
     if search:
@@ -38,8 +38,8 @@ def apps_filter_common(search: str, types: str):
 
     return apps
 
-def apps_available_common(search: str, types: str):
-    apps = apps_filter_common(search, types)
+def apps_available_common(search: str, group: str):
+    apps = apps_filter_common(search, group)
     if not apps:
         echo_stdout(TextInfo.available_apps_empty())
     else:
