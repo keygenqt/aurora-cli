@@ -84,6 +84,22 @@ class TextInfoRu(Enum):
         return '<blue>Доступные версии Flutter для ОС Аврора:</blue>\n{}'.format('\n'.join(versions))
 
     @staticmethod
+    def available_apps_empty():
+        return f'<blue>Список проектов пуст.</blue>'
+
+    @staticmethod
+    def available_versions_apps(apps: {}):
+        return '<blue>Доступное приложения для ОС Aurora:</blue>\n{}'.format('\n\n'.join([(
+            '> {name} <i>({app_id})</i>\n{groups}\n{desc}\n{repo}'.format(
+                name=apps[key]['spec']['name'],
+                groups='[{}]'.format(', '.join(apps[key]['spec']['groups'])),
+                desc=apps[key]['spec']['desc_ru'],
+                repo=apps[key]['spec']['repo'],
+                app_id=key,
+            )
+        ) for key in apps.keys()]))
+
+    @staticmethod
     def installed_versions_sdk(versions: []):
         return '<blue>Установленная версия Аврора SDK:</blue>\n{}'.format('\n'.join(versions))
 
@@ -169,6 +185,10 @@ class TextInfoRu(Enum):
     @staticmethod
     def psdk_download_start():
         return '<blue>Загрузка файлов Аврора Platform SDK.</blue>'
+
+    @staticmethod
+    def application_download_start():
+        return '<blue>Загрузка пакета приложений началась.</blue>'
 
     @staticmethod
     def vscode_extensions_flutter(extensions: []):
@@ -311,3 +331,7 @@ class TextInfoRu(Enum):
     @staticmethod
     def settings_item_empty():
         return 'Значение не установлено.'
+
+    @staticmethod
+    def loading_applications():
+        return '<blue>Поиск приложений...</blue>'

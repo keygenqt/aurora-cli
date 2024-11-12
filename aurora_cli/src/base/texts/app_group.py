@@ -49,6 +49,11 @@ This is a third party tool written by enthusiasts!'''
 
     @staticmethod
     @localization
+    def group_apps():
+        return 'Applications available for installation.'
+
+    @staticmethod
+    @localization
     def subgroup_device_package():
         return 'Work with packages.'
 

@@ -51,7 +51,7 @@ def installed(verbose: bool):
 
 
 @group_sdk.command(name='install', help=TextCommand.command_sdk_install())
-@click.option('-l', '--offline', is_flag=True, help=TextArgument.argument_sdk_installer_type())
+@click.option('-o', '--offline', is_flag=True, help=TextArgument.argument_sdk_installer_type())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
 @click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
 def install(

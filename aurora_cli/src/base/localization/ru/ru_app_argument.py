@@ -153,3 +153,27 @@ class TextArgumentRu(Enum):
     @staticmethod
     def argument_password():
         return 'Root пароль.'
+
+    @staticmethod
+    def argument_app_id():
+        return 'Укажите ID приложения.'
+
+    @staticmethod
+    def argument_arch():
+        return 'Укажите архитектуру приложения.'
+
+    @staticmethod
+    def argument_app_device_index():
+        return 'Укажите индекс устройства.'
+
+    @staticmethod
+    def argument_app_sign_index():
+        return 'Укажите индекс ключа подписи.'
+
+    @staticmethod
+    def argument_apps_filter():
+        return 'Отфильтруйте проекты по группе.'
+
+    @staticmethod
+    def argument_apps_search():
+        return 'Поиск проектов.'

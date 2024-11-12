@@ -43,6 +43,24 @@ def prompt_flutter_select_version(select: bool) -> Any:
     return prompt_result.value
 
 
+def prompt_apps_id_select(apps) -> Any:
+    versions = [f'{apps[key]['spec']['name']}' for key in apps.keys()]
+    prompt_result = prompt_model_select('application', versions, True, None)
+    if prompt_result.is_error():
+        echo_stdout(prompt_result)
+        app_exit()
+    return prompt_result.value
+
+
+def prompt_apps_arch_select(apps, app_id) -> Any:
+    arches = [f'{item['arch']}' for item in apps[app_id]['versions']]
+    prompt_result = prompt_model_select('architecture', arches, True, None)
+    if prompt_result.is_error():
+        echo_stdout(prompt_result)
+        app_exit()
+    return prompt_result.value
+
+
 def prompt_psdk_select_version(select: bool) -> Any:
     versions = request_versions_sdk()
     if versions.is_error():

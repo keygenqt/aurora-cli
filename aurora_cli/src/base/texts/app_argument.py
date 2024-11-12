@@ -189,3 +189,33 @@ class TextArgument(Enum):
     @localization
     def argument_password():
         return 'Root password.'
+
+    @staticmethod
+    @localization
+    def argument_app_id():
+        return 'Select the application ID.'
+
+    @staticmethod
+    @localization
+    def argument_arch():
+        return 'Select the application architecture.'
+
+    @staticmethod
+    @localization
+    def argument_app_device_index():
+        return 'Select the device index.'
+
+    @staticmethod
+    @localization
+    def argument_app_sign_index():
+        return 'Select the sign key index.'
+
+    @staticmethod
+    @localization
+    def argument_apps_filter():
+        return 'Filter projects by group.'
+
+    @staticmethod
+    @localization
+    def argument_apps_search():
+        return 'Search projects.'
