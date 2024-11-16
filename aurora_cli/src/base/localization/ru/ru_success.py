@@ -140,6 +140,10 @@ class TextSuccessRu(Enum):
         return f'<green>Подпись выполнена успешно:</green> {file_name}'
 
     @staticmethod
+    def psdk_sign_success_warning(file_name: str):
+        return f'<green>Подпись выполнена успешно:</green> {file_name}'
+
+    @staticmethod
     def psdk_targets_get_success(
             version: str,
             targets: []

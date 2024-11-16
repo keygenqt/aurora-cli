@@ -393,7 +393,7 @@ def shell_psdk_resign(
         'delete',
         path
     ], password=password)
-    shell_exec_command([
+    stdout_sign, _ = shell_exec_command([
         tool,
         f'/bin/bash -c "KEY_PASSPHRASE={phrase} rpmsign-external sign --key={key} --cert={cert} {path}"'
     ], password=password)
@@ -404,7 +404,9 @@ def shell_psdk_resign(
         path
     ], password=password)
 
-    result = shell_check_error_out(stdout, stderr, [
+    is_signed = [line for line in stdout_sign if 'Signed (' in line]
+
+    result = shell_check_error_out(stdout, None, [
         'is a directory',
         'Could not verify',
     ])
@@ -415,7 +417,10 @@ def shell_psdk_resign(
             if phrase:
                 return OutResultError(TextError.psdk_sign_error(path))
             else:
-                return OutResultError(TextError.psdk_sign_error_hint(path))
+                if is_signed:
+                    return OutResult(TextSuccess.psdk_sign_success_warning(path))
+                else:
+                    return OutResultError(TextError.psdk_sign_error_hint(path))
         return result
 
     return OutResult(TextSuccess.psdk_sign_success(Path(path).name))

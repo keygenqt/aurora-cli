@@ -170,6 +170,12 @@ Good luck 👋'''
 
     @staticmethod
     @localization
+    @hint(Hint.warning, Hint.use_verbose)
+    def psdk_sign_success_warning(file_name: str):
+        return f'<green>The signature has been completed successfully:</green> {file_name}'
+
+    @staticmethod
+    @localization
     def psdk_targets_get_success(
             version: str,
             targets: []
