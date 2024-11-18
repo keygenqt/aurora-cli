@@ -21,7 +21,8 @@ import click
 
 from aurora_cli.src.base.common.groups.psdk.psdk_project_features import (
     psdk_project_format_common,
-    psdk_project_icons_common
+    psdk_project_icons_common,
+    psdk_project_check_format_common,
 )
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.texts.app_argument import TextArgument
@@ -44,6 +45,18 @@ def project_format(
 ):
     path = Path(path) if path else Path.cwd()
     psdk_project_format_common(path)
+    echo_verbose(verbose)
+
+
+@subgroup_psdk_project.command(name='check-format', help=TextCommand.command_project_check_format())
+@click.option('-p', '--path', type=click.STRING, required=False, help=TextArgument.argument_path_to_project())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
+def project_format(
+        path: Any,
+        verbose: bool
+):
+    path = Path(path) if path else Path.cwd()
+    psdk_project_check_format_common(path)
     echo_verbose(verbose)
 
 

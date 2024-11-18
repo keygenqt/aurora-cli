@@ -209,6 +209,13 @@ Project formatting.
 • path - Path to project. The default is the current directory.
 ```
 
+Project check format.
+
+```yaml title="/flutter/project/check-format"
+• version - Installed version of Flutter.
+• path - Path to project. The default is the current directory.
+```
+
 Compile a report of flutter project.
 
 ```yaml title="/flutter/project/report"
@@ -331,6 +338,12 @@ Sign (with re-sign) RPM package.
 Project formatting.
 
 ```yaml title="/psdk/project/format"
+• path - Path to project. The default is the current directory.
+```
+
+Project check format.
+
+```yaml title="/psdk/project/check-format"
 • path - Path to project. The default is the current directory.
 ```
 

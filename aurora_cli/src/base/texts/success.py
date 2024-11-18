@@ -345,3 +345,13 @@ Good luck 👋'''
     @localization
     def settings_hint_disable():
         return '<green>Hints are disabled.</green>'
+
+    @staticmethod
+    @localization
+    def project_format_no_needs():
+        return '<green>The project does not require formatting.</green>'
+
+    @staticmethod
+    @localization
+    def flutter_get_pub_success():
+        return '<green>Getting dependencies is successful.</green>'

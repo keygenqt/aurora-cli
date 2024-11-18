@@ -35,6 +35,7 @@ nav:
           - Flutter:
               - Project:
                   - Format: cli/flutter/project/format.md
+                  - Check Format: cli/flutter/project/check-format.md
                   - Icons: cli/flutter/project/icons.md
                   - Report: cli/flutter/project/report.md
               - Available: cli/flutter/available.md
@@ -51,6 +52,7 @@ nav:
                   - Validate: cli/psdk/package/validate.md
               - Project:
                   - Format: cli/psdk/project/format.md
+                  - Check Format: cli/psdk/project/check-format.md
                   - Icons: cli/psdk/project/icons.md
               - Sudoers:
                   - Add: cli/psdk/sudoers/add.md

@@ -404,3 +404,8 @@ class TextInfo(Enum):
     @localization
     def loading_applications():
         return '<blue>Searching for applications...</blue>'
+
+    @staticmethod
+    @localization
+    def project_format_needs():
+        return '<blue>The project needs formatting.</blue>'

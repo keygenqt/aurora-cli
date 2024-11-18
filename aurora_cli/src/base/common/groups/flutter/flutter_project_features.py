@@ -13,11 +13,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
+import filecmp
 import json
 import re
+import shutil
 from pathlib import Path
 
+from aurora_cli.src.base.common.features.flutter_features import flutter_project_get_pub
 from aurora_cli.src.base.common.features.image_features import image_crop_for_project
 from aurora_cli.src.base.common.features.request_version import request_flutter_plugins
 from aurora_cli.src.base.common.features.search_files import (
@@ -37,6 +39,7 @@ from aurora_cli.src.base.utils.alive_bar_percentage import AliveBarPercentage
 from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.argv import argv_is_test
 from aurora_cli.src.base.utils.output import echo_stdout, OutResult, OutResultInfo, OutResultError
+from aurora_cli.src.base.utils.path import path_temp_copy, path_temp_folder
 from aurora_cli.src.base.utils.tests import tests_exit
 
 
@@ -71,6 +74,52 @@ def flutter_project_format_common(
             app_exit()
 
     echo_stdout(OutResult(TextSuccess.project_format_success()))
+
+
+def flutter_project_check_format_common(
+        model: FlutterModel,
+        project: Path,
+        is_bar: bool = True
+):
+    tests_exit()
+
+    temp_folder = path_temp_folder()
+    flutter_tool_check_is_project(project)
+
+    files_dart = project.rglob('*.dart')
+    files_h = project.rglob('*.h')
+    files_cpp = project.rglob('*.cpp')
+
+    # if C++ files exist run clang-format format
+    if files_h or files_cpp:
+        for file in files_h:
+            copy_file = path_temp_copy(file, temp_folder)
+            shell_cpp_format([copy_file], flutter_tool_get_clang_format(is_bar))
+            if not filecmp.cmp(file, copy_file):
+                shutil.rmtree(temp_folder)
+                echo_stdout(OutResultInfo(TextInfo.project_format_needs()))
+                return False
+        for file in files_cpp:
+            copy_file = path_temp_copy(file, temp_folder)
+            shell_cpp_format([copy_file], flutter_tool_get_clang_format(is_bar))
+            if not filecmp.cmp(file, copy_file):
+                shutil.rmtree(temp_folder)
+                echo_stdout(OutResultInfo(TextInfo.project_format_needs()))
+                return False
+
+    # if dart files exist run dart format
+    if files_dart:
+        for file in files_dart:
+            path_temp_copy(file, temp_folder)
+        result = shell_dart_format(model.get_tool_dart(), str(temp_folder))
+        if result.value:
+            shutil.rmtree(temp_folder)
+            echo_stdout(OutResultInfo(TextInfo.project_format_needs()))
+            return False
+
+    shutil.rmtree(temp_folder)
+    echo_stdout(OutResult(TextSuccess.project_format_no_needs()))
+    return True
 
 
 def flutter_project_report_common(

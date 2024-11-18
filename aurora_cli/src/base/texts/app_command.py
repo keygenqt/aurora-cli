@@ -152,6 +152,11 @@ class TextCommand(Enum):
 
     @staticmethod
     @localization
+    def command_project_check_format():
+        return 'Project is formatting.'
+
+    @staticmethod
+    @localization
     def command_project_icon():
         return 'Gen multiple size icons for application.'
 

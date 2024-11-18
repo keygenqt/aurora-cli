@@ -59,7 +59,10 @@ def shell_dart_format(
     if result.is_error():
         return OutResultError(TextError.project_format_error())
 
-    return OutResultInfo(TextInfo.flutter_project_format_dart_done())
+    return OutResultInfo(
+        TextInfo.flutter_project_format_dart_done(),
+        value=(len([line for line in stdout if '0 changed' in line])) != 1
+    )
 
 
 @check_dependency(DependencyApps.clang_format)

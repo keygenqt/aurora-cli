@@ -335,3 +335,7 @@ class TextInfoRu(Enum):
     @staticmethod
     def loading_applications():
         return '<blue>Поиск приложений...</blue>'
+
+    @staticmethod
+    def project_format_needs():
+        return '<blue>Проект нуждается в форматировании.</blue>'

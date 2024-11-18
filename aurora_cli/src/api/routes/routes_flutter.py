@@ -26,6 +26,7 @@ from aurora_cli.src.base.common.groups.flutter.flutter_project_features import (
     flutter_project_report_common,
     flutter_project_format_common,
     flutter_project_icons_common,
+    flutter_project_check_format_common,
 )
 from aurora_cli.src.base.models.flutter_model import FlutterModel
 from aurora_cli.src.base.utils.route import get_route_root, get_arg_str
@@ -48,6 +49,12 @@ def search_route_flutter(route: str) -> bool:
         )
     elif root == '/flutter/project/format':
         flutter_project_format_common(
+            project=Path(get_arg_str(route, 'path')),
+            is_bar=False,
+            model=FlutterModel.get_model_by_version(get_arg_str(route, 'version')),
+        )
+    elif root == '/flutter/project/check-format':
+        flutter_project_check_format_common(
             project=Path(get_arg_str(route, 'path')),
             is_bar=False,
             model=FlutterModel.get_model_by_version(get_arg_str(route, 'version')),

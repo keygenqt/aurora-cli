@@ -282,3 +282,11 @@ class TextSuccessRu(Enum):
     @staticmethod
     def settings_hint_disable():
         return '<green>Подсказки отключены.</green>'
+
+    @staticmethod
+    def project_format_no_needs():
+        return '<green>Проект не требует форматирования.</green>'
+
+    @staticmethod
+    def flutter_get_pub_success():
+        return '<green>Получение зависимостей прошло успешно.</green>'

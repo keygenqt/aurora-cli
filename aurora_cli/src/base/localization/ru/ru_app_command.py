@@ -123,6 +123,10 @@ class TextCommandRu(Enum):
         return 'Форматирование проекта.'
 
     @staticmethod
+    def command_project_check_format():
+        return 'Проверить отформатирован ли проект.'
+
+    @staticmethod
     def command_project_icon():
         return 'Генерируйте иконки разных размеров для приложения.'
 

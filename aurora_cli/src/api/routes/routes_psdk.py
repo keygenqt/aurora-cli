@@ -33,7 +33,8 @@ from aurora_cli.src.base.common.groups.psdk.psdk_package_features import (
 )
 from aurora_cli.src.base.common.groups.psdk.psdk_project_features import (
     psdk_project_format_common,
-    psdk_project_icons_common
+    psdk_project_icons_common,
+    psdk_project_check_format_common,
 )
 from aurora_cli.src.base.common.groups.psdk.psdk_sudoers_features import (
     psdk_sudoers_add_common,
@@ -131,6 +132,11 @@ def search_route_psdk(route: str) -> bool:
         )
     elif root == '/psdk/project/format':
         psdk_project_format_common(
+            project=Path(get_arg_str(route, 'path')),
+            is_bar=False
+        )
+    elif root == '/psdk/project/check-format':
+        psdk_project_check_format_common(
             project=Path(get_arg_str(route, 'path')),
             is_bar=False
         )

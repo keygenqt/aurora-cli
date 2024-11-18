@@ -15,6 +15,9 @@ limitations under the License.
 """
 
 import os
+import shutil
+import tempfile
+import uuid
 from datetime import datetime
 from os.path import basename
 from pathlib import Path
@@ -61,3 +64,16 @@ def path_get_download_folder() -> Path:
             return item
     default.mkdir(parents=True, exist_ok=True)
     return default
+
+
+def path_temp_folder():
+    key = uuid.uuid4().hex[:16]
+    temp_folder = Path(tempfile.gettempdir()) / 'temp_aurora_cli' / key
+    temp_folder.mkdir(parents=True)
+    return temp_folder
+
+
+def path_temp_copy(path, folder):
+    temp_file = Path(folder) / path.name
+    shutil.copy2(path, temp_file)
+    return temp_file

@@ -161,6 +161,11 @@ help_routes = f'''
   • version - {TextArgument.argument_flutter_version()}
   • path - {TextArgument.argument_path_to_project()}
 
+{TextCommand.command_project_check_format()}
+/flutter/project/check-format
+  • version - {TextArgument.argument_flutter_version()}
+  • path - {TextArgument.argument_path_to_project()}
+
 {TextCommand.command_flutter_project_report()}
 /flutter/project/report
   • version - {TextArgument.argument_flutter_version()}
@@ -246,6 +251,10 @@ help_routes = f'''
 
 {TextCommand.command_project_format()}
 /psdk/project/format
+  • path - {TextArgument.argument_path_to_project()}
+  
+{TextCommand.command_project_check_format()}
+/psdk/project/check-format
   • path - {TextArgument.argument_path_to_project()}
 
 {TextCommand.command_project_icon()}
