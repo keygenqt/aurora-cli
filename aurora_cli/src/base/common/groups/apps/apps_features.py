@@ -15,16 +15,18 @@ limitations under the License.
 """
 from time import sleep
 
+from grapheme.grapheme_property_group import value
+
 from aurora_cli.src.base.common.features.request_version import request_versions_applications
 from aurora_cli.src.base.texts.error import TextError
 from aurora_cli.src.base.texts.info import TextInfo
 from aurora_cli.src.base.utils.app import app_exit
 from aurora_cli.src.base.utils.argv import argv_is_api
 from aurora_cli.src.base.utils.download import check_downloads, downloads
-from aurora_cli.src.base.utils.output import echo_stdout, OutResultInfo, OutResultError
+from aurora_cli.src.base.utils.output import echo_stdout, OutResultInfo, OutResultError, OutResult
 
 
-def apps_filter_common(search: str, group: str):
+def apps_filter_common(search, group):
     apps = request_versions_applications()
     if group:
         for key in [key for key in apps.keys() if group not in apps[key]['spec']['groups']]:
@@ -33,17 +35,18 @@ def apps_filter_common(search: str, group: str):
     if search:
         for key in [key for key in apps.keys() if
                     str(search).lower() not in str(apps[key]['spec']['name']).lower() and str(
-                            search).lower() not in key]:
+                        search).lower() not in key]:
             apps.pop(key, None)
 
     return apps
 
-def apps_available_common(search: str, group: str):
+
+def apps_available_common(search, group):
     apps = apps_filter_common(search, group)
     if not apps:
-        echo_stdout(TextInfo.available_apps_empty())
+        echo_stdout(OutResultInfo(TextInfo.available_apps_empty(), value=[]))
     else:
-        echo_stdout(TextInfo.available_versions_apps(apps))
+        echo_stdout(OutResult(TextInfo.available_versions_apps(apps), value=apps))
 
 
 def apps_download_common(app_id, arch):

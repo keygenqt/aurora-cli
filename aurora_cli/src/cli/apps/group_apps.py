@@ -62,7 +62,7 @@ def available(
     echo_verbose(verbose)
 
 
-@group_apps.command(name='install', help=TextCommand.command_flutter_install())
+@group_apps.command(name='install', help=TextCommand.command_apps_install())
 @click.option('-s', '--search', type=click.STRING, help=TextArgument.argument_apps_search())
 @click.option('-g', '--group',
               type=click.Choice(['flutter', 'kmp', 'pwa', 'qt', 'example', 'demo', 'game', 'plugin'],

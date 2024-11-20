@@ -23,6 +23,14 @@ class TextCommandRu(Enum):
         return 'Получите список доступных приложений для ОС Аврора.'
 
     @staticmethod
+    def command_apps_download():
+        return 'Загрузите приложение для устройства или эмулятора.'
+
+    @staticmethod
+    def command_apps_install():
+        return 'Установите приложение на устройство или эмулятор.'
+
+    @staticmethod
     def command_device_list():
         return 'Получить список устройств.'
 

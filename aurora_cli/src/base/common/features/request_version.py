@@ -15,6 +15,7 @@ limitations under the License.
 """
 
 import re
+from threading import Thread
 from time import sleep
 
 from packaging.version import Version
@@ -156,7 +157,7 @@ def request_flutter_plugins() -> OutResult:
 
 
 @cache_func(expire=3600)
-def request_versions_applications() -> []:
+def _request_versions_applications() -> []:
     echo_stdout(OutResultInfo(TextInfo.loading_applications()))
     try:
         page = 1
@@ -185,37 +186,63 @@ def request_versions_applications() -> []:
                                 'arch': arch,
                                 'revision': revision,
                                 'version': version,
-                                'psdk': psdk_version
+                                'psdk': psdk_version,
                             })
             page += 1
             sleep(1)
-
-        # Sort and filter latest release package
-        apps = {}
-        sorts = {}
-        for value in result:
-            name = '{}|{}'.format(value['name'], value['arch'])
-            if not name in sorts.keys():
-                sorts[name] = [value['version']]
-            else:
-                sorts[name].append(value['version'])
-
-        # @todo Needs optimization
-        for key in sorts.keys():
-            sorts[key].sort(key=Version)
-            name = key.split('|')[0]
-            arch = key.split('|')[-1]
-            latest = sorts[key][-1]
-            for item in result:
-                if item['name'] == name and item['arch'] == arch and item['version'] == latest:
-                    if not name in apps.keys():
-                        apps[name] = {'versions': [item]}
-                    else:
-                        apps[name]['versions'].append(item)
-                    # Get desc
-                    response = request_get(URL_APPS_DESC.format(name))
-                    apps[name]['spec'] = response.json()
-
-        return apps
+        return result
     except (Exception,):
         return []
+
+
+@cache_func(expire=600)
+def request_versions_applications() -> []:
+    response = _request_versions_applications()
+    # unique app ids
+    names = list(set([value['name'] for value in response]))
+
+    # sort versions app
+    versions = []
+    for value in response:
+        index = names.index(value['name'])
+        arch = 0 if value['arch'] == 'aarch64' else 1 if value['arch'] == 'armv7hl' else 2
+        versions.append(f'{index}.{arch}.{value['version']}-{value['revision']}')
+
+    versions = list(set(versions))
+    versions.sort(key=Version)
+    versions.reverse()
+
+    # filter apps old version
+    values = {}
+    for value in versions:
+        parse = value.split('.')
+        name = names[int(parse[0])]
+        arch = 'aarch64' if parse[1] == '0' else 'armv7hl' if parse[1] == '1' else 'x86_64'
+        key = f'{name}-{arch}'
+        if not key in values.keys():
+            values[key] = '.'.join(parse[2:])
+
+    # create list apps
+    apps = {}
+    for value in response:
+        name = value['name']
+        key = f'{name}-{value['arch']}'
+        if values[key] == f'{value['version']}-{value['revision']}':
+            if not name in apps.keys():
+                apps[name] = {'versions': [value]}
+            else:
+                apps[name]['versions'].append(value)
+
+    # get async spec files
+    def worker(app_key: str):
+        apps[app_key]['spec'] = request_get(URL_APPS_DESC.format(app_key)).json()
+
+    threads = []
+    for app_id in apps.keys():
+        thread = Thread(target=worker, args=[app_id], daemon=True)
+        threads.append(thread)
+        thread.start()
+    for thr in threads:
+        thr.join()
+
+    return apps

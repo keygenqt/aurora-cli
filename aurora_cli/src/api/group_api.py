@@ -19,6 +19,7 @@ import sys
 import click
 
 from aurora_cli.src.api.routes.routes_app import search_route_app
+from aurora_cli.src.api.routes.routes_apps import search_route_apps
 from aurora_cli.src.api.routes.routes_device import search_route_device
 from aurora_cli.src.api.routes.routes_emulator import search_route_emulator
 from aurora_cli.src.api.routes.routes_flutter import search_route_flutter
@@ -56,6 +57,18 @@ help_routes = f'''
 {TextCommand.command_app_auth_root()}
 /app/auth/root
   • password - {TextArgument.argument_password()}
+
+-- /apps -----------------------------------------------------
+
+{TextCommand.command_apps_available()}
+/apps/available
+  • search - {TextArgument.argument_apps_search()}
+  • group - {TextArgument.argument_apps_filter()}
+
+{TextCommand.command_apps_download()}
+/apps/download
+  • app_id - {TextArgument.argument_app_id()}
+  • arch - {TextArgument.argument_arch()}
 
 -- /device --------------------------------------------------
 
@@ -336,6 +349,7 @@ def group_api(route: str):
     try:
         for func in [
             search_route_app,
+            search_route_apps,
             search_route_device,
             search_route_emulator,
             search_route_flutter,

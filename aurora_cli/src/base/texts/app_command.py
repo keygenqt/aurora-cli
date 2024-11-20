@@ -27,6 +27,16 @@ class TextCommand(Enum):
 
     @staticmethod
     @localization
+    def command_apps_download():
+        return 'Download application for device or emulator.'
+
+    @staticmethod
+    @localization
+    def command_apps_install():
+        return 'Install application to device or emulator.'
+
+    @staticmethod
+    @localization
     def command_device_list():
         return 'Get list devices.'
 
