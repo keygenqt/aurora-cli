@@ -51,7 +51,7 @@
 
 #### Change
 
-- Optimizing application acquisition.
+- Optimization of receiving applications.
 
 #### Feature
 
@@ -78,7 +78,6 @@
 #### Feature
 
 - Add new group for applications.
-- Add new group for applications.
 
 ### Version: 3.1.0 (06/11/2024)
 
@@ -95,7 +94,7 @@
 
 #### Bug
 
-- Fix check error from list extenstions.
+- Fix check error from list extensions.
 - Fix translate shh_upload_start.
 
 ### Version: 3.0.15 (05/11/2024)
