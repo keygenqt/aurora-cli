@@ -1,11 +1,12 @@
-## Updated: 11/18/2024 19:04:42 PM
+## Updated: 11/20/2024 21:39:45 PM
 
 ## Info
 
-- Last tag: 3.2.2
-- Released: 39
+- Last tag: 3.2.3
+- Released: 40
 
 ## Versions
+- Version: 3.2.3 (20/11/2024)
 - Version: 3.2.2 (18/11/2024)
 - Version: 3.2.1 (12/11/2024)
 - Version: 3.2.0 (12/11/2024)
@@ -45,6 +46,16 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 3.2.3 (20/11/2024)
+
+#### Change
+
+- Optimizing application acquisition.
+
+#### Feature
+
+- Add apps API.
 
 ### Version: 3.2.2 (18/11/2024)
 
