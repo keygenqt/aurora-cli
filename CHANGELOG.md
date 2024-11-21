@@ -1,11 +1,12 @@
-## Updated: 11/20/2024 21:39:45 PM
+## Updated: 11/21/2024 08:25:31 AM
 
 ## Info
 
-- Last tag: 3.2.3
-- Released: 40
+- Last tag: 3.2.4
+- Released: 41
 
 ## Versions
+- Version: 3.2.4 (21/11/2024)
 - Version: 3.2.3 (20/11/2024)
 - Version: 3.2.2 (18/11/2024)
 - Version: 3.2.1 (12/11/2024)
@@ -47,11 +48,17 @@
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
 
+### Version: 3.2.4 (21/11/2024)
+
+#### Bug
+
+- Fix connect ssh key.
+
 ### Version: 3.2.3 (20/11/2024)
 
 #### Change
 
-- Optimization of receiving applications.
+- Optimizing application acquisition.
 
 #### Feature
 
@@ -78,6 +85,7 @@
 #### Feature
 
 - Add new group for applications.
+- Add new group for applications.
 
 ### Version: 3.1.0 (06/11/2024)
 
@@ -94,7 +102,7 @@
 
 #### Bug
 
-- Fix check error from list extensions.
+- Fix check error from list extenstions.
 - Fix translate shh_upload_start.
 
 ### Version: 3.0.15 (05/11/2024)
