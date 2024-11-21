@@ -4,7 +4,7 @@
 ## Example check-format CI
 ##########################
 
-# Path to project
+# Path to folder with flutter project
 project=$1
 
 ## Get first installed flutter.

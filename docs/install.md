@@ -109,5 +109,5 @@ sudo apt-get install \
 Для запуска такого приложения достаточно выполнить:
 
 ```shell
-python3 ~/Downloads/aurora-cli-3.2.6.pyz
+python3 ~/Downloads/aurora-cli-3.2.7.pyz
 ```

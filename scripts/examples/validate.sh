@@ -4,7 +4,7 @@
 ## Example validate CI
 ######################
 
-# Package RPM
+# Path to package RPM
 rpm=$1
 
 ## Validate profile.
