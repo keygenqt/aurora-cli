@@ -206,7 +206,7 @@ def request_versions_applications() -> []:
     for value in response:
         index = names.index(value['name'])
         arch = 0 if value['arch'] == 'aarch64' else 1 if value['arch'] == 'armv7hl' else 2
-        versions.append(f'{index}.{arch}.{value['version']}-{value['revision']}')
+        versions.append('{}.{}.{}-{}'.format(index, arch, value['version'], value['revision']))
 
     versions = list(set(versions))
     versions.sort(key=Version)
@@ -226,8 +226,8 @@ def request_versions_applications() -> []:
     apps = {}
     for value in response:
         name = value['name']
-        key = f'{name}-{value['arch']}'
-        if values[key] == f'{value['version']}-{value['revision']}':
+        key = '{}-{}'.format(name, value['arch'])
+        if values[key] == '{}-{}'.format(value['version'], value['revision']):
             if not name in apps.keys():
                 apps[name] = {'versions': [value]}
             else:

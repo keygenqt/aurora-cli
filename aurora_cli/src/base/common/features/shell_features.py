@@ -59,6 +59,9 @@ def shell_dart_format(
     if result.is_error():
         return OutResultError(TextError.project_format_error())
 
+    if (len([line for line in stdout if 'changed' in line])) == 0:
+        return OutResultError(TextError.project_format_error())
+
     return OutResultInfo(
         TextInfo.flutter_project_format_dart_done(),
         value=(len([line for line in stdout if '0 changed' in line])) != 1
