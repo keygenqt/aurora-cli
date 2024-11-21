@@ -1,11 +1,12 @@
-## Updated: 11/21/2024 08:25:31 AM
+## Updated: 11/21/2024 14:12:52 PM
 
 ## Info
 
-- Last tag: 3.2.4
-- Released: 41
+- Last tag: 3.2.6
+- Released: 42
 
 ## Versions
+- Version: 3.2.6 (21/11/2024)
 - Version: 3.2.4 (21/11/2024)
 - Version: 3.2.3 (20/11/2024)
 - Version: 3.2.2 (18/11/2024)
@@ -47,6 +48,12 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 3.2.6 (21/11/2024)
+
+#### Bug
+
+- Fix version python.
 
 ### Version: 3.2.4 (21/11/2024)
 
