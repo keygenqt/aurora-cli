@@ -1,11 +1,12 @@
-## Updated: 11/21/2024 14:12:52 PM
+## Updated: 11/21/2024 19:00:14 PM
 
 ## Info
 
-- Last tag: 3.2.6
-- Released: 42
+- Last tag: 3.2.7
+- Released: 43
 
 ## Versions
+- Version: 3.2.7 (21/11/2024)
 - Version: 3.2.6 (21/11/2024)
 - Version: 3.2.4 (21/11/2024)
 - Version: 3.2.3 (20/11/2024)
@@ -48,6 +49,14 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 3.2.7 (21/11/2024)
+
+#### Feature
+
+- Add example bash API install package.
+- Add example bash API validate.
+- Add example bahs API check-format.
 
 ### Version: 3.2.6 (21/11/2024)
 
