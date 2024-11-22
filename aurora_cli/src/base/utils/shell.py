@@ -80,7 +80,7 @@ def shell_exec_command(
             for value in iter(lambda: process.stdout.readline(), ""):
                 if not value:
                     break
-                value = str_clear_line(str(unicode(value.rstrip(), "utf-8")))
+                value = str_clear_line(str(unicode(value.rstrip(), "utf-8", errors='ignore')))
                 if listen:
                     listen(value)
                 if value:
