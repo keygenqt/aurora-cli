@@ -13,7 +13,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
+import io
+import json
 import sys
 
 import click
@@ -346,6 +347,25 @@ def group_api(route: str):
     if argv_is_test():
         sys.argv.append('api')
         AppConfig.create_test()
+    # Run api
+    common_api(route)
+
+
+# Using api like lib
+def aurora_cli_api(route: str):
+    sys.argv.append('api')
+    sys.argv.append('_lib')
+    result = []
+    _stdout = sys.stdout
+    sys.stdout = _stringio = io.StringIO()
+    common_api(route)
+    result.extend(_stringio.getvalue().splitlines())
+    del _stringio
+    sys.stdout = _stdout
+    return json.loads(''.join(result))
+
+
+def common_api(route: str):
     try:
         for func in [
             search_route_app,
@@ -361,7 +381,7 @@ def group_api(route: str):
         ]:
             if func(route):
                 echo_verbose(get_arg_bool(route, 'verbose'))
-                exit(0)
+                return
 
         echo_stdout(OutResultError(TextError.route_not_found()))
     except Exception as e:

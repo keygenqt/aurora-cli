@@ -25,6 +25,12 @@ def argv_is_api() -> bool:
     return False
 
 
+def argv_is_lib() -> bool:
+    if '_lib' in sys.argv:
+        return True
+    return False
+
+
 def argv_is_emulator_recording() -> bool:
     if 'emulator' in sys.argv and 'recording' in sys.argv:
         return True
