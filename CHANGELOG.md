@@ -1,11 +1,12 @@
-## Updated: 11/21/2024 19:00:14 PM
+## Updated: 11/25/2024 19:32:32 PM
 
 ## Info
 
-- Last tag: 3.2.7
-- Released: 43
+- Last tag: 3.2.8
+- Released: 44
 
 ## Versions
+- Version: 3.2.8 (25/11/2024)
 - Version: 3.2.7 (21/11/2024)
 - Version: 3.2.6 (21/11/2024)
 - Version: 3.2.4 (21/11/2024)
@@ -49,6 +50,16 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 3.2.8 (25/11/2024)
+
+#### Bug
+
+- Fix unicode psdk ru locale.
+
+#### Feature
+
+- Add api method for python scripts.
 
 ### Version: 3.2.7 (21/11/2024)
 
