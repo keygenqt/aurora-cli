@@ -1,11 +1,12 @@
-## Updated: 11/25/2024 19:32:32 PM
+## Updated: 11/27/2024 12:31:17 PM
 
 ## Info
 
-- Last tag: 3.2.8
-- Released: 44
+- Last tag: 3.2.10
+- Released: 45
 
 ## Versions
+- Version: 3.2.10 (27/11/2024)
 - Version: 3.2.8 (25/11/2024)
 - Version: 3.2.7 (21/11/2024)
 - Version: 3.2.6 (21/11/2024)
@@ -50,6 +51,16 @@
 - Version: 2.1.0 (31/01/2024)
 - Version: 2.0.12 (29/01/2024)
 - Version: 2.0.11 (27/01/2024)
+
+### Version: 3.2.10 (27/11/2024)
+
+#### Bug
+
+- Excluding temp files from formatting.
+
+#### Feature
+
+- Add start vnc.
 
 ### Version: 3.2.8 (25/11/2024)
 
