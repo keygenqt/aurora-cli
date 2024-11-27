@@ -29,6 +29,11 @@ class TextSuccess(Enum):
 
     @staticmethod
     @localization
+    def emulator_stop_success():
+        return '<green>Emulator stopped successfully.</green>'
+
+    @staticmethod
+    @localization
     def emulator_screenshot_success(path: str):
         return f'<green>Screenshot is taken successfully:</green> {path}'
 

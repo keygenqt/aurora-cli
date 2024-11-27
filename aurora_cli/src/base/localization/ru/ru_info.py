@@ -27,6 +27,10 @@ class TextInfoRu(Enum):
         return '<blue>Эмулятор уже запущен.</blue>'
 
     @staticmethod
+    def emulator_stop_locked():
+        return '<blue>Эмулятор не активен.</blue>'
+
+    @staticmethod
     def shh_upload_start():
         return f'<blue>Начинаем загрузку файла.</blue>'
 

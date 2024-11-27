@@ -82,6 +82,16 @@ class TextCommand(Enum):
 
     @staticmethod
     @localization
+    def command_emulator_start_vnc():
+        return 'Start the emulator headless with VNC.'
+
+    @staticmethod
+    @localization
+    def command_emulator_stop():
+        return 'Stop the emulator.'
+
+    @staticmethod
+    @localization
     def command_emulator_screenshot():
         return 'Take a screenshot of the emulator.'
 

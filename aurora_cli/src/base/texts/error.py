@@ -442,3 +442,8 @@ class TextError(Enum):
     @localization
     def error_application_arch(arch):
         return '<red>Application with this architecture not found:</red> {}.'.format(arch)
+
+    @staticmethod
+    @localization
+    def error_something_went_wrong():
+        return '<red>Something went wrong.</red>'

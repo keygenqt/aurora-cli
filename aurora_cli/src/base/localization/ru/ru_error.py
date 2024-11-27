@@ -333,3 +333,7 @@ class TextErrorRu(Enum):
     @staticmethod
     def error_application_arch(arch):
         return '<red>Приложение с этой архитектурой не найдено:</red> {}.'.format(arch)
+
+    @staticmethod
+    def error_something_went_wrong():
+        return '<red>Что-то пошло не так.</red>'

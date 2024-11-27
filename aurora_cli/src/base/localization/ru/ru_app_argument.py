@@ -155,6 +155,14 @@ class TextArgumentRu(Enum):
         return 'Root пароль.'
 
     @staticmethod
+    def argument_vnc_password():
+        return 'VNC пароль.'
+
+    @staticmethod
+    def argument_vnc_port():
+        return 'VNC порт.'
+
+    @staticmethod
     def argument_app_id():
         return 'Укажите ID приложения.'
 

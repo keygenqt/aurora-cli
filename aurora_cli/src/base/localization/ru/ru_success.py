@@ -24,6 +24,10 @@ class TextSuccessRu(Enum):
         return '<green>Эмулятор успешно запущен.</green>'
 
     @staticmethod
+    def emulator_stop_success():
+        return '<green>Эмулятор успешно остановлен.</green>'
+
+    @staticmethod
     def emulator_screenshot_success(path: str):
         return '<green>Скриншот успешно сделан:</green> {}'.format(path)
 

@@ -192,6 +192,16 @@ class TextArgument(Enum):
 
     @staticmethod
     @localization
+    def argument_vnc_password():
+        return 'VNC password.'
+
+    @staticmethod
+    @localization
+    def argument_vnc_port():
+        return 'VNC port.'
+
+    @staticmethod
+    @localization
     def argument_app_id():
         return 'Select the application ID.'
 

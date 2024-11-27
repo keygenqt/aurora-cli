@@ -67,6 +67,14 @@ class TextCommandRu(Enum):
         return 'Запустите эмулятор.'
 
     @staticmethod
+    def command_emulator_start_vnc():
+        return 'Запустите эмулятор headless с VNC.'
+
+    @staticmethod
+    def command_emulator_stop():
+        return 'Остановить эмулятор.'
+
+    @staticmethod
     def command_emulator_screenshot():
         return 'Сделать скриншот эмулятора.'
 

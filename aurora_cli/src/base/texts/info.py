@@ -38,6 +38,11 @@ class TextInfo(Enum):
 
     @staticmethod
     @localization
+    def emulator_stop_locked():
+        return '<blue>The emulator is not active.</blue>'
+
+    @staticmethod
+    @localization
     def shh_upload_start():
         return f'<blue>Starting file upload.</blue>'
 

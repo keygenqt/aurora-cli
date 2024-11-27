@@ -75,6 +75,96 @@ def emulator_start_common(model: EmulatorModel):
 
 
 @check_dependency(DependencyApps.vboxmanage)
+def emulator_start_vnc_common(
+        model: EmulatorModel,
+        password: str,
+        port: int,
+):
+    if model.is_on:
+        echo_stdout(OutResultInfo(TextInfo.emulator_start_locked()))
+        app_exit()
+
+    stdout, stderr = shell_exec_command([
+        VM_MANAGE,
+        'setproperty',
+        'vrdeextpack',
+        'VNC'
+    ])
+
+    if stderr:
+        echo_stdout(OutResultError(TextError.error_something_went_wrong()))
+        app_exit()
+
+    stdout, stderr = shell_exec_command([
+        VM_MANAGE,
+        'modifyvm',
+        model.name,
+        '--vrdeproperty',
+        'VNCPassword={}'.format(password)
+    ])
+
+    if stderr:
+        echo_stdout(OutResultError(TextError.error_something_went_wrong()))
+        app_exit()
+
+    stdout, stderr = shell_exec_command([
+        VM_MANAGE,
+        'modifyvm',
+        model.name,
+        '--vrde-port',
+        str(port)
+    ])
+
+    if stderr:
+        echo_stdout(OutResultError(TextError.error_something_went_wrong()))
+        app_exit()
+
+    stdout, stderr = shell_exec_command([
+        VM_MANAGE,
+        'modifyvm',
+        model.name,
+        '--vrde',
+        'on'
+    ])
+
+    if stderr:
+        echo_stdout(OutResultError(TextError.error_something_went_wrong()))
+        app_exit()
+
+    stdout, stderr = shell_exec_command([
+        VM_MANAGE,
+        'startvm',
+        model.name,
+        '--type',
+        'headless',
+    ])
+
+    if len([line for line in stdout if model.name in line]) > 0:
+        echo_stdout(OutResult(TextSuccess.emulator_start_success()))
+    else:
+        echo_stdout(OutResultError(TextError.error_something_went_wrong()))
+
+
+@check_dependency(DependencyApps.vboxmanage)
+def emulator_stop_common(model: EmulatorModel):
+    if not model.is_on:
+        echo_stdout(OutResultInfo(TextInfo.emulator_stop_locked()))
+        app_exit()
+
+    stdout, stderr = shell_exec_command([
+        VM_MANAGE,
+        'controlvm',
+        model.name,
+        'poweroff',
+    ])
+
+    if len([line for line in stdout if '100%' in line]) == 1:
+        echo_stdout(OutResult(TextSuccess.emulator_stop_success()))
+    else:
+        echo_stdout(OutResultError(TextError.error_something_went_wrong()))
+
+
+@check_dependency(DependencyApps.vboxmanage)
 def emulator_screenshot_common(model: EmulatorModel):
     emulator_tool_check_is_not_run(model)
 

@@ -23,6 +23,8 @@ from aurora_cli.src.base.common.groups.emulator.emulator_features import (
     emulator_screenshot_common,
     emulator_recording_start_common,
     emulator_recording_stop_common,
+    emulator_stop_common,
+    emulator_start_vnc_common,
 )
 from aurora_cli.src.base.configuration.app_config import AppConfig
 from aurora_cli.src.base.localization.localization import localization_abort_start, localization_abort_end
@@ -75,6 +77,24 @@ def upload(
 def start(verbose: bool):
     model = cli_emulator_tool_select_model()
     emulator_start_common(model)
+    echo_verbose(verbose)
+
+
+@group_emulator.command(name='start-vnc', help=TextCommand.command_emulator_start_vnc())
+@click.option('-pass', '--password', type=click.STRING, default='00000', help=TextArgument.argument_vnc_password())
+@click.option('-p', '--port', type=click.INT, default=3389, help=TextArgument.argument_vnc_port())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
+def start_vnc(password, port, verbose):
+    model = cli_emulator_tool_select_model()
+    emulator_start_vnc_common(model, password, port)
+    echo_verbose(verbose)
+
+
+@group_emulator.command(name='stop', help=TextCommand.command_emulator_stop())
+@click.option('-v', '--verbose', is_flag=True, help=TextArgument.argument_verbose())
+def stop(verbose: bool):
+    model = cli_emulator_tool_select_model()
+    emulator_stop_common(model)
     echo_verbose(verbose)
 
 
