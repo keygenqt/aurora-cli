@@ -60,11 +60,11 @@ def flutter_project_format_common(
     if files_h or files_cpp:
         files = []
         for file in files_h:
-            if '3rdpatry' in file:
+            if '3rdpatry' in str(file):
                 continue
             files.append(file)
         for file in files_cpp:
-            if '3rdpatry' in file:
+            if '3rdpatry' in str(file):
                 continue
             files.append(file)
         result = shell_cpp_format(files, flutter_tool_get_clang_format(is_bar))
@@ -99,7 +99,7 @@ def flutter_project_check_format_common(
     # if C++ files exist run clang-format format
     if files_h or files_cpp:
         for file in files_h:
-            if '3rdpatry' in file:
+            if '3rdpatry' in str(file):
                 continue
             copy_file = path_temp_copy(file, temp_folder)
             shell_cpp_format([copy_file], flutter_tool_get_clang_format(is_bar))
@@ -108,7 +108,7 @@ def flutter_project_check_format_common(
                 echo_stdout(OutResultInfo(TextInfo.project_format_needs()))
                 return False
         for file in files_cpp:
-            if '3rdpatry' in file:
+            if '3rdpatry' in str(file):
                 continue
             copy_file = path_temp_copy(file, temp_folder)
             shell_cpp_format([copy_file], flutter_tool_get_clang_format(is_bar))
@@ -120,7 +120,7 @@ def flutter_project_check_format_common(
     # if dart files exist run dart format
     if files_dart:
         for file in files_dart:
-            if '.dart_tool' in file:
+            if '.dart_tool' in str(file):
                 continue
             path_temp_copy(file, temp_folder)
         result = shell_dart_format(model.get_tool_dart(), str(temp_folder))
