@@ -1,0 +1,16 @@
+.Error {
+    text-align: center;
+}
+
+.Error .Icon {
+    font-size: 100px;
+    color: #df6363;
+}
+
+.Error .Code {
+    font-size: 40px;
+}
+
+.Error .Text {
+    opacity: 0.7;
+}
