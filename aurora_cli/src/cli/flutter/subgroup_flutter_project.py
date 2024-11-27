@@ -71,6 +71,7 @@ def project_check_format(
     flutter_project_check_format_common(model, path)
     echo_verbose(verbose)
 
+
 @subgroup_flutter_project.command(name='report', help=TextCommand.command_flutter_project_report())
 @click.option('-p', '--path', type=click.STRING, required=False, help=TextArgument.argument_path_to_project())
 @click.option('-s', '--select', is_flag=True, help=TextArgument.argument_select())
