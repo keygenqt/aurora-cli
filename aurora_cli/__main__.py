@@ -95,5 +95,4 @@ app_help_handler(lambda out: localization_app(out))
 # Catch abort
 app_abort_handler(lambda: localization_abort(is_exit=True))
 
-if __name__ == '__main__':
-    main()
+main()
