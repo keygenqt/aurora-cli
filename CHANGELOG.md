@@ -1,11 +1,12 @@
-## Updated: 11/27/2024 12:31:17 PM
+## Updated: 01/16/2025 13:17:15 PM
 
 ## Info
 
-- Last tag: 3.2.10
-- Released: 45
+- Last tag: 3.2.11
+- Released: 46
 
 ## Versions
+- Version: 3.2.11 (16/01/2025)
 - Version: 3.2.10 (27/11/2024)
 - Version: 3.2.8 (25/11/2024)
 - Version: 3.2.7 (21/11/2024)
