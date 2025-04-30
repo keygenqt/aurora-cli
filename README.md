@@ -1,6 +1,7 @@
 # Aurora CLI
 
-### Subscribe and like!
+> Now there is a faster and more functional replacement for the application - [Aurora Bot](https://github.com/keygenqt/aurora-bot). It implements all the functionality available in the Aurora CLI and more.
+> This project is no longer being developed.
 
 [![Version](https://img.shields.io/badge/PyPI-3.2.11-blue?logo=pypi&logoColor=white)](https://pypi.org/project/aurora-cli/)
 [![Releases](https://img.shields.io/badge/dynamic/json?url=https://api.github.com/repos/keygenqt/aurora-cli/releases/latest&query=assets[0][download_count]&label=Releases&color=blue&logo=github&prefix=3.2.11%20(&suffix=))](https://github.com/keygenqt/aurora-cli/releases)
