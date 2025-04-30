@@ -1,0 +1,79 @@
+{% extends "main.html" %}
+
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/index.css">
+
+<!-- Content -->
+{% block content %}
+<style>
+    .md-content {
+        padding: 0;
+    }
+</style>
+<div class="Index-Block" style="padding: 0">
+    <div class="Banner">
+        <div class="Image">
+            <img class="Image-Banner" src="images/index/banner.png"/>
+            <img class="Image-Banner2" src="images/index/banner2.png"/>
+        </div>
+        <div class="Data">
+            <div class="Title">
+                Community software
+            </div>
+            <div class="Text">
+                Приложение, обеспечивающее легкий старт в экосистеме ОС Aurora. Работа с Aurora SDK, Aurora Platform SDK, Flutter SDK, взаимодействие с устройствами и эмулятором, а также многое другое.
+            </div>
+        </div>
+    </div>
+</div>
+<div class="Index-Block">
+    <div class="Index-Item Item2">
+        <div class="Left">
+            <img class="Image" src="images/index/multiapp.png"/>
+            <img class="Image2" src="images/index/multiapp2.png"/>
+        </div>
+        <div class="Right">
+           <div class="Title">
+                Простая установка необходимых инструментов экосистемы Aurora OS.
+           </div>
+            <div class="Text">
+                Установка одной командой терминала: Aurora SDK и эмулятор, Aurora Platform SDK, Flutter SDK с поддержкой платформы Aurora OS. Управление установленными SDK, расширение их функционала и упрощение работы с ними.
+            </div>
+        </div>
+    </div>
+    <div class="Index-Item Item3">
+        <div class="Alert Info">
+            <div class="Title">
+                Приложение доступно на PyPi.
+            </div>
+            <a target="_blank" class="Btn" href="https://pypi.org/project/aurora-cli/">
+                Перейти
+            </a>
+        </div>
+    </div>
+    <div class="Index-Item Item4">
+        <div class="Left">
+            <div class="Title">
+                Доступное приложение для большинства дистрибутивов Linux.
+           </div>
+            <div class="Text">
+                Поддержка Python 3.8 позволяет работать с приложением на большинстве современных дистрибутивов Linux таких, как Ubuntu 20.04+, ALT Linux 10+ и других. Установка приложения доступна через pip управления пакетами Python.
+            </div>
+        </div>
+        <div class="Right">
+            <img class="Image" src="images/index/os.png"/>
+            <img class="Image2" src="images/index/os.png"/>
+        </div>
+    </div>
+    <div class="Index-Item" style="padding-bottom: 0;">
+        <div class="Alert Info" style="background-color: #212121; border-bottom: 1px solid #82CFAC;">
+            <div class="Title">
+                Графическое приложение Aurora Toolbox.
+            </div>
+            <a target="_blank" class="Btn" href="https://keygenqt.github.io/aurora-toolbox/">
+                Перейти
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
